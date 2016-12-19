@@ -14,7 +14,7 @@
 <meta property="og:url" content="/2016/12/18/jdk各版本区别/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。">
-<meta property="og:updated_time" content="2016-12-18T15:02:14.000Z">
+<meta property="og:updated_time" content="2016-12-19T16:46:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jdk各版本区别">
 <meta name="twitter:description" content="自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。">
@@ -165,25 +165,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="jdk5新特性"><a href="#jdk5新特性" class="headerlink" title="jdk5新特性"></a>jdk5新特性</h2><h5 id="1、自动装箱和拆箱"><a href="#1、自动装箱和拆箱" class="headerlink" title="1、自动装箱和拆箱"></a>1、自动装箱和拆箱</h5><h4 id="2、枚举"><a href="#2、枚举" class="headerlink" title="2、枚举"></a>2、枚举</h4><h4 id="3、静态导入"><a href="#3、静态导入" class="headerlink" title="3、静态导入"></a>3、静态导入</h4><h4 id="4、可变参数"><a href="#4、可变参数" class="headerlink" title="4、可变参数"></a>4、可变参数</h4><h4 id="5、內省"><a href="#5、內省" class="headerlink" title="5、內省"></a>5、內省</h4><p>   内省是Java语言对Bean类属性、事件的一种缺省处理方法。例如类A中有属性那么，那我们可以通过getName，setName来得到其值或者设置新的值。通过getName/setName来访问name属性，这就是默认的规则。<a id="more"></a>Java中提供了一套API用来访问某个属性的getter，setter方法，通过这些API可以使你不需要了解这个规则，这些API存放于包java.beans中。<br><br>   一般的做法是通过类Introspector来获取某个对象的BeanInfo信息，然后通过BeanInfo来获取属性的描述器（PropertyDescriptor），通过这个属性描述器就可以获取某个属性对应的getter/setter方法，然后我们就可以通过反射机制来调用这些方法。</p>
-<h4 id="6、泛型"><a href="#6、泛型" class="headerlink" title="6、泛型"></a>6、泛型</h4><h4 id="7、For-Each循环"><a href="#7、For-Each循环" class="headerlink" title="7、For-Each循环"></a>7、For-Each循环</h4><h2 id="jdk6新特性"><a href="#jdk6新特性" class="headerlink" title="jdk6新特性"></a>jdk6新特性</h2><h4 id="1、Desktop类和SystemTray类"><a href="#1、Desktop类和SystemTray类" class="headerlink" title="1、Desktop类和SystemTray类"></a>1、Desktop类和SystemTray类</h4><p>   AWT新增加了两个雷：Desktop，SystemTray。</p><p><br>   Desktop可以用来打开系统默认浏览器指定的URL，打开系统默认邮件客户端给指定的邮件账号发邮件，用默认应用程序打开或编辑文件（比如，用记事本打开txt文件），用系统默认的打印机打印文档</p><p><br>   SystemTray可以用来在系统托盘区创建一个托盘程序</p>
-<h4 id="2、使用JAXB2来实现对象与XML之间的映射"><a href="#2、使用JAXB2来实现对象与XML之间的映射" class="headerlink" title="2、使用JAXB2来实现对象与XML之间的映射"></a>2、使用JAXB2来实现对象与XML之间的映射</h4><p>   也就是对象与XML之间的映射（OXM），也可以通过XMLBeans和Castor等来实现同样的功能。</p>
-<h4 id="3、StAX"><a href="#3、StAX" class="headerlink" title="3、StAX"></a>3、StAX</h4><p>   StAX是The Streaming API for XML的缩写，一种利用拉模式解析(pull-parsing)XML文档的API.StAX通过提供一种基于事件迭代器(Iterator)的API让 程序员去控制xml文档解析过程,程序遍历这个事件迭代器去处理每一个解析事件，解析事件可以看做是程序拉出来的，也就是程序促使解析器产生一个解析事件 然后处理该事件，之后又促使解析器产生下一个解析事件，如此循环直到碰到文档结束符； </p><p><br>   SAX也是基于事件处理xml文档，但却 是用推模式解析，解析器解析完整个xml文档后，才产生解析事件，然后推给程序去处理这些事件；DOM 采用的方式是将整个xml文档映射到一颗内存树，这样就可以很容易地得到父节点和子结点以及兄弟节点的数据，但如果文档很大，将会严重影响性能。</p>
-<h4 id="4、使用Compiler-API"><a href="#4、使用Compiler-API" class="headerlink" title="4、使用Compiler API"></a>4、使用Compiler API</h4><p>   使用JDK6的Compiler API去动态的编译Java源文件，Compiler API结合反射功能就可以实现动态的产生Java代码并编译执行这些代码。</p>
-<h4 id="5、轻量级Http-Server-API"><a href="#5、轻量级Http-Server-API" class="headerlink" title="5、轻量级Http Server API"></a>5、轻量级Http Server API</h4><h4 id="6、插入式注解处理API"><a href="#6、插入式注解处理API" class="headerlink" title="6、插入式注解处理API"></a>6、插入式注解处理API</h4><h4 id="7、用Console开发控制台程序"><a href="#7、用Console开发控制台程序" class="headerlink" title="7、用Console开发控制台程序"></a>7、用Console开发控制台程序</h4><h4 id="8、对脚本语言的支持如：ruby，groovy，javascript"><a href="#8、对脚本语言的支持如：ruby，groovy，javascript" class="headerlink" title="8、对脚本语言的支持如：ruby，groovy，javascript"></a>8、对脚本语言的支持如：ruby，groovy，javascript</h4><h4 id="9、Common-Annotations"><a href="#9、Common-Annotations" class="headerlink" title="9、Common Annotations"></a>9、Common Annotations</h4><h2 id="jdk7新特性"><a href="#jdk7新特性" class="headerlink" title="jdk7新特性"></a>jdk7新特性</h2><h4 id="1、switch中可以使用字符串"><a href="#1、switch中可以使用字符串" class="headerlink" title="1、switch中可以使用字符串"></a>1、switch中可以使用字符串</h4><h4 id="2、泛型的自动判断"><a href="#2、泛型的自动判断" class="headerlink" title="2、泛型的自动判断"></a>2、泛型的自动判断</h4><h4 id="3、自定义自动关闭类（实现AutoCloseable接口）"><a href="#3、自定义自动关闭类（实现AutoCloseable接口）" class="headerlink" title="3、自定义自动关闭类（实现AutoCloseable接口）"></a>3、自定义自动关闭类（实现AutoCloseable接口）</h4><h4 id="4、新增一些取环境信息的工具方法（System中的方法）"><a href="#4、新增一些取环境信息的工具方法（System中的方法）" class="headerlink" title="4、新增一些取环境信息的工具方法（System中的方法）"></a>4、新增一些取环境信息的工具方法（System中的方法）</h4><h4 id="5、Boolean类型反转，空指针安全，参数与位运算"><a href="#5、Boolean类型反转，空指针安全，参数与位运算" class="headerlink" title="5、Boolean类型反转，空指针安全，参数与位运算"></a>5、Boolean类型反转，空指针安全，参数与位运算</h4><h4 id="6、两个char间的equals"><a href="#6、两个char间的equals" class="headerlink" title="6、两个char间的equals"></a>6、两个char间的equals</h4><h4 id="7、安全的加减乘除"><a href="#7、安全的加减乘除" class="headerlink" title="7、安全的加减乘除"></a>7、安全的加减乘除</h4><h4 id="1、对Java集合（Collections）的增强支持"><a href="#1、对Java集合（Collections）的增强支持" class="headerlink" title="1、对Java集合（Collections）的增强支持"></a>1、对Java集合（Collections）的增强支持</h4><pre><code>List&lt;String&gt; list=[&quot;item&quot;]; //向List集合中添加元素
+	      <!-- Table of Contents -->
+			
+			<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#jdk5新特性"><span class="toc-number">1.</span> <span class="toc-text">jdk5新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、自动装箱和拆箱"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、自动装箱和拆箱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、枚举"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、静态导入"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、静态导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、可变参数"><span class="toc-number">1.0.4.</span> <span class="toc-text">4、可变参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、內省"><span class="toc-number">1.0.5.</span> <span class="toc-text">5、內省</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、泛型"><span class="toc-number">1.0.6.</span> <span class="toc-text">6、泛型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、For-Each循环"><span class="toc-number">1.0.7.</span> <span class="toc-text">7、For-Each循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk6新特性"><span class="toc-number">1.1.</span> <span class="toc-text">jdk6新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、Desktop类和SystemTray类"><span class="toc-number">1.1.1.</span> <span class="toc-text">1、Desktop类和SystemTray类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、使用JAXB2来实现对象与XML之间的映射"><span class="toc-number">1.1.2.</span> <span class="toc-text">2、使用JAXB2来实现对象与XML之间的映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、StAX"><span class="toc-number">1.1.3.</span> <span class="toc-text">3、StAX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、使用Compiler-API"><span class="toc-number">1.1.4.</span> <span class="toc-text">4、使用Compiler API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、轻量级Http-Server-API"><span class="toc-number">1.1.5.</span> <span class="toc-text">5、轻量级Http Server API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、插入式注解处理API"><span class="toc-number">1.1.6.</span> <span class="toc-text">6、插入式注解处理API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、用Console开发控制台程序"><span class="toc-number">1.1.7.</span> <span class="toc-text">7、用Console开发控制台程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、对脚本语言的支持如：ruby，groovy，javascript"><span class="toc-number">1.1.8.</span> <span class="toc-text">8、对脚本语言的支持如：ruby，groovy，javascript</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、Common-Annotations"><span class="toc-number">1.1.9.</span> <span class="toc-text">9、Common Annotations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk7新特性"><span class="toc-number">1.2.</span> <span class="toc-text">jdk7新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、switch中可以使用字符串"><span class="toc-number">1.2.1.</span> <span class="toc-text">1、switch中可以使用字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、泛型的自动判断"><span class="toc-number">1.2.2.</span> <span class="toc-text">2、泛型的自动判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、自定义自动关闭类（实现AutoCloseable接口）"><span class="toc-number">1.2.3.</span> <span class="toc-text">3、自定义自动关闭类（实现AutoCloseable接口）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、新增一些取环境信息的工具方法（System中的方法）"><span class="toc-number">1.2.4.</span> <span class="toc-text">4、新增一些取环境信息的工具方法（System中的方法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、Boolean类型反转，空指针安全，参数与位运算"><span class="toc-number">1.2.5.</span> <span class="toc-text">5、Boolean类型反转，空指针安全，参数与位运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、两个char间的equals"><span class="toc-number">1.2.6.</span> <span class="toc-text">6、两个char间的equals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、安全的加减乘除"><span class="toc-number">1.2.7.</span> <span class="toc-text">7、安全的加减乘除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1、对Java集合（Collections）的增强支持"><span class="toc-number">1.2.8.</span> <span class="toc-text">1、对Java集合（Collections）的增强支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、int支持二进制数据"><span class="toc-number">1.2.9.</span> <span class="toc-text">2、int支持二进制数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><span class="toc-number">1.2.10.</span> <span class="toc-text">3、在try catch异常捕捉中，一个catch可以写多个异常类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、try-catch中资源定义好之后try-catch自动关闭"><span class="toc-number">1.2.11.</span> <span class="toc-text">4、try catch中资源定义好之后try catch自动关闭</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk8新特性"><span class="toc-number">1.3.</span> <span class="toc-text">jdk8新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、接口的默认方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">1、接口的默认方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、Lambda表达式"><span class="toc-number">1.3.2.</span> <span class="toc-text">2、Lambda表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、函数式接口"><span class="toc-number">1.3.3.</span> <span class="toc-text">3、函数式接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、方法与构造函数引用"><span class="toc-number">1.3.4.</span> <span class="toc-text">4、方法与构造函数引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、Lambda作用域"><span class="toc-number">1.3.5.</span> <span class="toc-text">5、Lambda作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、访问局部变量"><span class="toc-number">1.3.6.</span> <span class="toc-text">6、访问局部变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、访问对象字段与静态变量"><span class="toc-number">1.3.7.</span> <span class="toc-text">7、访问对象字段与静态变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、访问接口的默认方法"><span class="toc-number">1.3.8.</span> <span class="toc-text">8、访问接口的默认方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、Date-API"><span class="toc-number">1.3.9.</span> <span class="toc-text">9、Date API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10、Annotation注解"><span class="toc-number">1.3.10.</span> <span class="toc-text">10、Annotation注解</span></a></li></ol></li></ol></li></ol>
+			</div>
+			
+        <h1 id="jdk5新特性"><a href="#jdk5新特性" class="headerlink" title="jdk5新特性"></a>jdk5新特性</h1><h3 id="1、自动装箱和拆箱"><a href="#1、自动装箱和拆箱" class="headerlink" title="1、自动装箱和拆箱"></a>1、自动装箱和拆箱</h3><h3 id="2、枚举"><a href="#2、枚举" class="headerlink" title="2、枚举"></a>2、枚举</h3><h3 id="3、静态导入"><a href="#3、静态导入" class="headerlink" title="3、静态导入"></a>3、静态导入</h3><h3 id="4、可变参数"><a href="#4、可变参数" class="headerlink" title="4、可变参数"></a>4、可变参数</h3><h3 id="5、內省"><a href="#5、內省" class="headerlink" title="5、內省"></a>5、內省</h3><p>   内省是Java语言对Bean类属性、事件的一种缺省处理方法。例如类A中有属性那么，那我们可以通过getName，setName来得到其值或者设置新的值。通过getName/setName来访问name属性，这就是默认的规则。<a id="more"></a>Java中提供了一套API用来访问某个属性的getter，setter方法，通过这些API可以使你不需要了解这个规则，这些API存放于包java.beans中。<br><br>   一般的做法是通过类Introspector来获取某个对象的BeanInfo信息，然后通过BeanInfo来获取属性的描述器（PropertyDescriptor），通过这个属性描述器就可以获取某个属性对应的getter/setter方法，然后我们就可以通过反射机制来调用这些方法。</p>
+<h3 id="6、泛型"><a href="#6、泛型" class="headerlink" title="6、泛型"></a>6、泛型</h3><h3 id="7、For-Each循环"><a href="#7、For-Each循环" class="headerlink" title="7、For-Each循环"></a>7、For-Each循环</h3><h2 id="jdk6新特性"><a href="#jdk6新特性" class="headerlink" title="jdk6新特性"></a>jdk6新特性</h2><h3 id="1、Desktop类和SystemTray类"><a href="#1、Desktop类和SystemTray类" class="headerlink" title="1、Desktop类和SystemTray类"></a>1、Desktop类和SystemTray类</h3><p>   AWT新增加了两个雷：Desktop，SystemTray。</p><p><br>   Desktop可以用来打开系统默认浏览器指定的URL，打开系统默认邮件客户端给指定的邮件账号发邮件，用默认应用程序打开或编辑文件（比如，用记事本打开txt文件），用系统默认的打印机打印文档</p><p><br>   SystemTray可以用来在系统托盘区创建一个托盘程序</p>
+<h3 id="2、使用JAXB2来实现对象与XML之间的映射"><a href="#2、使用JAXB2来实现对象与XML之间的映射" class="headerlink" title="2、使用JAXB2来实现对象与XML之间的映射"></a>2、使用JAXB2来实现对象与XML之间的映射</h3><p>   也就是对象与XML之间的映射（OXM），也可以通过XMLBeans和Castor等来实现同样的功能。</p>
+<h3 id="3、StAX"><a href="#3、StAX" class="headerlink" title="3、StAX"></a>3、StAX</h3><p>   StAX是The Streaming API for XML的缩写，一种利用拉模式解析(pull-parsing)XML文档的API.StAX通过提供一种基于事件迭代器(Iterator)的API让 程序员去控制xml文档解析过程,程序遍历这个事件迭代器去处理每一个解析事件，解析事件可以看做是程序拉出来的，也就是程序促使解析器产生一个解析事件 然后处理该事件，之后又促使解析器产生下一个解析事件，如此循环直到碰到文档结束符； </p><p><br>   SAX也是基于事件处理xml文档，但却 是用推模式解析，解析器解析完整个xml文档后，才产生解析事件，然后推给程序去处理这些事件；DOM 采用的方式是将整个xml文档映射到一颗内存树，这样就可以很容易地得到父节点和子结点以及兄弟节点的数据，但如果文档很大，将会严重影响性能。</p>
+<h3 id="4、使用Compiler-API"><a href="#4、使用Compiler-API" class="headerlink" title="4、使用Compiler API"></a>4、使用Compiler API</h3><p>   使用JDK6的Compiler API去动态的编译Java源文件，Compiler API结合反射功能就可以实现动态的产生Java代码并编译执行这些代码。</p>
+<h3 id="5、轻量级Http-Server-API"><a href="#5、轻量级Http-Server-API" class="headerlink" title="5、轻量级Http Server API"></a>5、轻量级Http Server API</h3><h3 id="6、插入式注解处理API"><a href="#6、插入式注解处理API" class="headerlink" title="6、插入式注解处理API"></a>6、插入式注解处理API</h3><h3 id="7、用Console开发控制台程序"><a href="#7、用Console开发控制台程序" class="headerlink" title="7、用Console开发控制台程序"></a>7、用Console开发控制台程序</h3><h3 id="8、对脚本语言的支持如：ruby，groovy，javascript"><a href="#8、对脚本语言的支持如：ruby，groovy，javascript" class="headerlink" title="8、对脚本语言的支持如：ruby，groovy，javascript"></a>8、对脚本语言的支持如：ruby，groovy，javascript</h3><h3 id="9、Common-Annotations"><a href="#9、Common-Annotations" class="headerlink" title="9、Common Annotations"></a>9、Common Annotations</h3><h2 id="jdk7新特性"><a href="#jdk7新特性" class="headerlink" title="jdk7新特性"></a>jdk7新特性</h2><h3 id="1、switch中可以使用字符串"><a href="#1、switch中可以使用字符串" class="headerlink" title="1、switch中可以使用字符串"></a>1、switch中可以使用字符串</h3><h3 id="2、泛型的自动判断"><a href="#2、泛型的自动判断" class="headerlink" title="2、泛型的自动判断"></a>2、泛型的自动判断</h3><h3 id="3、自定义自动关闭类（实现AutoCloseable接口）"><a href="#3、自定义自动关闭类（实现AutoCloseable接口）" class="headerlink" title="3、自定义自动关闭类（实现AutoCloseable接口）"></a>3、自定义自动关闭类（实现AutoCloseable接口）</h3><h3 id="4、新增一些取环境信息的工具方法（System中的方法）"><a href="#4、新增一些取环境信息的工具方法（System中的方法）" class="headerlink" title="4、新增一些取环境信息的工具方法（System中的方法）"></a>4、新增一些取环境信息的工具方法（System中的方法）</h3><h3 id="5、Boolean类型反转，空指针安全，参数与位运算"><a href="#5、Boolean类型反转，空指针安全，参数与位运算" class="headerlink" title="5、Boolean类型反转，空指针安全，参数与位运算"></a>5、Boolean类型反转，空指针安全，参数与位运算</h3><h3 id="6、两个char间的equals"><a href="#6、两个char间的equals" class="headerlink" title="6、两个char间的equals"></a>6、两个char间的equals</h3><h3 id="7、安全的加减乘除"><a href="#7、安全的加减乘除" class="headerlink" title="7、安全的加减乘除"></a>7、安全的加减乘除</h3><h3 id="1、对Java集合（Collections）的增强支持"><a href="#1、对Java集合（Collections）的增强支持" class="headerlink" title="1、对Java集合（Collections）的增强支持"></a>1、对Java集合（Collections）的增强支持</h3><pre><code>List&lt;String&gt; list=[&quot;item&quot;]; //向List集合中添加元素
 String item=list[0]; //从List集合中获取元素
 Set&lt;String&gt; set={&quot;item&quot;}; //向Set集合对象中添加元
 Map&lt;String,Integer&gt; map={&quot;key&quot;:1}; //向Map集合中添加对象
 int value=map[&quot;key&quot;]; //从Map集合中获取对象
 </code></pre><p>   但是经过自己测试，按照上面的使用方法，并不能创建集合。</p>
-<h4 id="2、int支持二进制数据"><a href="#2、int支持二进制数据" class="headerlink" title="2、int支持二进制数据"></a>2、int支持二进制数据</h4><h4 id="3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><a href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型" class="headerlink" title="3、在try catch异常捕捉中，一个catch可以写多个异常类型"></a>3、在try catch异常捕捉中，一个catch可以写多个异常类型</h4><pre><code>Connection conn = null;
+<h3 id="2、int支持二进制数据"><a href="#2、int支持二进制数据" class="headerlink" title="2、int支持二进制数据"></a>2、int支持二进制数据</h3><h3 id="3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><a href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型" class="headerlink" title="3、在try catch异常捕捉中，一个catch可以写多个异常类型"></a>3、在try catch异常捕捉中，一个catch可以写多个异常类型</h3><pre><code>Connection conn = null;
 try {
     Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
     conn = DriverManager.getConnection(&quot;&quot;,&quot;&quot;,&quot;&quot;);
 } catch(ClassNotFoundException|SQLException ex) {
     ex.printStackTrace();
 }
-</code></pre><h4 id="4、try-catch中资源定义好之后try-catch自动关闭"><a href="#4、try-catch中资源定义好之后try-catch自动关闭" class="headerlink" title="4、try catch中资源定义好之后try catch自动关闭"></a>4、try catch中资源定义好之后try catch自动关闭</h4><pre><code>try (BufferedReader in  = new BufferedReader(new     FileReader(&quot;in.txt&quot;));
+</code></pre><h3 id="4、try-catch中资源定义好之后try-catch自动关闭"><a href="#4、try-catch中资源定义好之后try-catch自动关闭" class="headerlink" title="4、try catch中资源定义好之后try catch自动关闭"></a>4、try catch中资源定义好之后try catch自动关闭</h3><pre><code>try (BufferedReader in  = new BufferedReader(new     FileReader(&quot;in.txt&quot;));
      BufferedWriter out = new BufferedWriter(new     FileWriter(&quot;out.txt&quot;))) {
     int charRead;
     while ((charRead = in.read()) != -1) {
@@ -193,7 +200,7 @@ try {
 } catch (IOException ex) {
     ex.printStackTrace();
 }
-</code></pre><h2 id="jdk8新特性"><a href="#jdk8新特性" class="headerlink" title="jdk8新特性"></a>jdk8新特性</h2><h4 id="1、接口的默认方法"><a href="#1、接口的默认方法" class="headerlink" title="1、接口的默认方法"></a>1、接口的默认方法</h4><p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用default关键字即可，这个特征又叫做扩展方法，示例如下：</p>
+</code></pre><h2 id="jdk8新特性"><a href="#jdk8新特性" class="headerlink" title="jdk8新特性"></a>jdk8新特性</h2><h3 id="1、接口的默认方法"><a href="#1、接口的默认方法" class="headerlink" title="1、接口的默认方法"></a>1、接口的默认方法</h3><p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用default关键字即可，这个特征又叫做扩展方法，示例如下：</p>
 <pre><code>public interface Formula {
     double calculate(int a);
     default double sqrt(int a) {
@@ -210,7 +217,7 @@ try {
 System.out.println(formula.calculate(100));  // 100.0
 System.out.println(formula.sqrt(16));  // 4.0
 </code></pre><p>文中的formula被实现为一个匿名类的实例，该代码非常</p>
-<h4 id="2、Lambda表达式"><a href="#2、Lambda表达式" class="headerlink" title="2、Lambda表达式"></a>2、Lambda表达式</h4><pre><code>List&lt;String&gt; names = Arrays.asList(&quot;tom&quot;,&quot;jace&quot;,&quot;mike&quot;);
+<h3 id="2、Lambda表达式"><a href="#2、Lambda表达式" class="headerlink" title="2、Lambda表达式"></a>2、Lambda表达式</h3><pre><code>List&lt;String&gt; names = Arrays.asList(&quot;tom&quot;,&quot;jace&quot;,&quot;mike&quot;);
 Collections.sort(names, new Comparator&lt;String&gt;() {
     @Override
     public int compare(String o1, String o2) {
@@ -226,7 +233,7 @@ Collections.sort(names, new Comparator&lt;String&gt;() {
 </code></pre><p>去掉大括号以及return关键字</p>
 <pre><code>Collections.sort(names, (a,b) -&gt; b.compareTo(a));
 </code></pre><p>Java编译器可以自动推导出参数类型，所以可以不用再写一次类型。</p>
-<h4 id="3、函数式接口"><a href="#3、函数式接口" class="headerlink" title="3、函数式接口"></a>3、函数式接口</h4><p>Lambda表达式是如何在java的类型系统中表示的呢？</p><p><br>每一个lambda表达式都对应着一个类型，通常是接口类型。而“函数式接口”是指仅仅只包含一个抽象方法的接口，每一个该类型的lambda表达式都会被匹配到这个抽象方法。因为默认方法不算抽象方法，所以也可以给自己的函数式接口添加默认方法。</p><p><br>我们可以将lambda表达式当做一个抽象方法的接口类型，确保自己的接口一定达到这个要求，你只需要给你的接口添加<strong>@FunctionalInterface</strong>注解，编译器如果发现标注了这个注解的接口有多于一个抽象方法的时候就会报错。也就是说<strong>@FunctionalInterface</strong>注解标注的接口只能有一个抽象方法。</p><p><br>例如：</p>
+<h3 id="3、函数式接口"><a href="#3、函数式接口" class="headerlink" title="3、函数式接口"></a>3、函数式接口</h3><p>Lambda表达式是如何在java的类型系统中表示的呢？</p><p><br>每一个lambda表达式都对应着一个类型，通常是接口类型。而“函数式接口”是指仅仅只包含一个抽象方法的接口，每一个该类型的lambda表达式都会被匹配到这个抽象方法。因为默认方法不算抽象方法，所以也可以给自己的函数式接口添加默认方法。</p><p><br>我们可以将lambda表达式当做一个抽象方法的接口类型，确保自己的接口一定达到这个要求，你只需要给你的接口添加<strong>@FunctionalInterface</strong>注解，编译器如果发现标注了这个注解的接口有多于一个抽象方法的时候就会报错。也就是说<strong>@FunctionalInterface</strong>注解标注的接口只能有一个抽象方法。</p><p><br>例如：</p>
 <pre><code>@FunctionalInterface
 public interface Converter&lt;F, T&gt; {
     T convert(F from);
@@ -235,7 +242,7 @@ Converter&lt;String, Integer&gt; converter = (from) -&gt; Integer.valueOf(from);
 Integer converted = converter.convert(&quot;123&quot;);
 System.out.println(converted);
 </code></pre><p>以上代码不需要@FunctionalInterface注解也是正确的。</p>
-<h4 id="4、方法与构造函数引用"><a href="#4、方法与构造函数引用" class="headerlink" title="4、方法与构造函数引用"></a>4、方法与构造函数引用</h4><p>上面的代码也可以通过静态方法引用来表示：</p>
+<h3 id="4、方法与构造函数引用"><a href="#4、方法与构造函数引用" class="headerlink" title="4、方法与构造函数引用"></a>4、方法与构造函数引用</h3><p>上面的代码也可以通过静态方法引用来表示：</p>
 <pre><code>Converter&lt;String, Integer&gt; converter = Integer::valueOf;
 Integer converted = converter.convert(&quot;123&quot;);
 System.out.println(converted);
@@ -258,13 +265,13 @@ System.out.println(converted);
 <pre><code>PersonFactory&lt;Person&gt; personFactory = Person::new;
 Person person = personFactory.create(&quot;Peter&quot;,&quot;Parker”);
 </code></pre><p>我们只需要使用Person::new 来获取Person类构造函数的引用，Java编译器就会自动根据PersonFactory.create方法的签名来选择合适的构造函数。</p>
-<h4 id="5、Lambda作用域"><a href="#5、Lambda作用域" class="headerlink" title="5、Lambda作用域"></a>5、Lambda作用域</h4><p>在lambda表达式中访问外层作用域和老版本的匿名对象中的方式很相似。你可以直接访问标记了final的外层局部变量，或者实例的字段以及静态变量。</p>
-<h4 id="6、访问局部变量"><a href="#6、访问局部变量" class="headerlink" title="6、访问局部变量"></a>6、访问局部变量</h4><p>我们可以直接在lambda表达式中访问外层的局部变量</p>
+<h3 id="5、Lambda作用域"><a href="#5、Lambda作用域" class="headerlink" title="5、Lambda作用域"></a>5、Lambda作用域</h3><p>在lambda表达式中访问外层作用域和老版本的匿名对象中的方式很相似。你可以直接访问标记了final的外层局部变量，或者实例的字段以及静态变量。</p>
+<h3 id="6、访问局部变量"><a href="#6、访问局部变量" class="headerlink" title="6、访问局部变量"></a>6、访问局部变量</h3><p>我们可以直接在lambda表达式中访问外层的局部变量</p>
 <pre><code>final int num = 1;
 Converter&lt;Integer, String&gt; stringConverter = (from) -&gt; String.valueOf(from + num);
 stringConverter.convert(2);
 </code></pre><p>但是和匿名对象不同的是，这里的变量num可以不用声明为final，该代码同样正确。</p>
-<h4 id="7、访问对象字段与静态变量"><a href="#7、访问对象字段与静态变量" class="headerlink" title="7、访问对象字段与静态变量"></a>7、访问对象字段与静态变量</h4><p>和本地不良不同的是，lambda内部对于实例的字段以及静态变量是即可读又可写。该行为和匿名对象是一致的：</p>
+<h3 id="7、访问对象字段与静态变量"><a href="#7、访问对象字段与静态变量" class="headerlink" title="7、访问对象字段与静态变量"></a>7、访问对象字段与静态变量</h3><p>和本地不良不同的是，lambda内部对于实例的字段以及静态变量是即可读又可写。该行为和匿名对象是一致的：</p>
 <pre><code>static int outerStaticNum;
 int outerNum;
 public void testScopes() {
@@ -277,7 +284,7 @@ public void testScopes() {
         return String.valueOf(from);
     };
 }
-</code></pre><h4 id="8、访问接口的默认方法"><a href="#8、访问接口的默认方法" class="headerlink" title="8、访问接口的默认方法"></a>8、访问接口的默认方法</h4><h4 id="9、Date-API"><a href="#9、Date-API" class="headerlink" title="9、Date API"></a>9、Date API</h4><h4 id="10、Annotation注解"><a href="#10、Annotation注解" class="headerlink" title="10、Annotation注解"></a>10、Annotation注解</h4>
+</code></pre><h3 id="8、访问接口的默认方法"><a href="#8、访问接口的默认方法" class="headerlink" title="8、访问接口的默认方法"></a>8、访问接口的默认方法</h3><h3 id="9、Date-API"><a href="#9、Date-API" class="headerlink" title="9、Date API"></a>9、Date API</h3><h3 id="10、Annotation注解"><a href="#10、Annotation注解" class="headerlink" title="10、Annotation注解"></a>10、Annotation注解</h3>
       
 
       
@@ -435,11 +442,11 @@ public void testScopes() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">zookeeper</a>
+                <a href="javascript:void(0)">Spring Boot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Spring Boot</a>
+                <a href="javascript:void(0)">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
