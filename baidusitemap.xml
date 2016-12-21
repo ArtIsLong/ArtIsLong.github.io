@@ -4,6 +4,66 @@
 
     
   <url>
+    <loc>/2016/12/22/maven%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2016-12-21T16:52:41.000Z</lastmod>
+    <data>
+        <display>
+        <title>maven配置</title>
+        <pubTime>2016-12-21T16:43:01.000Z</pubTime>
+        
+        <tag>maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>/2016/12/20/zookeeper%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2-%E5%8D%95%E6%9C%BA%E7%89%88/</loc>
+    <lastmod>2016-12-21T16:49:01.000Z</lastmod>
+    <data>
+        <display>
+        <title>zookeeper集群部署(单机版)</title>
+        <pubTime>2016-12-19T16:05:59.000Z</pubTime>
+        
+        <tag>zookeeper</tag>
+         
+         
+           
+             
+              <breadCrumb title="zookeeper入门" url="/categories/zookeeper%E5%85%A5%E9%97%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>/2016/12/22/java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%BC%93%E5%AD%98%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2016-12-21T16:47:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>java基本数据类型缓存解析</title>
+        <pubTime>2016-12-21T16:46:28.000Z</pubTime>
+        
+        <tag>java缓存</tag>
+         
+         
+           
+             
+              <breadCrumb title="java基础" url="/categories/java%E5%9F%BA%E7%A1%80/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>/2016/12/13/Spring-Boot%E5%85%A5%E9%97%A8/</loc>
     <lastmod>2016-12-19T16:49:15.000Z</lastmod>
     <data>
@@ -37,26 +97,6 @@
            
              
               <breadCrumb title="Java基础" url="/categories/Java%E5%9F%BA%E7%A1%80/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>/2016/12/20/zookeeper%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2-%E5%8D%95%E6%9C%BA%E7%89%88/</loc>
-    <lastmod>2016-12-19T16:17:12.000Z</lastmod>
-    <data>
-        <display>
-        <title>zookeeper集群部署(单机版)</title>
-        <pubTime>2016-12-19T16:05:59.000Z</pubTime>
-        
-        <tag>zookeeper</tag>
-         
-         
-           
-             
-              <breadCrumb title="zookeeper入门" url="/categories/zookeeper%E5%85%A5%E9%97%A8/"/>
           
         </display>
     </data>
