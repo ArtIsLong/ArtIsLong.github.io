@@ -40,56 +40,12 @@
     <link href="/2016/12/22/java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%BC%93%E5%AD%98%E8%A7%A3%E6%9E%90/"/>
     <id>/2016/12/22/java基本数据类型缓存解析/</id>
     <published>2016-12-21T16:46:28.000Z</published>
-    <updated>2016-12-22T14:19:24.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="基本类型缓存解析"><a href="#基本类型缓存解析" class="headerlink" title="基本类型缓存解析"></a>基本类型缓存解析<a id="more"></a></h2><h3 id="一、Integer缓存解析："><a href="#一、Integer缓存解析：" class="headerlink" title="一、Integer缓存解析："></a>一、Integer缓存解析：</h3><pre><code>private static class IntegerCache {
-    static final int low = -128;
-    static final int high;
-    static final Integer cache[];
-    static {
-        // high value may be configured by property
-        int h = 127;
-        String integerCacheHighPropValue =
-            sun.misc.VM.getSavedProperty(&quot;java.lang.Integer.IntegerCache.high&quot;);
-        if (integerCacheHighPropValue != null) {
-            int i = parseInt(integerCacheHighPropValue);
-            i = Math.max(i, 127);
-            // Maximum array size is Integer.MAX_VALUE
-            h = Math.min(i, Integer.MAX_VALUE - (-low));
-        }
-        high = h;
-        cache = new Integer[(high - low) + 1];
-        int j = low;
-        for(int k = 0; k &lt; cache.length; k++)
-            cache[k] = new Integer(j++);
-    }
-    private IntegerCache() {}
-}
-
-public static Integer valueOf(int i) {
-    assert IntegerCache.high &gt;= 127;
-    if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
-        return IntegerCache.cache[i + (-IntegerCache.low)];
-    return new Integer(i);
-}
-</code></pre><p>1、使用自动装箱（Integer i = 1）方式创建Integer对象时，会使用valueOf进行Integer对象的初始化，此时，会调用IntegerCache.high，这是需要对IntegerCache这个静态内部类进行初始化。</p><p><br>2、IntegerCache类中有一个cache数组，在加载IntegerCache的时候，会将-128到127的Integer对象都创建了，并存到cache数组中，然后在判断当前初始化的Integer对象的值是否在-128到127之间，如果是，就直接从cache缓存中取，如果不存在，则new一个新的Integer对象。</p><p><br>3、之后再使用自动装箱的方式创建Integer对象时，值在-128到127之间时会直接从cache缓存中取。</p><p></p>
+    <updated>2016-12-22T14:25:10.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="基本类型缓存解析"><a href="#基本类型缓存解析" class="headerlink" title="基本类型缓存解析"></a>基本类型缓存解析<a id="more"></a></h2><h3 id="一、Integer缓存解析："><a href="#一、Integer缓存解析：" class="headerlink" title="一、Integer缓存解析："></a>一、Integer缓存解析：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerCache</span> </span>&#123;</div><div class="line">       <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> low = -<span class="number">128</span>;</div><div class="line">       <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> high;</div><div class="line">       <span class="keyword">static</span> <span class="keyword">final</span> Integer cache[];</div><div class="line">       <span class="keyword">static</span> &#123;</div><div class="line">           <span class="comment">// high value may be configured by property</span></div><div class="line">           <span class="keyword">int</span> h = <span class="number">127</span>;</div><div class="line">           String integerCacheHighPropValue =</div><div class="line">               sun.misc.VM.getSavedProperty(<span class="string">"java.lang.Integer.IntegerCache.high"</span>);</div><div class="line">           <span class="keyword">if</span> (integerCacheHighPropValue != <span class="keyword">null</span>) &#123;</div><div class="line">               <span class="keyword">int</span> i = parseInt(integerCacheHighPropValue);</div><div class="line">               i = Math.max(i, <span class="number">127</span>);</div><div class="line">               <span class="comment">// Maximum array size is Integer.MAX_VALUE</span></div><div class="line">               h = Math.min(i, Integer.MAX_VALUE - (-low));</div><div class="line">           &#125;</div><div class="line">           high = h;</div><div class="line">           cache = <span class="keyword">new</span> Integer[(high - low) + <span class="number">1</span>];</div><div class="line">           <span class="keyword">int</span> j = low;</div><div class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; cache.length; k++)</div><div class="line">               cache[k] = <span class="keyword">new</span> Integer(j++);</div><div class="line">       &#125;</div><div class="line">       <span class="function"><span class="keyword">private</span> <span class="title">IntegerCache</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">   	<span class="keyword">assert</span> IntegerCache.high &gt;= <span class="number">127</span>;</div><div class="line">    <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</div><div class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>1、使用自动装箱（Integer i = 1）方式创建Integer对象时，会使用valueOf进行Integer对象的初始化，此时，会调用IntegerCache.high，这是需要对IntegerCache这个静态内部类进行初始化。</p><p><br>2、IntegerCache类中有一个cache数组，在加载IntegerCache的时候，会将-128到127的Integer对象都创建了，并存到cache数组中，然后在判断当前初始化的Integer对象的值是否在-128到127之间，如果是，就直接从cache缓存中取，如果不存在，则new一个新的Integer对象。</p><p><br>3、之后再使用自动装箱的方式创建Integer对象时，值在-128到127之间时会直接从cache缓存中取。</p><p></p>
 <p>所以，使用自动装箱的方式创建的Integer对象，两者进行比较时，只要其值相等就是ture。而不在-128到127之间的，比较时会新new一个对象，而导致比较结果为false</p><p><br><strong><strong>注意</strong></strong>：Integer的最低值是固定的，只能是-128，而最高值是可以通过jvm参数设置的。在执行java程序的时候加上-XX:AutoBoxCacheMax=<size>参数即可。</size></p>
-<h3 id="二、Long及Byte、Character缓存解析"><a href="#二、Long及Byte、Character缓存解析" class="headerlink" title="二、Long及Byte、Character缓存解析"></a>二、Long及Byte、Character缓存解析</h3><pre><code>private static class LongCache {
-    private LongCache(){}
-    static final Long cache[] = new Long[-(-128) + 127 + 1];
-    static {
-        for(int i = 0; i &lt; cache.length; i++)
-            cache[i] = new Long(i - 128);
-    }
-}
-
-public static Long valueOf(long l) {
-    final int offset = 128;
-    if (l &gt;= -128 &amp;&amp; l &lt;= 127) { // will cache
-        return LongCache.cache[(int)l + offset];
-    }
-    return new Long(l);
-}
-</code></pre><p>Long的缓存机制（LongCache）与Integer的类似，还有Character（CharacterCache），Byte（ByteCache）的缓存机制也是类似。不过只有Integer的最大值可以通过jvm参数设置，其他的都固定的。其中，Byte，Short，Long 的范围： -128 到 127；Character, 范围是 0 到 127。</p>
+<h3 id="二、Long及Byte、Character缓存解析"><a href="#二、Long及Byte、Character缓存解析" class="headerlink" title="二、Long及Byte、Character缓存解析"></a>二、Long及Byte、Character缓存解析</h3><figure class="highlight zephir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LongCache</span> </span>&#123;</div><div class="line">   	<span class="keyword">private</span> LongCache()&#123;&#125;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">Long</span> cache[] = <span class="keyword">new</span> <span class="keyword">Long</span>[-(<span class="number">-128</span>) + <span class="number">127</span> + <span class="number">1</span>];</div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cache.length; i++)</div><div class="line">            cache[i] = <span class="keyword">new</span> <span class="keyword">Long</span>(i - <span class="number">128</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">Long</span> valueOf(<span class="keyword">long</span> l) &#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> offset = <span class="number">128</span>;</div><div class="line">    <span class="keyword">if</span> (l &gt;= <span class="number">-128</span> &amp;&amp; l &lt;= <span class="number">127</span>) &#123; <span class="comment">// will cache</span></div><div class="line">        <span class="keyword">return</span> LongCache.cache[(<span class="keyword">int</span>)l + offset];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">Long</span>(l);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Long的缓存机制（LongCache）与Integer的类似，还有Character（CharacterCache），Byte（ByteCache）的缓存机制也是类似。不过只有Integer的最大值可以通过jvm参数设置，其他的都固定的。其中，Byte，Short，Long 的范围： -128 到 127；Character, 范围是 0 到 127。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="基本类型缓存解析"><a href="#基本类型缓存解析" class="headerlink" title="基本类型缓存解析"></a>基本类型缓存解析]]>
@@ -107,30 +63,9 @@ public static Long valueOf(long l) {
     <link href="/2016/12/22/maven%E9%85%8D%E7%BD%AE/"/>
     <id>/2016/12/22/maven配置/</id>
     <published>2016-12-21T16:43:01.000Z</published>
-    <updated>2016-12-22T14:19:16.000Z</updated>
+    <updated>2016-12-22T14:25:23.000Z</updated>
     <content type="html"><![CDATA[<h2 id="maven打包加载src-main-java中的配置文件"><a href="#maven打包加载src-main-java中的配置文件" class="headerlink" title="maven打包加载src/main/java中的配置文件"></a>maven打包加载src/main/java中的配置文件</h2><p> maven打jar包时，不能识别src/main/java中的配置文件(<em>.xml,</em>.properties)，需要在build中添加以下配置<a id="more"></a>：</p>
-<pre><code>&lt;resources&gt;
-    &lt;resource&gt;
-        &lt;directory&gt;src/main/java/&lt;/directory&gt;
-        &lt;includes&gt;
-            &lt;include&gt;**/*.properties&lt;/include&gt;
-            &lt;include&gt;**/*.xml&lt;/include&gt;
-        &lt;/includes&gt;
-        &lt;!-- 是否替换资源中的属性 --&gt;
-        &lt;filtering&gt;false&lt;/filtering&gt;
-    &lt;/resource&gt;
-    &lt;resource&gt;
-        &lt;directory&gt;src/main/resources&lt;/directory&gt;
-        &lt;!--
-        &lt;includes&gt;
-            &lt;include&gt;**/*.properties&lt;/include&gt;
-            &lt;include&gt;**/*.xml&lt;/include&gt;
-        &lt;/includes&gt;
-        &lt;filtering&gt;true&lt;/filtering&gt;
-        --&gt;
-    &lt;/resource&gt;
-&lt;/resources&gt;
-</code></pre>]]></content>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">       	<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java/<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">includes</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 是否替换资源中的属性 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--</span></div><div class="line">        &lt;includes&gt;</div><div class="line">            &lt;include&gt;**/*.properties&lt;/include&gt;</div><div class="line">            &lt;include&gt;**/*.xml&lt;/include&gt;</div><div class="line">        &lt;/includes&gt;</div><div class="line">        &lt;filtering&gt;true&lt;/filtering&gt;</div><div class="line">        --&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>]]></content>
     <summary type="html">
     <![CDATA[<h2 id="maven打包加载src-main-java中的配置文件"><a href="#maven打包加载src-main-java中的配置文件" class="headerlink" title="maven打包加载src/main/java中的配置文件"></a>maven打包加载src/main/java中的配置文件</h2><p> maven打jar包时，不能识别src/main/java中的配置文件(<em>.xml,</em>.properties)，需要在build中添加以下配置]]>
     
@@ -147,53 +82,24 @@ public static Long valueOf(long l) {
     <link href="/2016/12/20/zookeeper%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2-%E5%8D%95%E6%9C%BA%E7%89%88/"/>
     <id>/2016/12/20/zookeeper集群部署-单机版/</id>
     <published>2016-12-19T16:05:59.000Z</published>
-    <updated>2016-12-21T16:49:01.000Z</updated>
+    <updated>2016-12-22T14:26:07.000Z</updated>
     <content type="html"><![CDATA[<p><strong><em>本文是在机器已经配置好java开发环境的基础上完成的。</em></strong></p>
 <h3 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h3><p>Zookeeper最新版本是3.4.6，笔者使用zookeeper-3.4.5-cdh5.3.6.tar.gz完成集群的搭建。<br>Zk的其他版本下载地址：<a href="http://www.apache.org/dist/zookeeper/" target="_blank" rel="external">http://www.apache.org/dist/zookeeper/</a><br>将下载好的zookeeper解压，<a id="more"></a>建议重命名为zookeeper-3.4.5-1，并且拷贝出相同的两份，分别命名为zookeeper-3.4.5-2，zookeeper-3.4.5-3。</p><p><br>   然后在适当的目录下新建一个存放zookeeper数据的目录，笔者新建了devtools目录，在devtools目录中新建zookeeper-1目录，在其中增加data目录和log目录（这两个目录的作用在后面会做说明）；然后将zookeeper-1目录拷贝出两份，分别命名为zookeeper-2，zookeeper-3。</p><p><br>笔者目录结构为：</p><p><br><a href="http://i1.piimg.com/4851/34885c8a253a8a22.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/34885c8a253a8a22t.jpg"></a></p><p><br>   到此，软件和环境准备工作已经做好，接下来就需要对zookeeper的相关配置文件做修改了。</p>
 <h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><p>新下载的Zookeeper，conf目录下有configuration.xsl，log4j.properties，zoo_sample.cfg三个配置文件，我们需要将zoo_sample.cfg复制一份，命名为zoo.cfg，因为zookeeper启动的时候会读取zoo.cfg文件的配置信息。<br>zoo.cfg文件中有几项参数，主要解释一下三项参数：<br><br>tickTime=2000  基本事件单元，以毫秒为单位。它用来控制心跳和超时，默认情况下最小的会话超时时间为两倍的 tickTime。<br><br>clientPort=2181  监听客户端连接的端口。<br><br>dataDir=/tmp/zookeeper  zookeeper默认存放数据的目录</p><p></p>
 <p>接下来我们需要修改zoo.cfg中的配置信息。<br>在zoo.cfg中增加这两项配置：</p>
-<pre><code>dataDir=F:/hadoop/tools/devtools/zookeeper-1/data
-dataLogDir=F:/hadoop/tools/devtools/zookeeper-1/log
-</code></pre><p>  这都是我们之前新建的目录，dataDir前面已经作过说明，dataLogDir是zookeeper存放日志文件的目录，如果不配置dataLogDir，日志文件默认存放到dataDir中。</p><p><br>  然后配置zk进程（server.x=ip:clientPort:zkReqPort）：</p>
-<pre><code>server.1=localhost:2287:3387        
-server.2=localhost:2288:3388
-server.3=localhost:2289:3389
-</code></pre><p>  server.x中的“<strong><em>x</em></strong>”表示ZooKeeper Server进程的标识，同一个ZooKeeper集群内的ZooKeeper Server进程间的通信不仅可以使用具体的点IP地址，也可以使用组播地址。</p><p><br>  <strong><em>clientPort</em></strong> 表示监听Client端请求的端口号</p><p><br>  <strong><em>zkReqPort</em></strong>  表示监听同ZooKeeper集群内其他ZooKeeper Server进程通信请求的端口号</p><p><br>因为笔者是在同一台机器上作伪集群的搭建，所以各个zookeeper的ip相同，保证每个zk进程的监听端口错开就可以了，如果是在不同机器上，则不需要。</p><p><br>以上配置已经完成了集群99%的搭建工作。</p><p></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dataDir=<span class="string">F:</span><span class="regexp">/hadoop/</span>tools<span class="regexp">/devtools/</span>zookeeper<span class="number">-1</span>/data</div><div class="line">dataLogDir=<span class="string">F:</span><span class="regexp">/hadoop/</span>tools<span class="regexp">/devtools/</span>zookeeper<span class="number">-1</span>/log</div></pre></td></tr></table></figure>
+<p>  这都是我们之前新建的目录，dataDir前面已经作过说明，dataLogDir是zookeeper存放日志文件的目录，如果不配置dataLogDir，日志文件默认存放到dataDir中。</p><p><br>  然后配置zk进程（server.x=ip:clientPort:zkReqPort）：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">server</span><span class="number">.1</span>=localhost:<span class="number">2287</span>:<span class="number">3387</span>        </div><div class="line"><span class="keyword">server</span><span class="number">.2</span>=localhost:<span class="number">2288</span>:<span class="number">3388</span></div><div class="line"><span class="keyword">server</span><span class="number">.3</span>=localhost:<span class="number">2289</span>:<span class="number">3389</span></div></pre></td></tr></table></figure>
+<p>  server.x中的“<strong><em>x</em></strong>”表示ZooKeeper Server进程的标识，同一个ZooKeeper集群内的ZooKeeper Server进程间的通信不仅可以使用具体的点IP地址，也可以使用组播地址。</p><p><br>  <strong><em>clientPort</em></strong> 表示监听Client端请求的端口号</p><p><br>  <strong><em>zkReqPort</em></strong>  表示监听同ZooKeeper集群内其他ZooKeeper Server进程通信请求的端口号</p><p><br>因为笔者是在同一台机器上作伪集群的搭建，所以各个zookeeper的ip相同，保证每个zk进程的监听端口错开就可以了，如果是在不同机器上，则不需要。</p><p><br>以上配置已经完成了集群99%的搭建工作。</p><p></p>
 <p>  此时需要在每个zookeeper-1/data目录中新建myid文件，文件内容为1，然后在zookeeper-2/data，zookeeper-3/data目录中也同样新建myid文件，内容分别为2和3。1,2,3分别对应server.x中的x，表示zookeeper进程的进程标识。如果不配置zookeeper的进程标识，zk集群将不能找到自己所对应的进程。因此，之前99%的工作也不如此处1%的重要。</p><p><br>自此，入门级集群的搭建基本完成。</p>
 <h3 id="集群测试"><a href="#集群测试" class="headerlink" title="集群测试"></a>集群测试</h3><p>首先启动zk集群，windows下直接运行三个zookeeper服务器的zkServer.cmd即可。在启动第一个zookeeper的时候会出现以下错误信息：</p><p><br><a href="http://i1.piimg.com/4851/da2eac70e3af7468.jpg" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/da2eac70e3af7468t.jpg"></a><br></p>
 <p></p><p>这些错误信息不要害怕，因为集群其他进程没启动，检查线程没有找到其他的服务器节点。在启动第二个zookeeper服务器之后就正常了。</p><p></p>
 <p>启动成功之后就需要我们通过java代码去测试集群是否可用。</p><p></p>
 <p>新建一个maven工程，在pom.xml文件中添加一下依赖信息：</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.zookeeper&lt;/groupId&gt;
-    &lt;artifactId&gt;zookeeper&lt;/artifactId&gt;
-    &lt;version&gt;3.4.6&lt;/version&gt;
-    &lt;exclusions&gt;
-        &lt;exclusion&gt;
-            &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
-            &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
-        &lt;/exclusion&gt;
-        &lt;exclusion&gt;
-            &lt;groupId&gt;log4j&lt;/groupId&gt;
-            &lt;artifactId&gt;log4j&lt;/artifactId&gt;
-        &lt;/exclusion&gt;
-    &lt;/exclusions&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.github.sgroschupf&lt;/groupId&gt;
-    &lt;artifactId&gt;zkclient&lt;/artifactId&gt;
-    &lt;version&gt;0.1&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>Zkclient是github上一个开源的java zk客户端。<br>编写测试代码</p>
-<pre><code>@Test
-public void testZkClient() {
-    ZkClient zkClient = new ZkClient(&quot;localhost:2181,localhost:2182,localhost:2183&quot;);
-    String node = &quot;/zookeeper-3.4.5-1&quot;;
-    if (zkClient.exists(node)) {
-        System.out.println(node);
-    }
-}
-</code></pre><p>zkClient.exists(node) 检测zookeeper-3.4.5-1 是否存在</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.zookeeper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zookeeper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.sgroschupf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zkclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Zkclient是github上一个开源的java zk客户端。<br>编写测试代码</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> testZkClient() &#123;</div><div class="line">    ZkClient zkClient = <span class="keyword">new</span> ZkClient(<span class="string">"localhost:2181,localhost:2182,localhost:2183"</span>);</div><div class="line">    <span class="keyword">String</span> node = <span class="string">"/zookeeper-3.4.5-1"</span>;</div><div class="line">    <span class="built_in">if</span> (zkClient.<span class="built_in">exists</span>(node)) &#123;</div><div class="line">        System.out.<span class="built_in">println</span>(node);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>zkClient.exists(node) 检测zookeeper-3.4.5-1 是否存在</p>
 <p>zookeeper集群的搭建及测试完成，在Linux下搭建伪集群和不同机器下搭建集群方式基本相同。笔者建议后来者可先在windows环境下搭建，windows的可视化界面效果能够为初学者减少很多出错的地方。</p>
 ]]></content>
     <summary type="html">
@@ -213,177 +119,57 @@ public void testZkClient() {
     <link href="/2016/12/18/Spring-Boot%E6%A0%B8%E5%BF%83/"/>
     <id>/2016/12/18/Spring-Boot核心/</id>
     <published>2016-12-18T12:26:36.000Z</published>
-    <updated>2016-12-19T16:17:03.000Z</updated>
+    <updated>2016-12-22T14:31:49.000Z</updated>
     <content type="html"><![CDATA[<h2 id="一、Spring-Boot基本配置"><a href="#一、Spring-Boot基本配置" class="headerlink" title="一、Spring Boot基本配置"></a>一、Spring Boot基本配置</h2><p></p><p></p>
 <h4 id="1、入口类和-SpringBootApplication"><a href="#1、入口类和-SpringBootApplication" class="headerlink" title="1、入口类和@SpringBootApplication"></a>1、入口类和@SpringBootApplication</h4><p>Spring Boot通常有一个名为*Application的入口类，入口类中有一个main方法，这个main方法其实就是一个标准的Java应用程序的入口方法。在main方法中使用SpringApplication.run(Chapter01Application.class, args),<a id="more"></a>启动Spring Boot应用项目。</p>
 <h4 id="2、关闭特定的自动配置"><a href="#2、关闭特定的自动配置" class="headerlink" title="2、关闭特定的自动配置"></a>2、关闭特定的自动配置</h4><p>通过<strong>@SpringBootApplication</strong>源码可以看出，关闭特定的自动配置应该使用<strong>@SpringBootApplication</strong>注解的exclude参数，例如:<br>@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})</p>
 <h4 id="3、定制Banner"><a href="#3、定制Banner" class="headerlink" title="3、定制Banner"></a>3、定制Banner</h4><p>在Spring Boot启动的时候会有一个默认启动图案，这个图案是可以自定义的。<br>1）我们在src/main/resources下新建一个banner.txt<br>2）通过<a href="http://patorjk.com/software/taag" target="_blank" rel="external">http://patorjk.com/software/taag</a>网站生成字符，将生成的字符复制到banner.txt文件中<br>3）自动程序，这时控制台图案将变成刚才生成的图案</p>
 <h4 id="4、关闭banner"><a href="#4、关闭banner" class="headerlink" title="4、关闭banner"></a>4、关闭banner</h4><p>在main方法中修改为(Spring Boot:1.4.0)：</p>
-<pre><code>SpringApplication application = new SpringApplication(Chapter1Application.class);
-application.setBannerMode(Mode.OFF);
-application.run(args);
-</code></pre><p>  或者</p>
-<pre><code>new SpringApplicationBuilder(Chapter1Application.class) //
-            .bannerMode(Mode.OFF) //
-            .run(args);
-</code></pre><h4 id="5、Spring-Boot配置文件"><a href="#5、Spring-Boot配置文件" class="headerlink" title="5、Spring Boot配置文件"></a>5、Spring Boot配置文件</h4><p>Spring Boot使用一个全局的配置文件application.properties或application.yml，放置在src/main/resources目录或者类路径的/config下。</p><p><br>Spring Boot不仅支持常规的properties配置文件，还支持yaml语言的配置文件。yaml是以数据为中心的语言，在配置数据的时候具有面向对象的特征。</p><p><br>Spring Boot的全局配置文件的作用是对一些默认配置值进行修改。<br><br>例如：<br><br>修改tomcat端口为8080-&gt;8888，默认的访问路径为”/“-&gt;”/helloboot”。可以在<br>application.properties中添加：</p>
-<pre><code>server.port=9090
-server.context-path=/helloBoot
-</code></pre><h4 id="6、官方starter-pom"><a href="#6、官方starter-pom" class="headerlink" title="6、官方starter pom"></a>6、官方starter pom</h4><p><div style="color:gray"><br>spring-boot-starter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spring Boot核心starter，包含自动配置、日志、yaml配置文件的支持<br><br>spring-boot-starter-actuator &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  准生产特性，用来监控和管理应用<br><br>spring-boot-starter-remote-shell &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  提供基于ssh协议的监控和管理<br><br>spring-boot-starter-amqp &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  使用spring-rabbit来支持AMQP<br><br>spring-boot-starter-aop &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用spring-aop和AspectJ支持面向切面变成<br><br>spring-boot-starter-batch &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对Spring Batch的支持<br><br>spring-boot-starter-cache &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对Spring Cache抽象的支持<br><br>spring-boot-starter-cloud-connectors &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对云平台（Cloud Foundry，Heroku）提供的服务提供简化的连接方法<br><br>spring-boot-starter-data-elasticsearch &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-elasticsearch对Elasticsearch的支持<br><br>spring-boot-starter-data-gemfire &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-gemfire对分布式存储GenFile的支持<br><br>spring-boot-starter-data-jpa &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对JPA的支持，包含spring-data-jpa，spring-orm和Hibernate<br><br>spring-boot-starter-data-mongodb &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-mongodb，对MongoDB进行支持<br><br>spring-boot-starter-data-rest &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-rest-webmvc将Spring Data Repository暴露REST形式的服务<br><br>spring-boot-starter-data-solr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-solr对Apache Solr数据检索平台的支持<br><br>spring-boot-starter-freemarker &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对FreeMarker模板引擎的支持<br><br>spring-boot-starter-groovy-templates  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Groovy模板引擎的支持<br><br>spring-boot-starter-hateoas  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过spring-hateoas  通过spring-hateoas对基于HATEOAS的REST形式的网络服务的支持<br><br>spring-boot-starter-hornetq  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过HornetQ对JMS的支持<br><br>spring-boot-starter-integration  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对系统集成框架spring-integration的支持<br><br>spring-boot-starter-jdbc  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对JDBC数据库的支持<br><br>spring-boot-starter-jersey  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Jersery REST形式的网络服务的支持<br><br>spring-boot-starter-jta-atomikos  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过Atomikos对分布式事务的支持<br><br>spring-boot-starter-jta-bitronix  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过Bitronix对分布式事务的支持<br><br>spring-boot-starter-mail  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对javax.mail的支持<br><br>spring-boot-starter-mobile  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对spring-mobile的支持<br><br>spring-boot-starter-mustache  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Mustache模板引擎的支持<br><br>spring-boot-starter-redis  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对键值对内存数据库Redis的支持，包含spring-reids<br><br>spring-boot-starter-security  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对spring-security的支持<br><br>spring-boot-starter-social-faceboot  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过spring-social-faceboot对Facebook的支持<br><br>spring-boot-starter-social-twitter   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过spring-social-twitter对Twitter的支持<br><br>spring-boot-starter-test  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对常用的测试框架Junit，Hamcrest和Mockito的支持，包含spring-test模板<br><br>spring-boot-starter-thymeleaf  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Thymeleaf模板引擎的支持，包含于Spring整合的配置<br><br>spring-boot-starter-velocity  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Velocity模板引擎的支持<br><br>spring-boot-starter-web  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Web项目开发的支持，包含Tomcat和spring-webmvc<br><br>spring-boot-starter-Tomcat  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spring Boot默认的Servlet容器Tomcat<br><br>spring-boot-starter-Jetty  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用Jetty作为Servlet容器替换Tomcat<br><br>spring-boot-starter-undertow  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用Undertow作为Servlet容器替换Tomcat<br><br>spring-boot-starter-logging  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spring Boot默认的日志框架Logback<br><br>spring-boot-starter-log4j  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持使用Log4j日志框架<br><br>spring-boot-starter-websocket &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对WebSocket开发的支持<br><br>spring-boot-starter-ws  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对Spring Web Services的支持<br><br></div></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SpringApplication <span class="built_in">application</span> = new SpringApplication(Chapter1Application.<span class="built_in">class</span>);</div><div class="line">   <span class="built_in">application</span>.setBannerMode(Mode.OFF);</div><div class="line">   <span class="built_in">application</span>.<span class="built_in">run</span>(args);</div></pre></td></tr></table></figure>
+<p>  或者</p>
+<figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">new</span> <span class="title">SpringApplicationBuilder</span>(<span class="type">Chapter1Application</span>.class) <span class="comment">//</span></span></div><div class="line">               .<span class="title">bannerMode</span>(<span class="type">Mode</span>.<span class="type">OFF</span>) <span class="comment">//</span></div><div class="line">			.<span class="title">run</span>(args);</div></pre></td></tr></table></figure>
+<h4 id="5、Spring-Boot配置文件"><a href="#5、Spring-Boot配置文件" class="headerlink" title="5、Spring Boot配置文件"></a>5、Spring Boot配置文件</h4><p>Spring Boot使用一个全局的配置文件application.properties或application.yml，放置在src/main/resources目录或者类路径的/config下。</p><p><br>Spring Boot不仅支持常规的properties配置文件，还支持yaml语言的配置文件。yaml是以数据为中心的语言，在配置数据的时候具有面向对象的特征。</p><p><br>Spring Boot的全局配置文件的作用是对一些默认配置值进行修改。<br><br>例如：<br><br>修改tomcat端口为8080-&gt;8888，默认的访问路径为”/“-&gt;”/helloboot”。可以在<br>application.properties中添加：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">server</span>.port=<span class="number">9090</span></div><div class="line">   <span class="keyword">server</span>.context-path=/helloBoot</div></pre></td></tr></table></figure>
+<h4 id="6、官方starter-pom"><a href="#6、官方starter-pom" class="headerlink" title="6、官方starter pom"></a>6、官方starter pom</h4><p><div style="color:gray"><br>spring-boot-starter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spring Boot核心starter，包含自动配置、日志、yaml配置文件的支持<br><br>spring-boot-starter-actuator &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  准生产特性，用来监控和管理应用<br><br>spring-boot-starter-remote-shell &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  提供基于ssh协议的监控和管理<br><br>spring-boot-starter-amqp &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  使用spring-rabbit来支持AMQP<br><br>spring-boot-starter-aop &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用spring-aop和AspectJ支持面向切面变成<br><br>spring-boot-starter-batch &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对Spring Batch的支持<br><br>spring-boot-starter-cache &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对Spring Cache抽象的支持<br><br>spring-boot-starter-cloud-connectors &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对云平台（Cloud Foundry，Heroku）提供的服务提供简化的连接方法<br><br>spring-boot-starter-data-elasticsearch &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-elasticsearch对Elasticsearch的支持<br><br>spring-boot-starter-data-gemfire &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-gemfire对分布式存储GenFile的支持<br><br>spring-boot-starter-data-jpa &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对JPA的支持，包含spring-data-jpa，spring-orm和Hibernate<br><br>spring-boot-starter-data-mongodb &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-mongodb，对MongoDB进行支持<br><br>spring-boot-starter-data-rest &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-rest-webmvc将Spring Data Repository暴露REST形式的服务<br><br>spring-boot-starter-data-solr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  通过spring-data-solr对Apache Solr数据检索平台的支持<br><br>spring-boot-starter-freemarker &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  对FreeMarker模板引擎的支持<br><br>spring-boot-starter-groovy-templates  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Groovy模板引擎的支持<br><br>spring-boot-starter-hateoas  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过spring-hateoas  通过spring-hateoas对基于HATEOAS的REST形式的网络服务的支持<br><br>spring-boot-starter-hornetq  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过HornetQ对JMS的支持<br><br>spring-boot-starter-integration  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对系统集成框架spring-integration的支持<br><br>spring-boot-starter-jdbc  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对JDBC数据库的支持<br><br>spring-boot-starter-jersey  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Jersery REST形式的网络服务的支持<br><br>spring-boot-starter-jta-atomikos  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过Atomikos对分布式事务的支持<br><br>spring-boot-starter-jta-bitronix  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过Bitronix对分布式事务的支持<br><br>spring-boot-starter-mail  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对javax.mail的支持<br><br>spring-boot-starter-mobile  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对spring-mobile的支持<br><br>spring-boot-starter-mustache  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Mustache模板引擎的支持<br><br>spring-boot-starter-redis  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对键值对内存数据库Redis的支持，包含spring-reids<br><br>spring-boot-starter-security  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对spring-security的支持<br><br>spring-boot-starter-social-faceboot  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过spring-social-faceboot对Facebook的支持<br><br>spring-boot-starter-social-twitter   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过spring-social-twitter对Twitter的支持<br><br>spring-boot-starter-test  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对常用的测试框架Junit，Hamcrest和Mockito的支持，包含spring-test模板<br><br>spring-boot-starter-thymeleaf  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Thymeleaf模板引擎的支持，包含于Spring整合的配置<br><br>spring-boot-starter-velocity  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Velocity模板引擎的支持<br><br>spring-boot-starter-web  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对Web项目开发的支持，包含Tomcat和spring-webmvc<br><br>spring-boot-starter-Tomcat  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spring Boot默认的Servlet容器Tomcat<br><br>spring-boot-starter-Jetty  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用Jetty作为Servlet容器替换Tomcat<br><br>spring-boot-starter-undertow  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用Undertow作为Servlet容器替换Tomcat<br><br>spring-boot-starter-logging  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spring Boot默认的日志框架Logback<br><br>spring-boot-starter-log4j  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持使用Log4j日志框架<br><br>spring-boot-starter-websocket &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对WebSocket开发的支持<br><br>spring-boot-starter-ws  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对Spring Web Services的支持<br><br></div></p>
 <p></p><p><br>还有第三方为Spring Boot所写的starter pom,这里不做介绍</p>
 <h4 id="7、使用xml配置"><a href="#7、使用xml配置" class="headerlink" title="7、使用xml配置"></a>7、使用xml配置</h4><p>Spring Boot提倡零配置，即无xml配置，但是在实际项目中，可能有些特殊要求，使得开发者必须使用xml配置，这时我们可以通过Spring提供的<strong>@ImportResource</strong>来加载xml配置，例如：</p>
-<pre><code>@ImportResource({&quot;classpath:context.xml”})
-</code></pre><h4 id="8、命令行参数配置"><a href="#8、命令行参数配置" class="headerlink" title="8、命令行参数配置"></a>8、命令行参数配置</h4><p>Spring Boot可以是基于jar包运行的，打成jar包的程序可以直接通过java -jar xx.jar来运行<br>可以通过java -jar xx.jar —server.port=8888来修改Tomcat端口号</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">ImportResource</span>(&#123;"<span class="selector-tag">classpath</span><span class="selector-pseudo">:context.xml</span>”&#125;)</div></pre></td></tr></table></figure>
+<h4 id="8、命令行参数配置"><a href="#8、命令行参数配置" class="headerlink" title="8、命令行参数配置"></a>8、命令行参数配置</h4><p>Spring Boot可以是基于jar包运行的，打成jar包的程序可以直接通过java -jar xx.jar来运行<br>可以通过java -jar xx.jar —server.port=8888来修改Tomcat端口号</p>
 <h4 id="9、常规属性配置"><a href="#9、常规属性配置" class="headerlink" title="9、常规属性配置"></a>9、常规属性配置</h4><p>在常规Spring环境下，注入properties文件里的值得方式，通过<strong>@PropertySource</strong>指明properties文件的位置，然后通过<strong>@Value</strong>注入值。在Spring Boot里，只需要在application.properties定义属性，直接使用<strong>@Value</strong>注入即可。<br><br>例如：<br><br>在application.properties文件中添加属性：</p>
-<pre><code>book.author=cm
-book.name=spring boot
-</code></pre><p>在com.gnd.springboot.config.init路径下新建PropertiesTests属性配置类，使用@Value注入book属性</p>
-<pre><code>@Component
-public class PropertiesTests {
-    @Value(&quot;book.author&quot;)
-    private String author;
-    @Value(&quot;book.name&quot;)
-    private String name;
-    public String getAuthor() {
-        return author;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-</code></pre><h4 id="10、类型安全的配置（基于properties）"><a href="#10、类型安全的配置（基于properties）" class="headerlink" title="10、类型安全的配置（基于properties）"></a>10、类型安全的配置（基于properties）</h4><p>Spring Boot提供了基于类型安全的配置方式，通过<strong>@ConfigurationProperties</strong>将properties属性和一个Bean及其属性关联，从而实现类型安全的配置。所以，常规属性配置可以修改为：</p>
-<pre><code>@Component
-@ConfigurationProperties(prefix = &quot;book&quot;)
-public class PropertiesTests {
-    private String author;
-    private String name;
-    public String getAuthor() {
-        return author;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-</code></pre><h4 id="11、日志配置"><a href="#11、日志配置" class="headerlink" title="11、日志配置"></a>11、日志配置</h4><p>Spring Boot支持Java Util Logging、Log4J、Log4J2和Logback作为日志框架，无论使用哪种日志框架，Spring Boot已为当前使用日志框架的控制台输出及文件输出做好了配置。</p><p><br>默认情况下，Spring Boot使用Logback作为日志框架。日志级别:<strong><strong>logging.file=/home/cm/mylog.log</strong></strong><br>配置日志文件，格式为logging.level.包名=级别：<strong><strong>logging.level.org.springframework.web=DEBUG</strong></strong></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">book.author=cm</span></div><div class="line"><span class="keyword">book.name=spring </span><span class="keyword">boot</span></div></pre></td></tr></table></figure>
+<p>在com.gnd.springboot.config.init路径下新建PropertiesTests属性配置类，使用@Value注入book属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertiesTests</span> </span>&#123;</div><div class="line">	<span class="meta">@Value</span>(<span class="string">"book.author"</span>)</div><div class="line">	<span class="keyword">private</span> String author;</div><div class="line">	<span class="meta">@Value</span>(<span class="string">"book.name"</span>)</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getAuthor</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> author;</div><div class="line">   	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAuthor</span><span class="params">(String author)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.author = author;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="10、类型安全的配置（基于properties）"><a href="#10、类型安全的配置（基于properties）" class="headerlink" title="10、类型安全的配置（基于properties）"></a>10、类型安全的配置（基于properties）</h4><p>Spring Boot提供了基于类型安全的配置方式，通过<strong>@ConfigurationProperties</strong>将properties属性和一个Bean及其属性关联，从而实现类型安全的配置。所以，常规属性配置可以修改为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"book"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertiesTests</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> String author;</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getAuthor</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> author;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAuthor</span><span class="params">(String author)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.author = author;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="11、日志配置"><a href="#11、日志配置" class="headerlink" title="11、日志配置"></a>11、日志配置</h4><p>Spring Boot支持Java Util Logging、Log4J、Log4J2和Logback作为日志框架，无论使用哪种日志框架，Spring Boot已为当前使用日志框架的控制台输出及文件输出做好了配置。</p><p><br>默认情况下，Spring Boot使用Logback作为日志框架。日志级别:<strong><strong>logging.file=/home/cm/mylog.log</strong></strong><br>配置日志文件，格式为logging.level.包名=级别：<strong><strong>logging.level.org.springframework.web=DEBUG</strong></strong></p>
 <h4 id="12、Profile配置"><a href="#12、Profile配置" class="headerlink" title="12、Profile配置"></a>12、Profile配置</h4><p>Profile是Spring用来针对不同的环境对不同的配置提供支持的，全局Profile配置使用application-{profile}.properties(如application-prod.properties),<br>通过在application.properties中设置<strong><strong>spring.profiles.active=prod</strong></strong>来指定活动的Profile<br>例如：<br><br>我们分为生产(prod)和开发(dev)环境，在生产环境下端口号为80，开发环境为8888。<br><br>两种配置文件分别为：<br></p>
-<pre><code>application-prod.properties:  server.port=80
-application-dev.properties:  server.port=8888
-</code></pre><p>然后在application.properties增加：</p>
-<pre><code>spring.profiles.active=dev(prod)
-</code></pre><p>通过Profile可以灵活切换Spring Boot项目的配置了。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">application-prod<span class="selector-class">.properties</span>:  server.port=<span class="number">80</span></div><div class="line">application-dev<span class="selector-class">.properties</span>:  server.port=<span class="number">8888</span></div></pre></td></tr></table></figure>
+<p>然后在application.properties增加：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spring<span class="selector-class">.profiles</span><span class="selector-class">.active</span>=dev(prod)</div></pre></td></tr></table></figure>
+<p>通过Profile可以灵活切换Spring Boot项目的配置了。</p>
 <h2 id="二、Spring-Boot运行原理"><a href="#二、Spring-Boot运行原理" class="headerlink" title="二、Spring Boot运行原理"></a>二、Spring Boot运行原理</h2><p>Spring Boot关于自动配置的源码在spring-boot-autoconfigure-1.4.0.RELEASE.jar内，主要包含了以下配置：</p><p><br><a href="http://i1.piimg.com/4851/bb6e18a430a22a09.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/bb6e18a430a22a09t.jpg"></a><br><a href="http://i1.piimg.com/4851/73ed190dbda257cb.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/73ed190dbda257cbt.jpg"></a></p><p><br>若想知道Spring Boot为我们做了哪些自动配置，可以通过通过三种方式查看以启用和未启用的自动配置的报告：</p><p><br>1）运行jar时增加—debug参数：java -jar xx.jar —debug</p><p><br>2)在application.properties中设置属性：debug=true（这个方便点）</p><p><br>3）在开发工具启动参数中配置</p><p><br><a href="http://i1.piimg.com/4851/db0610f744b512ec.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/db0610f744b512ect.jpg"></a></p><p></p>
 <h4 id="1、Spring-Boot运行原理解析："><a href="#1、Spring-Boot运行原理解析：" class="headerlink" title="1、Spring Boot运行原理解析："></a>1、Spring Boot运行原理解析：</h4><p> 对@SpringBootApplication注解说明：<br>  <strong>@SpringBootApplication</strong>是一个组合注解，它的核心功能是由<strong>@EnableAutoConfiguration</strong>注解提供的。<br>查看<strong>@EnableAutoConfiguration</strong>源码</p><p><br><a href="http://i1.piimg.com/4851/df2b568388d67082.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/df2b568388d67082t.jpg"></a></p><p><br>这里<strong>@Import</strong>注解导入配置功能，EnableAutoConfigurationImportSelector使用SpringFactoriesLoader.loadFactoryNames方法来扫描具有META-INF/spring.factories文件的jar包，而spring-boot-autoconfigure-1.4.0.RELEASE.jar里就有一个spring.factories文件，次问价中声明了有哪些自动配置。<br><a href="http://i1.piimg.com/4851/8290194ff6bbbda5.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/8290194ff6bbbda5t.jpg"></a><br><br><a href="http://i1.piimg.com/4851/dba6c685c8097175.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/dba6c685c8097175t.jpg"></a></p><p><br>       任意打开一个AutoConfiguration文件，一般都有以下条件注解，在spring-boot-autoconfigure-1.4.0.RELEASE.jar的org.springframework.boot.autoconfigure.condition包下，条件注解如下：</p><p></p>
 <p><div style="color:gray"><br>    @ConditionalOnBean： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当容器里有指定的Bean的条件下<br><br>    @ConditionalOnClass: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当类路径下有指定的类的条件下<br><br>     @ConditionalOnExpression： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 基于SpEL表达式作为判断条件<br><br>     @ConditionalOnJava： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 基于JVM版本作为判断条件<br><br>     @ConditionalOnJndi： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在JNDI存在的条件下查找指定的位置<br><br>     @ConditionalOnMissingBean： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当容器里没有指定Bean的情况下<br><br>     @ConditionalOnMissingClass： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当类路径下没有指定的类的条件下<br><br>     @ConditionalOnNotWebApplication： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当前项目不是Web项目的条件下<br><br>     @ConditionalOnProperty： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 指定的属性是否有指定的值<br><br>     @ConditionalOnResource： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 类路径是否有指定的值<br><br>     @ConditionalOnSingleCandidate： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当指定Bean在容器中只有一个，或者虽然有多个但是指定首选的Bean<br><br>     @ConditionalOnWebApplication： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当前项目是Web项目的条件下<br><br></div></p><p><br>这些注解都是使用了<strong>@Conditional</strong>元注解，不过是使用了不同的条件而已。</p>
 <h4 id="2、分析http的编码配置"><a href="#2、分析http的编码配置" class="headerlink" title="2、分析http的编码配置"></a>2、分析http的编码配置</h4><p>配置参数</p>
 <p>  HttpEncodingProperties的源码如下：</p><p><br><a href="http://i1.piimg.com/4851/01b5f66dfd191b68.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/01b5f66dfd191b68t.jpg"></a></p><p><br>这里的配置类可以直接在application.properties中以spring.http.encoding 为前缀配置，比如：如果需要修改默认编码方式，可通过spring.http.encoding.charset=gbk 配置。<br>根据条件配置CharacterEncodingFilter的Bean，源码如下:<br><a href="http://i1.piimg.com/4851/6307e6e411a78c22.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/6307e6e411a78c22t.jpg"></a></p>
 <h4 id="3、自定义自动配置（包装成starter-pom）"><a href="#3、自定义自动配置（包装成starter-pom）" class="headerlink" title="3、自定义自动配置（包装成starter pom）"></a>3、自定义自动配置（包装成starter pom）</h4><p>1）新建maven工程spring-boot-starter-hello，在pom.xml中添加如下配置:</p>
-<pre><code>&lt;properties&gt;
-    &lt;spring-framework.version&gt;1.4.0.RELEASE&lt;/spring-framework.version&gt;
-    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-&lt;/properties&gt;
-&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;junit&lt;/groupId&gt;
-        &lt;artifactId&gt;junit&lt;/artifactId&gt;
-        &lt;version&gt;4.11&lt;/version&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-           &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-autoconfigure&lt;/artifactId&gt;
-        &lt;version&gt;${spring-framework.version}&lt;/version&gt;
-    &lt;/dependency&gt;
-&lt;/dependencies&gt;
-</code></pre><p>2) 新建属性配置类HellpServiceProperties</p>
-<pre><code>@ConfigurationProperties(prefix = &quot;hello&quot;)
-public class HelloServiceProperties {
-    private static final String MSG = &quot;world&quot;;
-    private String msg = MSG;
-    public String getMsg() {
-        return msg;
-    }
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-}
-</code></pre><p>此种配置方式为类型安全的属性获取。在application.properties中通过hello.msg= 来设置，若不设置，默认为hello.msg=world</p><p></p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span></div><div class="line">   	<span class="tag">&lt;<span class="name">spring-framework.version</span>&gt;</span>1.4.0.RELEASE<span class="tag">&lt;/<span class="name">spring-framework.version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">       	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">       	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">       	<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-autoconfigure<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$<span class="template-variable">&#123;spring-framework.version&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">version</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2) 新建属性配置类HellpServiceProperties</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"hello"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceProperties</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MSG = <span class="string">"world"</span>;</div><div class="line">    <span class="keyword">private</span> String msg = MSG;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> msg;</div><div class="line">   	&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMsg</span><span class="params">(String msg)</span> </span>&#123;</div><div class="line">   	    <span class="keyword">this</span>.msg = msg;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此种配置方式为类型安全的属性获取。在application.properties中通过hello.msg= 来设置，若不设置，默认为hello.msg=world</p><p></p>
 <p>3）新建依据类HelloService（此类可以是第三方类库的类）</p>
-<pre><code>public class HelloService {
-    private String msg;
-    public String sayHello() {
-        return &quot;Hello &quot; + msg;
-    }
-    public String getMsg() {
-        return msg;
-    }
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-}
-</code></pre><p>4）新建自动配置类</p>
-<pre><code>@Configuration
-@EnableConfigurationProperties(HelloServiceProperties.class)
-@ConditionalOnClass(HelloService.class)
-@ConditionalOnProperty(prefix = &quot;hello&quot;, value = &quot;enabled&quot;, matchIfMissing = true)
-public class HelloServiceAutoConfiguration {
-    @Autowired
-    private HelloServiceProperties helloServiceProperties;
-    @Bean
-    @ConditionalOnMissingBean(HelloService.class)
-    public HelloService helloService() {
-        HelloService helloService = new HelloService();
-        helloService.setMsg(helloServiceProperties.getMsg());
-        return helloService;
-    }
-}
-</code></pre><p>根据HelloServiceProperties提供的参数，并通过<strong>@ConditionalOnClass</strong>来判断HelloService这个类在类路径中是否存在，且当这个容器中没有这个Bean的情况下自动配置这个Bean。</p><p><br>5）注册自动配置</p><p><br>在src/main/resources中新建META-INF/spring.factories文件，内容为</p>
-<pre><code>org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.gnd.springboot.config.HelloServiceAutoConfiguration&lt;br&gt;
-</code></pre><p>其中“\”是为了在换行之后仍能读到属性，若有多个自动配置，以“,”分隔</p><p><br>6）测试自定义自动配置</p><p><br>新建一个maven web工程，添加如下依赖:</p>
-<pre><code>&lt;properties&gt;
-    &lt;spring-framework.version&gt;1.4.0.RELEASE&lt;/spring-framework.version&gt;
-    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-&lt;/properties&gt;
-&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;version&gt;${spring-framework.version}&lt;/version&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;spring-boot-starter-hello&lt;/groupId&gt;
-        &lt;artifactId&gt;com.gnd.springboot&lt;/artifactId&gt;
-        &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-    &lt;/dependency&gt;
-&lt;/dependencies&gt;
-</code></pre><p>spring-boot-starter-hello为之前新建的自定义自动配置starter pom</p><p><br>新建测试启动类</p>
-<pre><code>@RestController
-@SpringBootApplication
-public class Chapter11Application {
-    @Autowired
-    private HelloService helloService;
-    @RequestMapping(&quot;/test&quot;)
-    public String index() {
-        return helloService.sayHello();
-    }
-    public static void main(String[] args){
-        SpringApplication.run(Chapter11Application.class, args);
-    }
-}
-</code></pre><p>运行测试工程之后，浏览器输入”<a href="http://localhost:8080/test" target="_blank" rel="external">http://localhost:8080/test</a>“测试，测试结果如下:<br><br><a href="http://p1.bpimg.com/4851/6ff00c546916cb99.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://p1.bpimg.com/4851/6ff00c546916cb99t.jpg"></a></p><p><br>新建application.properties配置文件，内容为</p>
-<pre><code>hello.msg=haha
-</code></pre><p>重启工程，浏览器输入”<a href="http://localhost:8080/test" target="_blank" rel="external">http://localhost:8080/test</a>“测试，测试结果如下:<br><a href="http://p1.bpimg.com/4851/fbf8797b19bd1733.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://p1.bpimg.com/4851/fbf8797b19bd1733t.jpg"></a></p><p></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> HelloService &#123;</div><div class="line">   	<span class="keyword">private</span> <span class="keyword">String</span> msg;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> sayHello() &#123;</div><div class="line">        <span class="built_in">return</span> <span class="string">"Hello "</span> + msg;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> getMsg() &#123;</div><div class="line">        <span class="built_in">return</span> msg;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> setMsg(<span class="keyword">String</span> msg) &#123;</div><div class="line">        <span class="keyword">this</span>.msg = msg;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>4）新建自动配置类</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@EnableConfigurationProperties</span>(HelloServiceProperties.<span class="keyword">class</span>)</div><div class="line"><span class="meta">@ConditionalOnClass</span>(HelloService.<span class="keyword">class</span>)</div><div class="line"><span class="meta">@ConditionalOnProperty</span>(prefix = <span class="string">"hello"</span>, value = <span class="string">"enabled"</span>, matchIfMissing = <span class="literal">true</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceAutoConfiguration</span> &#123;</span></div><div class="line">   	<span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> HelloServiceProperties helloServiceProperties;</div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="meta">@ConditionalOnMissingBean</span>(HelloService.<span class="keyword">class</span>)</div><div class="line">    <span class="keyword">public</span> HelloService helloService() &#123;</div><div class="line">        HelloService helloService = <span class="keyword">new</span> HelloService();</div><div class="line">        helloService.setMsg(helloServiceProperties.getMsg());</div><div class="line">        <span class="keyword">return</span> helloService;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>根据HelloServiceProperties提供的参数，并通过<strong>@ConditionalOnClass</strong>来判断HelloService这个类在类路径中是否存在，且当这个容器中没有这个Bean的情况下自动配置这个Bean。</p><p><br>5）注册自动配置</p><p><br>在src/main/resources中新建META-INF/spring.factories文件，内容为</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">org<span class="selector-class">.springframework</span><span class="selector-class">.boot</span><span class="selector-class">.autoconfigure</span><span class="selector-class">.EnableAutoConfiguration</span>=\	  com<span class="selector-class">.gnd</span><span class="selector-class">.springboot</span><span class="selector-class">.config</span><span class="selector-class">.HelloServiceAutoConfiguration</span>&lt;br&gt;</div></pre></td></tr></table></figure>
+<p>其中“\”是为了在换行之后仍能读到属性，若有多个自动配置，以“,”分隔</p><p><br>6）测试自定义自动配置</p><p><br>新建一个maven web工程，添加如下依赖:</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span></div><div class="line">   	<span class="tag">&lt;<span class="name">spring-framework.version</span>&gt;</span>1.4.0.RELEASE<span class="tag">&lt;/<span class="name">spring-framework.version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$<span class="template-variable">&#123;spring-framework.version&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">version</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>spring-boot-starter-hello<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>com.gnd.springboot<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>spring-boot-starter-hello为之前新建的自定义自动配置starter pom</p><p><br>新建测试启动类</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@RestController</span></div><div class="line"><span class="variable">@SpringBootApplication</span></div><div class="line">public class Chapter11Application &#123;</div><div class="line">    <span class="variable">@Autowired</span></div><div class="line">    private HelloService helloService;</div><div class="line">    <span class="variable">@RequestMapping</span>(<span class="string">"/test"</span>)</div><div class="line">    public String index() &#123;</div><div class="line">        <span class="selector-tag">return</span> <span class="selector-tag">helloService</span><span class="selector-class">.sayHello</span>();</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">public</span> <span class="selector-tag">static</span> <span class="selector-tag">void</span> <span class="selector-tag">main</span>(String[] args)&#123;</div><div class="line">        <span class="selector-tag">SpringApplication</span><span class="selector-class">.run</span>(Chapter11Application.class, args);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行测试工程之后，浏览器输入”<a href="http://localhost:8080/test" target="_blank" rel="external">http://localhost:8080/test</a>“测试，测试结果如下:<br><br><a href="http://p1.bpimg.com/4851/6ff00c546916cb99.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://p1.bpimg.com/4851/6ff00c546916cb99t.jpg"></a></p><p><br>新建application.properties配置文件，内容为</p>
+<figure class="highlight fix"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">hello.msg</span>=<span class="string">haha</span></div></pre></td></tr></table></figure>
+<p>重启工程，浏览器输入”<a href="http://localhost:8080/test" target="_blank" rel="external">http://localhost:8080/test</a>“测试，测试结果如下:<br><a href="http://p1.bpimg.com/4851/fbf8797b19bd1733.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://p1.bpimg.com/4851/fbf8797b19bd1733t.jpg"></a></p><p></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="一、Spring-Boot基本配置"><a href="#一、Spring-Boot基本配置" class="headerlink" title="一、Spring Boot基本配置"></a>一、Spring Boot基本配置</h2><p><p></p>
@@ -402,120 +188,48 @@ public class Chapter11Application {
     <link href="/2016/12/18/jdk%E5%90%84%E7%89%88%E6%9C%AC%E5%8C%BA%E5%88%AB/"/>
     <id>/2016/12/18/jdk各版本区别/</id>
     <published>2016-12-17T16:06:43.000Z</published>
-    <updated>2016-12-19T16:46:56.000Z</updated>
+    <updated>2016-12-22T14:24:34.000Z</updated>
     <content type="html"><![CDATA[<h1 id="jdk5新特性"><a href="#jdk5新特性" class="headerlink" title="jdk5新特性"></a>jdk5新特性</h1><h3 id="1、自动装箱和拆箱"><a href="#1、自动装箱和拆箱" class="headerlink" title="1、自动装箱和拆箱"></a>1、自动装箱和拆箱</h3><h3 id="2、枚举"><a href="#2、枚举" class="headerlink" title="2、枚举"></a>2、枚举</h3><h3 id="3、静态导入"><a href="#3、静态导入" class="headerlink" title="3、静态导入"></a>3、静态导入</h3><h3 id="4、可变参数"><a href="#4、可变参数" class="headerlink" title="4、可变参数"></a>4、可变参数</h3><h3 id="5、內省"><a href="#5、內省" class="headerlink" title="5、內省"></a>5、內省</h3><p>   内省是Java语言对Bean类属性、事件的一种缺省处理方法。例如类A中有属性那么，那我们可以通过getName，setName来得到其值或者设置新的值。通过getName/setName来访问name属性，这就是默认的规则。<a id="more"></a>Java中提供了一套API用来访问某个属性的getter，setter方法，通过这些API可以使你不需要了解这个规则，这些API存放于包java.beans中。<br><br>   一般的做法是通过类Introspector来获取某个对象的BeanInfo信息，然后通过BeanInfo来获取属性的描述器（PropertyDescriptor），通过这个属性描述器就可以获取某个属性对应的getter/setter方法，然后我们就可以通过反射机制来调用这些方法。</p>
 <h3 id="6、泛型"><a href="#6、泛型" class="headerlink" title="6、泛型"></a>6、泛型</h3><h3 id="7、For-Each循环"><a href="#7、For-Each循环" class="headerlink" title="7、For-Each循环"></a>7、For-Each循环</h3><h2 id="jdk6新特性"><a href="#jdk6新特性" class="headerlink" title="jdk6新特性"></a>jdk6新特性</h2><h3 id="1、Desktop类和SystemTray类"><a href="#1、Desktop类和SystemTray类" class="headerlink" title="1、Desktop类和SystemTray类"></a>1、Desktop类和SystemTray类</h3><p>   AWT新增加了两个雷：Desktop，SystemTray。</p><p><br>   Desktop可以用来打开系统默认浏览器指定的URL，打开系统默认邮件客户端给指定的邮件账号发邮件，用默认应用程序打开或编辑文件（比如，用记事本打开txt文件），用系统默认的打印机打印文档</p><p><br>   SystemTray可以用来在系统托盘区创建一个托盘程序</p>
 <h3 id="2、使用JAXB2来实现对象与XML之间的映射"><a href="#2、使用JAXB2来实现对象与XML之间的映射" class="headerlink" title="2、使用JAXB2来实现对象与XML之间的映射"></a>2、使用JAXB2来实现对象与XML之间的映射</h3><p>   也就是对象与XML之间的映射（OXM），也可以通过XMLBeans和Castor等来实现同样的功能。</p>
 <h3 id="3、StAX"><a href="#3、StAX" class="headerlink" title="3、StAX"></a>3、StAX</h3><p>   StAX是The Streaming API for XML的缩写，一种利用拉模式解析(pull-parsing)XML文档的API.StAX通过提供一种基于事件迭代器(Iterator)的API让 程序员去控制xml文档解析过程,程序遍历这个事件迭代器去处理每一个解析事件，解析事件可以看做是程序拉出来的，也就是程序促使解析器产生一个解析事件 然后处理该事件，之后又促使解析器产生下一个解析事件，如此循环直到碰到文档结束符； </p><p><br>   SAX也是基于事件处理xml文档，但却 是用推模式解析，解析器解析完整个xml文档后，才产生解析事件，然后推给程序去处理这些事件；DOM 采用的方式是将整个xml文档映射到一颗内存树，这样就可以很容易地得到父节点和子结点以及兄弟节点的数据，但如果文档很大，将会严重影响性能。</p>
 <h3 id="4、使用Compiler-API"><a href="#4、使用Compiler-API" class="headerlink" title="4、使用Compiler API"></a>4、使用Compiler API</h3><p>   使用JDK6的Compiler API去动态的编译Java源文件，Compiler API结合反射功能就可以实现动态的产生Java代码并编译执行这些代码。</p>
-<h3 id="5、轻量级Http-Server-API"><a href="#5、轻量级Http-Server-API" class="headerlink" title="5、轻量级Http Server API"></a>5、轻量级Http Server API</h3><h3 id="6、插入式注解处理API"><a href="#6、插入式注解处理API" class="headerlink" title="6、插入式注解处理API"></a>6、插入式注解处理API</h3><h3 id="7、用Console开发控制台程序"><a href="#7、用Console开发控制台程序" class="headerlink" title="7、用Console开发控制台程序"></a>7、用Console开发控制台程序</h3><h3 id="8、对脚本语言的支持如：ruby，groovy，javascript"><a href="#8、对脚本语言的支持如：ruby，groovy，javascript" class="headerlink" title="8、对脚本语言的支持如：ruby，groovy，javascript"></a>8、对脚本语言的支持如：ruby，groovy，javascript</h3><h3 id="9、Common-Annotations"><a href="#9、Common-Annotations" class="headerlink" title="9、Common Annotations"></a>9、Common Annotations</h3><h2 id="jdk7新特性"><a href="#jdk7新特性" class="headerlink" title="jdk7新特性"></a>jdk7新特性</h2><h3 id="1、switch中可以使用字符串"><a href="#1、switch中可以使用字符串" class="headerlink" title="1、switch中可以使用字符串"></a>1、switch中可以使用字符串</h3><h3 id="2、泛型的自动判断"><a href="#2、泛型的自动判断" class="headerlink" title="2、泛型的自动判断"></a>2、泛型的自动判断</h3><h3 id="3、自定义自动关闭类（实现AutoCloseable接口）"><a href="#3、自定义自动关闭类（实现AutoCloseable接口）" class="headerlink" title="3、自定义自动关闭类（实现AutoCloseable接口）"></a>3、自定义自动关闭类（实现AutoCloseable接口）</h3><h3 id="4、新增一些取环境信息的工具方法（System中的方法）"><a href="#4、新增一些取环境信息的工具方法（System中的方法）" class="headerlink" title="4、新增一些取环境信息的工具方法（System中的方法）"></a>4、新增一些取环境信息的工具方法（System中的方法）</h3><h3 id="5、Boolean类型反转，空指针安全，参数与位运算"><a href="#5、Boolean类型反转，空指针安全，参数与位运算" class="headerlink" title="5、Boolean类型反转，空指针安全，参数与位运算"></a>5、Boolean类型反转，空指针安全，参数与位运算</h3><h3 id="6、两个char间的equals"><a href="#6、两个char间的equals" class="headerlink" title="6、两个char间的equals"></a>6、两个char间的equals</h3><h3 id="7、安全的加减乘除"><a href="#7、安全的加减乘除" class="headerlink" title="7、安全的加减乘除"></a>7、安全的加减乘除</h3><h3 id="1、对Java集合（Collections）的增强支持"><a href="#1、对Java集合（Collections）的增强支持" class="headerlink" title="1、对Java集合（Collections）的增强支持"></a>1、对Java集合（Collections）的增强支持</h3><pre><code>List&lt;String&gt; list=[&quot;item&quot;]; //向List集合中添加元素
-String item=list[0]; //从List集合中获取元素
-Set&lt;String&gt; set={&quot;item&quot;}; //向Set集合对象中添加元
-Map&lt;String,Integer&gt; map={&quot;key&quot;:1}; //向Map集合中添加对象
-int value=map[&quot;key&quot;]; //从Map集合中获取对象
-</code></pre><p>   但是经过自己测试，按照上面的使用方法，并不能创建集合。</p>
-<h3 id="2、int支持二进制数据"><a href="#2、int支持二进制数据" class="headerlink" title="2、int支持二进制数据"></a>2、int支持二进制数据</h3><h3 id="3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><a href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型" class="headerlink" title="3、在try catch异常捕捉中，一个catch可以写多个异常类型"></a>3、在try catch异常捕捉中，一个catch可以写多个异常类型</h3><pre><code>Connection conn = null;
-try {
-    Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
-    conn = DriverManager.getConnection(&quot;&quot;,&quot;&quot;,&quot;&quot;);
-} catch(ClassNotFoundException|SQLException ex) {
-    ex.printStackTrace();
-}
-</code></pre><h3 id="4、try-catch中资源定义好之后try-catch自动关闭"><a href="#4、try-catch中资源定义好之后try-catch自动关闭" class="headerlink" title="4、try catch中资源定义好之后try catch自动关闭"></a>4、try catch中资源定义好之后try catch自动关闭</h3><pre><code>try (BufferedReader in  = new BufferedReader(new     FileReader(&quot;in.txt&quot;));
-     BufferedWriter out = new BufferedWriter(new     FileWriter(&quot;out.txt&quot;))) {
-    int charRead;
-    while ((charRead = in.read()) != -1) {
-        System.out.printf(&quot;%c &quot;, (char)charRead);
-        out.write(charRead);
-    }
-} catch (IOException ex) {
-    ex.printStackTrace();
-}
-</code></pre><h2 id="jdk8新特性"><a href="#jdk8新特性" class="headerlink" title="jdk8新特性"></a>jdk8新特性</h2><h3 id="1、接口的默认方法"><a href="#1、接口的默认方法" class="headerlink" title="1、接口的默认方法"></a>1、接口的默认方法</h3><p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用default关键字即可，这个特征又叫做扩展方法，示例如下：</p>
-<pre><code>public interface Formula {
-    double calculate(int a);
-    default double sqrt(int a) {
-        return Math.sqrt(a);
-    }
-}
-</code></pre><p>Formula接口在拥有calculate方法之外同时还定义了sqrt方法，实现了Formula接口的子类只需要实现一个calculate方法，默认方法sqrt将在子类上可以直接使用。</p>
-<pre><code>Formula formula = new Formula() {
-    @Override
-    public double calculate(int a) {
-        return sqrt(a * 100);
-    }
-};
-System.out.println(formula.calculate(100));  // 100.0
-System.out.println(formula.sqrt(16));  // 4.0
-</code></pre><p>文中的formula被实现为一个匿名类的实例，该代码非常</p>
-<h3 id="2、Lambda表达式"><a href="#2、Lambda表达式" class="headerlink" title="2、Lambda表达式"></a>2、Lambda表达式</h3><pre><code>List&lt;String&gt; names = Arrays.asList(&quot;tom&quot;,&quot;jace&quot;,&quot;mike&quot;);
-Collections.sort(names, new Comparator&lt;String&gt;() {
-    @Override
-    public int compare(String o1, String o2) {
-        return o2.compareTo(o1);
-    }
-});
-</code></pre><p>只需要给静态方法Collections.sort传入一个List对象以及一个比较器来指定顺序排列。通常做法都是创建一个匿名的比较器对象，然后将其传递给sort方法。<br>在Java 8中提供了更简洁的语法，lambda表达式：</p>
-<pre><code>Collections.sort(names, (String a, String b) -&gt; {
-    return b.compareTo(a);
-});
-</code></pre><p>还可以更简洁：</p>
-<pre><code>Collections.sort(names, (String a, String b) -&gt; b.compareTo(a));
-</code></pre><p>去掉大括号以及return关键字</p>
-<pre><code>Collections.sort(names, (a,b) -&gt; b.compareTo(a));
-</code></pre><p>Java编译器可以自动推导出参数类型，所以可以不用再写一次类型。</p>
+<h3 id="5、轻量级Http-Server-API"><a href="#5、轻量级Http-Server-API" class="headerlink" title="5、轻量级Http Server API"></a>5、轻量级Http Server API</h3><h3 id="6、插入式注解处理API"><a href="#6、插入式注解处理API" class="headerlink" title="6、插入式注解处理API"></a>6、插入式注解处理API</h3><h3 id="7、用Console开发控制台程序"><a href="#7、用Console开发控制台程序" class="headerlink" title="7、用Console开发控制台程序"></a>7、用Console开发控制台程序</h3><h3 id="8、对脚本语言的支持如：ruby，groovy，javascript"><a href="#8、对脚本语言的支持如：ruby，groovy，javascript" class="headerlink" title="8、对脚本语言的支持如：ruby，groovy，javascript"></a>8、对脚本语言的支持如：ruby，groovy，javascript</h3><h3 id="9、Common-Annotations"><a href="#9、Common-Annotations" class="headerlink" title="9、Common Annotations"></a>9、Common Annotations</h3><h2 id="jdk7新特性"><a href="#jdk7新特性" class="headerlink" title="jdk7新特性"></a>jdk7新特性</h2><h3 id="1、switch中可以使用字符串"><a href="#1、switch中可以使用字符串" class="headerlink" title="1、switch中可以使用字符串"></a>1、switch中可以使用字符串</h3><h3 id="2、泛型的自动判断"><a href="#2、泛型的自动判断" class="headerlink" title="2、泛型的自动判断"></a>2、泛型的自动判断</h3><h3 id="3、自定义自动关闭类（实现AutoCloseable接口）"><a href="#3、自定义自动关闭类（实现AutoCloseable接口）" class="headerlink" title="3、自定义自动关闭类（实现AutoCloseable接口）"></a>3、自定义自动关闭类（实现AutoCloseable接口）</h3><h3 id="4、新增一些取环境信息的工具方法（System中的方法）"><a href="#4、新增一些取环境信息的工具方法（System中的方法）" class="headerlink" title="4、新增一些取环境信息的工具方法（System中的方法）"></a>4、新增一些取环境信息的工具方法（System中的方法）</h3><h3 id="5、Boolean类型反转，空指针安全，参数与位运算"><a href="#5、Boolean类型反转，空指针安全，参数与位运算" class="headerlink" title="5、Boolean类型反转，空指针安全，参数与位运算"></a>5、Boolean类型反转，空指针安全，参数与位运算</h3><h3 id="6、两个char间的equals"><a href="#6、两个char间的equals" class="headerlink" title="6、两个char间的equals"></a>6、两个char间的equals</h3><h3 id="7、安全的加减乘除"><a href="#7、安全的加减乘除" class="headerlink" title="7、安全的加减乘除"></a>7、安全的加减乘除</h3><h3 id="1、对Java集合（Collections）的增强支持"><a href="#1、对Java集合（Collections）的增强支持" class="headerlink" title="1、对Java集合（Collections）的增强支持"></a>1、对Java集合（Collections）的增强支持</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; list=[<span class="string">"item"</span>]; <span class="comment">//向List集合中添加元素</span></div><div class="line"><span class="built_in">String</span> item=list[<span class="number">0</span>]; <span class="comment">//从List集合中获取元素</span></div><div class="line"><span class="built_in">Set</span>&lt;<span class="built_in">String</span>&gt; <span class="keyword">set</span>=&#123;<span class="string">"item"</span>&#125;; <span class="comment">//向Set集合对象中添加元</span></div><div class="line"><span class="built_in">Map</span>&lt;<span class="built_in">String</span>,Integer&gt; map=&#123;<span class="string">"key"</span>:<span class="number">1</span>&#125;; <span class="comment">//向Map集合中添加对象</span></div><div class="line"><span class="built_in">int</span> value=map[<span class="string">"key"</span>]; <span class="comment">//从Map集合中获取对象</span></div></pre></td></tr></table></figure>
+<p>   但是经过自己测试，按照上面的使用方法，并不能创建集合。</p>
+<h3 id="2、int支持二进制数据"><a href="#2、int支持二进制数据" class="headerlink" title="2、int支持二进制数据"></a>2、int支持二进制数据</h3><h3 id="3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><a href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型" class="headerlink" title="3、在try catch异常捕捉中，一个catch可以写多个异常类型"></a>3、在try catch异常捕捉中，一个catch可以写多个异常类型</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Connection conn = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">   	<span class="keyword">Class</span>.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">   	conn = DriverManager.getConnection(<span class="string">""</span>,<span class="string">""</span>,<span class="string">""</span>);</div><div class="line">&#125; <span class="keyword">catch</span>(ClassNotFoundException|SQLException ex) &#123;</div><div class="line">   	ex.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4、try-catch中资源定义好之后try-catch自动关闭"><a href="#4、try-catch中资源定义好之后try-catch自动关闭" class="headerlink" title="4、try catch中资源定义好之后try catch自动关闭"></a>4、try catch中资源定义好之后try catch自动关闭</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> (BufferedReader <span class="keyword">in</span>  = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> 	FileReader(<span class="string">"in.txt"</span>));</div><div class="line">    	BufferedWriter <span class="keyword">out</span> = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> 	FileWriter(<span class="string">"out.txt"</span>))) &#123;</div><div class="line">	<span class="keyword">int</span> charRead;</div><div class="line">	<span class="keyword">while</span> ((charRead = <span class="keyword">in</span>.read()) != <span class="number">-1</span>) &#123;</div><div class="line">       	System.<span class="keyword">out</span>.printf(<span class="string">"%c "</span>, (<span class="keyword">char</span>)charRead);</div><div class="line">       	<span class="keyword">out</span>.write(charRead);</div><div class="line">   	&#125;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</div><div class="line">   	ex.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="jdk8新特性"><a href="#jdk8新特性" class="headerlink" title="jdk8新特性"></a>jdk8新特性</h2><h3 id="1、接口的默认方法"><a href="#1、接口的默认方法" class="headerlink" title="1、接口的默认方法"></a>1、接口的默认方法</h3><p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用default关键字即可，这个特征又叫做扩展方法，示例如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Formula</span> </span>&#123;</div><div class="line">   	<span class="function"><span class="keyword">double</span> <span class="title">calculate</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</div><div class="line">   	<span class="keyword">default</span> <span class="function"><span class="keyword">double</span> <span class="title">sqrt</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</div><div class="line">		<span class="function"><span class="keyword">return</span> Math.<span class="title">sqrt</span><span class="params">(a)</span></span>;</div><div class="line">   	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Formula接口在拥有calculate方法之外同时还定义了sqrt方法，实现了Formula接口的子类只需要实现一个calculate方法，默认方法sqrt将在子类上可以直接使用。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">  Formula formula = <span class="keyword">new</span> Formula() &#123;</div><div class="line">@Override</div><div class="line"><span class="keyword">public</span> <span class="keyword">double</span> calculate(<span class="keyword">int</span> a) &#123;</div><div class="line">	<span class="built_in">return</span> <span class="built_in">sqrt</span>(a * <span class="number">100</span>);</div><div class="line">      &#125;</div><div class="line">  &#125;;</div><div class="line">  System.out.<span class="built_in">println</span>(formula.calculate(<span class="number">100</span>));  <span class="comment">// 100.0</span></div><div class="line">  System.out.<span class="built_in">println</span>(formula.<span class="built_in">sqrt</span>(<span class="number">16</span>));  <span class="comment">// 4.0</span></div></pre></td></tr></table></figure>
+<p>文中的formula被实现为一个匿名类的实例，该代码非常</p>
+<h3 id="2、Lambda表达式"><a href="#2、Lambda表达式" class="headerlink" title="2、Lambda表达式"></a>2、Lambda表达式</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; names = Arrays.asList(<span class="string">"tom"</span>,<span class="string">"jace"</span>,<span class="string">"mike"</span>);</div><div class="line">Collections.sort(names, <span class="keyword">new</span> Comparator&lt;<span class="built_in">String</span>&gt;() &#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	public <span class="built_in">int</span> compare(<span class="built_in">String</span> o1, <span class="built_in">String</span> o2) &#123;</div><div class="line">		<span class="keyword">return</span> o2.compareTo(o1);</div><div class="line">   	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>只需要给静态方法Collections.sort传入一个List对象以及一个比较器来指定顺序排列。通常做法都是创建一个匿名的比较器对象，然后将其传递给sort方法。<br>在Java 8中提供了更简洁的语法，lambda表达式：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Collections.sort<span class="function"><span class="params">(names, (String a, String b) -&gt; &#123;</span></span></div><div class="line">	<span class="keyword">return</span> b.compareTo(a);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>还可以更简洁：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Collections.sort<span class="function"><span class="params">(names, (String a, String b) -&gt; b.compareTo(a))</span>;</span></div></pre></td></tr></table></figure>
+<p>去掉大括号以及return关键字</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Collections.sort<span class="function"><span class="params">(names, (a,b) -&gt; b.compareTo(a))</span>;</span></div></pre></td></tr></table></figure>
+<p>Java编译器可以自动推导出参数类型，所以可以不用再写一次类型。</p>
 <h3 id="3、函数式接口"><a href="#3、函数式接口" class="headerlink" title="3、函数式接口"></a>3、函数式接口</h3><p>Lambda表达式是如何在java的类型系统中表示的呢？</p><p><br>每一个lambda表达式都对应着一个类型，通常是接口类型。而“函数式接口”是指仅仅只包含一个抽象方法的接口，每一个该类型的lambda表达式都会被匹配到这个抽象方法。因为默认方法不算抽象方法，所以也可以给自己的函数式接口添加默认方法。</p><p><br>我们可以将lambda表达式当做一个抽象方法的接口类型，确保自己的接口一定达到这个要求，你只需要给你的接口添加<strong>@FunctionalInterface</strong>注解，编译器如果发现标注了这个注解的接口有多于一个抽象方法的时候就会报错。也就是说<strong>@FunctionalInterface</strong>注解标注的接口只能有一个抽象方法。</p><p><br>例如：</p>
-<pre><code>@FunctionalInterface
-public interface Converter&lt;F, T&gt; {
-    T convert(F from);
-}
-Converter&lt;String, Integer&gt; converter = (from) -&gt; Integer.valueOf(from);
-Integer converted = converter.convert(&quot;123&quot;);
-System.out.println(converted);
-</code></pre><p>以上代码不需要@FunctionalInterface注解也是正确的。</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@FunctionalInterface</div><div class="line">public interface Converter&lt;F, T&gt; &#123;</div><div class="line">	T convert(F <span class="keyword">from</span>);</div><div class="line">&#125;</div><div class="line">Converter&lt;String, Integer&gt; <span class="function"><span class="title">converter</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> Integer.valueOf(<span class="keyword">from</span>);</div><div class="line">Integer converted = converter.convert(<span class="string">"123"</span>);</div><div class="line">System.out.println(converted);</div></pre></td></tr></table></figure>
+<p>以上代码不需要@FunctionalInterface注解也是正确的。</p>
 <h3 id="4、方法与构造函数引用"><a href="#4、方法与构造函数引用" class="headerlink" title="4、方法与构造函数引用"></a>4、方法与构造函数引用</h3><p>上面的代码也可以通过静态方法引用来表示：</p>
-<pre><code>Converter&lt;String, Integer&gt; converter = Integer::valueOf;
-Integer converted = converter.convert(&quot;123&quot;);
-System.out.println(converted);
-</code></pre><p>Java8允许使用::关键字来传递方法或者构造函数引用，上面的代码展示了如何引用一个静态方法，我们也可以引用一个对象的方法：</p>
-<pre><code>public class Person {
-    String firstName;
-    String lastName;
-    Person() {
-    }
-    public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-}
-</code></pre><p>指定一个用来创建Person对象的对象工厂接口：</p>
-<pre><code>public interface PersonFactory&lt;P extends Person&gt; {
-    P create(String fisrtName, String lastName);
-}
-</code></pre><p>创建Person对象</p>
-<pre><code>PersonFactory&lt;Person&gt; personFactory = Person::new;
-Person person = personFactory.create(&quot;Peter&quot;,&quot;Parker”);
-</code></pre><p>我们只需要使用Person::new 来获取Person类构造函数的引用，Java编译器就会自动根据PersonFactory.create方法的签名来选择合适的构造函数。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Converter&lt;<span class="built_in">String</span>, <span class="built_in">Integer</span>&gt; converter = <span class="built_in">Integer</span><span class="type">::</span>valueOf;</div><div class="line"><span class="built_in">Integer</span> converted = converter.convert(<span class="string">"123"</span>);</div><div class="line">System.out.println(converted);</div></pre></td></tr></table></figure>
+<p>Java8允许使用::关键字来传递方法或者构造函数引用，上面的代码展示了如何引用一个静态方法，我们也可以引用一个对象的方法：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">   	<span class="keyword">String</span> firstName;</div><div class="line">    <span class="keyword">String</span> lastName;</div><div class="line">   	Person() &#123;</div><div class="line">   	&#125;</div><div class="line">	<span class="keyword">public</span> Person(<span class="keyword">String</span> firstName, <span class="keyword">String</span> lastName) &#123;</div><div class="line">		<span class="built_in">this</span>.firstName = firstName;</div><div class="line">		<span class="built_in">this</span>.lastName = lastName;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>指定一个用来创建Person对象的对象工厂接口：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PersonFactory</span>&lt;<span class="title">P</span> <span class="keyword"><span class="keyword">extends</span> <span class="type">Person</span></span>&gt; </span>&#123;</div><div class="line">	P create(<span class="keyword">String</span> fisrtName, <span class="keyword">String</span> lastName);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建Person对象</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PersonFactory&lt;<span class="keyword">Person</span>&gt; personFactory = <span class="keyword">Person</span>::new;</div><div class="line"><span class="keyword">Person</span> <span class="keyword">person</span> = personFactory.create(<span class="string">"Peter"</span>,<span class="string">"Parker”);</span></div></pre></td></tr></table></figure>
+<p>我们只需要使用Person::new 来获取Person类构造函数的引用，Java编译器就会自动根据PersonFactory.create方法的签名来选择合适的构造函数。</p>
 <h3 id="5、Lambda作用域"><a href="#5、Lambda作用域" class="headerlink" title="5、Lambda作用域"></a>5、Lambda作用域</h3><p>在lambda表达式中访问外层作用域和老版本的匿名对象中的方式很相似。你可以直接访问标记了final的外层局部变量，或者实例的字段以及静态变量。</p>
 <h3 id="6、访问局部变量"><a href="#6、访问局部变量" class="headerlink" title="6、访问局部变量"></a>6、访问局部变量</h3><p>我们可以直接在lambda表达式中访问外层的局部变量</p>
-<pre><code>final int num = 1;
-Converter&lt;Integer, String&gt; stringConverter = (from) -&gt; String.valueOf(from + num);
-stringConverter.convert(2);
-</code></pre><p>但是和匿名对象不同的是，这里的变量num可以不用声明为final，该代码同样正确。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> <span class="built_in">int</span> <span class="built_in">num</span> = <span class="number">1</span>;</div><div class="line">Converter&lt;Integer, <span class="built_in">String</span>&gt; stringConverter = (from) -&gt; <span class="built_in">String</span>.valueOf(from + <span class="built_in">num</span>);</div><div class="line">stringConverter.convert(<span class="number">2</span>);</div></pre></td></tr></table></figure>
+<p>但是和匿名对象不同的是，这里的变量num可以不用声明为final，该代码同样正确。</p>
 <h3 id="7、访问对象字段与静态变量"><a href="#7、访问对象字段与静态变量" class="headerlink" title="7、访问对象字段与静态变量"></a>7、访问对象字段与静态变量</h3><p>和本地不良不同的是，lambda内部对于实例的字段以及静态变量是即可读又可写。该行为和匿名对象是一致的：</p>
-<pre><code>static int outerStaticNum;
-int outerNum;
-public void testScopes() {
-    Converter stringConverter1 = (from) -&gt; {
-        outerNum = 23;
-        return String.valueOf(from);
-    };
-    Converter stringConverter2 = (from) -&gt; {
-        outerStaticNum = 72;
-        return String.valueOf(from);
-    };
-}
-</code></pre><h3 id="8、访问接口的默认方法"><a href="#8、访问接口的默认方法" class="headerlink" title="8、访问接口的默认方法"></a>8、访问接口的默认方法</h3><h3 id="9、Date-API"><a href="#9、Date-API" class="headerlink" title="9、Date API"></a>9、Date API</h3><h3 id="10、Annotation注解"><a href="#10、Annotation注解" class="headerlink" title="10、Annotation注解"></a>10、Annotation注解</h3>]]></content>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">static int outerStaticNum;</div><div class="line">int outerNum;</div><div class="line">public <span class="literal">void</span> testScopes() &#123;</div><div class="line">   	Converter <span class="function"><span class="title">stringConverter1</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> &#123;</div><div class="line">       	outerNum = <span class="number">23</span>;</div><div class="line">       	<span class="keyword">return</span> String.valueOf(<span class="keyword">from</span>);</div><div class="line">   	&#125;;</div><div class="line">    Converter <span class="function"><span class="title">stringConverter2</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> &#123;</div><div class="line">   	    outerStaticNum = <span class="number">72</span>;</div><div class="line">       	<span class="keyword">return</span> String.valueOf(<span class="keyword">from</span>);</div><div class="line">   	&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="8、访问接口的默认方法"><a href="#8、访问接口的默认方法" class="headerlink" title="8、访问接口的默认方法"></a>8、访问接口的默认方法</h3><h3 id="9、Date-API"><a href="#9、Date-API" class="headerlink" title="9、Date API"></a>9、Date API</h3><h3 id="10、Annotation注解"><a href="#10、Annotation注解" class="headerlink" title="10、Annotation注解"></a>10、Annotation注解</h3>]]></content>
     <summary type="html">
     <![CDATA[自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。]]>
     
@@ -532,44 +246,24 @@ public void testScopes() {
     <link href="/2016/12/13/Spring-Boot%E5%85%A5%E9%97%A8/"/>
     <id>/2016/12/13/Spring-Boot入门/</id>
     <published>2016-12-13T15:18:29.000Z</published>
-    <updated>2016-12-19T16:49:15.000Z</updated>
+    <updated>2016-12-22T14:27:36.000Z</updated>
     <content type="html"><![CDATA[<h1 id="一、Spring-Boot简介"><a href="#一、Spring-Boot简介" class="headerlink" title="一、Spring Boot简介"></a>一、Spring Boot简介</h1><p>   <strong><em>Spring Boot</em></strong>是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式使得开发人员使用Spring开发极大的简便了配置过程，基本上实现了零配置。<a id="more"></a><br><br>    </p><p>Spring Boot有以下几个优点：<br><br>    1、 没有代码生成，不需要XML配置文件<br><br>    2、 内嵌Tomcat，Jetty或者Undertow服务器，不需要额外部署web工程到Servlet容器<br><br>    3、 可以独立运行Spring应用程序<br><br>    4、 提供了Maven，Gradle两种方法搭建Spring Boot工程<br><br>    5、 无缝整合其他开源框架（只需要添加开源框架的依赖包，Spring Boot自动完成整合）<br><br>    6、 提供可以直接在生产环境中使用的功能，如性能指标、应用信息和应用健康检查<br></p>
 <h1 id="二、Spring-Boot入门工程搭建："><a href="#二、Spring-Boot入门工程搭建：" class="headerlink" title="二、Spring Boot入门工程搭建："></a>二、Spring Boot入门工程搭建：</h1><h2 id="1、采用Spring官网提供的SPRING-INITIALIZR进行搭建。"><a href="#1、采用Spring官网提供的SPRING-INITIALIZR进行搭建。" class="headerlink" title="1、采用Spring官网提供的SPRING INITIALIZR进行搭建。"></a>1、采用Spring官网提供的<a href="https://start.spring.io/" target="_blank" rel="external">SPRING INITIALIZR</a>进行搭建。</h2><p><a href="http://i1.piimg.com/4851/081074cce7646b73.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/081074cce7646b73t.jpg"></a><br>可以选择Maven Project或者Gradle Project来搭建，然后选择Spring Boot版本，输入Group，Artifact，以及需要的依赖包，然后点击Generate Project，会生成一个Artifact.zip压缩包，将Artifact工程导入常用的开发工具即可。</p>
-<h2 id="2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）"><a href="#2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）" class="headerlink" title="2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）"></a>2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）</h2><h3 id="1、新建一个Maven的web工程"><a href="#1、新建一个Maven的web工程" class="headerlink" title="1、新建一个Maven的web工程"></a>1、新建一个Maven的web工程</h3><h3 id="2、在pom-xml文件中添加Spring-Boot的相关依赖"><a href="#2、在pom-xml文件中添加Spring-Boot的相关依赖" class="headerlink" title="2、在pom.xml文件中添加Spring Boot的相关依赖"></a>2、在pom.xml文件中添加Spring Boot的相关依赖</h3><pre><code>添加父级依赖，这样当前的项目就是Spring Boot项目了。spring-boot-starter-parent是一个特殊的starer，它用来提供相关的maven默认依赖，使用它之后，当前项目的的常用依赖包就可以省去version标签。
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;1.4.0.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt;
-    &lt;/parent&gt;
-</code></pre><p>   添加spring-boot-starter依赖，spring-boot-starter是Spring Boot核心starter，包含自动配置、日志、yaml配置文件的支持。</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre><p>   然后在dependencies中添加Web支持的starter pom。</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre><p>spring-boot-starter-web会自动添加它所依赖的jar包<br><a href="http://i1.piimg.com/4851/052ad9b5b4e68a85.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/052ad9b5b4e68a85t.jpg"></a><br>   然后添加Spring Boot的编译插件，便于使用Spring Boot命令操作工程</p>
-<pre><code>&lt;plugin&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-    &lt;configuration&gt;
-        &lt;fork&gt;true&lt;/fork&gt;
-    &lt;/configuration&gt;
-&lt;/plugin&gt;
-</code></pre><h3 id="3、简单测试"><a href="#3、简单测试" class="headerlink" title="3、简单测试"></a>3、简单测试</h3><pre><code>新建包路径com.gnd.chapter01，在com.gnd.chapter01包路径下新建Chapter01Application.java入口类，编写入口方法
-
-@SpringBootApplication
+<h2 id="2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）"><a href="#2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）" class="headerlink" title="2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）"></a>2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）</h2><h3 id="1、新建一个Maven的web工程"><a href="#1、新建一个Maven的web工程" class="headerlink" title="1、新建一个Maven的web工程"></a>1、新建一个Maven的web工程</h3><h3 id="2、在pom-xml文件中添加Spring-Boot的相关依赖"><a href="#2、在pom-xml文件中添加Spring-Boot的相关依赖" class="headerlink" title="2、在pom.xml文件中添加Spring Boot的相关依赖"></a>2、在pom.xml文件中添加Spring Boot的相关依赖</h3><p>   添加父级依赖，这样当前的项目就是Spring Boot项目了。spring-boot-starter-parent是一个特殊的starer，它用来提供相关的maven默认依赖，使用它之后，当前项目的的常用依赖包就可以省去version标签。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.4.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>   添加spring-boot-starter依赖，spring-boot-starter是Spring Boot核心starter，包含自动配置、日志、yaml配置文件的支持。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>   然后在dependencies中添加Web支持的starter pom。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>spring-boot-starter-web会自动添加它所依赖的jar包<br><a href="http://i1.piimg.com/4851/052ad9b5b4e68a85.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/052ad9b5b4e68a85t.jpg"></a><br>   然后添加Spring Boot的编译插件，便于使用Spring Boot命令操作工程</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">	<span class="params">&lt;plugin&gt;</span></div><div class="line">    	<span class="params">&lt;groupId&gt;</span>org.springframework.boot<span class="params">&lt;/groupId&gt;</span></div><div class="line">    	<span class="params">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="params">&lt;/artifactId&gt;</span></div><div class="line">    	<span class="params">&lt;configuration&gt;</span></div><div class="line">        	<span class="params">&lt;fork&gt;</span>true<span class="params">&lt;/fork&gt;</span></div><div class="line">	    <span class="params">&lt;/configuration&gt;</span></div><div class="line">	<span class="params">&lt;/plugin&gt;</span></div><div class="line">```        </div><div class="line"><span class="meta">### 3、简单测试</span></div><div class="line">   新建包路径com.gnd.chapter01，在com.gnd.chapter01包路径下新建Chapter01Application.java入口类，编写入口方法</div></pre></td></tr></table></figure>
+<pre><code>@SpringBootApplication
 public class Chapter01Application {
     public static void main(String[] args){
         SpringApplication.run(Chapter01Application.class, args);
     }
 }
-</code></pre><p><strong><em>注</em></strong>：<br><strong>@SpringBootApplication</strong>是一个组合注解，查看其源码，<strong>@SpringBootApplication</strong><br>组合了<strong>@SpringBootConfiguration</strong>，<strong>@EnableAutoConfiguration</strong>，<strong>@ComponentScan</strong>三个注解，<strong>@SpringBootConfiguration</strong>表示当前类是一个启动应用程序的入口；<strong>@EnableAutoConfiguration</strong>注解开启自动配置，让Spring Boot根据类路径中的jar包依赖为当前项目进行自动配置(例如:添加了spring-boot-starter-web依赖，会自动添加tomcat和SpringMVC的依赖)；@ComponentScan会以Application入口类所在目录为根目录，自动扫描工程中标注了<strong>@Component</strong>注解的类。<br><a href="http://i1.piimg.com/4851/5c5bb70a10d94825.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/5c5bb70a10d94825t.jpg"></a><br>   然后新建目录controller，在其中新建一个HelloController测试类。</p>
+</code></pre><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">***注***：</div><div class="line">**<span class="variable">@SpringBootApplication</span>**是一个组合注解，查看其源码，**<span class="variable">@SpringBootApplication</span>**</div><div class="line">组合了**<span class="variable">@SpringBootConfiguration</span>**，**<span class="variable">@EnableAutoConfiguration</span>**，**<span class="variable">@ComponentScan</span>**三个注解，**<span class="variable">@SpringBootConfiguration</span>**表示当前类是一个启动应用程序的入口；**<span class="variable">@EnableAutoConfiguration</span>**注解开启自动配置，让Spring Boot根据类路径中的jar包依赖为当前项目进行自动配置(例如:添加了spring-boot-starter-web依赖，会自动添加tomcat和SpringMVC的依赖)；<span class="variable">@ComponentScan</span>会以Application入口类所在目录为根目录，自动扫描工程中标注了**<span class="variable">@Component</span>**注解的类。</div><div class="line">&lt;a href=<span class="string">"http://i1.piimg.com/4851/5c5bb70a10d94825.png"</span> title=<span class="string">"点击显示原始图片"</span>&gt;&lt;img src=<span class="string">"http://i1.piimg.com/4851/5c5bb70a10d94825t.jpg"</span>&gt;&lt;/a&gt;</div><div class="line">   然后新建目录controller，在其中新建一个HelloController测试类。</div></pre></td></tr></table></figure>
 <pre><code>@RestController
 public class HelloController {
     @RequestMapping(&quot;/hello&quot;)
@@ -577,9 +271,8 @@ public class HelloController {
         return &quot;Hello, World!&quot;;
     }
 }
-</code></pre><p><a href="http://i1.piimg.com/4851/2fbce1b8657ec289.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/2fbce1b8657ec289t.jpg"></a><br><strong>@RestController</strong>也是一个组合注解，组合了<strong>@Controller</strong>，<strong>@ResponseBody</strong>两个注解</p>
-<h3 id="4、运行"><a href="#4、运行" class="headerlink" title="4、运行"></a>4、运行</h3><pre><code>使用Spring Boot命令运行工程，mvn spring-boot:run，或者直接运行Chapter01Application类，在浏览器中访问[http://localhost:8080/hello](http://localhost:8080/hello)即可访问HelloController，访问结果如下：
-</code></pre><p><a href="http://i1.piimg.com/4851/4c01bd8a22d0fbfb.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/4c01bd8a22d0fbfbt.jpg"></a></p>
+</code></pre><p>```<br><a href="http://i1.piimg.com/4851/2fbce1b8657ec289.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/2fbce1b8657ec289t.jpg"></a><br><strong>@RestController</strong>也是一个组合注解，组合了<strong>@Controller</strong>，<strong>@ResponseBody</strong>两个注解</p>
+<h3 id="4、运行"><a href="#4、运行" class="headerlink" title="4、运行"></a>4、运行</h3><p>   使用Spring Boot命令运行工程，mvn spring-boot:run，或者直接运行Chapter01Application类，在浏览器中访问<a href="http://localhost:8080/hello" target="_blank" rel="external">http://localhost:8080/hello</a>即可访问HelloController，访问结果如下：<br><a href="http://i1.piimg.com/4851/4c01bd8a22d0fbfb.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/4c01bd8a22d0fbfbt.jpg"></a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h1 id="一、Spring-Boot简介"><a href="#一、Spring-Boot简介" class="headerlink" title="一、Spring Boot简介"></a>一、Spring Boot简介</h1><p>   <strong><em>Spring Boot</em></strong>是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式使得开发人员使用Spring开发极大的简便了配置过程，基本上实现了零配置。]]>

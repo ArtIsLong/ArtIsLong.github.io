@@ -18,7 +18,7 @@
 软件准备Zookeeper最新版本是3.4.6，笔者使用zookeeper-3.4.5-cdh5.3.6.tar.gz完成集群的搭建。Zk的其他版本下载地址：http://www.apache.org/dist/zookeeper/将下载好的zookeeper解压，">
 <meta property="og:image" content="http://i1.piimg.com/4851/34885c8a253a8a22t.jpg">
 <meta property="og:image" content="http://i1.piimg.com/4851/da2eac70e3af7468t.jpg">
-<meta property="og:updated_time" content="2016-12-21T16:49:01.000Z">
+<meta property="og:updated_time" content="2016-12-22T14:26:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper集群部署(单机版)">
 <meta name="twitter:description" content="本文是在机器已经配置好java开发环境的基础上完成的。
@@ -176,48 +176,19 @@
 <h3 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h3><p>Zookeeper最新版本是3.4.6，笔者使用zookeeper-3.4.5-cdh5.3.6.tar.gz完成集群的搭建。<br>Zk的其他版本下载地址：<a href="http://www.apache.org/dist/zookeeper/" target="_blank" rel="external">http://www.apache.org/dist/zookeeper/</a><br>将下载好的zookeeper解压，<a id="more"></a>建议重命名为zookeeper-3.4.5-1，并且拷贝出相同的两份，分别命名为zookeeper-3.4.5-2，zookeeper-3.4.5-3。</p><p><br>   然后在适当的目录下新建一个存放zookeeper数据的目录，笔者新建了devtools目录，在devtools目录中新建zookeeper-1目录，在其中增加data目录和log目录（这两个目录的作用在后面会做说明）；然后将zookeeper-1目录拷贝出两份，分别命名为zookeeper-2，zookeeper-3。</p><p><br>笔者目录结构为：</p><p><br><a href="http://i1.piimg.com/4851/34885c8a253a8a22.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/34885c8a253a8a22t.jpg"></a></p><p><br>   到此，软件和环境准备工作已经做好，接下来就需要对zookeeper的相关配置文件做修改了。</p>
 <h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><p>新下载的Zookeeper，conf目录下有configuration.xsl，log4j.properties，zoo_sample.cfg三个配置文件，我们需要将zoo_sample.cfg复制一份，命名为zoo.cfg，因为zookeeper启动的时候会读取zoo.cfg文件的配置信息。<br>zoo.cfg文件中有几项参数，主要解释一下三项参数：<br><br>tickTime=2000  基本事件单元，以毫秒为单位。它用来控制心跳和超时，默认情况下最小的会话超时时间为两倍的 tickTime。<br><br>clientPort=2181  监听客户端连接的端口。<br><br>dataDir=/tmp/zookeeper  zookeeper默认存放数据的目录</p><p></p>
 <p>接下来我们需要修改zoo.cfg中的配置信息。<br>在zoo.cfg中增加这两项配置：</p>
-<pre><code>dataDir=F:/hadoop/tools/devtools/zookeeper-1/data
-dataLogDir=F:/hadoop/tools/devtools/zookeeper-1/log
-</code></pre><p>  这都是我们之前新建的目录，dataDir前面已经作过说明，dataLogDir是zookeeper存放日志文件的目录，如果不配置dataLogDir，日志文件默认存放到dataDir中。</p><p><br>  然后配置zk进程（server.x=ip:clientPort:zkReqPort）：</p>
-<pre><code>server.1=localhost:2287:3387        
-server.2=localhost:2288:3388
-server.3=localhost:2289:3389
-</code></pre><p>  server.x中的“<strong><em>x</em></strong>”表示ZooKeeper Server进程的标识，同一个ZooKeeper集群内的ZooKeeper Server进程间的通信不仅可以使用具体的点IP地址，也可以使用组播地址。</p><p><br>  <strong><em>clientPort</em></strong> 表示监听Client端请求的端口号</p><p><br>  <strong><em>zkReqPort</em></strong>  表示监听同ZooKeeper集群内其他ZooKeeper Server进程通信请求的端口号</p><p><br>因为笔者是在同一台机器上作伪集群的搭建，所以各个zookeeper的ip相同，保证每个zk进程的监听端口错开就可以了，如果是在不同机器上，则不需要。</p><p><br>以上配置已经完成了集群99%的搭建工作。</p><p></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dataDir=<span class="string">F:</span><span class="regexp">/hadoop/</span>tools<span class="regexp">/devtools/</span>zookeeper<span class="number">-1</span>/data</div><div class="line">dataLogDir=<span class="string">F:</span><span class="regexp">/hadoop/</span>tools<span class="regexp">/devtools/</span>zookeeper<span class="number">-1</span>/log</div></pre></td></tr></table></figure>
+<p>  这都是我们之前新建的目录，dataDir前面已经作过说明，dataLogDir是zookeeper存放日志文件的目录，如果不配置dataLogDir，日志文件默认存放到dataDir中。</p><p><br>  然后配置zk进程（server.x=ip:clientPort:zkReqPort）：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">server</span><span class="number">.1</span>=localhost:<span class="number">2287</span>:<span class="number">3387</span>        </div><div class="line"><span class="keyword">server</span><span class="number">.2</span>=localhost:<span class="number">2288</span>:<span class="number">3388</span></div><div class="line"><span class="keyword">server</span><span class="number">.3</span>=localhost:<span class="number">2289</span>:<span class="number">3389</span></div></pre></td></tr></table></figure>
+<p>  server.x中的“<strong><em>x</em></strong>”表示ZooKeeper Server进程的标识，同一个ZooKeeper集群内的ZooKeeper Server进程间的通信不仅可以使用具体的点IP地址，也可以使用组播地址。</p><p><br>  <strong><em>clientPort</em></strong> 表示监听Client端请求的端口号</p><p><br>  <strong><em>zkReqPort</em></strong>  表示监听同ZooKeeper集群内其他ZooKeeper Server进程通信请求的端口号</p><p><br>因为笔者是在同一台机器上作伪集群的搭建，所以各个zookeeper的ip相同，保证每个zk进程的监听端口错开就可以了，如果是在不同机器上，则不需要。</p><p><br>以上配置已经完成了集群99%的搭建工作。</p><p></p>
 <p>  此时需要在每个zookeeper-1/data目录中新建myid文件，文件内容为1，然后在zookeeper-2/data，zookeeper-3/data目录中也同样新建myid文件，内容分别为2和3。1,2,3分别对应server.x中的x，表示zookeeper进程的进程标识。如果不配置zookeeper的进程标识，zk集群将不能找到自己所对应的进程。因此，之前99%的工作也不如此处1%的重要。</p><p><br>自此，入门级集群的搭建基本完成。</p>
 <h3 id="集群测试"><a href="#集群测试" class="headerlink" title="集群测试"></a>集群测试</h3><p>首先启动zk集群，windows下直接运行三个zookeeper服务器的zkServer.cmd即可。在启动第一个zookeeper的时候会出现以下错误信息：</p><p><br><a href="http://i1.piimg.com/4851/da2eac70e3af7468.jpg" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/da2eac70e3af7468t.jpg"></a><br></p>
 <p></p><p>这些错误信息不要害怕，因为集群其他进程没启动，检查线程没有找到其他的服务器节点。在启动第二个zookeeper服务器之后就正常了。</p><p></p>
 <p>启动成功之后就需要我们通过java代码去测试集群是否可用。</p><p></p>
 <p>新建一个maven工程，在pom.xml文件中添加一下依赖信息：</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.zookeeper&lt;/groupId&gt;
-    &lt;artifactId&gt;zookeeper&lt;/artifactId&gt;
-    &lt;version&gt;3.4.6&lt;/version&gt;
-    &lt;exclusions&gt;
-        &lt;exclusion&gt;
-            &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
-            &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
-        &lt;/exclusion&gt;
-        &lt;exclusion&gt;
-            &lt;groupId&gt;log4j&lt;/groupId&gt;
-            &lt;artifactId&gt;log4j&lt;/artifactId&gt;
-        &lt;/exclusion&gt;
-    &lt;/exclusions&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.github.sgroschupf&lt;/groupId&gt;
-    &lt;artifactId&gt;zkclient&lt;/artifactId&gt;
-    &lt;version&gt;0.1&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>Zkclient是github上一个开源的java zk客户端。<br>编写测试代码</p>
-<pre><code>@Test
-public void testZkClient() {
-    ZkClient zkClient = new ZkClient(&quot;localhost:2181,localhost:2182,localhost:2183&quot;);
-    String node = &quot;/zookeeper-3.4.5-1&quot;;
-    if (zkClient.exists(node)) {
-        System.out.println(node);
-    }
-}
-</code></pre><p>zkClient.exists(node) 检测zookeeper-3.4.5-1 是否存在</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.zookeeper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zookeeper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.sgroschupf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zkclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Zkclient是github上一个开源的java zk客户端。<br>编写测试代码</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> testZkClient() &#123;</div><div class="line">    ZkClient zkClient = <span class="keyword">new</span> ZkClient(<span class="string">"localhost:2181,localhost:2182,localhost:2183"</span>);</div><div class="line">    <span class="keyword">String</span> node = <span class="string">"/zookeeper-3.4.5-1"</span>;</div><div class="line">    <span class="built_in">if</span> (zkClient.<span class="built_in">exists</span>(node)) &#123;</div><div class="line">        System.out.<span class="built_in">println</span>(node);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>zkClient.exists(node) 检测zookeeper-3.4.5-1 是否存在</p>
 <p>zookeeper集群的搭建及测试完成，在Linux下搭建伪集群和不同机器下搭建集群方式基本相同。笔者建议后来者可先在windows环境下搭建，windows的可视化界面效果能够为初学者减少很多出错的地方。</p>
 
 	    </div>  
@@ -387,15 +358,11 @@ public void testZkClient() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">java缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">maven</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">java缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -403,19 +370,15 @@ public void testZkClient() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">js,util</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">util</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">js</a>
+                <a href="javascript:void(0)">maven</a>
               </li>
             
             <div class="clearfix"></div>

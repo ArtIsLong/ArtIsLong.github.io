@@ -14,7 +14,7 @@
 <meta property="og:url" content="/2016/12/18/jdk各版本区别/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。">
-<meta property="og:updated_time" content="2016-12-19T16:46:56.000Z">
+<meta property="og:updated_time" content="2016-12-22T14:24:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jdk各版本区别">
 <meta name="twitter:description" content="自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。">
@@ -171,114 +171,42 @@
 <h3 id="2、使用JAXB2来实现对象与XML之间的映射"><a href="#2、使用JAXB2来实现对象与XML之间的映射" class="headerlink" title="2、使用JAXB2来实现对象与XML之间的映射"></a>2、使用JAXB2来实现对象与XML之间的映射</h3><p>   也就是对象与XML之间的映射（OXM），也可以通过XMLBeans和Castor等来实现同样的功能。</p>
 <h3 id="3、StAX"><a href="#3、StAX" class="headerlink" title="3、StAX"></a>3、StAX</h3><p>   StAX是The Streaming API for XML的缩写，一种利用拉模式解析(pull-parsing)XML文档的API.StAX通过提供一种基于事件迭代器(Iterator)的API让 程序员去控制xml文档解析过程,程序遍历这个事件迭代器去处理每一个解析事件，解析事件可以看做是程序拉出来的，也就是程序促使解析器产生一个解析事件 然后处理该事件，之后又促使解析器产生下一个解析事件，如此循环直到碰到文档结束符； </p><p><br>   SAX也是基于事件处理xml文档，但却 是用推模式解析，解析器解析完整个xml文档后，才产生解析事件，然后推给程序去处理这些事件；DOM 采用的方式是将整个xml文档映射到一颗内存树，这样就可以很容易地得到父节点和子结点以及兄弟节点的数据，但如果文档很大，将会严重影响性能。</p>
 <h3 id="4、使用Compiler-API"><a href="#4、使用Compiler-API" class="headerlink" title="4、使用Compiler API"></a>4、使用Compiler API</h3><p>   使用JDK6的Compiler API去动态的编译Java源文件，Compiler API结合反射功能就可以实现动态的产生Java代码并编译执行这些代码。</p>
-<h3 id="5、轻量级Http-Server-API"><a href="#5、轻量级Http-Server-API" class="headerlink" title="5、轻量级Http Server API"></a>5、轻量级Http Server API</h3><h3 id="6、插入式注解处理API"><a href="#6、插入式注解处理API" class="headerlink" title="6、插入式注解处理API"></a>6、插入式注解处理API</h3><h3 id="7、用Console开发控制台程序"><a href="#7、用Console开发控制台程序" class="headerlink" title="7、用Console开发控制台程序"></a>7、用Console开发控制台程序</h3><h3 id="8、对脚本语言的支持如：ruby，groovy，javascript"><a href="#8、对脚本语言的支持如：ruby，groovy，javascript" class="headerlink" title="8、对脚本语言的支持如：ruby，groovy，javascript"></a>8、对脚本语言的支持如：ruby，groovy，javascript</h3><h3 id="9、Common-Annotations"><a href="#9、Common-Annotations" class="headerlink" title="9、Common Annotations"></a>9、Common Annotations</h3><h2 id="jdk7新特性"><a href="#jdk7新特性" class="headerlink" title="jdk7新特性"></a>jdk7新特性</h2><h3 id="1、switch中可以使用字符串"><a href="#1、switch中可以使用字符串" class="headerlink" title="1、switch中可以使用字符串"></a>1、switch中可以使用字符串</h3><h3 id="2、泛型的自动判断"><a href="#2、泛型的自动判断" class="headerlink" title="2、泛型的自动判断"></a>2、泛型的自动判断</h3><h3 id="3、自定义自动关闭类（实现AutoCloseable接口）"><a href="#3、自定义自动关闭类（实现AutoCloseable接口）" class="headerlink" title="3、自定义自动关闭类（实现AutoCloseable接口）"></a>3、自定义自动关闭类（实现AutoCloseable接口）</h3><h3 id="4、新增一些取环境信息的工具方法（System中的方法）"><a href="#4、新增一些取环境信息的工具方法（System中的方法）" class="headerlink" title="4、新增一些取环境信息的工具方法（System中的方法）"></a>4、新增一些取环境信息的工具方法（System中的方法）</h3><h3 id="5、Boolean类型反转，空指针安全，参数与位运算"><a href="#5、Boolean类型反转，空指针安全，参数与位运算" class="headerlink" title="5、Boolean类型反转，空指针安全，参数与位运算"></a>5、Boolean类型反转，空指针安全，参数与位运算</h3><h3 id="6、两个char间的equals"><a href="#6、两个char间的equals" class="headerlink" title="6、两个char间的equals"></a>6、两个char间的equals</h3><h3 id="7、安全的加减乘除"><a href="#7、安全的加减乘除" class="headerlink" title="7、安全的加减乘除"></a>7、安全的加减乘除</h3><h3 id="1、对Java集合（Collections）的增强支持"><a href="#1、对Java集合（Collections）的增强支持" class="headerlink" title="1、对Java集合（Collections）的增强支持"></a>1、对Java集合（Collections）的增强支持</h3><pre><code>List&lt;String&gt; list=[&quot;item&quot;]; //向List集合中添加元素
-String item=list[0]; //从List集合中获取元素
-Set&lt;String&gt; set={&quot;item&quot;}; //向Set集合对象中添加元
-Map&lt;String,Integer&gt; map={&quot;key&quot;:1}; //向Map集合中添加对象
-int value=map[&quot;key&quot;]; //从Map集合中获取对象
-</code></pre><p>   但是经过自己测试，按照上面的使用方法，并不能创建集合。</p>
-<h3 id="2、int支持二进制数据"><a href="#2、int支持二进制数据" class="headerlink" title="2、int支持二进制数据"></a>2、int支持二进制数据</h3><h3 id="3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><a href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型" class="headerlink" title="3、在try catch异常捕捉中，一个catch可以写多个异常类型"></a>3、在try catch异常捕捉中，一个catch可以写多个异常类型</h3><pre><code>Connection conn = null;
-try {
-    Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
-    conn = DriverManager.getConnection(&quot;&quot;,&quot;&quot;,&quot;&quot;);
-} catch(ClassNotFoundException|SQLException ex) {
-    ex.printStackTrace();
-}
-</code></pre><h3 id="4、try-catch中资源定义好之后try-catch自动关闭"><a href="#4、try-catch中资源定义好之后try-catch自动关闭" class="headerlink" title="4、try catch中资源定义好之后try catch自动关闭"></a>4、try catch中资源定义好之后try catch自动关闭</h3><pre><code>try (BufferedReader in  = new BufferedReader(new     FileReader(&quot;in.txt&quot;));
-     BufferedWriter out = new BufferedWriter(new     FileWriter(&quot;out.txt&quot;))) {
-    int charRead;
-    while ((charRead = in.read()) != -1) {
-        System.out.printf(&quot;%c &quot;, (char)charRead);
-        out.write(charRead);
-    }
-} catch (IOException ex) {
-    ex.printStackTrace();
-}
-</code></pre><h2 id="jdk8新特性"><a href="#jdk8新特性" class="headerlink" title="jdk8新特性"></a>jdk8新特性</h2><h3 id="1、接口的默认方法"><a href="#1、接口的默认方法" class="headerlink" title="1、接口的默认方法"></a>1、接口的默认方法</h3><p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用default关键字即可，这个特征又叫做扩展方法，示例如下：</p>
-<pre><code>public interface Formula {
-    double calculate(int a);
-    default double sqrt(int a) {
-        return Math.sqrt(a);
-    }
-}
-</code></pre><p>Formula接口在拥有calculate方法之外同时还定义了sqrt方法，实现了Formula接口的子类只需要实现一个calculate方法，默认方法sqrt将在子类上可以直接使用。</p>
-<pre><code>Formula formula = new Formula() {
-    @Override
-    public double calculate(int a) {
-        return sqrt(a * 100);
-    }
-};
-System.out.println(formula.calculate(100));  // 100.0
-System.out.println(formula.sqrt(16));  // 4.0
-</code></pre><p>文中的formula被实现为一个匿名类的实例，该代码非常</p>
-<h3 id="2、Lambda表达式"><a href="#2、Lambda表达式" class="headerlink" title="2、Lambda表达式"></a>2、Lambda表达式</h3><pre><code>List&lt;String&gt; names = Arrays.asList(&quot;tom&quot;,&quot;jace&quot;,&quot;mike&quot;);
-Collections.sort(names, new Comparator&lt;String&gt;() {
-    @Override
-    public int compare(String o1, String o2) {
-        return o2.compareTo(o1);
-    }
-});
-</code></pre><p>只需要给静态方法Collections.sort传入一个List对象以及一个比较器来指定顺序排列。通常做法都是创建一个匿名的比较器对象，然后将其传递给sort方法。<br>在Java 8中提供了更简洁的语法，lambda表达式：</p>
-<pre><code>Collections.sort(names, (String a, String b) -&gt; {
-    return b.compareTo(a);
-});
-</code></pre><p>还可以更简洁：</p>
-<pre><code>Collections.sort(names, (String a, String b) -&gt; b.compareTo(a));
-</code></pre><p>去掉大括号以及return关键字</p>
-<pre><code>Collections.sort(names, (a,b) -&gt; b.compareTo(a));
-</code></pre><p>Java编译器可以自动推导出参数类型，所以可以不用再写一次类型。</p>
+<h3 id="5、轻量级Http-Server-API"><a href="#5、轻量级Http-Server-API" class="headerlink" title="5、轻量级Http Server API"></a>5、轻量级Http Server API</h3><h3 id="6、插入式注解处理API"><a href="#6、插入式注解处理API" class="headerlink" title="6、插入式注解处理API"></a>6、插入式注解处理API</h3><h3 id="7、用Console开发控制台程序"><a href="#7、用Console开发控制台程序" class="headerlink" title="7、用Console开发控制台程序"></a>7、用Console开发控制台程序</h3><h3 id="8、对脚本语言的支持如：ruby，groovy，javascript"><a href="#8、对脚本语言的支持如：ruby，groovy，javascript" class="headerlink" title="8、对脚本语言的支持如：ruby，groovy，javascript"></a>8、对脚本语言的支持如：ruby，groovy，javascript</h3><h3 id="9、Common-Annotations"><a href="#9、Common-Annotations" class="headerlink" title="9、Common Annotations"></a>9、Common Annotations</h3><h2 id="jdk7新特性"><a href="#jdk7新特性" class="headerlink" title="jdk7新特性"></a>jdk7新特性</h2><h3 id="1、switch中可以使用字符串"><a href="#1、switch中可以使用字符串" class="headerlink" title="1、switch中可以使用字符串"></a>1、switch中可以使用字符串</h3><h3 id="2、泛型的自动判断"><a href="#2、泛型的自动判断" class="headerlink" title="2、泛型的自动判断"></a>2、泛型的自动判断</h3><h3 id="3、自定义自动关闭类（实现AutoCloseable接口）"><a href="#3、自定义自动关闭类（实现AutoCloseable接口）" class="headerlink" title="3、自定义自动关闭类（实现AutoCloseable接口）"></a>3、自定义自动关闭类（实现AutoCloseable接口）</h3><h3 id="4、新增一些取环境信息的工具方法（System中的方法）"><a href="#4、新增一些取环境信息的工具方法（System中的方法）" class="headerlink" title="4、新增一些取环境信息的工具方法（System中的方法）"></a>4、新增一些取环境信息的工具方法（System中的方法）</h3><h3 id="5、Boolean类型反转，空指针安全，参数与位运算"><a href="#5、Boolean类型反转，空指针安全，参数与位运算" class="headerlink" title="5、Boolean类型反转，空指针安全，参数与位运算"></a>5、Boolean类型反转，空指针安全，参数与位运算</h3><h3 id="6、两个char间的equals"><a href="#6、两个char间的equals" class="headerlink" title="6、两个char间的equals"></a>6、两个char间的equals</h3><h3 id="7、安全的加减乘除"><a href="#7、安全的加减乘除" class="headerlink" title="7、安全的加减乘除"></a>7、安全的加减乘除</h3><h3 id="1、对Java集合（Collections）的增强支持"><a href="#1、对Java集合（Collections）的增强支持" class="headerlink" title="1、对Java集合（Collections）的增强支持"></a>1、对Java集合（Collections）的增强支持</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; list=[<span class="string">"item"</span>]; <span class="comment">//向List集合中添加元素</span></div><div class="line"><span class="built_in">String</span> item=list[<span class="number">0</span>]; <span class="comment">//从List集合中获取元素</span></div><div class="line"><span class="built_in">Set</span>&lt;<span class="built_in">String</span>&gt; <span class="keyword">set</span>=&#123;<span class="string">"item"</span>&#125;; <span class="comment">//向Set集合对象中添加元</span></div><div class="line"><span class="built_in">Map</span>&lt;<span class="built_in">String</span>,Integer&gt; map=&#123;<span class="string">"key"</span>:<span class="number">1</span>&#125;; <span class="comment">//向Map集合中添加对象</span></div><div class="line"><span class="built_in">int</span> value=map[<span class="string">"key"</span>]; <span class="comment">//从Map集合中获取对象</span></div></pre></td></tr></table></figure>
+<p>   但是经过自己测试，按照上面的使用方法，并不能创建集合。</p>
+<h3 id="2、int支持二进制数据"><a href="#2、int支持二进制数据" class="headerlink" title="2、int支持二进制数据"></a>2、int支持二进制数据</h3><h3 id="3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><a href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型" class="headerlink" title="3、在try catch异常捕捉中，一个catch可以写多个异常类型"></a>3、在try catch异常捕捉中，一个catch可以写多个异常类型</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Connection conn = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">   	<span class="keyword">Class</span>.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">   	conn = DriverManager.getConnection(<span class="string">""</span>,<span class="string">""</span>,<span class="string">""</span>);</div><div class="line">&#125; <span class="keyword">catch</span>(ClassNotFoundException|SQLException ex) &#123;</div><div class="line">   	ex.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4、try-catch中资源定义好之后try-catch自动关闭"><a href="#4、try-catch中资源定义好之后try-catch自动关闭" class="headerlink" title="4、try catch中资源定义好之后try catch自动关闭"></a>4、try catch中资源定义好之后try catch自动关闭</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> (BufferedReader <span class="keyword">in</span>  = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> 	FileReader(<span class="string">"in.txt"</span>));</div><div class="line">    	BufferedWriter <span class="keyword">out</span> = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> 	FileWriter(<span class="string">"out.txt"</span>))) &#123;</div><div class="line">	<span class="keyword">int</span> charRead;</div><div class="line">	<span class="keyword">while</span> ((charRead = <span class="keyword">in</span>.read()) != <span class="number">-1</span>) &#123;</div><div class="line">       	System.<span class="keyword">out</span>.printf(<span class="string">"%c "</span>, (<span class="keyword">char</span>)charRead);</div><div class="line">       	<span class="keyword">out</span>.write(charRead);</div><div class="line">   	&#125;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;</div><div class="line">   	ex.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="jdk8新特性"><a href="#jdk8新特性" class="headerlink" title="jdk8新特性"></a>jdk8新特性</h2><h3 id="1、接口的默认方法"><a href="#1、接口的默认方法" class="headerlink" title="1、接口的默认方法"></a>1、接口的默认方法</h3><p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用default关键字即可，这个特征又叫做扩展方法，示例如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Formula</span> </span>&#123;</div><div class="line">   	<span class="function"><span class="keyword">double</span> <span class="title">calculate</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</div><div class="line">   	<span class="keyword">default</span> <span class="function"><span class="keyword">double</span> <span class="title">sqrt</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</div><div class="line">		<span class="function"><span class="keyword">return</span> Math.<span class="title">sqrt</span><span class="params">(a)</span></span>;</div><div class="line">   	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Formula接口在拥有calculate方法之外同时还定义了sqrt方法，实现了Formula接口的子类只需要实现一个calculate方法，默认方法sqrt将在子类上可以直接使用。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">  Formula formula = <span class="keyword">new</span> Formula() &#123;</div><div class="line">@Override</div><div class="line"><span class="keyword">public</span> <span class="keyword">double</span> calculate(<span class="keyword">int</span> a) &#123;</div><div class="line">	<span class="built_in">return</span> <span class="built_in">sqrt</span>(a * <span class="number">100</span>);</div><div class="line">      &#125;</div><div class="line">  &#125;;</div><div class="line">  System.out.<span class="built_in">println</span>(formula.calculate(<span class="number">100</span>));  <span class="comment">// 100.0</span></div><div class="line">  System.out.<span class="built_in">println</span>(formula.<span class="built_in">sqrt</span>(<span class="number">16</span>));  <span class="comment">// 4.0</span></div></pre></td></tr></table></figure>
+<p>文中的formula被实现为一个匿名类的实例，该代码非常</p>
+<h3 id="2、Lambda表达式"><a href="#2、Lambda表达式" class="headerlink" title="2、Lambda表达式"></a>2、Lambda表达式</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; names = Arrays.asList(<span class="string">"tom"</span>,<span class="string">"jace"</span>,<span class="string">"mike"</span>);</div><div class="line">Collections.sort(names, <span class="keyword">new</span> Comparator&lt;<span class="built_in">String</span>&gt;() &#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	public <span class="built_in">int</span> compare(<span class="built_in">String</span> o1, <span class="built_in">String</span> o2) &#123;</div><div class="line">		<span class="keyword">return</span> o2.compareTo(o1);</div><div class="line">   	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>只需要给静态方法Collections.sort传入一个List对象以及一个比较器来指定顺序排列。通常做法都是创建一个匿名的比较器对象，然后将其传递给sort方法。<br>在Java 8中提供了更简洁的语法，lambda表达式：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Collections.sort<span class="function"><span class="params">(names, (String a, String b) -&gt; &#123;</span></span></div><div class="line">	<span class="keyword">return</span> b.compareTo(a);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>还可以更简洁：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Collections.sort<span class="function"><span class="params">(names, (String a, String b) -&gt; b.compareTo(a))</span>;</span></div></pre></td></tr></table></figure>
+<p>去掉大括号以及return关键字</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Collections.sort<span class="function"><span class="params">(names, (a,b) -&gt; b.compareTo(a))</span>;</span></div></pre></td></tr></table></figure>
+<p>Java编译器可以自动推导出参数类型，所以可以不用再写一次类型。</p>
 <h3 id="3、函数式接口"><a href="#3、函数式接口" class="headerlink" title="3、函数式接口"></a>3、函数式接口</h3><p>Lambda表达式是如何在java的类型系统中表示的呢？</p><p><br>每一个lambda表达式都对应着一个类型，通常是接口类型。而“函数式接口”是指仅仅只包含一个抽象方法的接口，每一个该类型的lambda表达式都会被匹配到这个抽象方法。因为默认方法不算抽象方法，所以也可以给自己的函数式接口添加默认方法。</p><p><br>我们可以将lambda表达式当做一个抽象方法的接口类型，确保自己的接口一定达到这个要求，你只需要给你的接口添加<strong>@FunctionalInterface</strong>注解，编译器如果发现标注了这个注解的接口有多于一个抽象方法的时候就会报错。也就是说<strong>@FunctionalInterface</strong>注解标注的接口只能有一个抽象方法。</p><p><br>例如：</p>
-<pre><code>@FunctionalInterface
-public interface Converter&lt;F, T&gt; {
-    T convert(F from);
-}
-Converter&lt;String, Integer&gt; converter = (from) -&gt; Integer.valueOf(from);
-Integer converted = converter.convert(&quot;123&quot;);
-System.out.println(converted);
-</code></pre><p>以上代码不需要@FunctionalInterface注解也是正确的。</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@FunctionalInterface</div><div class="line">public interface Converter&lt;F, T&gt; &#123;</div><div class="line">	T convert(F <span class="keyword">from</span>);</div><div class="line">&#125;</div><div class="line">Converter&lt;String, Integer&gt; <span class="function"><span class="title">converter</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> Integer.valueOf(<span class="keyword">from</span>);</div><div class="line">Integer converted = converter.convert(<span class="string">"123"</span>);</div><div class="line">System.out.println(converted);</div></pre></td></tr></table></figure>
+<p>以上代码不需要@FunctionalInterface注解也是正确的。</p>
 <h3 id="4、方法与构造函数引用"><a href="#4、方法与构造函数引用" class="headerlink" title="4、方法与构造函数引用"></a>4、方法与构造函数引用</h3><p>上面的代码也可以通过静态方法引用来表示：</p>
-<pre><code>Converter&lt;String, Integer&gt; converter = Integer::valueOf;
-Integer converted = converter.convert(&quot;123&quot;);
-System.out.println(converted);
-</code></pre><p>Java8允许使用::关键字来传递方法或者构造函数引用，上面的代码展示了如何引用一个静态方法，我们也可以引用一个对象的方法：</p>
-<pre><code>public class Person {
-    String firstName;
-    String lastName;
-    Person() {
-    }
-    public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-}
-</code></pre><p>指定一个用来创建Person对象的对象工厂接口：</p>
-<pre><code>public interface PersonFactory&lt;P extends Person&gt; {
-    P create(String fisrtName, String lastName);
-}
-</code></pre><p>创建Person对象</p>
-<pre><code>PersonFactory&lt;Person&gt; personFactory = Person::new;
-Person person = personFactory.create(&quot;Peter&quot;,&quot;Parker”);
-</code></pre><p>我们只需要使用Person::new 来获取Person类构造函数的引用，Java编译器就会自动根据PersonFactory.create方法的签名来选择合适的构造函数。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Converter&lt;<span class="built_in">String</span>, <span class="built_in">Integer</span>&gt; converter = <span class="built_in">Integer</span><span class="type">::</span>valueOf;</div><div class="line"><span class="built_in">Integer</span> converted = converter.convert(<span class="string">"123"</span>);</div><div class="line">System.out.println(converted);</div></pre></td></tr></table></figure>
+<p>Java8允许使用::关键字来传递方法或者构造函数引用，上面的代码展示了如何引用一个静态方法，我们也可以引用一个对象的方法：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">   	<span class="keyword">String</span> firstName;</div><div class="line">    <span class="keyword">String</span> lastName;</div><div class="line">   	Person() &#123;</div><div class="line">   	&#125;</div><div class="line">	<span class="keyword">public</span> Person(<span class="keyword">String</span> firstName, <span class="keyword">String</span> lastName) &#123;</div><div class="line">		<span class="built_in">this</span>.firstName = firstName;</div><div class="line">		<span class="built_in">this</span>.lastName = lastName;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>指定一个用来创建Person对象的对象工厂接口：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PersonFactory</span>&lt;<span class="title">P</span> <span class="keyword"><span class="keyword">extends</span> <span class="type">Person</span></span>&gt; </span>&#123;</div><div class="line">	P create(<span class="keyword">String</span> fisrtName, <span class="keyword">String</span> lastName);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建Person对象</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PersonFactory&lt;<span class="keyword">Person</span>&gt; personFactory = <span class="keyword">Person</span>::new;</div><div class="line"><span class="keyword">Person</span> <span class="keyword">person</span> = personFactory.create(<span class="string">"Peter"</span>,<span class="string">"Parker”);</span></div></pre></td></tr></table></figure>
+<p>我们只需要使用Person::new 来获取Person类构造函数的引用，Java编译器就会自动根据PersonFactory.create方法的签名来选择合适的构造函数。</p>
 <h3 id="5、Lambda作用域"><a href="#5、Lambda作用域" class="headerlink" title="5、Lambda作用域"></a>5、Lambda作用域</h3><p>在lambda表达式中访问外层作用域和老版本的匿名对象中的方式很相似。你可以直接访问标记了final的外层局部变量，或者实例的字段以及静态变量。</p>
 <h3 id="6、访问局部变量"><a href="#6、访问局部变量" class="headerlink" title="6、访问局部变量"></a>6、访问局部变量</h3><p>我们可以直接在lambda表达式中访问外层的局部变量</p>
-<pre><code>final int num = 1;
-Converter&lt;Integer, String&gt; stringConverter = (from) -&gt; String.valueOf(from + num);
-stringConverter.convert(2);
-</code></pre><p>但是和匿名对象不同的是，这里的变量num可以不用声明为final，该代码同样正确。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> <span class="built_in">int</span> <span class="built_in">num</span> = <span class="number">1</span>;</div><div class="line">Converter&lt;Integer, <span class="built_in">String</span>&gt; stringConverter = (from) -&gt; <span class="built_in">String</span>.valueOf(from + <span class="built_in">num</span>);</div><div class="line">stringConverter.convert(<span class="number">2</span>);</div></pre></td></tr></table></figure>
+<p>但是和匿名对象不同的是，这里的变量num可以不用声明为final，该代码同样正确。</p>
 <h3 id="7、访问对象字段与静态变量"><a href="#7、访问对象字段与静态变量" class="headerlink" title="7、访问对象字段与静态变量"></a>7、访问对象字段与静态变量</h3><p>和本地不良不同的是，lambda内部对于实例的字段以及静态变量是即可读又可写。该行为和匿名对象是一致的：</p>
-<pre><code>static int outerStaticNum;
-int outerNum;
-public void testScopes() {
-    Converter stringConverter1 = (from) -&gt; {
-        outerNum = 23;
-        return String.valueOf(from);
-    };
-    Converter stringConverter2 = (from) -&gt; {
-        outerStaticNum = 72;
-        return String.valueOf(from);
-    };
-}
-</code></pre><h3 id="8、访问接口的默认方法"><a href="#8、访问接口的默认方法" class="headerlink" title="8、访问接口的默认方法"></a>8、访问接口的默认方法</h3><h3 id="9、Date-API"><a href="#9、Date-API" class="headerlink" title="9、Date API"></a>9、Date API</h3><h3 id="10、Annotation注解"><a href="#10、Annotation注解" class="headerlink" title="10、Annotation注解"></a>10、Annotation注解</h3>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">static int outerStaticNum;</div><div class="line">int outerNum;</div><div class="line">public <span class="literal">void</span> testScopes() &#123;</div><div class="line">   	Converter <span class="function"><span class="title">stringConverter1</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> &#123;</div><div class="line">       	outerNum = <span class="number">23</span>;</div><div class="line">       	<span class="keyword">return</span> String.valueOf(<span class="keyword">from</span>);</div><div class="line">   	&#125;;</div><div class="line">    Converter <span class="function"><span class="title">stringConverter2</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> &#123;</div><div class="line">   	    outerStaticNum = <span class="number">72</span>;</div><div class="line">       	<span class="keyword">return</span> String.valueOf(<span class="keyword">from</span>);</div><div class="line">   	&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="8、访问接口的默认方法"><a href="#8、访问接口的默认方法" class="headerlink" title="8、访问接口的默认方法"></a>8、访问接口的默认方法</h3><h3 id="9、Date-API"><a href="#9、Date-API" class="headerlink" title="9、Date API"></a>9、Date API</h3><h3 id="10、Annotation注解"><a href="#10、Annotation注解" class="headerlink" title="10、Annotation注解"></a>10、Annotation注解</h3>
 	    </div>  
         <div style="float:left;width:34%;background-color:#EAEAEA">
         <!-- Table of Contents -->
@@ -446,15 +374,11 @@ public void testScopes() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">java缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">maven</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">java缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -462,19 +386,15 @@ public void testScopes() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">js,util</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">util</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">js</a>
+                <a href="javascript:void(0)">maven</a>
               </li>
             
             <div class="clearfix"></div>

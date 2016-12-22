@@ -14,7 +14,7 @@
 <meta property="og:url" content="/2016/12/22/maven配置/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
-<meta property="og:updated_time" content="2016-12-22T14:19:16.000Z">
+<meta property="og:updated_time" content="2016-12-22T14:25:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="maven配置">
 <meta name="twitter:description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
@@ -167,28 +167,7 @@
       
 	    <div style="float:left;width:65%">
 	    <h2 id="maven打包加载src-main-java中的配置文件"><a href="#maven打包加载src-main-java中的配置文件" class="headerlink" title="maven打包加载src/main/java中的配置文件"></a>maven打包加载src/main/java中的配置文件</h2><p> maven打jar包时，不能识别src/main/java中的配置文件(<em>.xml,</em>.properties)，需要在build中添加以下配置<a id="more"></a>：</p>
-<pre><code>&lt;resources&gt;
-    &lt;resource&gt;
-        &lt;directory&gt;src/main/java/&lt;/directory&gt;
-        &lt;includes&gt;
-            &lt;include&gt;**/*.properties&lt;/include&gt;
-            &lt;include&gt;**/*.xml&lt;/include&gt;
-        &lt;/includes&gt;
-        &lt;!-- 是否替换资源中的属性 --&gt;
-        &lt;filtering&gt;false&lt;/filtering&gt;
-    &lt;/resource&gt;
-    &lt;resource&gt;
-        &lt;directory&gt;src/main/resources&lt;/directory&gt;
-        &lt;!--
-        &lt;includes&gt;
-            &lt;include&gt;**/*.properties&lt;/include&gt;
-            &lt;include&gt;**/*.xml&lt;/include&gt;
-        &lt;/includes&gt;
-        &lt;filtering&gt;true&lt;/filtering&gt;
-        --&gt;
-    &lt;/resource&gt;
-&lt;/resources&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">       	<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java/<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">includes</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 是否替换资源中的属性 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--</span></div><div class="line">        &lt;includes&gt;</div><div class="line">            &lt;include&gt;**/*.properties&lt;/include&gt;</div><div class="line">            &lt;include&gt;**/*.xml&lt;/include&gt;</div><div class="line">        &lt;/includes&gt;</div><div class="line">        &lt;filtering&gt;true&lt;/filtering&gt;</div><div class="line">        --&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
 	    </div>  
         <div style="float:left;width:34%;background-color:#EAEAEA">
         <!-- Table of Contents -->
@@ -356,15 +335,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">java缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">maven</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">java缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -372,19 +347,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">js,util</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">util</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">js</a>
+                <a href="javascript:void(0)">maven</a>
               </li>
             
             <div class="clearfix"></div>
