@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="">
   <title>java基本数据类型缓存解析 | ArtIsLong的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Integer的缓存">
+  <meta name="description" content="基本类型缓存解析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java基本数据类型缓存解析">
 <meta property="og:url" content="/2016/12/22/java基本数据类型缓存解析/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="Integer的缓存">
-<meta property="og:updated_time" content="2016-12-21T16:47:47.000Z">
+<meta property="og:description" content="基本类型缓存解析">
+<meta property="og:updated_time" content="2016-12-22T14:19:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java基本数据类型缓存解析">
-<meta name="twitter:description" content="Integer的缓存">
+<meta name="twitter:description" content="基本类型缓存解析">
   
     <link rel="alternative" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
   
@@ -166,10 +166,64 @@
     <div class="article-entry" itemprop="articleBody">
       
 	    <div style="float:left;width:65%">
-	    <h2 id="Integer的缓存"><a href="#Integer的缓存" class="headerlink" title="Integer的缓存"></a>Integer的缓存</h2>
+	    <h2 id="基本类型缓存解析"><a href="#基本类型缓存解析" class="headerlink" title="基本类型缓存解析"></a>基本类型缓存解析<a id="more"></a></h2><h3 id="一、Integer缓存解析："><a href="#一、Integer缓存解析：" class="headerlink" title="一、Integer缓存解析："></a>一、Integer缓存解析：</h3><pre><code>private static class IntegerCache {
+    static final int low = -128;
+    static final int high;
+    static final Integer cache[];
+    static {
+        // high value may be configured by property
+        int h = 127;
+        String integerCacheHighPropValue =
+            sun.misc.VM.getSavedProperty(&quot;java.lang.Integer.IntegerCache.high&quot;);
+        if (integerCacheHighPropValue != null) {
+            int i = parseInt(integerCacheHighPropValue);
+            i = Math.max(i, 127);
+            // Maximum array size is Integer.MAX_VALUE
+            h = Math.min(i, Integer.MAX_VALUE - (-low));
+        }
+        high = h;
+        cache = new Integer[(high - low) + 1];
+        int j = low;
+        for(int k = 0; k &lt; cache.length; k++)
+            cache[k] = new Integer(j++);
+    }
+    private IntegerCache() {}
+}
+
+public static Integer valueOf(int i) {
+    assert IntegerCache.high &gt;= 127;
+    if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+    return new Integer(i);
+}
+</code></pre><p>1、使用自动装箱（Integer i = 1）方式创建Integer对象时，会使用valueOf进行Integer对象的初始化，此时，会调用IntegerCache.high，这是需要对IntegerCache这个静态内部类进行初始化。</p><p><br>2、IntegerCache类中有一个cache数组，在加载IntegerCache的时候，会将-128到127的Integer对象都创建了，并存到cache数组中，然后在判断当前初始化的Integer对象的值是否在-128到127之间，如果是，就直接从cache缓存中取，如果不存在，则new一个新的Integer对象。</p><p><br>3、之后再使用自动装箱的方式创建Integer对象时，值在-128到127之间时会直接从cache缓存中取。</p><p></p>
+<p>所以，使用自动装箱的方式创建的Integer对象，两者进行比较时，只要其值相等就是ture。而不在-128到127之间的，比较时会新new一个对象，而导致比较结果为false</p><p><br><strong><strong>注意</strong></strong>：Integer的最低值是固定的，只能是-128，而最高值是可以通过jvm参数设置的。在执行java程序的时候加上-XX:AutoBoxCacheMax=<size>参数即可。</size></p>
+<h3 id="二、Long及Byte、Character缓存解析"><a href="#二、Long及Byte、Character缓存解析" class="headerlink" title="二、Long及Byte、Character缓存解析"></a>二、Long及Byte、Character缓存解析</h3><pre><code>private static class LongCache {
+    private LongCache(){}
+    static final Long cache[] = new Long[-(-128) + 127 + 1];
+    static {
+        for(int i = 0; i &lt; cache.length; i++)
+            cache[i] = new Long(i - 128);
+    }
+}
+
+public static Long valueOf(long l) {
+    final int offset = 128;
+    if (l &gt;= -128 &amp;&amp; l &lt;= 127) { // will cache
+        return LongCache.cache[(int)l + offset];
+    }
+    return new Long(l);
+}
+</code></pre><p>Long的缓存机制（LongCache）与Integer的类似，还有Character（CharacterCache），Byte（ByteCache）的缓存机制也是类似。不过只有Integer的最大值可以通过jvm参数设置，其他的都固定的。其中，Byte，Short，Long 的范围： -128 到 127；Character, 范围是 0 到 127。</p>
+
 	    </div>  
         <div style="float:left;width:34%;background-color:#EAEAEA">
         <!-- Table of Contents -->
+			
+			<div id="toc" class="toc-article">
+			<strong class="toc-title" >文章目录</strong>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本类型缓存解析"><span class="toc-number">1.</span> <span class="toc-text">基本类型缓存解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、Integer缓存解析："><span class="toc-number">1.1.</span> <span class="toc-text">一、Integer缓存解析：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、Long及Byte、Character缓存解析"><span class="toc-number">1.2.</span> <span class="toc-text">二、Long及Byte、Character缓存解析</span></a></li></ol></li></ol>
+			</div>
 			
         </div>
       
@@ -253,6 +307,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2016/12/22/js工具库/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          js工具库
+        
+      </div>
+    </a>
+  
   
     <a href="/2016/12/22/maven配置/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">maven配置</div>
@@ -324,11 +387,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Spring Boot</a>
+                <a href="javascript:void(0)">maven</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">maven</a>
+                <a href="javascript:void(0)">Spring Boot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -337,6 +400,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">js,util</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">util</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">js</a>
               </li>
             
             <div class="clearfix"></div>

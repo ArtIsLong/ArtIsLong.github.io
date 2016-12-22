@@ -4,7 +4,7 @@
   <subtitle><![CDATA[学无止境，永(勇)攀高峰]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2016-12-21T16:47:47.000Z</updated>
+  <updated>2016-12-22T14:19:33.000Z</updated>
   <id>/</id>
   
   <author>
@@ -15,14 +15,85 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[js工具库]]></title>
+    <link href="/2016/12/22/js%E5%B7%A5%E5%85%B7%E5%BA%93/"/>
+    <id>/2016/12/22/js工具库/</id>
+    <published>2016-12-22T14:14:08.000Z</published>
+    <updated>2016-12-22T14:19:33.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="1、时间格式的校验"><a href="#1、时间格式的校验" class="headerlink" title="1、时间格式的校验"></a>1、时间格式的校验</h2><h3 id="1）校验时间格式是否是yyyy-MM-dd-HH-mm-ss格式的时间"><a href="#1）校验时间格式是否是yyyy-MM-dd-HH-mm-ss格式的时间" class="headerlink" title="1）校验时间格式是否是yyyy-MM-dd HH:mm:ss格式的时间"></a>1）校验时间格式是否是yyyy-MM-dd HH:mm:ss格式的时间<a id="more"></a></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 校验时间格式是否是yyyy-MM-dd HH:mm:ss格式的时间</div><div class="line"> * @param obj 输入框对象</div><div class="line"> * @param msg 错误信息</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkIsDateTime</span>(<span class="params">obj, msg</span>) </span>&#123;</div><div class="line">    <span class="comment">//var str = "2016-04-15 00:00:00";</span></div><div class="line">    <span class="keyword">if</span>(obj.value != <span class="string">""</span>)&#123;    </div><div class="line">        <span class="keyword">var</span> reg = <span class="regexp">/^(\d&#123;1,4&#125;)(-|\/)(\d&#123;1,2&#125;)\2(\d&#123;1,2&#125;) (\d&#123;1,2&#125;):(\d&#123;1,2&#125;):(\d&#123;1,2&#125;)$/</span>;     </div><div class="line">        <span class="keyword">var</span> r = str.match(reg);     </div><div class="line">        <span class="keyword">if</span>(r==<span class="literal">null</span>) &#123;</div><div class="line">        	$.showErrorMessage(<span class="string">"校验失败"</span>,msg);</div><div class="line">        	obj.value=<span class="string">""</span>;</div><div class="line">        	<span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2）判断日期类型是否为yyyy-MM-dd格式的类型"><a href="#2）判断日期类型是否为yyyy-MM-dd格式的类型" class="headerlink" title="2）判断日期类型是否为yyyy-MM-dd格式的类型"></a>2）判断日期类型是否为yyyy-MM-dd格式的类型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 校验时间格式是否是yyyy-MM-dd HH:mm:ss格式的时间</div><div class="line"> * @param obj 输入框对象</div><div class="line"> * @param msg 错误信息</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkIsDate</span>(<span class="params">obj,msg</span>) </span>&#123;</div><div class="line">    <span class="comment">//var str = "2016-04-15";</span></div><div class="line">    <span class="keyword">if</span>(obj.value != <span class="string">""</span>)&#123;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/^(\d&#123;1,4&#125;)(-|\/)(\d&#123;1,2&#125;)\2(\d&#123;1,2&#125;)$/</span>;</div><div class="line">    <span class="keyword">var</span> r = obj.value.match(reg);</div><div class="line">    <span class="keyword">if</span>(r==<span class="literal">null</span>) &#123;</div><div class="line">        $.showErrorMessage(<span class="string">"校验失败"</span>,msg);</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3）判断日期类型是否为hh-mm-ss格式的类型"><a href="#3）判断日期类型是否为hh-mm-ss格式的类型" class="headerlink" title="3）判断日期类型是否为hh:mm:ss格式的类型"></a>3）判断日期类型是否为hh:mm:ss格式的类型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 校验时间格式是否是yyyy-MM-dd HH:mm:ss格式的时间</div><div class="line"> * @param obj 输入框对象</div><div class="line"> * @param msg 错误信息</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkIsTime</span>(<span class="params">obj,msg</span>) </span>&#123;</div><div class="line">    <span class="comment">//var str = "16:13:69";</span></div><div class="line">    <span class="keyword">if</span>(obj.value != <span class="string">""</span>)&#123;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/^((20|21|22|23|[0-1]\d)\:[0-5][0-9])(\:[0-5][0-9])?$/</span>;</div><div class="line">    <span class="keyword">var</span> r = obj.value.match(reg);</div><div class="line">    <span class="keyword">if</span>(r==<span class="literal">null</span>) &#123;</div><div class="line">        $.showErrorMessage(<span class="string">"校验失败"</span>,msg);</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4）"><a href="#4）" class="headerlink" title="4）"></a>4）</h3>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="1、时间格式的校验"><a href="#1、时间格式的校验" class="headerlink" title="1、时间格式的校验"></a>1、时间格式的校验</h2><h3 id="1）校验时间格式是否是yyyy-MM-dd-HH-mm-ss格式的时间"><a href="#1）校验时间格式是否是yyyy-MM-dd-HH-mm-ss格式的时间" class="headerlink" title="1）校验时间格式是否是yyyy-MM-dd HH:mm:ss格式的时间"></a>1）校验时间格式是否是yyyy-MM-dd HH:mm:ss格式的时间]]>
+    
+    </summary>
+    
+      <category term="js" scheme="/tags/js/"/>
+    
+      <category term="util" scheme="/categories/util/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[java基本数据类型缓存解析]]></title>
     <link href="/2016/12/22/java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%BC%93%E5%AD%98%E8%A7%A3%E6%9E%90/"/>
     <id>/2016/12/22/java基本数据类型缓存解析/</id>
     <published>2016-12-21T16:46:28.000Z</published>
-    <updated>2016-12-21T16:47:47.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="Integer的缓存"><a href="#Integer的缓存" class="headerlink" title="Integer的缓存"></a>Integer的缓存</h2>]]></content>
+    <updated>2016-12-22T14:19:24.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="基本类型缓存解析"><a href="#基本类型缓存解析" class="headerlink" title="基本类型缓存解析"></a>基本类型缓存解析<a id="more"></a></h2><h3 id="一、Integer缓存解析："><a href="#一、Integer缓存解析：" class="headerlink" title="一、Integer缓存解析："></a>一、Integer缓存解析：</h3><pre><code>private static class IntegerCache {
+    static final int low = -128;
+    static final int high;
+    static final Integer cache[];
+    static {
+        // high value may be configured by property
+        int h = 127;
+        String integerCacheHighPropValue =
+            sun.misc.VM.getSavedProperty(&quot;java.lang.Integer.IntegerCache.high&quot;);
+        if (integerCacheHighPropValue != null) {
+            int i = parseInt(integerCacheHighPropValue);
+            i = Math.max(i, 127);
+            // Maximum array size is Integer.MAX_VALUE
+            h = Math.min(i, Integer.MAX_VALUE - (-low));
+        }
+        high = h;
+        cache = new Integer[(high - low) + 1];
+        int j = low;
+        for(int k = 0; k &lt; cache.length; k++)
+            cache[k] = new Integer(j++);
+    }
+    private IntegerCache() {}
+}
+
+public static Integer valueOf(int i) {
+    assert IntegerCache.high &gt;= 127;
+    if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+    return new Integer(i);
+}
+</code></pre><p>1、使用自动装箱（Integer i = 1）方式创建Integer对象时，会使用valueOf进行Integer对象的初始化，此时，会调用IntegerCache.high，这是需要对IntegerCache这个静态内部类进行初始化。</p><p><br>2、IntegerCache类中有一个cache数组，在加载IntegerCache的时候，会将-128到127的Integer对象都创建了，并存到cache数组中，然后在判断当前初始化的Integer对象的值是否在-128到127之间，如果是，就直接从cache缓存中取，如果不存在，则new一个新的Integer对象。</p><p><br>3、之后再使用自动装箱的方式创建Integer对象时，值在-128到127之间时会直接从cache缓存中取。</p><p></p>
+<p>所以，使用自动装箱的方式创建的Integer对象，两者进行比较时，只要其值相等就是ture。而不在-128到127之间的，比较时会新new一个对象，而导致比较结果为false</p><p><br><strong><strong>注意</strong></strong>：Integer的最低值是固定的，只能是-128，而最高值是可以通过jvm参数设置的。在执行java程序的时候加上-XX:AutoBoxCacheMax=<size>参数即可。</size></p>
+<h3 id="二、Long及Byte、Character缓存解析"><a href="#二、Long及Byte、Character缓存解析" class="headerlink" title="二、Long及Byte、Character缓存解析"></a>二、Long及Byte、Character缓存解析</h3><pre><code>private static class LongCache {
+    private LongCache(){}
+    static final Long cache[] = new Long[-(-128) + 127 + 1];
+    static {
+        for(int i = 0; i &lt; cache.length; i++)
+            cache[i] = new Long(i - 128);
+    }
+}
+
+public static Long valueOf(long l) {
+    final int offset = 128;
+    if (l &gt;= -128 &amp;&amp; l &lt;= 127) { // will cache
+        return LongCache.cache[(int)l + offset];
+    }
+    return new Long(l);
+}
+</code></pre><p>Long的缓存机制（LongCache）与Integer的类似，还有Character（CharacterCache），Byte（ByteCache）的缓存机制也是类似。不过只有Integer的最大值可以通过jvm参数设置，其他的都固定的。其中，Byte，Short，Long 的范围： -128 到 127；Character, 范围是 0 到 127。</p>
+]]></content>
     <summary type="html">
-    <![CDATA[<h2 id="Integer的缓存"><a href="#Integer的缓存" class="headerlink" title="Integer的缓存"></a>Integer的缓存</h2>]]>
+    <![CDATA[<h2 id="基本类型缓存解析"><a href="#基本类型缓存解析" class="headerlink" title="基本类型缓存解析"></a>基本类型缓存解析]]>
+    
     </summary>
     
       <category term="java缓存" scheme="/tags/java%E7%BC%93%E5%AD%98/"/>
@@ -36,7 +107,7 @@
     <link href="/2016/12/22/maven%E9%85%8D%E7%BD%AE/"/>
     <id>/2016/12/22/maven配置/</id>
     <published>2016-12-21T16:43:01.000Z</published>
-    <updated>2016-12-21T16:52:41.000Z</updated>
+    <updated>2016-12-22T14:19:16.000Z</updated>
     <content type="html"><![CDATA[<h2 id="maven打包加载src-main-java中的配置文件"><a href="#maven打包加载src-main-java中的配置文件" class="headerlink" title="maven打包加载src/main/java中的配置文件"></a>maven打包加载src/main/java中的配置文件</h2><p> maven打jar包时，不能识别src/main/java中的配置文件(<em>.xml,</em>.properties)，需要在build中添加以下配置<a id="more"></a>：</p>
 <pre><code>&lt;resources&gt;
     &lt;resource&gt;
