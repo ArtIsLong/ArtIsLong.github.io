@@ -6,18 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="">
-  <title>maven配置 | ArtIsLong的博客</title>
+  <title>Archives: 2017/2 | ArtIsLong的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
-<meta property="og:type" content="article">
-<meta property="og:title" content="maven配置">
-<meta property="og:url" content="/2016/12/22/maven配置/index.html">
+  <meta name="description" content="甘肃农业大学16级，就职于亚信科技。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ArtIsLong的博客">
+<meta property="og:url" content="/archives/2017/02/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
-<meta property="og:updated_time" content="2016-12-22T14:25:23.000Z">
+<meta property="og:description" content="甘肃农业大学16级，就职于亚信科技。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="maven配置">
-<meta name="twitter:description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
+<meta name="twitter:title" content="ArtIsLong的博客">
+<meta name="twitter:description" content="甘肃农业大学16级，就职于亚信科技。">
   
     <link rel="alternative" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
   
@@ -147,141 +146,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-maven配置" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      maven配置
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/02/07/封装JdbcTemplate的自定义SQL/" class="archive-article-date">
+  	<time datetime="2017-02-07T14:46:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-07</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/02/07/封装JdbcTemplate的自定义SQL/">封装JdbcTemplate的自定义SQL</a>
     </h1>
   
 
-        <a href="/2016/12/22/maven配置/" class="archive-article-date">
-  	<time datetime="2016-12-21T16:43:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-22</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-	    <div style="float:left;width:65%">
-	    <h2 id="maven打包加载src-main-java中的配置文件"><a href="#maven打包加载src-main-java中的配置文件" class="headerlink" title="maven打包加载src/main/java中的配置文件"></a>maven打包加载src/main/java中的配置文件</h2><p> maven打jar包时，不能识别src/main/java中的配置文件(<em>.xml,</em>.properties)，需要在build中添加以下配置<a id="more"></a>：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">       	<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java/<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">includes</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 是否替换资源中的属性 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--</span></div><div class="line">        &lt;includes&gt;</div><div class="line">            &lt;include&gt;**/*.properties&lt;/include&gt;</div><div class="line">            &lt;include&gt;**/*.xml&lt;/include&gt;</div><div class="line">        &lt;/includes&gt;</div><div class="line">        &lt;filtering&gt;true&lt;/filtering&gt;</div><div class="line">        --&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
-	    </div>  
-        <div style="float:left;width:34%;background-color:#EAEAEA">
-        <!-- Table of Contents -->
-			
-			<div id="toc" class="toc-article">
-			<strong class="toc-title" >文章目录</strong>
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#maven打包加载src-main-java中的配置文件"><span class="toc-number">1.</span> <span class="toc-text">maven打包加载src/main/java中的配置文件</span></a></li></ol>
-			</div>
-			
-        </div>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdbcTemplate/">jdbcTemplate</a></li></ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
+	<a class="article-category-link" href="/categories/封装JdbcTemplate自定义SQL/">封装JdbcTemplate自定义SQL</a>
 	</div>
 
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http:/2016/12/22/maven配置/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2016/12/22/java基本数据类型缓存解析/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          java基本数据类型缓存解析
-        
-      </div>
-    </a>
   
   
-    <a href="/2016/12/20/zookeeper集群部署-单机版/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">zookeeper集群部署(单机版)</div>
-      <i class="icon-circle-right"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-
-
-
-
-
+    
 
 
           </div>
@@ -304,8 +221,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

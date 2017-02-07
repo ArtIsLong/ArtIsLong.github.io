@@ -6,18 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="">
-  <title>maven配置 | ArtIsLong的博客</title>
+  <title>封装JdbcTemplate的自定义SQL | ArtIsLong的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
+  <meta name="description" content="本博文为博主原创，转载请注明出处！
+封装思路说明：对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口">
 <meta property="og:type" content="article">
-<meta property="og:title" content="maven配置">
-<meta property="og:url" content="/2016/12/22/maven配置/index.html">
+<meta property="og:title" content="封装JdbcTemplate的自定义SQL">
+<meta property="og:url" content="/2017/02/07/封装JdbcTemplate的自定义SQL/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
-<meta property="og:updated_time" content="2016-12-22T14:25:23.000Z">
+<meta property="og:description" content="本博文为博主原创，转载请注明出处！
+封装思路说明：对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口">
+<meta property="og:updated_time" content="2017-02-07T15:58:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="maven配置">
-<meta name="twitter:description" content="maven打包加载src/main/java中的配置文件 maven打jar包时，不能识别src/main/java中的配置文件(.xml,.properties)，需要在build中添加以下配置">
+<meta name="twitter:title" content="封装JdbcTemplate的自定义SQL">
+<meta name="twitter:description" content="本博文为博主原创，转载请注明出处！
+封装思路说明：对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口">
   
     <link rel="alternative" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
   
@@ -147,34 +150,39 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-maven配置" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-封装JdbcTemplate的自定义SQL" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      maven配置
+      封装JdbcTemplate的自定义SQL
     </h1>
   
 
-        <a href="/2016/12/22/maven配置/" class="archive-article-date">
-  	<time datetime="2016-12-21T16:43:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-22</time>
+        <a href="/2017/02/07/封装JdbcTemplate的自定义SQL/" class="archive-article-date">
+  	<time datetime="2017-02-07T14:46:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-07</time>
 </a>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
 	    <div style="float:left;width:65%">
-	    <h2 id="maven打包加载src-main-java中的配置文件"><a href="#maven打包加载src-main-java中的配置文件" class="headerlink" title="maven打包加载src/main/java中的配置文件"></a>maven打包加载src/main/java中的配置文件</h2><p> maven打jar包时，不能识别src/main/java中的配置文件(<em>.xml,</em>.properties)，需要在build中添加以下配置<a id="more"></a>：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">       	<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java/<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">includes</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 是否替换资源中的属性 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--</span></div><div class="line">        &lt;includes&gt;</div><div class="line">            &lt;include&gt;**/*.properties&lt;/include&gt;</div><div class="line">            &lt;include&gt;**/*.xml&lt;/include&gt;</div><div class="line">        &lt;/includes&gt;</div><div class="line">        &lt;filtering&gt;true&lt;/filtering&gt;</div><div class="line">        --&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
+	    <p><strong>本博文为博主原创，转载请注明出处！</strong></p>
+<h3 id="封装思路说明："><a href="#封装思路说明：" class="headerlink" title="封装思路说明："></a>封装思路说明：</h3><p>对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口<a id="more"></a>。通过Dom4j解析自定义SQL的XML配置文件，根据自定义SQL的标识code获取对应的SQL。使用JdbcTemplate或者封装的JdbcClient工具类进行查询等操作，查询出的结果封装到数据容器中。</p>
+<p><strong><em>代码路径为：<a href="https://github.com/ArtIsLong/JdbcTemplatePackaging.git" target="_blank" rel="external">https://github.com/ArtIsLong/JdbcTemplatePackaging.git</a></em></strong></p><p></p>
+<h2 id="博主对JdbcTemplate封装的步骤："><a href="#博主对JdbcTemplate封装的步骤：" class="headerlink" title="博主对JdbcTemplate封装的步骤："></a>博主对JdbcTemplate封装的步骤：</h2><h3 id="一、封装读取XML的工具类（使用Dom4j实现）"><a href="#一、封装读取XML的工具类（使用Dom4j实现）" class="headerlink" title="一、封装读取XML的工具类（使用Dom4j实现）"></a>一、封装读取XML的工具类（使用Dom4j实现）</h3><p>   多的不说，先上代码，通过代码解释实现逻辑。</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="built_in">String</span> getSQLByClass(<span class="built_in">String</span> className, <span class="built_in">String</span> methodName) &#123;</div><div class="line">        <span class="built_in">String</span> fileName = DynamicConsts.MAPPER_URL_PREFIX + properties.getUrl() + className + DynamicConsts.PARSE_XML_SUFFEX;   -<span class="number">-1</span>--</div><div class="line">        Element root = <span class="literal">null</span>;</div><div class="line">        Document documentText = <span class="literal">null</span>;</div><div class="line">        SAXReader reader = <span class="keyword">new</span> SAXReader();</div><div class="line">        <span class="built_in">String</span> sql = <span class="literal">null</span>;</div><div class="line">        try &#123;</div><div class="line">            isReLoad = StringUtils.<span class="built_in">isEmpty</span>(properties.getIsReLoad()) ? defaultIsReLoad : properties.getIsReLoad(); -<span class="number">-2</span>--</div><div class="line">            <span class="keyword">if</span>(<span class="string">"true"</span>.equals(isReLoad)) &#123;</div><div class="line">                documentText = reader.read(<span class="keyword">new</span> File(fileName));</div><div class="line">            &#125; <span class="keyword">else</span> &#123;  -<span class="number">-3</span>--</div><div class="line">                <span class="keyword">if</span>(docCache.<span class="built_in">isEmpty</span>() || docCache.<span class="keyword">get</span>(fileName) == <span class="literal">null</span>) &#123;</div><div class="line">                    documentText = reader.read(<span class="keyword">new</span> File(fileName));</div><div class="line">                    docCache.put(fileName, documentText);</div><div class="line"></div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    documentText = docCache.<span class="keyword">get</span>(fileName);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            root = documentText.getRootElement();</div><div class="line">            Iterator it = root.elementIterator();</div><div class="line">            <span class="keyword">while</span>(it.hasNext()) &#123;</div><div class="line">                Element <span class="keyword">next</span> = (Element) it.<span class="keyword">next</span>();</div><div class="line">                Attribute attribute = <span class="keyword">next</span>.attribute(<span class="string">"id"</span>);</div><div class="line">                <span class="keyword">if</span>(methodName.equals(attribute.getValue())) &#123;  -<span class="number">-4</span>--</div><div class="line">                    sql = <span class="built_in">String</span>.valueOf(<span class="keyword">next</span>.getData());</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (DocumentException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            <span class="built_in">log</span>.<span class="keyword">error</span>(<span class="string">"获取SQL失败，错误信息:"</span> + e.getMessage());</div><div class="line">        &#125;</div><div class="line">        return sql;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>说明：<br><br>1：读取XML配置文件全路径，配置主要有XML配置文件在工程中的包路径，配置文件固定后缀<br><br>2：读取配置使用重新加载配置文件的配置，配置值为true或false<br><br>3：通过2的配置，来判断XML配置文件修改之后是否需要重新加载；代码思路为，如果isReLoad为true，则程序每次访问，都会去加载XML配置文件，如果为false，则第一次加载之后会将XML配置文件放到内存中，下次访问直接从内存中获取（isReload默认为false，在开发阶段建议设为true）<br><br>4：根据自定义SQL的标识code获取SQL（标识code建议和DAO方法名一致）</p><p></p>
+<h3 id="二、封装统一的数据容器"><a href="#二、封装统一的数据容器" class="headerlink" title="二、封装统一的数据容器"></a>二、封装统一的数据容器</h3>
 	    </div>  
         <div style="float:left;width:34%;background-color:#EAEAEA">
         <!-- Table of Contents -->
 			
 			<div id="toc" class="toc-article">
 			<strong class="toc-title" >文章目录</strong>
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#maven打包加载src-main-java中的配置文件"><span class="toc-number">1.</span> <span class="toc-text">maven打包加载src/main/java中的配置文件</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#封装思路说明："><span class="toc-number">1.</span> <span class="toc-text">封装思路说明：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博主对JdbcTemplate封装的步骤："><span class="toc-number"></span> <span class="toc-text">博主对JdbcTemplate封装的步骤：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、封装读取XML的工具类（使用Dom4j实现）"><span class="toc-number">1.</span> <span class="toc-text">一、封装读取XML的工具类（使用Dom4j实现）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、封装统一的数据容器"><span class="toc-number">2.</span> <span class="toc-text">二、封装统一的数据容器</span></a></li></ol>
 			</div>
 			
         </div>
@@ -187,13 +195,13 @@
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdbcTemplate/">jdbcTemplate</a></li></ul>
 	</div>
 
       
 	<div class="article-category tagcloud">
 	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
+	<a class="article-category-link" href="/categories/封装JdbcTemplate自定义SQL/">封装JdbcTemplate自定义SQL</a>
 	</div>
 
 
@@ -245,7 +253,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http:/2016/12/22/maven配置/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:/2017/02/07/封装JdbcTemplate的自定义SQL/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -259,18 +267,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/12/22/java基本数据类型缓存解析/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          java基本数据类型缓存解析
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/20/zookeeper集群部署-单机版/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">zookeeper集群部署(单机版)</div>
+    <a href="/2017/01/27/nginx-tomcat-redis实现session共享/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nginx+tomcat+redis实现session共享</div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[学无止境，永(勇)攀高峰]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2016-12-22T14:19:33.000Z</updated>
+  <updated>2017-02-07T15:58:12.000Z</updated>
   <id>/</id>
   
   <author>
@@ -13,6 +13,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[封装JdbcTemplate的自定义SQL]]></title>
+    <link href="/2017/02/07/%E5%B0%81%E8%A3%85JdbcTemplate%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89SQL/"/>
+    <id>/2017/02/07/封装JdbcTemplate的自定义SQL/</id>
+    <published>2017-02-07T14:46:56.000Z</published>
+    <updated>2017-02-07T15:58:12.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>本博文为博主原创，转载请注明出处！</strong></p>
+<h3 id="封装思路说明："><a href="#封装思路说明：" class="headerlink" title="封装思路说明："></a>封装思路说明：</h3><p>对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口<a id="more"></a>。通过Dom4j解析自定义SQL的XML配置文件，根据自定义SQL的标识code获取对应的SQL。使用JdbcTemplate或者封装的JdbcClient工具类进行查询等操作，查询出的结果封装到数据容器中。</p>
+<p><strong><em>代码路径为：<a href="https://github.com/ArtIsLong/JdbcTemplatePackaging.git" target="_blank" rel="external">https://github.com/ArtIsLong/JdbcTemplatePackaging.git</a></em></strong></p><p></p>
+<h2 id="博主对JdbcTemplate封装的步骤："><a href="#博主对JdbcTemplate封装的步骤：" class="headerlink" title="博主对JdbcTemplate封装的步骤："></a>博主对JdbcTemplate封装的步骤：</h2><h3 id="一、封装读取XML的工具类（使用Dom4j实现）"><a href="#一、封装读取XML的工具类（使用Dom4j实现）" class="headerlink" title="一、封装读取XML的工具类（使用Dom4j实现）"></a>一、封装读取XML的工具类（使用Dom4j实现）</h3><p>   多的不说，先上代码，通过代码解释实现逻辑。</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="built_in">String</span> getSQLByClass(<span class="built_in">String</span> className, <span class="built_in">String</span> methodName) &#123;</div><div class="line">        <span class="built_in">String</span> fileName = DynamicConsts.MAPPER_URL_PREFIX + properties.getUrl() + className + DynamicConsts.PARSE_XML_SUFFEX;   -<span class="number">-1</span>--</div><div class="line">        Element root = <span class="literal">null</span>;</div><div class="line">        Document documentText = <span class="literal">null</span>;</div><div class="line">        SAXReader reader = <span class="keyword">new</span> SAXReader();</div><div class="line">        <span class="built_in">String</span> sql = <span class="literal">null</span>;</div><div class="line">        try &#123;</div><div class="line">            isReLoad = StringUtils.<span class="built_in">isEmpty</span>(properties.getIsReLoad()) ? defaultIsReLoad : properties.getIsReLoad(); -<span class="number">-2</span>--</div><div class="line">            <span class="keyword">if</span>(<span class="string">"true"</span>.equals(isReLoad)) &#123;</div><div class="line">                documentText = reader.read(<span class="keyword">new</span> File(fileName));</div><div class="line">            &#125; <span class="keyword">else</span> &#123;  -<span class="number">-3</span>--</div><div class="line">                <span class="keyword">if</span>(docCache.<span class="built_in">isEmpty</span>() || docCache.<span class="keyword">get</span>(fileName) == <span class="literal">null</span>) &#123;</div><div class="line">                    documentText = reader.read(<span class="keyword">new</span> File(fileName));</div><div class="line">                    docCache.put(fileName, documentText);</div><div class="line"></div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    documentText = docCache.<span class="keyword">get</span>(fileName);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            root = documentText.getRootElement();</div><div class="line">            Iterator it = root.elementIterator();</div><div class="line">            <span class="keyword">while</span>(it.hasNext()) &#123;</div><div class="line">                Element <span class="keyword">next</span> = (Element) it.<span class="keyword">next</span>();</div><div class="line">                Attribute attribute = <span class="keyword">next</span>.attribute(<span class="string">"id"</span>);</div><div class="line">                <span class="keyword">if</span>(methodName.equals(attribute.getValue())) &#123;  -<span class="number">-4</span>--</div><div class="line">                    sql = <span class="built_in">String</span>.valueOf(<span class="keyword">next</span>.getData());</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (DocumentException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            <span class="built_in">log</span>.<span class="keyword">error</span>(<span class="string">"获取SQL失败，错误信息:"</span> + e.getMessage());</div><div class="line">        &#125;</div><div class="line">        return sql;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>说明：<br><br>1：读取XML配置文件全路径，配置主要有XML配置文件在工程中的包路径，配置文件固定后缀<br><br>2：读取配置使用重新加载配置文件的配置，配置值为true或false<br><br>3：通过2的配置，来判断XML配置文件修改之后是否需要重新加载；代码思路为，如果isReLoad为true，则程序每次访问，都会去加载XML配置文件，如果为false，则第一次加载之后会将XML配置文件放到内存中，下次访问直接从内存中获取（isReload默认为false，在开发阶段建议设为true）<br><br>4：根据自定义SQL的标识code获取SQL（标识code建议和DAO方法名一致）</p><p></p>
+<h3 id="二、封装统一的数据容器"><a href="#二、封装统一的数据容器" class="headerlink" title="二、封装统一的数据容器"></a>二、封装统一的数据容器</h3>]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>本博文为博主原创，转载请注明出处！</strong></p>
+<h3 id="封装思路说明："><a href="#封装思路说明：" class="headerlink" title="封装思路说明："></a>封装思路说明：</h3><p>对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口]]>
+    
+    </summary>
+    
+      <category term="jdbcTemplate" scheme="/tags/jdbcTemplate/"/>
+    
+      <category term="封装JdbcTemplate自定义SQL" scheme="/categories/%E5%B0%81%E8%A3%85JdbcTemplate%E8%87%AA%E5%AE%9A%E4%B9%89SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[nginx+tomcat+redis实现session共享]]></title>
+    <link href="/2017/01/27/nginx-tomcat-redis%E5%AE%9E%E7%8E%B0session%E5%85%B1%E4%BA%AB/"/>
+    <id>/2017/01/27/nginx-tomcat-redis实现session共享/</id>
+    <published>2017-01-27T04:48:26.000Z</published>
+    <updated>2017-02-07T14:49:07.000Z</updated>
+    <content type="html"><![CDATA[<p>本文是基于window系统实现。</p>
+<h2 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h2>]]></content>
+    <summary type="html">
+    <![CDATA[使用nginx+tomcat+redis实现sesison共享]]>
+    
+    </summary>
+    
+      <category term="session共享" scheme="/tags/session%E5%85%B1%E4%BA%AB/"/>
+    
+      <category term="session共享" scheme="/categories/session%E5%85%B1%E4%BA%AB/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[js工具库]]></title>

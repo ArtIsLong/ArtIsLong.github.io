@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>/2017/02/07/%E5%B0%81%E8%A3%85JdbcTemplate%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89SQL/</loc>
+    <lastmod>2017-02-07T15:58:12.000Z</lastmod>
+    <data>
+        <display>
+        <title>封装JdbcTemplate的自定义SQL</title>
+        <pubTime>2017-02-07T14:46:56.000Z</pubTime>
+        
+        <tag>jdbcTemplate</tag>
+         
+         
+           
+             
+              <breadCrumb title="封装JdbcTemplate自定义SQL" url="/categories/%E5%B0%81%E8%A3%85JdbcTemplate%E8%87%AA%E5%AE%9A%E4%B9%89SQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>/2017/01/27/nginx-tomcat-redis%E5%AE%9E%E7%8E%B0session%E5%85%B1%E4%BA%AB/</loc>
+    <lastmod>2017-02-07T14:49:07.000Z</lastmod>
+    <data>
+        <display>
+        <title>nginx+tomcat+redis实现session共享</title>
+        <pubTime>2017-01-27T04:48:26.000Z</pubTime>
+        
+        <tag>session共享</tag>
+         
+         
+           
+             
+              <breadCrumb title="session共享" url="/categories/session%E5%85%B1%E4%BA%AB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>/2016/12/18/Spring-Boot%E6%A0%B8%E5%BF%83/</loc>
     <lastmod>2016-12-22T14:31:49.000Z</lastmod>
     <data>
