@@ -4,7 +4,7 @@
   <subtitle><![CDATA[学无止境，永(勇)攀高峰]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2017-02-13T16:45:54.000Z</updated>
+  <updated>2017-02-14T16:32:06.000Z</updated>
   <id>/</id>
   
   <author>
@@ -19,9 +19,9 @@
     <link href="/2017/02/09/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/"/>
     <id>/2017/02/09/个人简历/</id>
     <published>2017-02-09T14:38:15.000Z</published>
-    <updated>2017-02-13T16:45:54.000Z</updated>
+    <updated>2017-02-14T16:32:06.000Z</updated>
     <content type="html"><![CDATA[<h1 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a><center>个人简历</center></h1><h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><blockquote>
-<p>姓名：陈敏<br><br>籍贯：甘肃省平凉市<br><br>出生年月：1993年3月<br><br>邮箱：15221499301@139.com<br><br>博客：<a href="http://artislong.github.io" target="_blank" rel="external">http://artislong.github.io</a><br><br>github：<a href="https://github.com/artislong" target="_blank" rel="external">https://github.com/artislong</a><br><br>求职意向：Java研发<br></p>
+<p>姓名：陈敏<br>籍贯：甘肃省平凉市<br>出生年月：1993年3月<br>邮箱：15221499301@139.com<br>博客：<a href="http://artislong.github.io" target="_blank" rel="external">http://artislong.github.io</a><br>github：<a href="https://github.com/artislong" target="_blank" rel="external">https://github.com/artislong</a><br>求职意向：Java研发<a id="more"></a></p>
 </blockquote>
 <h3 id="自我评价"><a href="#自我评价" class="headerlink" title="自我评价"></a>自我评价</h3><blockquote>
 <p>简洁清晰的编程习惯，学习能力强<br><br>工作主动，执行力及抗压性强<br><br>热爱开源，喜欢学习各种开源技术<br></p>
@@ -33,12 +33,12 @@
 <p>2015年11月至2016年5月，进入亚信科技实习，从事新业务工单开发工作</p><p><br>2016年6月转正，进入产商品中心项目组，进行产品服务项目以及产品配置化项目的开发</p>
 </blockquote>
 <h3 id="项目经验"><a href="#项目经验" class="headerlink" title="项目经验"></a>项目经验</h3><blockquote>
-<p>项目名称：OA<br>开发环境：window 7，MySQL 5.6，Tomcat7，jdk1.7<br>开发工具：MyEclipse 10<br>项目描述：本项目主旨为实现办公自动化功能，实现了系统管理、网上交流、审批流转等几大功能，系统管理包括部门管理、员工管理、角色管理，其中，角色管理通过拦截请求url的方式实现了权限控制<br>项目职责：设计与开发<br>项目相关技术：Spring，Struts2，Hibernate，DWR，JQuery，Ajax，Memcached，以及JQuery相关插件<br>代码地址：<a href="https://github.com/artislong/OA" target="_blank" rel="external">https://github.com/artislong/OA</a></p>
+<p>项目名称：OA<br>开发环境：window 7，MySQL 5.6，Tomcat7，jdk1.7<br>开发工具：MyEclipse 10<br>项目描述：本项目主旨为实现办公自动化功能，实现了系统管理、网上交流、审批流转等几大功能，系统管理包括部门管理、员工管理、角色管理，其中，角色管理通过拦截请求url的方式实现了权限控制，通过角色来控制对应角色下的用户对系统的操作权限。使用JBPM工作流框架实现审批流转功能，审批流转具有提交请假单、报销单等功能，审批流程由各级审批人员（经理）进行审批处理。使用DWR框架进行消息推送，实现用户登录提醒功能，并将登录用户信息存储到memcached中，用户可以实时查看在线用户人数及在线用户列表。<br>项目职责：设计与开发<br>项目相关技术：Spring，Struts2，Hibernate，JBPM，DWR，JQuery，Ajax，Memcached，以及JQuery相关插件<br>代码地址：<a href="https://github.com/artislong/OA" target="_blank" rel="external">https://github.com/artislong/OA</a></p>
 </blockquote>
 <p>
 
 <blockquote>
-<p>项目名称：CRM（客户关系管理系统）<br>开发环境：window 7，Oracle，Tomcat6，jdk1.6<br>开发工具：Eclipse JavaEE<br>项目描述：<br>项目职责：</p>
+<p>项目名称：CRM（客户关系管理系统）<br>开发环境：window 7，Oracle，Tomcat6，jdk1.6<br>开发工具：Eclipse JavaEE<br>项目描述：<br>项目职责：<br>项目相关技术：Appframe，Javascript，Ajax</p>
 </blockquote>
 </p><p></p><p></p>
 <blockquote>
@@ -52,14 +52,16 @@
 <p>2012.9-2016.6  甘肃农业大学  信息管理与信息系统专业<br>2015.7-2015.11  上海杰普科技有限公司  培训JavaEE开发</p>
 </blockquote>
 <h3 id="技术经历"><a href="#技术经历" class="headerlink" title="技术经历"></a>技术经历</h3><blockquote>
-<p>2013.10月开始自学Java方面相关知识<br>2015.9-2016.3，使用SSH框架完成OA系统的开发，同时作为毕设作品<br>2016.12，参考MyBatis的Mapper配置文件，对Spring自身提供的访问数据库的JdbcTemplate进行封装，主要针对JdbcTemplate的自定义SQL进行封装</p>
+<p>2013.10月开始自学Java方面相关知识<br>2015.9-2016.3，使用SSH框架完成OA系统的开发，同时作为毕设作品<br>2016.12，参考MyBatis的Mapper配置文件，对Spring自身提供的访问数据库的JdbcTemplate进行封装，主要针对JdbcTemplate的自定义SQL进行封装，设计并开发出一个通用的数据容器，用来存储查询结果，并且配置文件具有热加载功能，最后将其做成Spring Boot的一个Starter POM模块。</p>
 </blockquote>
 <h3 id="在校荣誉"><a href="#在校荣誉" class="headerlink" title="在校荣誉"></a>在校荣誉</h3><blockquote>
-<p>2014年10月  甘肃农业大学计算机技能大赛(设计类)一等奖   校级<br>2014年12月  <a href="http://dasai.lanqiao.org/" target="_blank" rel="external">第六届蓝桥杯全国软件大赛甘肃赛区C语言软件开发三等奖</a>  国家</p>
+<p>2014年10月  甘肃农业大学计算机技能大赛(设计类)一等奖   校级<br>2014年12月  <a href="http://dasai.lanqiao.org/" target="_blank" rel="external">第六届蓝桥杯全国软件大赛甘肃赛区C语言软件开发三等奖</a>  国家级</p>
 </blockquote>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a><center>个人简历</center></h1><h2 id="基本信息"><a href="#基本信息" class="headerlink"]]>
+    <![CDATA[<h1 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a><center>个人简历</h1><h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><blockquote>
+<p>姓名：陈敏<br>籍贯：甘肃省平凉市<br>出生年月：1993年3月<br>邮箱：15221499301@139.com<br>博客：<a href="http://artislong.github.io">http://artislong.github.io</a><br>github：<a href="https://github.com/artislong">https://github.com/artislong</a><br>求职意向：Java研发]]>
+    
     </summary>
     
       <category term="个人简历" scheme="/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/"/>
