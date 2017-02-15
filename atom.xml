@@ -4,7 +4,7 @@
   <subtitle><![CDATA[学无止境，永(勇)攀高峰]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2017-02-14T16:32:06.000Z</updated>
+  <updated>2017-02-15T16:31:13.000Z</updated>
   <id>/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="/2017/02/09/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/"/>
     <id>/2017/02/09/个人简历/</id>
     <published>2017-02-09T14:38:15.000Z</published>
-    <updated>2017-02-14T16:32:06.000Z</updated>
+    <updated>2017-02-15T16:31:13.000Z</updated>
     <content type="html"><![CDATA[<h1 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a><center>个人简历</center></h1><h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><blockquote>
 <p>姓名：陈敏<br>籍贯：甘肃省平凉市<br>出生年月：1993年3月<br>邮箱：15221499301@139.com<br>博客：<a href="http://artislong.github.io" target="_blank" rel="external">http://artislong.github.io</a><br>github：<a href="https://github.com/artislong" target="_blank" rel="external">https://github.com/artislong</a><br>求职意向：Java研发<a id="more"></a></p>
 </blockquote>
@@ -33,20 +33,18 @@
 <p>2015年11月至2016年5月，进入亚信科技实习，从事新业务工单开发工作</p><p><br>2016年6月转正，进入产商品中心项目组，进行产品服务项目以及产品配置化项目的开发</p>
 </blockquote>
 <h3 id="项目经验"><a href="#项目经验" class="headerlink" title="项目经验"></a>项目经验</h3><blockquote>
-<p>项目名称：OA<br>开发环境：window 7，MySQL 5.6，Tomcat7，jdk1.7<br>开发工具：MyEclipse 10<br>项目描述：本项目主旨为实现办公自动化功能，实现了系统管理、网上交流、审批流转等几大功能，系统管理包括部门管理、员工管理、角色管理，其中，角色管理通过拦截请求url的方式实现了权限控制，通过角色来控制对应角色下的用户对系统的操作权限。使用JBPM工作流框架实现审批流转功能，审批流转具有提交请假单、报销单等功能，审批流程由各级审批人员（经理）进行审批处理。使用DWR框架进行消息推送，实现用户登录提醒功能，并将登录用户信息存储到memcached中，用户可以实时查看在线用户人数及在线用户列表。<br>项目职责：设计与开发<br>项目相关技术：Spring，Struts2，Hibernate，JBPM，DWR，JQuery，Ajax，Memcached，以及JQuery相关插件<br>代码地址：<a href="https://github.com/artislong/OA" target="_blank" rel="external">https://github.com/artislong/OA</a></p>
-</blockquote>
+<p>项目名称：OA<br>开发环境：window 7，MySQL 5.6，Tomcat7，jdk1.7<br>开发工具：MyEclipse 10<br>项目描述：本项目主旨为实现办公自动化功能，实现了系统管理、网上交流、审批流转等几大功能，系统管理包括部门管理、员工管理、角色管理，其中，角色管理通过拦截请求url的方式实现了权限控制，通过角色来控制对应角色下的用户对系统的操作权限。使用JBPM工作流框架实现审批流转功能，审批流转具有提交请假单、报销单等功能，审批流程由各级审批人员（经理）进行审批处理。使用DWR框架进行消息推送，实现用户登录提醒功能，并将登录用户信息存储到memcached中，用户可以实时查看在线用户人数及在线用户列表。<br>项目职责：设计与开发<br>项目相关技术：Spring，Struts2，Hibernate，JBPM，DWR，JQuery，Ajax，Memcached，以及JQuery相关插件<br>代码地址：<a href="https://github.com/artislong/OA" target="_blank" rel="external">https://github.com/artislong/OA</a><br>收获：通过项目的练习，使我掌握了SSH框架的基本使用方式，项目中的Jstl标签，El表达式的应用，使我明白了Jstl和El在Web项目中的真正作用，并且使我有了较扎实的代码编写能力。通过拦截url实现权限功能，使我在以后的学习中能够更加容易的掌握Apapche Shiro以及Spring Security安全框架。项目的简单灵活的架构设计，为我打下了项目架构设计的基础。</p>
 <p>
 
-<blockquote>
-<p>项目名称：CRM（客户关系管理系统）<br>开发环境：window 7，Oracle，Tomcat6，jdk1.6<br>开发工具：Eclipse JavaEE<br>项目描述：<br>项目职责：<br>项目相关技术：Appframe，Javascript，Ajax</p>
+</p><p>项目名称：CRM（客户关系管理系统）<br>开发环境：window 7，Oracle，Tomcat6，jdk1.6<br>开发工具：Eclipse JavaEE<br>项目描述：CRM系统作为亚信科技（中国）上海分公司的主要项目，是一款上海移动用户定制业务系统，功能齐全，系统庞大，并且与多个外平台交互。系统强健的功能为业务处理提供全程支撑和监控，实现了业务处理的实时计费，实时监控、实时优惠、实时帐务、实时信息查询和实时处理等多项功能，高效的支撑了业务运营。<br>项目职责：本人负责CRM个人新业务工单的开发，在实习期间，主要完成了一下工作：1、完成CRM短信模板配置界面功能的开发（已上线）。  2、使用Appframe框架提供的批量导入框架（BP）实现了客户投诉信息的批量导入，使用类似于POI的工具解析并处理了Excel数据。  3、梳理CRM系统产品缓存策略，阅读Appframe实现memcached客户端的源码，并对其进行优化。  4、开发扫描客户信息的后台实时处理进程，基本熟悉实时任务和定时任务。<br>项目相关技术：Appframe，Javascript，Ajax<br>收获：CRM系统作为为上海移动服务的主打产品，其中灵活多变的业务逻辑，使我在以后的工作中能够更加容易的理解复杂的业务需求，在掌握技术的前提下能够快速针对需求而做出最有效的实现。虽然整个系统庞大而复杂的业务让开发人员理解困难，但是其各种有效的数据库设计也为我在之后个人独立项目中提供了更多的数据库表的设计灵感。</p>
 </blockquote>
-</p><p></p><p></p>
+<p></p><p></p>
 <blockquote>
-<p>项目名称：产商品项目<br>开发环境：window 7，Oracle 11g，Tomcat7，jdk1.7<br>开发工具：Intellij Idea<br>项目描述：本项目为产商品中心项目，主要分为读和写两部分。第一部分为服务的开发（既读的部分），服务的开发是在原crm系统服务的基础上，使用SpringBoot+Redis对原有服务进行优化改造；第二部分为配置化项目（既写的部分），主要针对中国移动的各种套餐、活动的配置，采用敏捷开发模式，使用配置化开发方式开发出各种套餐活动的配置化界面。<br><br>项目职责：<br>1、在开发服务的过程中，除过对普通的服务进行改造优化外，本人在项目经理的要求下，完成了组合产品定价服务，为移动商城提供服务支持，其功能类似于淘宝天猫等商城中，不同商品组合购买，可以打不同的折扣。</p><p></p>
+<p>项目名称：产商品项目<br>开发环境：window 7，Oracle，Tomcat7，jdk1.7<br>开发工具：Intellij Idea<br>项目描述：本项目为产商品中心项目，主要分为读和写两部分。第一部分为服务的开发（既读的部分），服务的开发是在原crm系统服务的基础上，使用SpringBoot+Redis对原有服务进行优化改造；第二部分为配置化项目（既写的部分），主要针对中国移动的各种套餐、活动的配置，采用敏捷开发模式，使用配置化开发方式开发出各种套餐活动的配置化界面。<br><br>项目职责：<br>1、在开发服务的过程中，除过对普通的服务进行改造优化外，本人在项目经理的要求下，完成了组合产品定价服务，为移动商城提供服务支持，其功能类似于淘宝天猫等商城中，不同商品组合购买，可以打不同的折扣。</p><p></p>
 </blockquote>
 <p>2、在配置化开发部分，主要是采用配置与代码协作开发方式，和同伴一起完成套餐、活动配置模板的开发，并在后期带领实习生完成基本配置工作的入门学习。</p>
 <blockquote>
-<p>项目相关技术：Spring Boot，Redis，JQuery，Ajax，JSON（Java，JS）</p>
+<p>项目相关技术：Spring Boot，Redis，JQuery，Ajax，JSON（Java，JS）<br>收获：使我能够熟练使用Spring Boot框架的同时，也使我掌握了查询优化（Java和Oracle）的基本思想，CRM远程调用产品中心接口的改造，也让我基本掌握了通过http协议调用远程接口的方式，同时，项目中，大量JSON数据的处理，也让我能够熟练的利用JSON工具处理JSON类型的数据。</p>
 </blockquote>
 <h3 id="教育经历"><a href="#教育经历" class="headerlink" title="教育经历"></a>教育经历</h3><blockquote>
 <p>2012.9-2016.6  甘肃农业大学  信息管理与信息系统专业<br>2015.7-2015.11  上海杰普科技有限公司  培训JavaEE开发</p>
