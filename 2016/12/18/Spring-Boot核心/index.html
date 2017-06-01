@@ -179,7 +179,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-	    <div style="float:left;width:65%">
+        <div>
+	    <!--<div style="float:left;width:65%">-->
 	    <h2 id="一、Spring-Boot基本配置"><a href="#一、Spring-Boot基本配置" class="headerlink" title="一、Spring Boot基本配置"></a>一、Spring Boot基本配置</h2><p></p><p></p>
 <h4 id="1、入口类和-SpringBootApplication"><a href="#1、入口类和-SpringBootApplication" class="headerlink" title="1、入口类和@SpringBootApplication"></a>1、入口类和@SpringBootApplication</h4><p>Spring Boot通常有一个名为*Application的入口类，入口类中有一个main方法，这个main方法其实就是一个标准的Java应用程序的入口方法。在main方法中使用SpringApplication.run(Chapter01Application.class, args),<a id="more"></a>启动Spring Boot应用项目。</p>
 <h4 id="2、关闭特定的自动配置"><a href="#2、关闭特定的自动配置" class="headerlink" title="2、关闭特定的自动配置"></a>2、关闭特定的自动配置</h4><p>通过<strong>@SpringBootApplication</strong>源码可以看出，关闭特定的自动配置应该使用<strong>@SpringBootApplication</strong>注解的exclude参数，例如:<br>@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})</p>
@@ -234,13 +235,13 @@
 	    </div>  
         <div style="float:left;width:34%;background-color:#EAEAEA">
         <!-- Table of Contents -->
-			
+	    <!-- 
 			<div id="toc" class="toc-article">
 			<strong class="toc-title" >文章目录</strong>
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Spring-Boot基本配置"><span class="toc-number">1.</span> <span class="toc-text">一、Spring Boot基本配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、入口类和-SpringBootApplication"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、入口类和@SpringBootApplication</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、关闭特定的自动配置"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、关闭特定的自动配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、定制Banner"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、定制Banner</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、关闭banner"><span class="toc-number">1.0.4.</span> <span class="toc-text">4、关闭banner</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、Spring-Boot配置文件"><span class="toc-number">1.0.5.</span> <span class="toc-text">5、Spring Boot配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、官方starter-pom"><span class="toc-number">1.0.6.</span> <span class="toc-text">6、官方starter pom</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、使用xml配置"><span class="toc-number">1.0.7.</span> <span class="toc-text">7、使用xml配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8、命令行参数配置"><span class="toc-number">1.0.8.</span> <span class="toc-text">8、命令行参数配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9、常规属性配置"><span class="toc-number">1.0.9.</span> <span class="toc-text">9、常规属性配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10、类型安全的配置（基于properties）"><span class="toc-number">1.0.10.</span> <span class="toc-text">10、类型安全的配置（基于properties）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11、日志配置"><span class="toc-number">1.0.11.</span> <span class="toc-text">11、日志配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12、Profile配置"><span class="toc-number">1.0.12.</span> <span class="toc-text">12、Profile配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Spring-Boot运行原理"><span class="toc-number">2.</span> <span class="toc-text">二、Spring Boot运行原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、Spring-Boot运行原理解析："><span class="toc-number">2.0.1.</span> <span class="toc-text">1、Spring Boot运行原理解析：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、分析http的编码配置"><span class="toc-number">2.0.2.</span> <span class="toc-text">2、分析http的编码配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、自定义自动配置（包装成starter-pom）"><span class="toc-number">2.0.3.</span> <span class="toc-text">3、自定义自动配置（包装成starter pom）</span></a></li></ol></li></ol></li></ol>
 			</div>
 			
-        </div>
+        </div>-->
       
 
       
@@ -398,11 +399,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">java缓存</a>
+                <a href="javascript:void(0)">SpringBoot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">jdk版本</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">java缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -414,15 +423,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">jdk版本</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">session共享</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">个人简历</a>
+                <a href="javascript:void(0)">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -430,7 +435,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">zookeeper</a>
+                <a href="javascript:void(0)">个人简历</a>
               </li>
             
             <div class="clearfix"></div>

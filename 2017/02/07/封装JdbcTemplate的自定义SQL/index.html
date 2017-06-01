@@ -168,7 +168,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-	    <div style="float:left;width:65%">
+        <div>
+	    <!--<div style="float:left;width:65%">-->
 	    <p><strong>本博文为博主原创，转载请注明出处！</strong></p>
 <h3 id="封装思路说明："><a href="#封装思路说明：" class="headerlink" title="封装思路说明："></a>封装思路说明：</h3><p>对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口<a id="more"></a>。通过Dom4j解析自定义SQL的XML配置文件，根据自定义SQL的标识code获取对应的SQL。使用JdbcTemplate或者封装的JdbcClient工具类进行查询等操作，查询出的结果封装到数据容器中。</p>
 <p><strong><em>代码路径为：<a href="https://github.com/ArtIsLong/JdbcTemplatePackaging.git" target="_blank" rel="external">https://github.com/ArtIsLong/JdbcTemplatePackaging.git</a></em></strong></p><p></p>
@@ -180,13 +181,13 @@
 	    </div>  
         <div style="float:left;width:34%;background-color:#EAEAEA">
         <!-- Table of Contents -->
-			
+	    <!-- 
 			<div id="toc" class="toc-article">
 			<strong class="toc-title" >文章目录</strong>
 			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#封装思路说明："><span class="toc-number">1.</span> <span class="toc-text">封装思路说明：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博主对JdbcTemplate封装的步骤："><span class="toc-number"></span> <span class="toc-text">博主对JdbcTemplate封装的步骤：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、封装读取XML的工具类（使用Dom4j实现）"><span class="toc-number">1.</span> <span class="toc-text">一、封装读取XML的工具类（使用Dom4j实现）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、封装统一的数据容器"><span class="toc-number">2.</span> <span class="toc-text">二、封装统一的数据容器</span></a></li></ol>
 			</div>
 			
-        </div>
+        </div>-->
       
 
       
@@ -344,11 +345,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">java缓存</a>
+                <a href="javascript:void(0)">SpringBoot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">jdk版本</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">java缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -360,15 +369,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">jdk版本</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">session共享</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">个人简历</a>
+                <a href="javascript:void(0)">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -376,7 +381,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">zookeeper</a>
+                <a href="javascript:void(0)">个人简历</a>
               </li>
             
             <div class="clearfix"></div>
