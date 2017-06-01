@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title><![CDATA[ArtIsLong的博客]]></title>
-  <subtitle><![CDATA[学无止境，永(勇)攀高峰]]></subtitle>
+  <subtitle><![CDATA[好的程序猿都是野路子]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
   <updated>2017-06-01T13:31:30.000Z</updated>
@@ -142,14 +142,46 @@
     <link href="/2017/02/07/%E5%B0%81%E8%A3%85JdbcTemplate%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89SQL/"/>
     <id>/2017/02/07/封装JdbcTemplate的自定义SQL/</id>
     <published>2017-02-07T14:46:56.000Z</published>
-    <updated>2017-03-10T17:21:28.000Z</updated>
+    <updated>2017-06-01T14:44:47.000Z</updated>
     <content type="html"><![CDATA[<p><strong>本博文为博主原创，转载请注明出处！</strong></p>
 <h3 id="封装思路说明："><a href="#封装思路说明：" class="headerlink" title="封装思路说明："></a>封装思路说明：</h3><p>对JdbcTemplate自定义SQL的封装，主要是参考MyBatis来进行的，但又与MyBatis有很大的区别，主要是针对RowMapper接口进行处理，构造一个统一的数据容器来继承并实现RowMapper接口<a id="more"></a>。通过Dom4j解析自定义SQL的XML配置文件，根据自定义SQL的标识code获取对应的SQL。使用JdbcTemplate或者封装的JdbcClient工具类进行查询等操作，查询出的结果封装到数据容器中。</p>
 <p><strong><em>代码路径为：<a href="https://github.com/ArtIsLong/JdbcTemplatePackaging.git" target="_blank" rel="external">https://github.com/ArtIsLong/JdbcTemplatePackaging.git</a></em></strong></p><p></p>
-<h2 id="博主对JdbcTemplate封装的步骤："><a href="#博主对JdbcTemplate封装的步骤：" class="headerlink" title="博主对JdbcTemplate封装的步骤："></a>博主对JdbcTemplate封装的步骤：</h2><h3 id="一、封装读取XML的工具类（使用Dom4j实现）"><a href="#一、封装读取XML的工具类（使用Dom4j实现）" class="headerlink" title="一、封装读取XML的工具类（使用Dom4j实现）"></a>一、封装读取XML的工具类（使用Dom4j实现）</h3><p>   多的不说，先上代码，通过代码解释实现思路。</p>
-<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="built_in">String</span> getSQLByClass(<span class="built_in">String</span> className, <span class="built_in">String</span> methodName) &#123;</div><div class="line">       <span class="built_in">String</span> fileName = DynamicConsts.MAPPER_URL_PREFIX + properties.getUrl() + className + DynamicConsts.PARSE_XML_SUFFEX;   -<span class="number">-1</span>--</div><div class="line">       Element root = <span class="literal">null</span>;</div><div class="line">       Document documentText = <span class="literal">null</span>;</div><div class="line">       SAXReader reader = <span class="keyword">new</span> SAXReader();</div><div class="line">       <span class="built_in">String</span> sql = <span class="literal">null</span>;</div><div class="line">       try &#123;</div><div class="line">           isReLoad = StringUtils.<span class="built_in">isEmpty</span>(properties.getIsReLoad()) ? defaultIsReLoad : properties.getIsReLoad(); -<span class="number">-2</span>--</div><div class="line">           <span class="keyword">if</span>(<span class="string">"true"</span>.equals(isReLoad)) &#123;</div><div class="line">               documentText = reader.read(<span class="keyword">new</span> File(fileName));</div><div class="line">           &#125; <span class="keyword">else</span> &#123;  -<span class="number">-3</span>--</div><div class="line">               <span class="keyword">if</span>(docCache.<span class="built_in">isEmpty</span>() || docCache.<span class="keyword">get</span>(fileName) == <span class="literal">null</span>) &#123;</div><div class="line">                   documentText = reader.read(<span class="keyword">new</span> File(fileName));</div><div class="line">                   docCache.put(fileName, documentText);</div><div class="line">               &#125; <span class="keyword">else</span> &#123;</div><div class="line">                   documentText = docCache.<span class="keyword">get</span>(fileName);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           root = documentText.getRootElement();</div><div class="line">           Iterator it = root.elementIterator();</div><div class="line">           <span class="keyword">while</span>(it.hasNext()) &#123;</div><div class="line">               Element <span class="keyword">next</span> = (Element) it.<span class="keyword">next</span>();</div><div class="line">               Attribute attribute = <span class="keyword">next</span>.attribute(<span class="string">"id"</span>);</div><div class="line">               <span class="keyword">if</span>(methodName.equals(attribute.getValue())) &#123;  -<span class="number">-4</span>--</div><div class="line">                   sql = <span class="built_in">String</span>.valueOf(<span class="keyword">next</span>.getData());</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125; catch (DocumentException e) &#123;</div><div class="line">           e.printStackTrace();</div><div class="line">           <span class="built_in">log</span>.<span class="keyword">error</span>(<span class="string">"获取SQL失败，错误信息:"</span> + e.getMessage());</div><div class="line">       &#125;</div><div class="line">       return sql;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h2 id="博主对JdbcTemplate封装的步骤："><a href="#博主对JdbcTemplate封装的步骤：" class="headerlink" title="博主对JdbcTemplate封装的步骤："></a>博主对JdbcTemplate封装的步骤：</h2><h3 id="一、封装读取XML的工具类（使用Dom4j实现）"><a href="#一、封装读取XML的工具类（使用Dom4j实现）" class="headerlink" title="一、封装读取XML的工具类（使用Dom4j实现）"></a>一、封装读取XML的工具类（使用Dom4j实现）</h3><p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>   多的不说，先上代码，通过代码解释实现思路。</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">	public String getSQLByClass(String className, String methodName) &#123;</span></div><div class="line">=======</div><div class="line"><span class="code">   多的不说，先上代码，通过代码解释实现逻辑。</span></div></pre></td></tr></table></figure>
+<p>public String getSQLByClass(String className, String methodName) {</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>cbb46b7549f1e65e1a79a5a5d4245d6325a9a1f6<br>        String fileName = DynamicConsts.MAPPER_URL_PREFIX + properties.getUrl() + className + DynamicConsts.PARSE_XML_SUFFEX;   –1–<br>        Element root = null;<br>        Document documentText = null;<br>        SAXReader reader = new SAXReader();<br>        String sql = null;<br>        try {<br>            isReLoad = StringUtils.isEmpty(properties.getIsReLoad()) ? defaultIsReLoad : properties.getIsReLoad(); –2–<br>            if(“true”.equals(isReLoad)) {<br>                documentText = reader.read(new File(fileName));<br>            } else {  –3–<br>                if(docCache.isEmpty() || docCache.get(fileName) == null) {<br>                    documentText = reader.read(new File(fileName));<br>                    docCache.put(fileName, documentText);</p>
+<h1 id="lt-lt-lt-lt-lt-lt-lt-HEAD"><a href="#lt-lt-lt-lt-lt-lt-lt-HEAD" class="headerlink" title="&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD"></a>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</h1><p>cbb46b7549f1e65e1a79a5a5d4245d6325a9a1f6<br>                } else {<br>                    documentText = docCache.get(fileName);<br>                }<br>            }<br>            root = documentText.getRootElement();<br>            Iterator it = root.elementIterator();<br>            while(it.hasNext()) {<br>                Element next = (Element) it.next();<br>                Attribute attribute = next.attribute(“id”);<br>                if(methodName.equals(attribute.getValue())) {  –4–<br>                    sql = String.valueOf(next.getData());<br>                }<br>            }<br>        } catch (DocumentException e) {<br>            e.printStackTrace();<br>            log.error(“获取SQL失败，错误信息:” + e.getMessage());<br>        }<br>        return sql;<br>    }<br>```</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>说明：<br><br>1：读取XML配置文件全路径，配置主要有XML配置文件在工程中的包路径，配置文件固定后缀<br><br>2：读取配置使用重新加载配置文件的配置，配置值为true或false<br><br>3：通过2的配置，来判断XML配置文件修改之后是否需要重新加载；代码思路为，如果isReLoad为true，则程序每次访问，都会去加载XML配置文件，如果为false，则第一次加载之后会将XML配置文件放到内存中，下次访问直接从内存中获取（isReload默认为false，在开发阶段建议设为true）<br><br>4：根据自定义SQL的标识code获取SQL（标识code建议和DAO方法名一致）</p><p></p>
-<h3 id="二、封装统一的数据容器"><a href="#二、封装统一的数据容器" class="headerlink" title="二、封装统一的数据容器"></a>二、封装统一的数据容器</h3><p>实现思路：实现RowMapper接口的mapRow方法，遍历ResultSet里的数据，将其存到Map里，其中key默认为表的列名，</p>
+<h3 id="二、封装统一的数据容器"><a href="#二、封装统一的数据容器" class="headerlink" title="二、封装统一的数据容器"></a>二、封装统一的数据容器</h3><p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="实现思路：实现RowMapper接口的mapRow方法，遍历ResultSet里的数据，将其存到Map里，其中key默认为表的列名，"><a href="#实现思路：实现RowMapper接口的mapRow方法，遍历ResultSet里的数据，将其存到Map里，其中key默认为表的列名，" class="headerlink" title="实现思路：实现RowMapper接口的mapRow方法，遍历ResultSet里的数据，将其存到Map里，其中key默认为表的列名，"></a>实现思路：实现RowMapper接口的mapRow方法，遍历ResultSet里的数据，将其存到Map里，其中key默认为表的列名，</h1><blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>cbb46b7549f1e65e1a79a5a5d4245d6325a9a1f6</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<p><strong>本博文为博主原创，转载请注明出处！</strong></p>
@@ -450,6 +482,71 @@ public class HelloController {
       <category term="Spring Boot" scheme="/tags/Spring-Boot/"/>
     
       <category term="Spring Boot" scheme="/categories/Spring-Boot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Spring Boot入门]]></title>
+    <link href="/2016/12/13/Spring-Boot%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/"/>
+    <id>/2016/12/13/Spring-Boot基础配置/</id>
+    <published>2016-12-13T12:43:01.000Z</published>
+    <updated>2017-06-01T14:44:47.000Z</updated>
+    <content type="html"><![CDATA[<p>#Spring Boot入门</p>
+<p></p><p><strong>Spring Boot</strong>是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式使得开发人员使用Spring开发极大的简便了配置过程，基本上实现了零配置。<br>  </p><p>Spring Boot有以下几个优点：<br><br>   1、 没有代码生成，不需要XML配置文件<br><br>   2、 内嵌Tomcat，Jetty或者Undertow服务器，不需要额外部署web工程到Servlet容器<br><br>   3、 可以独立运行Spring应用程序<br><br>   4、 提供了Maven，Gradle两种方法搭建Spring Boot工程<br><br>   5、 无缝整合其他开源框架（只需要添加开源框架的依赖包，Spring Boot自动完成整合）<br><br>   6、 提供可以直接在生产环境中使用的功能，如性能指标、应用信息和应用健康检查<br></p>
+<p>###Spring Boot入门工程搭建：</p>
+<h4 id="一、采用Spring官网提供的SPRING-INITIALIZR进行搭建。"><a href="#一、采用Spring官网提供的SPRING-INITIALIZR进行搭建。" class="headerlink" title="一、采用Spring官网提供的SPRING INITIALIZR进行搭建。"></a>一、采用Spring官网提供的<a href="https://start.spring.io/" target="_blank" rel="external">SPRING INITIALIZR</a>进行搭建。<p></p></h4><p>可以选择Maven Project或者Gradle Project来搭建，然后选择Spring Boot版本，输入Group，Artifact，以及需要的依赖包，然后点击Generate Project，会生成一个Artifact.zip压缩包，将Artifact工程导入常用的开发工具即可。</p><p></p>
+<h4 id="二、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）"><a href="#二、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）" class="headerlink" title="二、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）"></a>二、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）</h4><h5 id="1、新建一个Maven的web工程"><a href="#1、新建一个Maven的web工程" class="headerlink" title="1、新建一个Maven的web工程"></a>1、新建一个Maven的web工程<br></h5><h5 id="2、在pom-xml文件中添加Spring-Boot的相关依赖"><a href="#2、在pom-xml文件中添加Spring-Boot的相关依赖" class="headerlink" title="2、在pom.xml文件中添加Spring Boot的相关依赖"></a>2、在pom.xml文件中添加Spring Boot的相关依赖</h5><p>   添加父级依赖，这样当前的项目就是Spring Boot项目了。spring-boot-starter-parent是一个特殊的starer，它用来提供相关的maven默认依赖，使用它之后，当前项目的的常用依赖包就可以省去version标签。<br></p>
+<pre><code>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.4.0.RELEASE&lt;/version&gt;
+    &lt;relativePath/&gt;
+&lt;/parent&gt;
+</code></pre><p>   <br>添加spring-boot-starter依赖，spring-boot-starter是Spring Boot核心starter，包含自动配置、日志、yaml配置文件的支持。<br></p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>   <br>然后在dependencies中添加Web支持的starter pom。<br></p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>   <br>spring-boot-starter-web会自动添加它所依赖的jar包<br><br>   <br>然后添加Spring Boot的编译插件，便于使用Spring Boot命令操作工程<br></p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+    &lt;configuration&gt;
+        &lt;fork&gt;true&lt;/fork&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre><h5 id="3、简单测试"><a href="#3、简单测试" class="headerlink" title="3、简单测试"></a>3、简单测试</h5><p>   新建包路径com.gnd.chapter01，在com.gnd.chapter01包路径下新建Chapter01Application.java入口类，编写入口方法<br></p>
+<pre><code>@SpringBootApplication
+public class Chapter01Application {
+    public static void main(String[] args){                                  
+        SpringApplication.run(Chapter01Application.class, args);
+    }
+}
+</code></pre><p><strong><em>注</em></strong>：<strong>@SpringBootApplication</strong>是一个组合注解，查看其源码，<strong>@SpringBootApplication</strong><br>组合了<strong>@SpringBootConfiguration</strong>，<strong>@EnableAutoConfiguration</strong>，<strong>@ComponentScan</strong>三个注解，<strong>@SpringBootConfiguration</strong>表示当前类是一个启动应用程序的入口；<strong>@EnableAutoConfiguration</strong>注解开启自动配置，让Spring Boot根据类路径中的jar包依赖为当前项目进行自动配置(例如:添加了spring-boot-starter-web依赖，会自动添加tomcat和SpringMVC的依赖)；<strong>@ComponentScan</strong>会以Application入口类所在目录为根目录，自动扫描工程中标注了<strong>@Component</strong>注解的类。</p>
+<p>  然后新建目录controller，在其中新建一个HelloController测试类。</p>
+<pre><code>@RestController
+public class HelloController {
+    @RequestMapping(&quot;/hello&quot;)
+    public String index() {
+        return &quot;Hello, World!&quot;;
+    }
+}
+</code></pre><p>  <strong>@RestController</strong>也是一个组合注解，组合了<strong>@Controller</strong>，<strong>@ResponseBody</strong>两个注解</p>
+<h5 id="4、运行"><a href="#4、运行" class="headerlink" title="4、运行"></a>4、运行</h5><p>   使用Spring Boot命令运行工程，mvn spring-boot:run，或者直接运行Chapter01Application类，在浏览器中访问<a href="http://localhost:8080/hello" target="_blank" rel="external">http://localhost:8080/hello</a>即可访问HelloController</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>#Spring Boot入门</p>
+<p></p><p><strong>Spring Boot</strong>是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义]]>
+    </summary>
+    
+      <category term="Spring Boot" scheme="/tags/Spring-Boot/"/>
+    
+      <category term="Spring Boot基础" scheme="/categories/Spring-Boot%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   

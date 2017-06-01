@@ -49,7 +49,7 @@
 		</hgroup>
 
 		
-		<p class="header-subtitle">学无止境，永(勇)攀高峰</p>
+		<p class="header-subtitle">好的程序猿都是野路子</p>
 		
 
 		<nav class="header-menu">
@@ -114,7 +114,7 @@
 			  <h1 class="header-author">ArtIsLong的博客</h1>
 			</hgroup>
 			
-			<p class="header-subtitle">学无止境，永(勇)攀高峰</p>
+			<p class="header-subtitle">好的程序猿都是野路子</p>
 			
 			<nav class="header-menu">
 				<ul>
@@ -173,7 +173,8 @@
       
         <div>
 	    <!--<div style="float:left;width:65%">-->
-	    <p><strong><em>本文是在机器已经配置好java开发环境的基础上完成的。</em></strong></p>
+	    <div>
+        <p><strong><em>本文是在机器已经配置好java开发环境的基础上完成的。</em></strong></p>
 <h3 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h3><p>Zookeeper最新版本是3.4.6，笔者使用zookeeper-3.4.5-cdh5.3.6.tar.gz完成集群的搭建。<br>Zk的其他版本下载地址：<a href="http://www.apache.org/dist/zookeeper/" target="_blank" rel="external">http://www.apache.org/dist/zookeeper/</a><br>将下载好的zookeeper解压，<a id="more"></a>建议重命名为zookeeper-3.4.5-1，并且拷贝出相同的两份，分别命名为zookeeper-3.4.5-2，zookeeper-3.4.5-3。</p><p><br>   然后在适当的目录下新建一个存放zookeeper数据的目录，笔者新建了devtools目录，在devtools目录中新建zookeeper-1目录，在其中增加data目录和log目录（这两个目录的作用在后面会做说明）；然后将zookeeper-1目录拷贝出两份，分别命名为zookeeper-2，zookeeper-3。</p><p><br>笔者目录结构为：</p><p><br><a href="http://i1.piimg.com/4851/34885c8a253a8a22.png" title="点击显示原始图片" target="_blank" rel="external"><img src="http://i1.piimg.com/4851/34885c8a253a8a22t.jpg"></a></p><p><br>   到此，软件和环境准备工作已经做好，接下来就需要对zookeeper的相关配置文件做修改了。</p>
 <h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><p>新下载的Zookeeper，conf目录下有configuration.xsl，log4j.properties，zoo_sample.cfg三个配置文件，我们需要将zoo_sample.cfg复制一份，命名为zoo.cfg，因为zookeeper启动的时候会读取zoo.cfg文件的配置信息。<br>zoo.cfg文件中有几项参数，主要解释一下三项参数：<br><br>tickTime=2000  基本事件单元，以毫秒为单位。它用来控制心跳和超时，默认情况下最小的会话超时时间为两倍的 tickTime。<br><br>clientPort=2181  监听客户端连接的端口。<br><br>dataDir=/tmp/zookeeper  zookeeper默认存放数据的目录</p><p></p>
 <p>接下来我们需要修改zoo.cfg中的配置信息。<br>在zoo.cfg中增加这两项配置：</p>
@@ -193,15 +194,9 @@
 <p>zookeeper集群的搭建及测试完成，在Linux下搭建伪集群和不同机器下搭建集群方式基本相同。笔者建议后来者可先在windows环境下搭建，windows的可视化界面效果能够为初学者减少很多出错的地方。</p>
 
 	    </div>  
-        <div style="float:left;width:34%;background-color:#EAEAEA">
+        <!--<div style="float:left;width:34%;background-color:#EAEAEA">-->
         <!-- Table of Contents -->
-	    <!-- 
-			<div id="toc" class="toc-article">
-			<strong class="toc-title" >文章目录</strong>
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件准备"><span class="toc-number">1.</span> <span class="toc-text">软件准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群配置"><span class="toc-number">2.</span> <span class="toc-text">集群配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群测试"><span class="toc-number">3.</span> <span class="toc-text">集群测试</span></a></li></ol>
-			</div>
-			
-        </div>-->
+        <!--</div>-->
       
 
       
@@ -359,6 +354,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Spring Boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">SpringBoot</a>
               </li>
              
@@ -367,15 +366,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Spring Boot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">jdk版本</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">session共享</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -383,11 +374,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">zookeeper</a>
+                <a href="javascript:void(0)">maven</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">maven</a>
+                <a href="javascript:void(0)">session共享</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -466,7 +461,7 @@
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">&lt;center&gt; 个人简历</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">对技术有着无限的追求，爱瞎折腾，在技术的道路上以一颗好奇心不断的前进。</div>
   	  	
     	</section>
     
