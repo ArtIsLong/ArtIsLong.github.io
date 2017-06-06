@@ -78,9 +78,9 @@
     <link href="/2017/06/06/Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%85%8D%E7%BD%AE/"/>
     <id>/2017/06/06/Nginx负载均衡配置/</id>
     <published>2017-06-06T14:50:56.000Z</published>
-    <updated>2017-06-06T15:53:25.000Z</updated>
-    <content type="html"><![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<a id="more"></a></p>
-<p>​    Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+    <updated>2017-06-06T16:29:09.000Z</updated>
+    <content type="html"><![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。</p>
+<p>​    Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。<a id="more"></a></p>
 <p>这段来自百度百科，简单介绍一下，读者若需详细了解可自行查找资料，本文侧重于Nginx负载相关的具体操作配置介绍。</p>
 <p>Nginx常用的功能有Http代理、反向代理，负载均衡器，web缓存等功能，最近项目需要做负载，简单的研究了一下nginx，对反向代理和负载均衡着重看了一下，所以接下来的文章主要对这两部分进行介绍。</p>
 <h4 id="1、Nginx服务器的安装"><a href="#1、Nginx服务器的安装" class="headerlink" title="1、Nginx服务器的安装"></a>1、Nginx服务器的安装</h4><p>windowns版Nginx下载地址：<a href="http://nginx.org/en/docs/windows.html" target="_blank" rel="external">http://nginx.org/en/docs/windows.html</a></p>
@@ -150,7 +150,8 @@
 <p>总结一下，负载均衡简单的理解其实可以看做是用户请求Nginx，Nginx将用户的请求URL按照配置的方式截取，然后按照配置的upstream的方式请求后端服务器。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。]]>
+    <![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。</p>
+<p>​    Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。]]>
     
     </summary>
     
