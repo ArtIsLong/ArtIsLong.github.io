@@ -148,6 +148,172 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-session共享" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/06/session共享/">Nginx+Tomcat+Redis实现Session共享</a>
+    </h1>
+  
+
+        <a href="/2017/06/06/session共享/" class="archive-article-date">
+  	<time datetime="2017-06-06T15:04:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div>
+	    <!--<div style="float:left;width:65%">-->
+	    <div>
+        <h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a>Nginx+Tomcat+Redis实现Session共享</h2><p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。</p>
+<p>经过九牛二虎之力的百度，查资料，找到了几种解决session共享的方案。</p>
+<ul>
+<li><p>不适用session，换错cookie</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">能把session改成cookie，就能避开session的一些弊端，也有资料表明在集群系统中不能使用session。但是博主思考再三，公司项目的session中存储一些比较重要的信息，在以后的业务中也会使用session中的数据，所以直接使用cookie这种方案果断舍弃。</div></pre></td></tr></table></figure>
+</li>
+<li><p>应用服务器自行实现共享</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">让服务器自行实现session共享，就需要提供一个后端服务器都能访问的公共容器来存储session，比如redis或者memcache，当系统需要获取session时，直接从redis或memcache中获取即可。</div></pre></td></tr></table></figure>
+<p>以上两种方式都与Nginx没多大关系了。下面说说使用nginx如何处理</p>
+</li>
+<li><p>ip_hash</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">之前的博客中对upstream的几种方式做了介绍，相信大家还记得ip_hash的介绍吧，每个请求按访问<span class="built_in">ip</span>的hash结果分配，这样每个访问固定访问一个后端服务器。</div><div class="line">这样一来这个<span class="built_in">ip</span>下的某个客户端和某个后端服务器就能建立稳固的session。这样每个客户端都只对应一个服务器，那就不存在需要共享session的需要了，不过只用<span class="built_in">ip</span>这个因子来分配后端，所以还是存在一些缺陷，不能在以下情况下使用：</div><div class="line"><span class="number">1</span>、nginx不是最前端的服务器。ip_hash要求nginx一定是最前端的服务器，否则nginx就得不到正确的<span class="built_in">ip</span>，也就不能根据<span class="built_in">ip</span>来分配后端了。比如squid(一个高性能的代理缓存服务器)作为最前端，那么nginx只能获取到squid所在服务器的<span class="built_in">ip</span>地址，这种分流方式肯定会混乱的。</div><div class="line"><span class="number">2</span>、nginx的后端还有其他方式的负载均衡。如果nginx后端又有其他的负载均衡，将请求又通过另外的方式分流了，那么某个客户端的请求肯定不能定位到同一台服务器上。</div></pre></td></tr></table></figure>
+</li>
+<li><p>upstream_hash</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">为了解决ip_hash的一些问题，可以使用upstream_hash这个第三方模块，这个模块大多数情况下是用作url_hash的，但是并不妨碍将它用来做session共享；</div><div class="line">这种方式不是很理解，就不错累述了，以后再慢慢研究。读者可自行查找资料学习。</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>来自于网络上的方案介绍完了，接下来说说博主项目中的实际操作。</p>
+<p>博主最初的打算是使用redis来缓存系统数据，刚好也可以实现session共享。可惜，客户公司方面服务器资源不够，不让使用redis，上面第二种方案瞬间被阉割掉了，有点不爽。这里必须吐槽吐槽客户公司。</p>
+<p>由于不让使用redis，所以只能使用第三种方式了，这里就不做太多的累述了，比较简单，配置nginx负载均衡的时候将upstream的方式配置为ip_hash即可，具体配置方式在上篇“Nginx负载均衡配置”中已有例子，可做参考。</p>
+<p>这样就完了？没有，这就完了这篇博客也太水了，虽然客户公司不让使用redis，但是博主还是自己抽时间使用nginx+tomcat+redis来自己实现session共享。</p>
+<p>——————————————————————这是一个分隔线——————————————————————-</p>
+<h4 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h4><p>因为是自己玩，所以直接在windows上开工了。</p>
+<p>nginx-1.11.5，apache-tomcat-7.0.55，redis-2.6.12(windows版)</p>
+<p>读者可从<a href="https://github.com/ArtIsLong/documentation/blob/master/resources/nginx_redis_tomcat.zip" target="_blank" rel="external">这里</a>下载。其中有三个jar包最为重要：</p>
+<p>commons-pool-1.6.jar，jedis-2.1.0.jar，tomcat-redis-session-manager-tomcat7.jar，在软件包中的tomcat的lib目录下可找到。</p>
+<h4 id="2、配置tomcat"><a href="#2、配置tomcat" class="headerlink" title="2、配置tomcat"></a>2、配置tomcat</h4><p>在tomcat中的context.xml文件中加入以下内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Valve</span>  <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionHandlerValve"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionManager"</span></span></div><div class="line">	<span class="attr">host</span>=<span class="string">"localhost"</span> </div><div class="line">	<span class="attr">port</span>=<span class="string">"6379"</span></div><div class="line">	<span class="attr">database</span>=<span class="string">"0"</span> </div><div class="line">	<span class="attr">maxInactiveInterval</span>=<span class="string">"60"</span> /&gt;</div></pre></td></tr></table></figure>
+<p>将配置好的tomcat三份，分别命名为apache-tomcat-7.0.55-1，apache-tomcat-7.0.55-2，apache-tomcat-7.0.55-3，然后去将每个tomcat的端口改掉，分别改为8081，8082，8083</p>
+<h4 id="3、配置Nginx"><a href="#3、配置Nginx" class="headerlink" title="3、配置Nginx"></a>3、配置Nginx</h4><p>将三个tomcat服务器用nginx代理，</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">upstream</span>  localhost   &#123;</div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8081</span> weight=<span class="number">1</span>;  </div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8082</span> weight=<span class="number">1</span>;  </div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8083</span> weight=<span class="number">1</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="4、测试页面"><a href="#4、测试页面" class="headerlink" title="4、测试页面"></a>4、测试页面</h4><p>在tomcat的webapp目录下新建test目录，在test中新建index.jsp，然后给三个tomcat都拷贝一份</p>
+<figure class="highlight erb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">%</span></span><span class="ruby"></span></div><div class="line">	out.println(request.getSession().getId());</div><div class="line"><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这可能是可与Hello，World媲美的页面了。</p>
+<p>5、启动测试</p>
+<p>先启动redis，在启动三个tomcat，最后再启动nginx，然后访问页面。</p>
+<p>有两种访问方式：</p>
+<ul>
+<li>直接访问三个tomcat，<a href="http://localhost:808x/test/index.jsp，查看页面打印出的sessionId是否一致。" target="_blank" rel="external">http://localhost:808x/test/index.jsp，查看页面打印出的sessionId是否一致。</a></li>
+<li>多次访问nginx，<a href="http://localhost:80/test/index.jsp，查看nginx日志，看看nginx请求转发日志，确定是不是同一台tomcat，如果页面上的sessionId不变则session共享成功" target="_blank" rel="external">http://localhost:80/test/index.jsp，查看nginx日志，看看nginx请求转发日志，确定是不是同一台tomcat，如果页面上的sessionId不变则session共享成功</a></li>
+</ul>
+<p>好了，这种session共享完成。不过还没完，刚开始介绍时说的那三个jar包还没说说呢，接下来通过tomcat-redis-session-manager-tomcat7.jar的源码来解释一下这种方式实现session共享的原理。</p>
+
+	    </div>  
+        <!--<div style="float:left;width:34%;background-color:#EAEAEA">-->
+        <!-- Table of Contents -->
+        <!--</div>-->
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx-服务器/">Nginx,服务器</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/Nginx/">Nginx</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/06/session共享/#more">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-Nginx负载均衡配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/06/Nginx负载均衡配置/">Nginx负载均衡配置</a>
+    </h1>
+  
+
+        <a href="/2017/06/06/Nginx负载均衡配置/" class="archive-article-date">
+  	<time datetime="2017-06-06T14:50:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。
+        <a class="article-more-a"  href="/2017/06/06/Nginx负载均衡配置/#more">Read More >></a>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx-负载均衡/">Nginx,负载均衡</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/服务器/">服务器</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/06/Nginx负载均衡配置/#more">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-SpringBoot动态数据源切换" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -310,72 +476,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/02/07/封装JdbcTemplate的自定义SQL/#more">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-nginx-tomcat-redis实现session共享" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/27/nginx-tomcat-redis实现session共享/">nginx+tomcat+redis实现session共享</a>
-    </h1>
-  
-
-        <a href="/2017/01/27/nginx-tomcat-redis实现session共享/" class="archive-article-date">
-  	<time datetime="2017-01-27T04:48:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-27</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <div>
-	    <!--<div style="float:left;width:65%">-->
-	    <div>
-        <p>本文是基于window系统实现。</p>
-<h2 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h2>
-	    </div>  
-        <!--<div style="float:left;width:34%;background-color:#EAEAEA">-->
-        <!-- Table of Contents -->
-        <!--</div>-->
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/session共享/">session共享</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/session共享/">session共享</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/01/27/nginx-tomcat-redis实现session共享/#more">展开全文 >></a>
         </p>
       
 
@@ -690,65 +790,6 @@
 
 
   
-    <article id="post-jdk各版本区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/18/jdk各版本区别/">jdk各版本区别</a>
-    </h1>
-  
-
-        <a href="/2016/12/18/jdk各版本区别/" class="archive-article-date">
-  	<time datetime="2016-12-17T16:06:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-18</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="jdk5新特性"><a href="#jdk5新特性" class="headerlink" title="jdk5新特性"></a>jdk5新特性</h1><h3 id="1、自动装箱和拆箱"><a href="#1、自动装箱和拆箱" class="headerlink" title="1、自动装箱和拆箱"></a>1、自动装箱和拆箱</h3><h3 id="2、枚举"><a href="#2、枚举" class="headerlink" title="2、枚举"></a>2、枚举</h3><h3 id="3、静态导入"><a href="#3、静态导入" class="headerlink" title="3、静态导入"></a>3、静态导入</h3><h3 id="4、可变参数"><a href="#4、可变参数" class="headerlink" title="4、可变参数"></a>4、可变参数</h3><h3 id="5、內省"><a href="#5、內省" class="headerlink" title="5、內省"></a>5、內省</h3><p>   内省是Java语言对Bean类属性、事件的一种缺省处理方法。例如类A中有属性那么，那我们可以通过getName，setName来得到其值或者设置新的值。通过getName/setName来访问name属性，这就是默认的规则。
-        <a class="article-more-a"  href="/2016/12/18/jdk各版本区别/#more">Read More >></a>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk版本/">jdk版本</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/Java基础/">Java基础</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/18/jdk各版本区别/#more">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -807,11 +848,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Spring Boot</a>
+                <a href="javascript:void(0)">Nginx,负载均衡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">SpringBoot</a>
+                <a href="javascript:void(0)">Spring Boot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -819,7 +860,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">jdk版本</a>
+                <a href="javascript:void(0)">SpringBoot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -827,11 +868,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)">jdk版本</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">maven</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">session共享</a>
+                <a href="javascript:void(0)">Nginx,服务器</a>
               </li>
              
               <li class="article-tag-list-item">

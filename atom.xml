@@ -4,7 +4,7 @@
   <subtitle><![CDATA[好的程序猿都是野路子]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2017-06-01T13:31:30.000Z</updated>
+  <updated>2017-06-06T15:09:34.000Z</updated>
   <id>/</id>
   
   <author>
@@ -15,11 +15,157 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Nginx+Tomcat+Redis实现Session共享]]></title>
+    <link href="/2017/06/06/session%E5%85%B1%E4%BA%AB/"/>
+    <id>/2017/06/06/session共享/</id>
+    <published>2017-06-06T15:04:12.000Z</published>
+    <updated>2017-06-06T15:09:34.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a>Nginx+Tomcat+Redis实现Session共享</h2><p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。</p>
+<p>经过九牛二虎之力的百度，查资料，找到了几种解决session共享的方案。</p>
+<ul>
+<li><p>不适用session，换错cookie</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">能把session改成cookie，就能避开session的一些弊端，也有资料表明在集群系统中不能使用session。但是博主思考再三，公司项目的session中存储一些比较重要的信息，在以后的业务中也会使用session中的数据，所以直接使用cookie这种方案果断舍弃。</div></pre></td></tr></table></figure>
+</li>
+<li><p>应用服务器自行实现共享</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">让服务器自行实现session共享，就需要提供一个后端服务器都能访问的公共容器来存储session，比如redis或者memcache，当系统需要获取session时，直接从redis或memcache中获取即可。</div></pre></td></tr></table></figure>
+<p>以上两种方式都与Nginx没多大关系了。下面说说使用nginx如何处理</p>
+</li>
+<li><p>ip_hash</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">之前的博客中对upstream的几种方式做了介绍，相信大家还记得ip_hash的介绍吧，每个请求按访问<span class="built_in">ip</span>的hash结果分配，这样每个访问固定访问一个后端服务器。</div><div class="line">这样一来这个<span class="built_in">ip</span>下的某个客户端和某个后端服务器就能建立稳固的session。这样每个客户端都只对应一个服务器，那就不存在需要共享session的需要了，不过只用<span class="built_in">ip</span>这个因子来分配后端，所以还是存在一些缺陷，不能在以下情况下使用：</div><div class="line"><span class="number">1</span>、nginx不是最前端的服务器。ip_hash要求nginx一定是最前端的服务器，否则nginx就得不到正确的<span class="built_in">ip</span>，也就不能根据<span class="built_in">ip</span>来分配后端了。比如squid(一个高性能的代理缓存服务器)作为最前端，那么nginx只能获取到squid所在服务器的<span class="built_in">ip</span>地址，这种分流方式肯定会混乱的。</div><div class="line"><span class="number">2</span>、nginx的后端还有其他方式的负载均衡。如果nginx后端又有其他的负载均衡，将请求又通过另外的方式分流了，那么某个客户端的请求肯定不能定位到同一台服务器上。</div></pre></td></tr></table></figure>
+</li>
+<li><p>upstream_hash</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">为了解决ip_hash的一些问题，可以使用upstream_hash这个第三方模块，这个模块大多数情况下是用作url_hash的，但是并不妨碍将它用来做session共享；</div><div class="line">这种方式不是很理解，就不错累述了，以后再慢慢研究。读者可自行查找资料学习。</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>来自于网络上的方案介绍完了，接下来说说博主项目中的实际操作。</p>
+<p>博主最初的打算是使用redis来缓存系统数据，刚好也可以实现session共享。可惜，客户公司方面服务器资源不够，不让使用redis，上面第二种方案瞬间被阉割掉了，有点不爽。这里必须吐槽吐槽客户公司。</p>
+<p>由于不让使用redis，所以只能使用第三种方式了，这里就不做太多的累述了，比较简单，配置nginx负载均衡的时候将upstream的方式配置为ip_hash即可，具体配置方式在上篇“Nginx负载均衡配置”中已有例子，可做参考。</p>
+<p>这样就完了？没有，这就完了这篇博客也太水了，虽然客户公司不让使用redis，但是博主还是自己抽时间使用nginx+tomcat+redis来自己实现session共享。</p>
+<p>——————————————————————这是一个分隔线——————————————————————-</p>
+<h4 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h4><p>因为是自己玩，所以直接在windows上开工了。</p>
+<p>nginx-1.11.5，apache-tomcat-7.0.55，redis-2.6.12(windows版)</p>
+<p>读者可从<a href="https://github.com/ArtIsLong/documentation/blob/master/resources/nginx_redis_tomcat.zip" target="_blank" rel="external">这里</a>下载。其中有三个jar包最为重要：</p>
+<p>commons-pool-1.6.jar，jedis-2.1.0.jar，tomcat-redis-session-manager-tomcat7.jar，在软件包中的tomcat的lib目录下可找到。</p>
+<h4 id="2、配置tomcat"><a href="#2、配置tomcat" class="headerlink" title="2、配置tomcat"></a>2、配置tomcat</h4><p>在tomcat中的context.xml文件中加入以下内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Valve</span>  <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionHandlerValve"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionManager"</span></span></div><div class="line">	<span class="attr">host</span>=<span class="string">"localhost"</span> </div><div class="line">	<span class="attr">port</span>=<span class="string">"6379"</span></div><div class="line">	<span class="attr">database</span>=<span class="string">"0"</span> </div><div class="line">	<span class="attr">maxInactiveInterval</span>=<span class="string">"60"</span> /&gt;</div></pre></td></tr></table></figure>
+<p>将配置好的tomcat三份，分别命名为apache-tomcat-7.0.55-1，apache-tomcat-7.0.55-2，apache-tomcat-7.0.55-3，然后去将每个tomcat的端口改掉，分别改为8081，8082，8083</p>
+<h4 id="3、配置Nginx"><a href="#3、配置Nginx" class="headerlink" title="3、配置Nginx"></a>3、配置Nginx</h4><p>将三个tomcat服务器用nginx代理，</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">upstream</span>  localhost   &#123;</div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8081</span> weight=<span class="number">1</span>;  </div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8082</span> weight=<span class="number">1</span>;  </div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8083</span> weight=<span class="number">1</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="4、测试页面"><a href="#4、测试页面" class="headerlink" title="4、测试页面"></a>4、测试页面</h4><p>在tomcat的webapp目录下新建test目录，在test中新建index.jsp，然后给三个tomcat都拷贝一份</p>
+<figure class="highlight erb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">%</span></span><span class="ruby"></span></div><div class="line">	out.println(request.getSession().getId());</div><div class="line"><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这可能是可与Hello，World媲美的页面了。</p>
+<p>5、启动测试</p>
+<p>先启动redis，在启动三个tomcat，最后再启动nginx，然后访问页面。</p>
+<p>有两种访问方式：</p>
+<ul>
+<li>直接访问三个tomcat，<a href="http://localhost:808x/test/index.jsp，查看页面打印出的sessionId是否一致。" target="_blank" rel="external">http://localhost:808x/test/index.jsp，查看页面打印出的sessionId是否一致。</a></li>
+<li>多次访问nginx，<a href="http://localhost:80/test/index.jsp，查看nginx日志，看看nginx请求转发日志，确定是不是同一台tomcat，如果页面上的sessionId不变则session共享成功" target="_blank" rel="external">http://localhost:80/test/index.jsp，查看nginx日志，看看nginx请求转发日志，确定是不是同一台tomcat，如果页面上的sessionId不变则session共享成功</a></li>
+</ul>
+<p>好了，这种session共享完成。不过还没完，刚开始介绍时说的那三个jar包还没说说呢，接下来通过tomcat-redis-session-manager-tomcat7.jar的源码来解释一下这种方式实现session共享的原理。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a]]>
+    </summary>
+    
+      <category term="Nginx,服务器" scheme="/tags/Nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="Nginx" scheme="/categories/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Nginx负载均衡配置]]></title>
+    <link href="/2017/06/06/Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%85%8D%E7%BD%AE/"/>
+    <id>/2017/06/06/Nginx负载均衡配置/</id>
+    <published>2017-06-06T14:50:56.000Z</published>
+    <updated>2017-06-06T15:53:25.000Z</updated>
+    <content type="html"><![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<a id="more"></a></p>
+<p>​    Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+<p>这段来自百度百科，简单介绍一下，读者若需详细了解可自行查找资料，本文侧重于Nginx负载相关的具体操作配置介绍。</p>
+<p>Nginx常用的功能有Http代理、反向代理，负载均衡器，web缓存等功能，最近项目需要做负载，简单的研究了一下nginx，对反向代理和负载均衡着重看了一下，所以接下来的文章主要对这两部分进行介绍。</p>
+<h4 id="1、Nginx服务器的安装"><a href="#1、Nginx服务器的安装" class="headerlink" title="1、Nginx服务器的安装"></a>1、Nginx服务器的安装</h4><p>windowns版Nginx下载地址：<a href="http://nginx.org/en/docs/windows.html" target="_blank" rel="external">http://nginx.org/en/docs/windows.html</a></p>
+<blockquote>
+<p>windows上安装Nginx比较简单，Nginx官方已经提供了打包好的.exe的运行文件，不需要用户自己去编译运行。直接打开上面的地址，下载好windows版的nginx，解压后双击nginx.exe或者在命令窗口运行nginx.exe即可。</p>
+<p>因为Nginx默认端口是80端口，所以启动成功之后在浏览器地址栏输入localhost就可以看到Nginx的欢迎页面。</p>
+</blockquote>
+<p>linux版的Nginx下载地址：<a href="http://nginx.org/" target="_blank" rel="external">http://nginx.org/</a></p>
+<blockquote>
+<p>下载nginx之前，请确保自己的linux系统已经安装了g++，gcc。因为nginx是纯C语言编写，在linux下安装时需要去编译源码安装。</p>
+</blockquote>
+<ul>
+<li><p>解压Nginx源码包</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="selector-tag">tar</span> <span class="selector-tag">-zxvf</span> <span class="selector-tag">nginx-1</span><span class="selector-class">.11</span><span class="selector-class">.5</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>设置一下nginx配置信息</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; chmod -R <span class="number">777</span> nginx<span class="number">-1.11</span><span class="number">.5</span></div><div class="line">&gt; cd nginx<span class="number">-1.11</span><span class="number">.5</span></div><div class="line">&gt; ./configure --prefix=/usr/local/nginx  #此处设置prefix，是设置nginx的安装路径</div></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="built_in">make</span> | <span class="built_in">make</span> install <span class="meta">#将源码文件编译成可执行文件和各种库文件，并将其复制到上面设置的安装目录中</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>启动nginx</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="regexp">/usr/</span>local<span class="regexp">/nginx/</span>sbin<span class="regexp">/nginx -c /u</span>sr<span class="regexp">/local/</span>nginx<span class="regexp">/conf/</span>nginx.conf <span class="comment">#这一步可以不指定nginx配置文件</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>还有最重要的一步，打开Nginx的防火墙端口</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; vi /etc/sysconfig/iptables</div><div class="line">&gt; 添加端口，如： -A INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport <span class="number">80</span> -j ACCEPT</div><div class="line">&gt; /etc/init.d/iptables restart <span class="comment">#重启防火墙，让修改生效</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>在自己本机的浏览器中输入localhost就可以看到Nginx的欢迎页面。</p>
+</li>
+</ul>
+<h4 id="2、配置Nginx"><a href="#2、配置Nginx" class="headerlink" title="2、配置Nginx"></a>2、配置Nginx</h4><p>​    在真正开始配置之前，先说一下Nginx的配置文件配置的基础知识。（Linux和Windows的配置一样，不分开说了）</p>
+<pre><code>&gt; Nginx的配置文件在安装目录下的conf目录中，一些默认配置都在这个目录下。
+</code></pre><blockquote>
+<p>nginx.conf 的注释符号为 #</p>
+</blockquote>
+<p>打开nginx.conf文件，可以大概浏览一下，配置文件基本可以分为几个模块</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">...              #全局块</div><div class="line">events &#123;         #events块</div><div class="line">   ...</div><div class="line">&#125;</div><div class="line">http      #http块</div><div class="line">&#123;</div><div class="line">    ...   #http全局块</div><div class="line">    server        #server块</div><div class="line">    &#123; </div><div class="line">        ...       #server全局块</div><div class="line">        location [PATTERN]   #location块</div><div class="line">        &#123;</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">        location [PATTERN] </div><div class="line">        &#123;</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    server</div><div class="line">    &#123;</div><div class="line">      ...</div><div class="line">    &#125;</div><div class="line">    ...     #http全局块</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>全局块：配置影像nginx的全局指令。一般有nginx的进程数，错误日志文件路径，nginx的主进程号等</li>
+<li>events块：配置Nginx的工作模式，每个进程的最大连接数等</li>
+<li>http块：可以嵌套多个server，配置代理，缓存，日志等功能以及第三方模块的配置。如文件引入，mime-type定义，连接超时时间，单连接请求数等等</li>
+<li>server块：配置虚拟主机的相关参数，一个http中可以有多个server</li>
+<li>location块：配置请求的路由，以及各种页面的处理情况</li>
+</ul>
+<p>给大家附上一个nginx的配置文件，博主在公司的测试环境上搭的一个负载均衡器。</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#user  nobody;</span></div><div class="line"><span class="meta">#nginx进程数，建议设置为CPU总核心数</span></div><div class="line">worker_processes  <span class="number">1</span>;</div><div class="line"><span class="meta">#错误日志文件路径</span></div><div class="line">error_log  logs/error.<span class="built_in">log</span>;</div><div class="line"><span class="meta">#error_log  logs/error.log  notice;</span></div><div class="line"><span class="meta">#error_log  logs/error.log  info;</span></div><div class="line"><span class="meta">#nginx主进程号</span></div><div class="line">pid        logs/nginx.pid;</div><div class="line"><span class="meta">#工作模式与连接数上限</span></div><div class="line">events &#123;</div><div class="line">	<span class="meta"># 单个进程的最大连接数（最大连接数=连接数*进程数）</span></div><div class="line">	worker_connections  <span class="number">1024</span>;</div><div class="line">&#125;</div><div class="line">http &#123;</div><div class="line">	<span class="meta">#文件扩展名与文件类型映射表</span></div><div class="line">	include       mime.types;</div><div class="line">	<span class="meta">#默认文件类型</span></div><div class="line">	default_type  application/octet-<span class="keyword">stream</span>;</div><div class="line">	<span class="meta">#日志文件</span></div><div class="line">	access_log  logs/access.<span class="built_in">log</span>  main;</div><div class="line">	<span class="meta">#开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为on，如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。注意：如果图片显示不正常把这个改成off。 </span></div><div class="line">	sendfile        on;</div><div class="line">	<span class="meta">#防止网络阻塞</span></div><div class="line">	<span class="meta">#tcp_nopush     on;</span></div><div class="line">	<span class="meta">#长连接超时时间，单位是秒</span></div><div class="line">	keepalive_timeout  <span class="number">65</span>;</div><div class="line">	<span class="meta">#服务器列表名称随便写</span></div><div class="line">	upstream global &#123;</div><div class="line">		<span class="meta">#upstream的负载均衡，weight是权重，可以根据机器配置定义权重，权值越高被分配到的几率越大。</span></div><div class="line">		server <span class="number">192.168</span><span class="number">.100</span><span class="number">.100</span>:<span class="number">8081</span>; <span class="meta">#weight=1</span></div><div class="line">		server <span class="number">192.168</span><span class="number">.100</span><span class="number">.100</span>:<span class="number">8084</span>;</div><div class="line">		ip_hash; <span class="meta">#upstream的分配方式</span></div><div class="line">	&#125;</div><div class="line">	<span class="meta">#开启gzip压缩输出</span></div><div class="line">	<span class="meta">#gzip  on;</span></div><div class="line">	server &#123;</div><div class="line">		<span class="meta">#监听端口</span></div><div class="line">		listen       <span class="number">8087</span>;</div><div class="line">		<span class="meta">#域名可以有多个，用空格隔开</span></div><div class="line">		server_name  <span class="number">192.168</span><span class="number">.100</span><span class="number">.100</span>;</div><div class="line">		<span class="meta">#默认编码</span></div><div class="line">		<span class="meta">#charset koi8-r;</span></div><div class="line">		<span class="meta">#对“/”启用反向代理</span></div><div class="line">		<span class="keyword">location</span> / &#123;</div><div class="line">			<span class="meta">#前端页面项目部署路径</span></div><div class="line">			root   /home/fisCM/nginx/html;</div><div class="line">			<span class="meta">#默认主页面</span></div><div class="line">			<span class="keyword">index</span>  <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</div><div class="line">		&#125;</div><div class="line">		<span class="meta">#5xx错误对应的页面</span></div><div class="line">		<span class="meta">#error_page   500 502 503 504  /50x.html;</span></div><div class="line">		<span class="meta">#请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。</span></div><div class="line">		<span class="meta">#我们项目的请求路径为http://192.168.100.100:8087/springboot/...</span></div><div class="line">		<span class="keyword">location</span> ^~ /springboot/ &#123;</div><div class="line">			<span class="meta">#请求转向global 定义的服务器列表</span></div><div class="line">			proxy_pass   http:<span class="comment">//global;</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注：192.168.100.100地址是博主瞎写的，读者可改为自己实际的IP地址</p>
+<p>由于项目比较简单，所以也没有太多复杂的配置，接下来对Nginx负载均衡的一些基础知识做一下简单介绍。</p>
+<h4 id="3、nginx的upstream的几种方式"><a href="#3、nginx的upstream的几种方式" class="headerlink" title="3、nginx的upstream的几种方式"></a>3、nginx的upstream的几种方式</h4><pre><code>&gt; 轮询（默认）
+</code></pre><p>每个请求按照时间顺序逐一分配到不同的后端服务器，如果后端服务器冗机，能自动剔除。</p>
+<blockquote>
+<p>ip_hash</p>
+</blockquote>
+<p>每个请求按访问ip的hash结果分配，这样每个访问固定访问一个后端服务器。</p>
+<blockquote>
+<p>weight</p>
+</blockquote>
+<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。</p>
+<blockquote>
+<p>fair(第三方)</p>
+</blockquote>
+<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。</p>
+<blockquote>
+<p>url_hash(第三方)</p>
+</blockquote>
+<p>按访问URL的hash结果来分配请求，使每个URL定向到同一个后端服务器，后端服务器为缓存时比较适用。另外，在upstream中加入hash语句后，server语句不能写入weight等其他参数。</p>
+<p>总结一下，负载均衡简单的理解其实可以看做是用户请求Nginx，Nginx将用户的请求URL按照配置的方式截取，然后按照配置的upstream的方式请求后端服务器。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。]]>
+    
+    </summary>
+    
+      <category term="Nginx,负载均衡" scheme="/tags/Nginx-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+    
+      <category term="服务器" scheme="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[SpringBoot动态数据源切换]]></title>
     <link href="/2017/06/01/SpringBoot%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/"/>
     <id>/2017/06/01/SpringBoot动态数据源切换/</id>
     <published>2017-06-01T13:30:56.000Z</published>
-    <updated>2017-06-01T13:31:30.000Z</updated>
+    <updated>2017-06-06T14:58:33.000Z</updated>
     <content type="html"><![CDATA[<p>最近项目中需要配置两个数据源，并且在不同的包下动态切换，为此，博主费劲九牛二虎之力百度了一天多，参考网上动态切换数据源的博客，实现了满足项目的数据源动态切换功能。<a id="more"></a></p>
 <hr>
 <ul>
@@ -192,25 +338,6 @@
       <category term="jdbcTemplate" scheme="/tags/jdbcTemplate/"/>
     
       <category term="封装JdbcTemplate自定义SQL" scheme="/categories/%E5%B0%81%E8%A3%85JdbcTemplate%E8%87%AA%E5%AE%9A%E4%B9%89SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[nginx+tomcat+redis实现session共享]]></title>
-    <link href="/2017/01/27/nginx-tomcat-redis%E5%AE%9E%E7%8E%B0session%E5%85%B1%E4%BA%AB/"/>
-    <id>/2017/01/27/nginx-tomcat-redis实现session共享/</id>
-    <published>2017-01-27T04:48:26.000Z</published>
-    <updated>2017-02-07T14:49:07.000Z</updated>
-    <content type="html"><![CDATA[<p>本文是基于window系统实现。</p>
-<h2 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h2>]]></content>
-    <summary type="html">
-    <![CDATA[使用nginx+tomcat+redis实现sesison共享]]>
-    
-    </summary>
-    
-      <category term="session共享" scheme="/tags/session%E5%85%B1%E4%BA%AB/"/>
-    
-      <category term="session共享" scheme="/categories/session%E5%85%B1%E4%BA%AB/"/>
     
   </entry>
   
