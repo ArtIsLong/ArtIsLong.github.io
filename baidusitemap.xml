@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>/2017/06/06/Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2017-06-12T15:38:57.000Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx负载均衡配置</title>
+        <pubTime>2017-06-06T14:50:56.000Z</pubTime>
+        
+        <tag>Nginx,负载均衡</tag>
+         
+         
+           
+             
+              <breadCrumb title="服务器" url="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>/2017/06/07/session%E5%85%B1%E4%BA%AB/</loc>
     <lastmod>2017-06-12T15:33:45.000Z</lastmod>
     <data>
@@ -18,21 +38,6 @@
              
               <breadCrumb title="服务器" url="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>/2017/06/12/Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2017-06-12T15:31:10.000Z</lastmod>
-    <data>
-        <display>
-        <title></title>
-        <pubTime>2017-06-12T15:31:10.000Z</pubTime>
-        
-         
-           
         </display>
     </data>
     </url>
