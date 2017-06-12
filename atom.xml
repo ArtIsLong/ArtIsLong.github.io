@@ -4,7 +4,7 @@
   <subtitle><![CDATA[好的程序猿都是野路子]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2017-06-06T16:34:26.000Z</updated>
+  <updated>2017-06-12T15:28:26.000Z</updated>
   <id>/</id>
   
   <author>
@@ -16,12 +16,12 @@
   
   <entry>
     <title><![CDATA[Nginx+Tomcat+Redis实现Session共享]]></title>
-    <link href="/2017/06/06/session%E5%85%B1%E4%BA%AB/"/>
-    <id>/2017/06/06/session共享/</id>
-    <published>2017-06-06T15:04:12.000Z</published>
-    <updated>2017-06-06T16:34:26.000Z</updated>
+    <link href="/2017/06/07/session%E5%85%B1%E4%BA%AB/"/>
+    <id>/2017/06/07/session共享/</id>
+    <published>2017-06-07T06:43:12.000Z</published>
+    <updated>2017-06-12T15:28:26.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a>Nginx+Tomcat+Redis实现Session共享</h2><p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。</p>
-<p>经过各种百度，查资料，找到了几种解决session共享的方案。<a id="more"></a></p>
+<p>经过百度，查资料，找到了几种解决session共享的方案。</p>
 <ul>
 <li><p>不适用session，换错cookie</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">能把session改成cookie，就能避开session的一些弊端，也有资料表明在集群系统中不能使用session。但是博主思考再三，公司项目的session中存储一些比较重要的信息，在以后的业务中也会使用session中的数据，所以直接使用cookie这种方案果断舍弃。</div></pre></td></tr></table></figure>
@@ -34,12 +34,14 @@
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">之前的博客中对upstream的几种方式做了介绍，相信大家还记得ip_hash的介绍吧，每个请求按访问<span class="built_in">ip</span>的hash结果分配，这样每个访问固定访问一个后端服务器。</div><div class="line">这样一来这个<span class="built_in">ip</span>下的某个客户端和某个后端服务器就能建立稳固的session。这样每个客户端都只对应一个服务器，那就不存在需要共享session的需要了，不过只用<span class="built_in">ip</span>这个因子来分配后端，所以还是存在一些缺陷，不能在以下情况下使用：</div><div class="line"><span class="number">1</span>、nginx不是最前端的服务器。ip_hash要求nginx一定是最前端的服务器，否则nginx就得不到正确的<span class="built_in">ip</span>，也就不能根据<span class="built_in">ip</span>来分配后端了。比如squid(一个高性能的代理缓存服务器)作为最前端，那么nginx只能获取到squid所在服务器的<span class="built_in">ip</span>地址，这种分流方式肯定会混乱的。</div><div class="line"><span class="number">2</span>、nginx的后端还有其他方式的负载均衡。如果nginx后端又有其他的负载均衡，将请求又通过另外的方式分流了，那么某个客户端的请求肯定不能定位到同一台服务器上。</div></pre></td></tr></table></figure>
 </li>
 <li><p>upstream_hash</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">为了解决ip_hash的一些问题，可以使用upstream_hash这个第三方模块，这个模块大多数情况下是用作url_hash的，但是并不妨碍将它用来做session共享；</div><div class="line">这种方式不是很理解，就不错累述了，以后再慢慢研究。读者可自行查找资料学习。</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">为了解决ip_hash的一些问题，可以使用upstream_hash这个第三方模块，这个模块大多数情况下是用作url_hash的，但是并不妨碍将它用来做session共享；</div><div class="line">这种方式不是很理解，就不做累述了，以后再慢慢研究。读者可自行查找资料学习。</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>来自于网络上的方案介绍完了，接下来说说博主项目中的实际操作。</p>
 <p>博主最初的打算是使用redis来缓存系统数据，刚好也可以实现session共享。可惜，客户公司方面服务器资源不够，不让使用redis，上面第二种方案瞬间被阉割掉了，有点不爽。这里必须吐槽吐槽客户公司。</p>
 <p>由于不让使用redis，所以只能使用第三种方式了，这里就不做太多的累述了，比较简单，配置nginx负载均衡的时候将upstream的方式配置为ip_hash即可，具体配置方式在上篇“Nginx负载均衡配置”中已有例子，可做参考。</p>
+<p>简单的解释一下公司项目架构，公司项目采用前后台分离的架构，前端页面使用angularJS实现一种单页面应用，后台服务则使用SpringBoot为前端提供数据服务，后台开发者只需要关注后端逻辑，然后将前端需要的数据转为json传给前端，而不需要去考虑页面的跳转等，而前端人员也不需要关注后台逻辑，可以全身心的提供前端的用户体验度，最主要的是前后台分离后，系统开发职责划分的更加清晰。</p>
+<p>关于前后台分离方案，这个<a href="http://web.jobbole.com/82637/" target="_blank" rel="external">博客</a>讲的比较好，读者可做参考。 </p>
 <p>这样就完了？没有，这就完了这篇博客也太水了，虽然客户公司不让使用redis，但是博主还是自己抽时间使用nginx+tomcat+redis来自己实现session共享。</p>
 <p>——————————————————————这是一个分隔线——————————————————————-</p>
 <h4 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h4><p>因为是自己玩，所以直接在windows上开工了。</p>
@@ -52,26 +54,26 @@
 <h4 id="3、配置Nginx"><a href="#3、配置Nginx" class="headerlink" title="3、配置Nginx"></a>3、配置Nginx</h4><p>将三个tomcat服务器用nginx代理，</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">upstream</span>  localhost   &#123;</div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8081</span> weight=<span class="number">1</span>;  </div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8082</span> weight=<span class="number">1</span>;  </div><div class="line">	<span class="attribute">server</span>   localhost:<span class="number">8083</span> weight=<span class="number">1</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="4、测试页面"><a href="#4、测试页面" class="headerlink" title="4、测试页面"></a>4、测试页面</h4><p>在tomcat的webapp目录下新建test目录，在test中新建index.jsp，然后给三个tomcat都拷贝一份</p>
-<figure class="highlight erb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">%</span></span><span class="ruby"></span></div><div class="line">	out.println(request.getSession().getId());</div><div class="line"><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang="zh-CN"&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset="UTF-8"&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;%</div><div class="line">	out.println(request.getSession().getId());</div><div class="line">%&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
 <p>这可能是可与Hello，World媲美的页面了。</p>
-<p>5、启动测试</p>
-<p>先启动redis，在启动三个tomcat，最后再启动nginx，然后访问页面。</p>
+<h4 id="5、启动测试"><a href="#5、启动测试" class="headerlink" title="5、启动测试"></a>5、启动测试</h4><p>先启动redis，在启动三个tomcat，最后再启动nginx，然后访问页面。</p>
 <p>有两种访问方式：</p>
 <ul>
-<li>直接访问三个tomcat，<a href="http://localhost:808x/test/index.jsp，查看页面打印出的sessionId是否一致。" target="_blank" rel="external">http://localhost:808x/test/index.jsp，查看页面打印出的sessionId是否一致。</a></li>
-<li>多次访问nginx，<a href="http://localhost:80/test/index.jsp，查看nginx日志，看看nginx请求转发日志，确定是不是同一台tomcat，如果页面上的sessionId不变则session共享成功" target="_blank" rel="external">http://localhost:80/test/index.jsp，查看nginx日志，看看nginx请求转发日志，确定是不是同一台tomcat，如果页面上的sessionId不变则session共享成功</a></li>
+<li>直接访问三个tomcat，【<a href="http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。" target="_blank" rel="external">http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。</a></li>
+<li>多次访问nginx，【<a href="http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致" target="_blank" rel="external">http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致</a></li>
 </ul>
 <p>好了，这种session共享完成。不过还没完，刚开始介绍时说的那三个jar包还没说说呢，接下来通过tomcat-redis-session-manager-tomcat7.jar的源码来解释一下这种方式实现session共享的原理。</p>
+<h4 id="6、Session共享原理分析"><a href="#6、Session共享原理分析" class="headerlink" title="6、Session共享原理分析"></a>6、Session共享原理分析</h4><p>在解释Session共享原理之前，我们先简单的看看Tomcat架构方面的一些知识作为铺垫。</p>
+<pre><code>##### 6.1 Tomcat架构原理分析
+</code></pre><p>正在深入剖析tomcat源码中，解读清楚了此部分补上</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a>Nginx+Tomcat+Redis实现Session共享</h2><p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。</p>
-<p>经过各种百度，查资料，找到了几种解决session共享的方案。]]>
-    
+    <![CDATA[<h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a]]>
     </summary>
     
-      <category term="Nginx,服务器" scheme="/tags/Nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+      <category term="Nginx,Redis,Tomcat" scheme="/tags/Nginx-Redis-Tomcat/"/>
     
-      <category term="Nginx" scheme="/categories/Nginx/"/>
+      <category term="服务器" scheme="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
   </entry>
   
