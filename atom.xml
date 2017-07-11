@@ -4,7 +4,7 @@
   <subtitle><![CDATA[好的程序猿都是野路子]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2017-07-05T14:05:15.000Z</updated>
+  <updated>2017-07-11T13:28:20.000Z</updated>
   <id>/</id>
   
   <author>
@@ -19,14 +19,14 @@
     <link href="/2017/06/16/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>/2017/06/16/Docker学习笔记/</id>
     <published>2017-06-16T11:24:41.000Z</published>
-    <updated>2017-07-05T14:05:15.000Z</updated>
+    <updated>2017-07-11T13:28:20.000Z</updated>
     <content type="html"><![CDATA[<h1 id="Docker学习笔记"><a href="#Docker学习笔记" class="headerlink" title="Docker学习笔记"></a>Docker学习笔记</h1><blockquote>
 <p>Docker简介</p>
 </blockquote>
 <p>Docker 是一个开源的应用容器引擎，基于 <a href="http://www.runoob.com/go/go-tutorial.html" target="_blank" rel="external">Go 语言</a> 并遵从Apache2.0协议开源。</p>
 <p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
 <p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
-<p>Docker的主要目标是“Build,Ship and Run Any App, Anywhere”，即通过对应用组件的封装（Packaging）、分发（Distribution）、部署（Deployment）、运行（Runtime）等生命周期的管理，达到应用组件级别的“一次封装，到处运行”（有点类似于java）。这里的应用组件，即可以是一个Web应用，也可以是一套数据库服务，甚至是一个操作系统或者编译器。</p>
+<p>Docker的主要目标是“Build,Ship and Run Any App, Anywhere”，即通过对应用组件的封装（Packaging）、分发（Distribution）、部署（Deployment）、运行（Runtime）等生命周期的管理，达到应用组件级别的“一次封装，到处运行”（有点类似于java）。这里的应用组件，即可以是一个Web应用，也可以是一套数据库服务，甚至是一个操作系统或者编译器。<br><a id="more"></a></p>
 <blockquote>
 <p>Docker的应用场景</p>
 </blockquote>
@@ -431,7 +431,12 @@
     <summary type="html">
     <![CDATA[<h1 id="Docker学习笔记"><a href="#Docker学习笔记" class="headerlink" title="Docker学习笔记"></a>Docker学习笔记</h1><blockquote>
 <p>Docker简介</p>
-</blockquote]]>
+</blockquote>
+<p>Docker 是一个开源的应用容器引擎，基于 <a href="http://www.runoob.com/go/go-tutorial.html">Go 语言</a> 并遵从Apache2.0协议开源。</p>
+<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
+<p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<p>Docker的主要目标是“Build,Ship and Run Any App, Anywhere”，即通过对应用组件的封装（Packaging）、分发（Distribution）、部署（Deployment）、运行（Runtime）等生命周期的管理，达到应用组件级别的“一次封装，到处运行”（有点类似于java）。这里的应用组件，即可以是一个Web应用，也可以是一套数据库服务，甚至是一个操作系统或者编译器。<br>]]>
+    
     </summary>
     
       <category term="Docker,Dockerfile" scheme="/tags/Docker-Dockerfile/"/>
@@ -530,26 +535,9 @@
     <link href="/2017/06/06/Nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%85%8D%E7%BD%AE/"/>
     <id>/2017/06/06/Nginx负载均衡配置/</id>
     <published>2017-06-06T14:50:56.000Z</published>
-    <updated>2017-06-12T15:38:57.000Z</updated>
-    <content type="html"><![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<a id="more"></a></p>
-<h1 id="​-Nginx是一款轻量级的Web-服务器-反向代理服务器及电子邮件（IMAP-POP3）代理服务器，并在一个BSD-like-协议下发行。由俄罗斯的程序设计师Igor-Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。"><a href="#​-Nginx是一款轻量级的Web-服务器-反向代理服务器及电子邮件（IMAP-POP3）代理服务器，并在一个BSD-like-协议下发行。由俄罗斯的程序设计师Igor-Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。" class="headerlink" title="​    Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。"></a>​    Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</h1><h2 id="Nginx负载均衡配置"><a href="#Nginx负载均衡配置" class="headerlink" title="Nginx负载均衡配置"></a>Nginx负载均衡配置</h2><p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<!--more--></p>
-<p>​    Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>afc4454e25e5b019d6b45a67e3fd331fe83ef2d9</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>这段来自百度百科，简单介绍一下，读者若需详细了解可自行查找资料，本文侧重于Nginx负载相关的具体操作配置介绍。</p>
+    <updated>2017-07-11T13:34:57.000Z</updated>
+    <content type="html"><![CDATA[<p>Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<a id="more"></a><br>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+<h2 id="Nginx负载均衡配置"><a href="#Nginx负载均衡配置" class="headerlink" title="Nginx负载均衡配置"></a>Nginx负载均衡配置</h2><p>这段来自百度百科，简单介绍一下，读者若需详细了解可自行查找资料，本文侧重于Nginx负载相关的具体操作配置介绍。</p>
 <p>Nginx常用的功能有Http代理、反向代理，负载均衡器，web缓存等功能，最近项目需要做负载，简单的研究了一下nginx，对反向代理和负载均衡着重看了一下，所以接下来的文章主要对这两部分进行介绍。</p>
 <h4 id="1、Nginx服务器的安装"><a href="#1、Nginx服务器的安装" class="headerlink" title="1、Nginx服务器的安装"></a>1、Nginx服务器的安装</h4><p>windowns版Nginx下载地址：<a href="http://nginx.org/en/docs/windows.html" target="_blank" rel="external">http://nginx.org/en/docs/windows.html</a></p>
 <blockquote>
@@ -618,7 +606,7 @@
 <p>总结一下，负载均衡简单的理解其实可以看做是用户请求Nginx，Nginx将用户的请求URL按照配置的方式截取，然后按照配置的upstream的方式请求后端服务器。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>​    Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。]]>
+    <![CDATA[<p>Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。]]>
     
     </summary>
     
