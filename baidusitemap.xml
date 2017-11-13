@@ -104,26 +104,6 @@
 
     
   <url>
-    <loc>/2017/02/07/%E5%B0%81%E8%A3%85JdbcTemplate%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89SQL/</loc>
-    <lastmod>2017-06-01T14:44:47.000Z</lastmod>
-    <data>
-        <display>
-        <title>封装JdbcTemplate的自定义SQL</title>
-        <pubTime>2017-02-07T14:46:56.000Z</pubTime>
-        
-        <tag>jdbcTemplate</tag>
-         
-         
-           
-             
-              <breadCrumb title="封装JdbcTemplate自定义SQL" url="/categories/%E5%B0%81%E8%A3%85JdbcTemplate%E8%87%AA%E5%AE%9A%E4%B9%89SQL/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>/2016/12/13/Spring-Boot%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2017-06-01T14:44:47.000Z</lastmod>
     <data>
@@ -204,46 +184,6 @@
 
     
   <url>
-    <loc>/2016/12/20/zookeeper%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2-%E5%8D%95%E6%9C%BA%E7%89%88/</loc>
-    <lastmod>2016-12-22T14:26:07.000Z</lastmod>
-    <data>
-        <display>
-        <title>zookeeper集群部署(单机版)</title>
-        <pubTime>2016-12-19T16:05:59.000Z</pubTime>
-        
-        <tag>zookeeper</tag>
-         
-         
-           
-             
-              <breadCrumb title="zookeeper入门" url="/categories/zookeeper%E5%85%A5%E9%97%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>/2016/12/22/maven%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2016-12-22T14:25:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>maven配置</title>
-        <pubTime>2016-12-21T16:43:01.000Z</pubTime>
-        
-        <tag>maven</tag>
-         
-         
-           
-             
-              <breadCrumb title="随笔" url="/categories/%E9%9A%8F%E7%AC%94/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>/2016/12/22/java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%BC%93%E5%AD%98%E8%A7%A3%E6%9E%90/</loc>
     <lastmod>2016-12-22T14:25:10.000Z</lastmod>
     <data>
@@ -277,26 +217,6 @@
            
              
               <breadCrumb title="Java基础" url="/categories/Java%E5%9F%BA%E7%A1%80/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>/2016/12/22/js%E5%B7%A5%E5%85%B7%E5%BA%93/</loc>
-    <lastmod>2016-12-22T14:19:33.000Z</lastmod>
-    <data>
-        <display>
-        <title>js工具库</title>
-        <pubTime>2016-12-22T14:14:08.000Z</pubTime>
-        
-        <tag>js</tag>
-         
-         
-           
-             
-              <breadCrumb title="util" url="/categories/util/"/>
           
         </display>
     </data>
