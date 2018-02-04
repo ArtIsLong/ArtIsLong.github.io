@@ -4,7 +4,7 @@
   <subtitle><![CDATA[好的程序猿都是野路子]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2017-07-11T13:28:20.000Z</updated>
+  <updated>2018-02-04T03:22:15.000Z</updated>
   <id>/</id>
   
   <author>
@@ -13,6 +13,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Spring Boot入门]]></title>
+    <link href="/2018/04/04/%E5%AF%B9%E5%89%8D%E5%90%8E%E5%8F%B0%E5%88%86%E7%A6%BB%E7%9A%84%E6%80%9D%E8%80%83/"/>
+    <id>/2018/04/04/对前后台分离的思考/</id>
+    <published>2018-04-04T03:17:33.000Z</published>
+    <updated>2018-02-04T03:22:15.000Z</updated>
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<h2 id="对前后台分离的思考"><a href="#对前后台分离的思考" class="headerlink" title="对前后台分离的思考"></a>对前后台分离的思考</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。</p>
+<p>随着时代的发展，各种前后台框架的出现，前段知识大量增加，如果还保持着传统项目架构，后端人员工作量大大增加，需要学习的知识也同步增加，最终造成的结果就是啥都懂一点，啥都不精。</p>
+<p>慢慢的，前后端分离架构出现了，前端人员专心研究前端的事，后端人员专心提高后端的事，正所谓术业有专攻。<br><a id="more"></a></p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>前后端分离，大体上就是前端页面和后端的交互只通过json。页面的跳转等都由前端控制，后端只负责为页面提供数据。</p>
+<p>在公司为期将近一年的开发中，各种新项目，老项目都渐渐的采用前后端分离架构，对这种架构模式也有了一点初步的认识，接下来就说说我在项目中对前后端分离的各种体会。</p>
+<p>首先，先说说在开发中，因为前后端分离产生的一些问题。</p>
+<p>在开发中，因为基本上前端都是那种特别纯粹的前端人员，也就是只懂前端，不了解java，不了解oracle，不了解业务，不了解网络协议等等各种基础知识即特性，在开发中出现了各种问题，比如请求中cookie丢失不知如何处理，功能开发完成之后不知如何测试，不懂业务导致不知道自己做出的页面到底对不对等等各种问题，而且由于后台只提供数据，不做页面跳转，所以在和传统项目做SSO单点登录的时候更麻烦。</p>
+<p>当然，前后台分离也并不是没有好处。</p>
+<ol>
+<li>开发人员的职能划分更加明确，前后端人员各自考虑自己职能范围内的事，比如前端人员可以专心提高页面的用户体验，而后端人员则专注于接口开发和后台性能</li>
+<li>前后端能够同步进行，事先定义好接口，前后端同步进行，到后面只需要进行对接联调即可</li>
+<li>前台基本上采用静态页面，响应速度快</li>
+<li>前后端分离了，可以分开部署，也可以分开做负载处理</li>
+</ol>
+<h3 id="针对前后端分离架构的项目准备工作"><a href="#针对前后端分离架构的项目准备工作" class="headerlink" title="针对前后端分离架构的项目准备工作"></a>针对前后端分离架构的项目准备工作</h3><p>由于前后端分离，前后端由不同的人员去开发，所以项目的准备工作一定要做到位。</p>
+<ol>
+<li>项目必须要有详细的API，并且能够测试数据，以便前端人员能够在最短的时间内拿到正确的API，swagger就挺不错的，后端API有改动时，能够实时反映出来。</li>
+<li>对于页面功能，最好有明确的模型图</li>
+<li>在项目开始时，前后端人员必须都对业务有所了解，“脱离业务的项目架构都是耍流氓”，忘记出自哪里了。</li>
+</ol>
+<p>目前大概只有这些体会了，后面有更深的理解，会继续补充。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>[TOC]</p>
+<h2 id="对前后台分离的思考"><a href="#对前后台分离的思考" class="headerlink" title="对前后台分离的思考"></a>对前后台分离的思考</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。</p>
+<p>随着时代的发展，各种前后台框架的出现，前段知识大量增加，如果还保持着传统项目架构，后端人员工作量大大增加，需要学习的知识也同步增加，最终造成的结果就是啥都懂一点，啥都不精。</p>
+<p>慢慢的，前后端分离架构出现了，前端人员专心研究前端的事，后端人员专心提高后端的事，正所谓术业有专攻。<br>]]>
+    
+    </summary>
+    
+      <category term="项目架构,前后端分离" scheme="/tags/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"/>
+    
+      <category term="思考" scheme="/categories/%E6%80%9D%E8%80%83/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Docker学习笔记]]></title>
@@ -446,29 +489,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[Tomcat源码分析笔记]]></title>
-    <link href="/2017/06/12/Tomcat%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/"/>
-    <id>/2017/06/12/Tomcat源码分析笔记/</id>
-    <published>2017-06-12T15:48:32.000Z</published>
-    <updated>2017-06-12T16:04:35.000Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    <![CDATA[Tomcat源码分析]]>
-    
-    </summary>
-    
-      <category term="Tomcat" scheme="/tags/Tomcat/"/>
-    
-      <category term="服务器" scheme="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[Nginx+Tomcat+Redis实现Session共享]]></title>
     <link href="/2017/06/07/session%E5%85%B1%E4%BA%AB/"/>
     <id>/2017/06/07/session共享/</id>
     <published>2017-06-07T06:43:12.000Z</published>
-    <updated>2017-06-12T15:33:45.000Z</updated>
+    <updated>2018-02-04T03:23:28.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a>Nginx+Tomcat+Redis实现Session共享</h2><p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。</p>
 <p>经过百度，查资料，找到了几种解决session共享的方案。</p>
 <ul>
@@ -524,7 +549,7 @@
     
     </summary>
     
-      <category term="Nginx,Redis,Tomcat" scheme="/tags/Nginx-Redis-Tomcat/"/>
+      <category term="Session" scheme="/tags/Session/"/>
     
       <category term="服务器" scheme="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
@@ -690,24 +715,32 @@
     <link href="/2017/02/09/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/"/>
     <id>/2017/02/09/个人简历/</id>
     <published>2017-02-09T14:38:15.000Z</published>
-    <updated>2017-02-15T16:35:55.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a><center>个人简历</center></h1><h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><blockquote>
+    <updated>2018-01-02T06:38:29.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a>个人简历</h1><h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><blockquote>
 <p>姓名：陈敏<br>籍贯：甘肃省平凉市<br>出生年月：1993年3月<br>邮箱：15221499301@139.com<br>联系电话：15221499301<br>博客：<a href="http://artislong.github.io" target="_blank" rel="external">http://artislong.github.io</a><br>github：<a href="https://github.com/artislong" target="_blank" rel="external">https://github.com/artislong</a><br>求职意向：Java研发<a id="more"></a></p>
 </blockquote>
 <h3 id="自我评价"><a href="#自我评价" class="headerlink" title="自我评价"></a>自我评价</h3><blockquote>
-<p>简洁清晰的编程习惯，学习能力强<br><br>工作主动，执行力及抗压性强<br><br>热爱开源，喜欢学习各种开源技术<br></p>
+<p>简洁清晰的编程习惯，学习能力强</p>
+<p>工作主动，执行力及抗压性强</p>
+<p>热爱开源，喜欢学习各种开源技术</p>
 </blockquote>
 <h3 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h3><blockquote>
-<p>熟练掌握Java编程语言，有较扎实的代码功底和Java核心基础；<br><br>熟悉HTML,CSS,JavaScript,JQuery前端技术<br><br>掌握Oracle，Mysql两种数据库的使用，熟悉SQL语言，了解Oracle的PL/SQL编程；<br><br>熟练使用SVN进行团队协作开发，熟悉Rational Rose，PowerDesigner建模工具<br><br>掌握Spring Boot，并能够熟练使用<br><br>熟悉Struts2,Hibernate,Spring,SpringMVC,MyBatis<br><br>熟悉Jbpm工作流框架常规工作流程<br><br>熟悉memcache，redis缓存服务器，熟悉其常用操作命令及存储机制<br><br>熟悉Linux常用操作命令</p>
+<p>熟练掌握Java编程语言，有较扎实的代码功底和Java核心基础</p>
+<p>熟悉HTML,CSS,JavaScript,JQuery前端技术</p>
+<p>掌握Oracle，Mysql两种数据库的使用，熟悉SQL语言，了解Oracle的PL/SQL编程</p>
+<p>熟练使用SVN进行团队协作开发，熟悉Rational Rose，PowerDesigner建模工具</p>
+<p>掌握Spring Boot，并能够熟练使用</p>
+<p>熟悉Struts2,Hibernate,Spring,SpringMVC,MyBatis</p>
+<p>熟悉Jbpm工作流框架常规工作流程</p>
+<p>熟悉memcache，redis缓存服务器，熟悉其常用操作命令及存储机制</p>
+<p>熟悉Linux常用操作命令</p>
 </blockquote>
 <h3 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h3><blockquote>
 <p>2015年11月至2016年5月，进入亚信科技实习，从事新业务工单开发工作</p><p><br>2016年6月转正，进入产商品中心项目组，进行产品服务项目以及产品配置化项目的开发</p>
 </blockquote>
 <h3 id="项目经验"><a href="#项目经验" class="headerlink" title="项目经验"></a>项目经验</h3><blockquote>
-<p>项目名称：OA<br>开发环境：window 7，MySQL 5.6，Tomcat7，jdk1.7<br>开发工具：MyEclipse 10<br>项目描述：本项目主旨为实现办公自动化功能，实现了系统管理、网上交流、审批流转等几大功能，系统管理包括部门管理、员工管理、角色管理，其中，角色管理通过拦截请求url的方式实现了权限控制，通过角色来控制对应角色下的用户对系统的操作权限。使用JBPM工作流框架实现审批流转功能，审批流转具有提交请假单、报销单等功能，审批流程由各级审批人员（经理）进行审批处理。使用DWR框架进行消息推送，实现用户登录提醒功能，并将登录用户信息存储到memcached中，用户可以实时查看在线用户人数及在线用户列表。<br>项目职责：设计与开发<br>项目相关技术：Spring，Struts2，Hibernate，JBPM，DWR，JQuery，Ajax，Memcached，以及JQuery相关插件<br>代码地址：<a href="https://github.com/artislong/OA" target="_blank" rel="external">https://github.com/artislong/OA</a><br>收获：通过项目的练习，使我掌握了SSH框架的基本使用方式，项目中的Jstl标签，El表达式的应用，使我明白了Jstl和El在Web项目中的真正作用，并且使我有了较扎实的代码编写能力。通过拦截url实现权限功能，使我在以后的学习中能够更加容易的掌握Apapche Shiro以及Spring Security安全框架。项目的简单灵活的架构设计，为我打下了项目架构设计的基础。</p>
-</blockquote>
-<p></p><p></p>
-<blockquote>
+<p>项目名称：OA</p>
+<p>开发环境：window 7，MySQL 5.6，Tomcat7，jdk1.7<br>开发工具：MyEclipse 10<br>项目描述：本项目主旨为实现办公自动化功能，实现了系统管理、网上交流、审批流转等几大功能，系统管理包括部门管理、员工管理、角色管理，其中，角色管理通过拦截请求url的方式实现了权限控制，通过角色来控制对应角色下的用户对系统的操作权限。使用JBPM工作流框架实现审批流转功能，审批流转具有提交请假单、报销单等功能，审批流程由各级审批人员（经理）进行审批处理。使用DWR框架进行消息推送，实现用户登录提醒功能，并将登录用户信息存储到memcached中，用户可以实时查看在线用户人数及在线用户列表。<br>项目职责：设计与开发<br>项目相关技术：Spring，Struts2，Hibernate，JBPM，DWR，JQuery，Ajax，Memcached，以及JQuery相关插件<br>代码地址：<a href="https://github.com/artislong/OA" target="_blank" rel="external">https://github.com/artislong/OA</a><br>收获：通过项目的练习，使我掌握了SSH框架的基本使用方式，项目中的Jstl标签，El表达式的应用，使我明白了Jstl和El在Web项目中的真正作用，并且使我有了较扎实的代码编写能力。通过拦截url实现权限功能，使我在以后的学习中能够更加容易的掌握Apapche Shiro以及Spring Security安全框架。项目的简单灵活的架构设计，为我打下了项目架构设计的基础。</p>
 <p>项目名称：CRM（客户关系管理系统）<br>开发环境：window 7，Oracle，Tomcat6，jdk1.6<br>开发工具：Eclipse JavaEE<br>项目描述：CRM系统作为亚信科技（中国）上海分公司的主要项目，是一款上海移动用户定制业务系统，功能齐全，系统庞大，并且与多个外平台交互。系统强健的功能为业务处理提供全程支撑和监控，实现了业务处理的实时计费，实时监控、实时优惠、实时帐务、实时信息查询和实时处理等多项功能，高效的支撑了业务运营。<br>项目职责：本人负责CRM个人新业务工单的开发，在实习期间，主要完成了一下工作：1、完成CRM短信模板配置界面功能的开发（已上线）。  2、使用Appframe框架提供的批量导入框架（BP）实现了客户投诉信息的批量导入，使用类似于POI的工具解析并处理了Excel数据。  3、梳理CRM系统产品缓存策略，阅读Appframe实现memcached客户端的源码，并对其进行优化。  4、开发扫描客户信息的后台实时处理进程，基本熟悉实时任务和定时任务。<br>项目相关技术：Appframe，Javascript，Ajax<br>收获：CRM系统作为为上海移动服务的主打产品，其中灵活多变的业务逻辑，使我在以后的工作中能够更加容易的理解复杂的业务需求，在掌握技术的前提下能够快速针对需求而做出最有效的实现。虽然整个系统庞大而复杂的业务让开发人员理解困难，但是其各种有效的数据库设计也为我在之后个人独立项目中提供了更多的数据库表的设计灵感。</p>
 </blockquote>
 <p></p><p></p>
