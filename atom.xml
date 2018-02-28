@@ -4,7 +4,7 @@
   <subtitle><![CDATA[好的程序猿都是野路子]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2018-02-04T03:29:29.000Z</updated>
+  <updated>2018-02-28T06:17:39.000Z</updated>
   <id>/</id>
   
   <author>
@@ -16,10 +16,10 @@
   
   <entry>
     <title><![CDATA[对前后台分离的思考]]></title>
-    <link href="/2018/04/04/%E5%AF%B9%E5%89%8D%E5%90%8E%E5%8F%B0%E5%88%86%E7%A6%BB%E7%9A%84%E6%80%9D%E8%80%83/"/>
-    <id>/2018/04/04/对前后台分离的思考/</id>
-    <published>2018-04-04T03:17:33.000Z</published>
-    <updated>2018-02-04T03:29:29.000Z</updated>
+    <link href="/2018/01/04/%E5%AF%B9%E5%89%8D%E5%90%8E%E5%8F%B0%E5%88%86%E7%A6%BB%E7%9A%84%E6%80%9D%E8%80%83/"/>
+    <id>/2018/01/04/对前后台分离的思考/</id>
+    <published>2018-01-04T03:17:33.000Z</published>
+    <updated>2018-02-28T06:17:39.000Z</updated>
     <content type="html"><![CDATA[<p>[TOC]</p>
 <h2 id="对前后台分离的思考"><a href="#对前后台分离的思考" class="headerlink" title="对前后台分离的思考"></a>对前后台分离的思考</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。</p>
 <p>随着时代的发展，各种前后台框架的出现，前段知识大量增加，如果还保持着传统项目架构，后端人员工作量大大增加，需要学习的知识也同步增加，最终造成的结果就是啥都懂一点，啥都不精。</p>
