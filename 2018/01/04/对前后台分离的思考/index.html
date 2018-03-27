@@ -8,22 +8,16 @@
   <link rel="dns-prefetch" href="">
   <title>对前后台分离的思考 | ArtIsLong的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[TOC]
-对前后台分离的思考前言传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。
-随着时代的发展，各种前后台框架的出现，前段知识大量增加，如果还保持着传统项目架构，后端人员工作量大大增加，需要学习的知识也同步增加，最">
+  <meta name="description" content="前后台分离架构的认识与思考">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对前后台分离的思考">
 <meta property="og:url" content="/2018/01/04/对前后台分离的思考/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="[TOC]
-对前后台分离的思考前言传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。
-随着时代的发展，各种前后台框架的出现，前段知识大量增加，如果还保持着传统项目架构，后端人员工作量大大增加，需要学习的知识也同步增加，最">
-<meta property="og:updated_time" content="2018-02-28T06:17:39.000Z">
+<meta property="og:description" content="前后台分离架构的认识与思考">
+<meta property="og:updated_time" content="2018-03-27T08:22:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对前后台分离的思考">
-<meta name="twitter:description" content="[TOC]
-对前后台分离的思考前言传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。
-随着时代的发展，各种前后台框架的出现，前段知识大量增加，如果还保持着传统项目架构，后端人员工作量大大增加，需要学习的知识也同步增加，最">
+<meta name="twitter:description" content="前后台分离架构的认识与思考">
   
     <link rel="alternative" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
   
@@ -174,8 +168,7 @@
         <div>
 	    <!--<div style="float:left;width:65%">-->
 	    <div>
-        <p>[TOC]</p>
-<h2 id="对前后台分离的思考"><a href="#对前后台分离的思考" class="headerlink" title="对前后台分离的思考"></a>对前后台分离的思考</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。</p>
+        <h2 id="对前后台分离的思考"><a href="#对前后台分离的思考" class="headerlink" title="对前后台分离的思考"></a>对前后台分离的思考</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>传统的javaweb项目，在开发的过程中，没有明确的分工，后台人员即要写后台，也要做数据库，更要写页面，而且传统的javaweb项目，大多都是jsp，有时候没有明确的规范，jsp页面加入大量的java代码，导致项目前后台杂乱不堪。</p>
 <p>随着时代的发展，各种前后台框架的出现，前段知识大量增加，如果还保持着传统项目架构，后端人员工作量大大增加，需要学习的知识也同步增加，最终造成的结果就是啥都懂一点，啥都不精。</p>
 <p>慢慢的，前后端分离架构出现了，前端人员专心研究前端的事，后端人员专心提高后端的事，正所谓术业有专攻。<br><a id="more"></a></p>
 <h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>前后端分离，大体上就是前端页面和后端的交互只通过json。页面的跳转等都由前端控制，后端只负责为页面提供数据。</p>
@@ -361,10 +354,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">SpringBoot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">java缓存</a>
               </li>
              
@@ -373,7 +362,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Session</a>
+                <a href="javascript:void(0)">SpringBoot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -381,7 +370,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">个人简历</a>
+                <a href="javascript:void(0)">Session</a>
               </li>
             
             <div class="clearfix"></div>
