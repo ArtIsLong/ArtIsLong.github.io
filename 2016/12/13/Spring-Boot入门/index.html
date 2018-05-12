@@ -11,7 +11,7 @@
 <meta property="og:url" content="/2016/12/13/Spring-Boot入门/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="一、Spring Boot简介   Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式使得开发人员使用Spring开发极大的简便了配置过程，基本上实现了零配置。">
-<meta property="og:updated_time" content="2018-03-26T05:51:30.000Z">
+<meta property="og:updated_time" content="2018-05-12T16:03:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot入门">
 <meta name="twitter:description" content="一、Spring Boot简介   Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式使得开发人员使用Spring开发极大的简便了配置过程，基本上实现了零配置。">
@@ -41,7 +41,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
@@ -78,7 +78,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a>
+    <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
   </div>
 
   </div>
@@ -121,11 +121,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="/2016/12/13/Spring-Boot入门/" data-id="cjfng8qkk0005b29gh948qz0h" class="article-share-link">Share</a>
+      <a data-url="/2016/12/13/Spring-Boot入门/" data-id="cjh3kzc120001b9zbyaileffq" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
 
     </footer>
   </div>
@@ -133,7 +133,7 @@
     
  <script src="/jquery/jquery.min.js"></script>
   <div id="random_posts">
-    <h2>Recommended Posts</h2>
+    <h2>推荐文章</h2>
     <div class="random_posts_ul">
       <script>
           var random_count =4
@@ -176,7 +176,7 @@
 <nav id="article-nav">
   
     <a href="/2016/12/18/jdk各版本区别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+      <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
           jdk各版本区别
@@ -202,6 +202,8 @@
            <div id="uyan_frame"></div>
     
       
+           <div id="gitment_comments"></div>
+    
   </div>
  
   
@@ -218,7 +220,7 @@
     
       <div class="widget" id="toc-widget-fixed">
       
-        <strong class="toc-title">Content</strong>
+        <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
               <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Spring-Boot简介"><span class="toc-number">1.</span> <span class="toc-text">一、Spring Boot简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、Spring-Boot入门工程搭建："><span class="toc-number">2.</span> <span class="toc-text">二、Spring Boot入门工程搭建：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、采用Spring官网提供的SPRING-INITIALIZR进行搭建。"><span class="toc-number">2.1.</span> <span class="toc-text">1、采用Spring官网提供的SPRING INITIALIZR进行搭建。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）"><span class="toc-number">2.2.</span> <span class="toc-text">2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、新建一个Maven的web工程"><span class="toc-number">2.2.1.</span> <span class="toc-text">1、新建一个Maven的web工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、在pom-xml文件中添加Spring-Boot的相关依赖"><span class="toc-number">2.2.2.</span> <span class="toc-text">2、在pom.xml文件中添加Spring Boot的相关依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、简单测试"><span class="toc-number">2.2.3.</span> <span class="toc-text">3、简单测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、运行"><span class="toc-number">2.2.4.</span> <span class="toc-text">4、运行</span></a></li></ol></li></ol></li></ol>
           </div>
@@ -250,10 +252,10 @@
   <div class="outer">
     <div id="footer-left">
       &copy; 2014 - 2018 ArtIsLong的博客&nbsp;|&nbsp;
-      Theme by <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
     </div>
      <div id="footer-right">
-      Contact&nbsp;|&nbsp;799418876@qq.com
+      联系方式&nbsp;|&nbsp;799418876@qq.com
     </div>
   </div>
 </footer>
@@ -291,6 +293,22 @@ window.onload = function() {
 
 <!-- author:forvoid begin -->
 <!-- author:forvoid begin -->
+
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script> 
+  <script>
+  var gitment = new Gitment({
+    // id: '页面 ID', // 可选。默认为 location.href
+    owner: 'artislong',
+    repo: 'artislong.github.io',
+    oauth: {
+    client_id: 'ec5670e84a08dfda91f4',
+    client_secret: '3178f788eff4e6684b307a8ab886ff6b8ff236db',
+    }
+  })
+  gitment.render(document.getElementById("gitment_comments"))
+</script>
+
 
 <!-- author:forvoid end -->
 
