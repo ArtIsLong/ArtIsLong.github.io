@@ -123,7 +123,7 @@ body,
   height: 100%;
 }
 body {
-  background: #f5f5d5 /*#eee*/;
+  background: #fff /*#eee #f5f5d5*/;
   font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
 }
@@ -174,7 +174,7 @@ body {
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
   z-index: 1;
-  background: #f5f5d5 /*#eee*/;
+  background: #fff /*#eee #f5f5d5*/;
 }
 .mobile-nav-on #wrap {
   left: 280px;
@@ -701,7 +701,7 @@ a.article-title:hover {
   line-height: 1em;
   padding: 6px 15px;
   border-radius: 15px;
-  background: #f5f5d5 /*#eee*/;
+  background: #fff /*#eee #f5f5d5*/;
   color: #008000;
   text-shadow: 0 1px #fff;
   text-decoration: none;
@@ -869,7 +869,7 @@ a.article-title:hover {
   line-height: 36px;
 }
 .article-share-links {
-  background: #f5f5d5 /*#eee*/;
+  background: #fff /*#eee #f5f5d5*/;
 }
 .article-share-links:before,
 .article-share-links:after {
@@ -1131,7 +1131,7 @@ a.article-title:hover {
   background: #fff;
   -webkit-box-shadow: 1px 2px 3px #ddd;
   box-shadow: 1px 2px 3px #ddd;
-  border: 1px solid #f5f5d5 /*#eee*/;
+  border: 1px solid #fff /*#eee #f5f5d5*/;
   border-radius: 3px;
   text-align: center;
   color: #999;
@@ -1604,7 +1604,7 @@ span.ua .location:before {
 .follow .github:hover {
   color: #333;
   cursor: pointer;
-  background-color: #f5f5d5 /*#eee*/;
+  background-color: #fff /*#eee #f5f5d5*/;
 }
 .follow .weibo:before {
   content: "\f18a" !important;
@@ -1612,7 +1612,7 @@ span.ua .location:before {
 .follow .weibo:hover {
   color: #333;
   cursor: pointer;
-  background-color: #f5f5d5 /*#eee*/;
+  background-color: #fff /*#eee #f5f5d5*/;
 }
 .follow .email:before {
   content: "\f0e0" !important;
@@ -1620,7 +1620,7 @@ span.ua .location:before {
 .follow .email:hover {
   color: #333;
   cursor: pointer;
-  background-color: #f5f5d5 /*#eee*/;
+  background-color: #fff /*#eee #f5f5d5*/;
 }
 .follow .zhihu:before {
   content: "\f0ac" !important;
@@ -1628,7 +1628,7 @@ span.ua .location:before {
 .follow .zhihu:hover {
   color: #333;
   cursor: pointer;
-  background-color: #f5f5d5 /*#eee*/;
+  background-color: #fff /*#eee #f5f5d5*/;
 }
 .follow .wechat:before {
   content: "\f1d7" !important;
@@ -1636,7 +1636,7 @@ span.ua .location:before {
 .follow .wechat:hover {
   color: #333;
   cursor: pointer;
-  background-color: #f5f5d5 /*#eee*/;
+  background-color: #fff /*#eee #f5f5d5*/;
 }
 .wechat-widget {
   text-align: center;
