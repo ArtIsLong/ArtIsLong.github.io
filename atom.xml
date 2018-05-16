@@ -354,27 +354,19 @@
     <link href="/2017/06/16/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>/2017/06/16/Docker学习笔记/</id>
     <published>2017-06-16T11:24:41.000Z</published>
-    <updated>2017-07-11T13:28:20.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="Docker学习笔记"><a href="#Docker学习笔记" class="headerlink" title="Docker学习笔记"></a>Docker学习笔记</h1><blockquote>
-<p>Docker简介</p>
-</blockquote>
-<p>Docker 是一个开源的应用容器引擎，基于 <a href="http://www.runoob.com/go/go-tutorial.html" target="_blank" rel="external">Go 语言</a> 并遵从Apache2.0协议开源。</p>
+    <updated>2018-05-16T11:24:19.000Z</updated>
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<h1 id="Docker基本操作"><a href="#Docker基本操作" class="headerlink" title="Docker基本操作"></a>Docker基本操作</h1><h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker 是一个开源的应用容器引擎，基于 <a href="http://www.runoob.com/go/go-tutorial.html" target="_blank" rel="external">Go 语言</a> 并遵从Apache2.0协议开源。</p>
 <p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
 <p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
 <p>Docker的主要目标是“Build,Ship and Run Any App, Anywhere”，即通过对应用组件的封装（Packaging）、分发（Distribution）、部署（Deployment）、运行（Runtime）等生命周期的管理，达到应用组件级别的“一次封装，到处运行”（有点类似于java）。这里的应用组件，即可以是一个Web应用，也可以是一套数据库服务，甚至是一个操作系统或者编译器。<br><a id="more"></a></p>
-<blockquote>
-<p>Docker的应用场景</p>
-</blockquote>
-<ul>
+<h2 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h2><ul>
 <li>Web 应用的自动化打包和发布。</li>
 <li>自动化测试和持续集成、发布</li>
 <li>在服务型环境中部署和调整数据库或其他的后台应用</li>
 <li>从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境</li>
 </ul>
-<blockquote>
-<p>Docker的优点</p>
-</blockquote>
-<ul>
+<h2 id="Docker的优点"><a href="#Docker的优点" class="headerlink" title="Docker的优点"></a>Docker的优点</h2><ul>
 <li>简化程序</li>
 </ul>
 <p>Docker让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，便可以实现虚拟化。Docker改变了虚拟化的方式，使开发者可以直接将自己的成果放入Docker中进行管理。过去需要数天乃至数周的任务，在Docker容器的处理下，只需要数秒就能完成。</p>
@@ -386,10 +378,7 @@
 <li>节省开支</li>
 </ul>
 <p>云计算时代的到来，使开发者不必为了追求效果而配置高额的硬件，Docker改变了高性能必然高价格的思维定势。Docker与云的结合，让云空间得到更充分的利用，不仅解决了硬件管理的问题，也改变了虚拟化的方式。</p>
-<blockquote>
-<p>Centos的Docker安装与启动</p>
-</blockquote>
-<ul>
+<h2 id="Centos的Docker安装与启动"><a href="#Centos的Docker安装与启动" class="headerlink" title="Centos的Docker安装与启动"></a>Centos的Docker安装与启动</h2><ul>
 <li>检查Linux版本</li>
 </ul>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>uname -r</div></pre></td></tr></table></figure>
@@ -445,19 +434,14 @@
 <p>注意: 我们这里用的是大写的-P</p>
 <p>小写的-p手动将容器端口映射到宿主机上的端口，如</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker@localhost ~]$ docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -p 5000:5000 training/webapp python app.py</span></div></pre></td></tr></table></figure>
-<ul>
-<li><p>查看WEB应用容器</p>
-<ul>
-<li><p>查看正在运行的容器</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                     NAMES</div><div class="line">f5d5071807a8        training/webapp     <span class="string">"python app.py"</span>     <span class="number">13</span> seconds ago      Up <span class="number">12</span> seconds       <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span><span class="symbol">:</span><span class="number">32768</span>-&gt;<span class="number">5000</span>/tcp   prickly_davinci</div></pre></td></tr></table></figure>
+<h3 id="查看WEB应用容器"><a href="#查看WEB应用容器" class="headerlink" title="查看WEB应用容器"></a>查看WEB应用容器</h3><h4 id="查看正在运行的容器"><a href="#查看正在运行的容器" class="headerlink" title="查看正在运行的容器"></a>查看正在运行的容器</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                     NAMES</div><div class="line">f5d5071807a8        training/webapp     <span class="string">"python app.py"</span>     <span class="number">13</span> seconds ago      Up <span class="number">12</span> seconds       <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span><span class="symbol">:</span><span class="number">32768</span>-&gt;<span class="number">5000</span>/tcp   prickly_davinci</div></pre></td></tr></table></figure>
+<h4 id="查看所有已构建的容器"><a href="#查看所有已构建的容器" class="headerlink" title="查看所有已构建的容器"></a>查看所有已构建的容器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps -a</div></pre></td></tr></table></figure>
+<p>包括正在运行，已停止的等多个容器。</p>
 <p>结果中有容器ID，镜像名，端口，容器名等信息，其中端口显示了prickly_davinci容器端口的映射情况，此时映射的端口是容器自动做的映射，如果我们运行时没使用-P，而是使用-p手动映射，此处则显示手动指定的端口。其次容器名称此处为容器自动指定的，我们可以通过–name来手动指定，如</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker@localhost ~]$ docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -p 5000:5000 --name webapp training/webapp python app.py</span></div></pre></td></tr></table></figure>
 <p>上面默认都是绑定tcp端口，如果要绑定UDP端口，可以在端口后面加上/udp</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker@localhost ~]$ docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -p 5000:5000/udp --name webapp training/webapp python app.py</span></div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-<li><p>查看容器端口映射</p>
-<ul>
+<h4 id="查看容器端口映射"><a href="#查看容器端口映射" class="headerlink" title="查看容器端口映射"></a>查看容器端口映射</h4><ul>
 <li>使用容器ID查看容器端口映射情况</li>
 </ul>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker port f5d5071807a8</div><div class="line"><span class="number">5000</span>/tcp -&gt; <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span><span class="symbol">:</span><span class="number">32768</span></div></pre></td></tr></table></figure>
@@ -470,40 +454,17 @@
 </ul>
 <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">[docker@localhost docker]</span>$ docker port tomcat <span class="number">8080</span></div><div class="line"><span class="number">0.0.0.0:8080</span></div></pre></td></tr></table></figure>
 <p><strong>接下来凡是使用容器标识操作的都使用容器名称，并且容器ID也支持相同的命令操</strong></p>
-</li>
-<li><p>查看WEB应用程序日志</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker logs -f modest_banach</div></pre></td></tr></table></figure>
+<h4 id="查看WEB应用程序日志"><a href="#查看WEB应用程序日志" class="headerlink" title="查看WEB应用程序日志"></a>查看WEB应用程序日志</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker logs -f modest_banach</div></pre></td></tr></table></figure>
 <p>-f: 让docker logs像使用tail -f一样来输出容器内部的标准输出</p>
-</li>
-<li><p>查看WEB应用程序容器的进程</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker top modest_banach</div></pre></td></tr></table></figure>
-</li>
-<li><p>检查WEB应用程序</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker inspect modest_banach</div></pre></td></tr></table></figure>
-</li>
-<li><p>停止WEB应用程序</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker stop modest_banach</div></pre></td></tr></table></figure>
-</li>
-<li><p>启动WEB应用容器</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker start modest_banach</div></pre></td></tr></table></figure>
-</li>
-<li><p>重启WEB应用容器</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker restart modest_banach</div></pre></td></tr></table></figure>
+<h4 id="查看WEB应用程序容器的进程"><a href="#查看WEB应用程序容器的进程" class="headerlink" title="查看WEB应用程序容器的进程"></a>查看WEB应用程序容器的进程</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker top modest_banach</div></pre></td></tr></table></figure>
+<h4 id="检查WEB应用程序"><a href="#检查WEB应用程序" class="headerlink" title="检查WEB应用程序"></a>检查WEB应用程序</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker inspect modest_banach</div></pre></td></tr></table></figure>
+<h4 id="停止WEB应用程序"><a href="#停止WEB应用程序" class="headerlink" title="停止WEB应用程序"></a>停止WEB应用程序</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker stop modest_banach</div></pre></td></tr></table></figure>
+<h4 id="启动WEB应用容器"><a href="#启动WEB应用容器" class="headerlink" title="启动WEB应用容器"></a>启动WEB应用容器</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker start modest_banach</div></pre></td></tr></table></figure>
+<h4 id="重启WEB应用容器"><a href="#重启WEB应用容器" class="headerlink" title="重启WEB应用容器"></a>重启WEB应用容器</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker restart modest_banach</div></pre></td></tr></table></figure>
 <p><strong>注</strong>：正在运行的容器我们可以使用restart来重启</p>
-</li>
-<li><p>移除WEB应用容器</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker rm modest_banach</div></pre></td></tr></table></figure>
+<h4 id="移除WEB应用容器"><a href="#移除WEB应用容器" class="headerlink" title="移除WEB应用容器"></a>移除WEB应用容器</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker rm modest_banach</div></pre></td></tr></table></figure>
 <p><strong>注：</strong>移除容器时，容器必须是停止状态。</p>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>Docker镜像的使用</p>
-</blockquote>
-<ul>
-<li><p>查看本地镜像列表</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker@localhost ~]$ docker images</div><div class="line">REPOSITORY          <span class="keyword">TAG</span>                 <span class="title">IMAGE</span> ID            CREATED             VIRTUAL SIZE</div></pre></td></tr></table></figure>
+<h2 id="Docker镜像的使用"><a href="#Docker镜像的使用" class="headerlink" title="Docker镜像的使用"></a>Docker镜像的使用</h2><h3 id="查看本地镜像列表"><a href="#查看本地镜像列表" class="headerlink" title="查看本地镜像列表"></a>查看本地镜像列表</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker@localhost ~]$ docker images</div><div class="line">REPOSITORY          <span class="keyword">TAG</span>                 <span class="title">IMAGE</span> ID            CREATED             VIRTUAL SIZE</div></pre></td></tr></table></figure>
 <p>各个选项说明：</p>
 <ul>
 <li>REPOSITORY: 表示镜像的仓库源</li>
@@ -515,42 +476,24 @@
 <p>同一个仓库源可以有多个TAG，代表这个仓库源的不同个版本，如ubuntu仓库源里，有15.10,14.04等多个不同的版本，我们可以使用REPOSITORY:TAG来定义不同的镜像，如</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="meta">@localhost</span> ~]$ docker run -t -i <span class="string">ubuntu:</span><span class="number">15.10</span> <span class="regexp">/bin/</span>bash</div></pre></td></tr></table></figure>
 <p>如果不指定镜像的版本标签，docker将默认使用latest镜像</p>
-</li>
-<li><p>获取一个新的镜像</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker pull <span class="symbol">ubuntu:</span><span class="number">15.10</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>查找镜像</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker search httpd</div><div class="line">NAME                          DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</div></pre></td></tr></table></figure>
+<h3 id="获取一个新的镜像"><a href="#获取一个新的镜像" class="headerlink" title="获取一个新的镜像"></a>获取一个新的镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker pull <span class="symbol">ubuntu:</span><span class="number">15.10</span></div></pre></td></tr></table></figure>
+<h3 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker search httpd</div><div class="line">NAME                          DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</div></pre></td></tr></table></figure>
 <p>NAME: 镜像仓库源的名称</p>
 <p>DESCRIPTION: 镜像的描述</p>
 <p>OFFICIAL: 是否是docker官方发布</p>
-</li>
-<li><p>拖取镜像</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker pull httpd</div></pre></td></tr></table></figure>
-</li>
-<li><p>运行镜像</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="symbol">@localhost</span> ~]$ docker <span class="built_in">run</span> httpd</div></pre></td></tr></table></figure>
-</li>
-<li><p>自定义镜像</p>
-<ul>
-<li><p>创建镜像</p>
-<p>当我们从docker镜像仓库中下载的镜像不能满足我们的需求时，我们可以通过以下两种方式对镜像进行更改：</p>
+<h3 id="拖取镜像"><a href="#拖取镜像" class="headerlink" title="拖取镜像"></a>拖取镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker pull httpd</div></pre></td></tr></table></figure>
+<h3 id="运行镜像"><a href="#运行镜像" class="headerlink" title="运行镜像"></a>运行镜像</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="symbol">@localhost</span> ~]$ docker <span class="built_in">run</span> httpd</div></pre></td></tr></table></figure>
+<h3 id="自定义镜像"><a href="#自定义镜像" class="headerlink" title="自定义镜像"></a>自定义镜像</h3><h4 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h4><p>当我们从docker镜像仓库中下载的镜像不能满足我们的需求时，我们可以通过以下两种方式对镜像进行更改：</p>
 <p>1、从已经创建的容器中更新镜像，并且提交这个镜像</p>
 <p>2、使用Dockerfile指令来创建一个新的镜像</p>
-</li>
-<li><p>更新镜像</p>
-<p>在更新镜像之前，我们先用以下命令启动容器，在容器中使用apt-get update命令更新，完成操作后使用exit退出容器。</p>
+<h4 id="更新镜像"><a href="#更新镜像" class="headerlink" title="更新镜像"></a>更新镜像</h4><p>在更新镜像之前，我们先用以下命令启动容器，在容器中使用apt-get update命令更新，完成操作后使用exit退出容器。</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker run -t -i <span class="symbol">ubuntu:</span><span class="number">15.10</span> /bin/bash</div><div class="line">root<span class="variable">@2d60a31b8bdf</span><span class="symbol">:/</span><span class="comment"># apt-get update</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>提交容器副本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker@localhost ~]$ docker commit -m=<span class="string">"has update"</span> <span class="_">-a</span>=<span class="string">"ubuntu/update"</span> 2d60a31b8bdf ubuntu:v2</div><div class="line">ea547a1aa6de52e24092ff3ca13ae7ae58<span class="built_in">cd</span>35123e2e58e6f3d784208af7ef5e</div></pre></td></tr></table></figure>
+<h4 id="提交容器副本"><a href="#提交容器副本" class="headerlink" title="提交容器副本"></a>提交容器副本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[docker@localhost ~]$ docker commit -m=<span class="string">"has update"</span> <span class="_">-a</span>=<span class="string">"ubuntu/update"</span> 2d60a31b8bdf ubuntu:v2</div><div class="line">ea547a1aa6de52e24092ff3ca13ae7ae58<span class="built_in">cd</span>35123e2e58e6f3d784208af7ef5e</div></pre></td></tr></table></figure>
 <p>-m: 提交的描述信息</p>
 <p>-a: 指定镜像作者</p>
 <p>2d60a31b8bdf: 容器ID</p>
 <p>runoob/ubuntu:v2: 指定要创建的目标镜像名</p>
-</li>
-<li><p>构建镜像</p>
-<p>创建Dockerfile，使用docker build命令来创建一个新的镜像</p>
+<h4 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h4><p>创建Dockerfile，使用docker build命令来创建一个新的镜像</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[docker@localhost docker]$ cat Dockerfile</div><div class="line"><span class="keyword">FROM</span>    centos:<span class="number">6.7</span></div><div class="line"><span class="keyword">MAINTAINER</span>      Fisher <span class="string">"artislong@haha.com"</span></div><div class="line"></div><div class="line"><span class="keyword">RUN</span><span class="bash">     /bin/<span class="built_in">echo</span> <span class="string">'root:123456'</span> |chpasswd</span></div><div class="line"><span class="keyword">RUN</span><span class="bash">     useradd docker</span></div><div class="line"><span class="keyword">RUN</span><span class="bash">     /bin/<span class="built_in">echo</span> <span class="string">'docker:123456'</span> |chpasswd</span></div><div class="line"><span class="keyword">RUN</span><span class="bash">     /bin/<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"LANG=\"en_US.UTF-8\""</span> &gt;/etc/default/<span class="built_in">local</span></span></div><div class="line"><span class="keyword">EXPOSE</span>  <span class="number">22</span></div><div class="line"><span class="keyword">EXPOSE</span>  <span class="number">80</span></div><div class="line"><span class="keyword">CMD</span><span class="bash">     /usr/sbin/sshd -D</span></div></pre></td></tr></table></figure>
 <p>Dockerfile是一个文本格式的配置文件，它由一行行命令语句（指令）组成，并且支持以#开头的注释行</p>
 <p>每个指令都会在镜像上创建一个新的层，每个指令的前缀都必须大写。</p>
@@ -564,74 +507,27 @@
 <p>我们可以使用新的镜像来创建容器</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[<span class="name">docker@localhost</span> docker]$ docker run -t -i runoob/centos:6.7 /bin/bash</div><div class="line">[<span class="name">root@ebd742bf9af0</span> /]# id docker</div><div class="line">uid=500(<span class="name">docker</span>) gid=500(<span class="name">docker</span>) groups=500(<span class="name">docker</span>)</div></pre></td></tr></table></figure>
 <p>从上面看到新镜像已经包含了我们创建的用户docker</p>
-</li>
-<li><p>设置镜像标签</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker@localhost docker]$ docker <span class="keyword">tag</span> <span class="title">f38a8f197ee4</span> runoob/centos:dev</div></pre></td></tr></table></figure>
+<h4 id="设置镜像标签"><a href="#设置镜像标签" class="headerlink" title="设置镜像标签"></a>设置镜像标签</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker@localhost docker]$ docker <span class="keyword">tag</span> <span class="title">f38a8f197ee4</span> runoob/centos:dev</div></pre></td></tr></table></figure>
 <p>docker tag 镜像ID，镜像源名和新的标签名</p>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>Docker安装Nginx</p>
-</blockquote>
-<ul>
-<li>创建Nginx目录，用于存放后面相关文件</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>mkdir -p ~<span class="regexp">/nginx/www</span> ~<span class="regexp">/nginx/logs</span> ~<span class="regexp">/nginx/conf</span></div></pre></td></tr></table></figure>
+<h2 id="Docker安装Nginx"><a href="#Docker安装Nginx" class="headerlink" title="Docker安装Nginx"></a>Docker安装Nginx</h2><h3 id="创建Nginx目录，用于存放后面相关文件"><a href="#创建Nginx目录，用于存放后面相关文件" class="headerlink" title="创建Nginx目录，用于存放后面相关文件"></a>创建Nginx目录，用于存放后面相关文件</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>mkdir -p ~<span class="regexp">/nginx/www</span> ~<span class="regexp">/nginx/logs</span> ~<span class="regexp">/nginx/conf</span></div></pre></td></tr></table></figure>
 <p>www目录将映射为nginx容器配置的虚拟目录</p>
 <p>logs目录将映射为nginx容器的日志目录</p>
 <p>conf目录里的配置文件将映射为nginx容器的配置文件</p>
-<ul>
-<li>查找Docker Hub上的nginx镜像</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker search nginx</div></pre></td></tr></table></figure>
-<ul>
-<li>拉取官方nginx镜像</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker pull nginx</div></pre></td></tr></table></figure>
-<ul>
-<li>查看nginx本地镜像</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker images nginx</div></pre></td></tr></table></figure>
-<ul>
-<li><p>使用nginx镜像</p>
-<ul>
-<li>运行容器</li>
-</ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker@localhost nginx]$ docker run -<span class="selector-tag">i</span> -t -d -<span class="selector-tag">p</span> <span class="number">80</span>:<span class="number">8081</span> --name nginx -v <span class="variable">$PWD</span>/www:/www -v <span class="variable">$PWD</span>/conf/nginx<span class="selector-class">.conf</span>:/etc/nginx/nginx<span class="selector-class">.conf</span> -v <span class="variable">$PWD</span>/logs:/wwwlogs  -d nginx</div></pre></td></tr></table></figure>
+<h3 id="查找Docker-Hub上的nginx镜像"><a href="#查找Docker-Hub上的nginx镜像" class="headerlink" title="查找Docker Hub上的nginx镜像"></a>查找Docker Hub上的nginx镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker search nginx</div></pre></td></tr></table></figure>
+<h3 id="拉取官方nginx镜像"><a href="#拉取官方nginx镜像" class="headerlink" title="拉取官方nginx镜像"></a>拉取官方nginx镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker pull nginx</div></pre></td></tr></table></figure>
+<h3 id="查看nginx本地镜像"><a href="#查看nginx本地镜像" class="headerlink" title="查看nginx本地镜像"></a>查看nginx本地镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker images nginx</div></pre></td></tr></table></figure>
+<h3 id="使用nginx镜像"><a href="#使用nginx镜像" class="headerlink" title="使用nginx镜像"></a>使用nginx镜像</h3><h4 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker@localhost nginx]$ docker run -<span class="selector-tag">i</span> -t -d -<span class="selector-tag">p</span> <span class="number">80</span>:<span class="number">8081</span> --name nginx -v <span class="variable">$PWD</span>/www:/www -v <span class="variable">$PWD</span>/conf/nginx<span class="selector-class">.conf</span>:/etc/nginx/nginx<span class="selector-class">.conf</span> -v <span class="variable">$PWD</span>/logs:/wwwlogs  -d nginx</div></pre></td></tr></table></figure>
 <p>-p 80:8081: 将容器的80端口映射到宿主机的8081端口</p>
 <p>-name nginx: 将容器命名为nginx</p>
 <p>-v $PWD/www:/www: 将主机中当前目录下的www目录挂载到容器的/www</p>
 <p>-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf: 将主机中当前目录下的nginx.conf挂载到容器的/etc/nginx/nginx.conf</p>
 <p>-v $PWD/logs:/wwwlogs: 将主机中当前目录下的logs挂载到容器的/wwwlogs</p>
-</li>
-<li><p>查看容器启动情况</p>
-</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker ps</div></pre></td></tr></table></figure>
-<ul>
-<li>通过浏览器访问</li>
-</ul>
-<p>访问路径为: <a href="http://主机ip:8081/" target="_blank" rel="external">http://主机ip:8081/</a> ，就可访问nginx</p>
-<blockquote>
-<p>Docker安装Tomcat</p>
-</blockquote>
-<ul>
-<li>创建tomcat的相关目录</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>mkdir -p ~<span class="regexp">/tomcat/webapps</span> ~<span class="regexp">/tomcat/logs</span> ~<span class="regexp">/tomcat/conf</span></div></pre></td></tr></table></figure>
-<ul>
-<li>查找Docker Hub上的tomcat镜像</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker search tomcat</div></pre></td></tr></table></figure>
-<ul>
-<li>拉取官方tomcat镜像</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker pull tomcat</div></pre></td></tr></table></figure>
-<ul>
-<li><p>创建测试文件</p>
-<ul>
+<h4 id="查看容器启动情况"><a href="#查看容器启动情况" class="headerlink" title="查看容器启动情况"></a>查看容器启动情况</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> nginx]<span class="variable">$ </span>docker ps</div></pre></td></tr></table></figure>
+<h4 id="通过浏览器访问"><a href="#通过浏览器访问" class="headerlink" title="通过浏览器访问"></a>通过浏览器访问</h4><p>访问路径为: <a href="http://主机ip:8081/" target="_blank" rel="external">http://主机ip:8081/</a> ，就可访问nginx</p>
+<h2 id="Docker安装Tomcat"><a href="#Docker安装Tomcat" class="headerlink" title="Docker安装Tomcat"></a>Docker安装Tomcat</h2><h3 id="创建tomcat的相关目录"><a href="#创建tomcat的相关目录" class="headerlink" title="创建tomcat的相关目录"></a>创建tomcat的相关目录</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>mkdir -p ~<span class="regexp">/tomcat/webapps</span> ~<span class="regexp">/tomcat/logs</span> ~<span class="regexp">/tomcat/conf</span></div></pre></td></tr></table></figure>
+<h3 id="查找Docker-Hub上的tomcat镜像"><a href="#查找Docker-Hub上的tomcat镜像" class="headerlink" title="查找Docker Hub上的tomcat镜像"></a>查找Docker Hub上的tomcat镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker search tomcat</div></pre></td></tr></table></figure>
+<h3 id="拉取官方tomcat镜像"><a href="#拉取官方tomcat镜像" class="headerlink" title="拉取官方tomcat镜像"></a>拉取官方tomcat镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> ~]<span class="variable">$ </span>docker pull tomcat</div></pre></td></tr></table></figure>
+<h3 id="创建测试文件"><a href="#创建测试文件" class="headerlink" title="创建测试文件"></a>创建测试文件</h3><ul>
 <li><p>在~/tomcat/webapps目录下创建test目录</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[docker<span class="variable">@localhost</span> webapps]<span class="variable">$ </span>mkdir test</div></pre></td></tr></table></figure>
 </li>
@@ -647,16 +543,9 @@
 <p>启动成功后，在浏览器访问：<a href="http://主机ip:8080/test/index.html即可访问刚才编写的测试页面" target="_blank" rel="external">http://主机ip:8080/test/index.html即可访问刚才编写的测试页面</a></p>
 </li>
 </ul>
-</li>
-</ul>
 <p>—————————————————————————分割线———————————————————————–</p>
-<blockquote>
-<p>Dockerfile学习</p>
-</blockquote>
-<p>Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。</p>
-<ul>
-<li><p>基本结构</p>
-<p>Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。</p>
+<h1 id="Dockerfile镜像制作"><a href="#Dockerfile镜像制作" class="headerlink" title="Dockerfile镜像制作"></a>Dockerfile镜像制作</h1><p>Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。</p>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p>Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。</p>
 <p>一般Dockerfile文件分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># This dockerfile uses the ubuntu image</span></div><div class="line"><span class="comment"># VERSION 2 - EDITION 1</span></div><div class="line"><span class="comment"># Author:docker_user</span></div><div class="line"><span class="comment"># Command format: Instruction [arguments / command] ..</span></div><div class="line"><span class="comment"># 第一行必须制定基于的基础镜像</span></div><div class="line"><span class="keyword">FROM</span> ubuntu</div><div class="line"><span class="comment"># 维护者信息</span></div><div class="line"><span class="keyword">MAINTAINER</span> docker_user docker_user@email.com</div><div class="line"><span class="comment"># 镜像的操作指令</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"deb http://archive.ubuntu.com/ubuntu/ raring main universe"</span> &gt;&gt; /etc/apt/sources.list</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y nginx</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"\ndaemon off;"</span> &gt;&gt; /etc/nginx/nginx.conf</span></div><div class="line"><span class="comment"># 容器启动时执行指令</span></div><div class="line"><span class="keyword">CMD</span><span class="bash"> /usr/sbin/nginx</span></div></pre></td></tr></table></figure>
 <p>Dockerfile文件编写时，一开始必须指明所基于的镜像名称，接下来一般会说明维护者信息</p>
@@ -666,27 +555,100 @@
 <p>此Dockerfile文件是在ubuntu父镜像基础上安装inotify-tools、nginx、apache2、openssh-server软件，从而创建一个新的Nginx镜像</p>
 <p><strong>注</strong> ：inotify-tools是为linux下inotify文件监控工具提供的一套c的开发接口库函数，同时还提供了一系列的命令行工具，这些工具可以用来监控文件系统的事件。</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Firefox over VNC</span></div><div class="line"><span class="comment"># </span></div><div class="line"><span class="comment"># VERSION 0.3</span></div><div class="line"><span class="keyword">FROM</span> ubuntu</div><div class="line"><span class="comment"># Install vnc, xvfb in order to reate a 'fake' display and firefox</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y xllvnc xvfb firefox</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /.vnc</span></div><div class="line"><span class="comment"># Setup a password</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> xllvnc -storepasswd 1234 ~/.vnc/passwd</span></div><div class="line"><span class="comment"># Autostart firefox (might not be the best way, but it does the trick)</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> bash -c <span class="string">'echo "firefox" &gt;&gt; /.bashrc'</span></span></div><div class="line"><span class="keyword">EXPOSE</span> <span class="number">5900</span></div><div class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"xllvnc"</span>, <span class="string">"-forever"</span>, <span class="string">"-usepw"</span>, <span class="string">"-create"</span>]</span></div></pre></td></tr></table></figure>
-<p>此Dockerfile基于ubuntu父镜像，安装filefox和vnc软件，启动后，用户可以通过5900端口通过vnc方式使用firefox</p>
-</li>
-<li><p>指令</p>
-<p>指令的一般格式为INSTRUCTION arguments，指令包括FROM、MAINTAINER、RUN等。</p>
-<ul>
-<li><p>FROM</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">FROM</span> &lt;image&gt; 或<span class="keyword">FROM</span>&lt;image&gt;:&lt;tag&gt;</div></pre></td></tr></table></figure>
+<p>此Dockerfile基于ubuntu父镜像，安装filefox和vnc软件，启动后，用户可以通过5900端口通过vnc方式使用firefox。</p>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><p>指令的一般格式为INSTRUCTION arguments，指令包括FROM、MAINTAINER、RUN等。</p>
+<p>Dockerfile指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:center">指定所创建镜像的基础镜像</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:center">指定维护者信息</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:center">运行命令</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:center">指定启动容器时默认执行的命令</td>
+</tr>
+<tr>
+<td style="text-align:center">LABEL</td>
+<td style="text-align:center">指定生成镜像的元数据标签信息</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:center">声明镜像内服务所监听的端口</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:center">指定容器环境变量</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:center">复制指定的 \<src\> 路径下的内容到容器中的 \<dest\> 路径下，\<src\> 可以为URL；如果为tar文件，会自动解压到 \<dest\> 路径下</dest\></src\></dest\></src\></td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:center">复制本地主机的 \<src\> 路径下的内容到镜像中的 \<dest\> 路径下；一般情况下推荐使用COPY而不是ADD</dest\></src\></td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:center">指定镜像的默认入口</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:center">创建数据卷挂载点</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:center">指定运行容器时的用户名或UID</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:center">配置工作目录</td>
+</tr>
+<tr>
+<td style="text-align:center">ARG</td>
+<td style="text-align:center">指定镜像内使用的参数 （例如版本号信息等）</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:center">配置当所创建的镜像作为其他镜像的基础镜像时，所执行的创建操作指令</td>
+</tr>
+<tr>
+<td style="text-align:center">STOPSIGNAL</td>
+<td style="text-align:center">容器退出的信号值</td>
+</tr>
+<tr>
+<td style="text-align:center">HEALTHCHECK</td>
+<td style="text-align:center">如何进行健康检查</td>
+</tr>
+<tr>
+<td style="text-align:center">SHELL</td>
+<td style="text-align:center">指定使用shell时的默认shell类型</td>
+</tr>
+</tbody>
+</table>
+<h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">FROM</span> &lt;image&gt; 或<span class="keyword">FROM</span>&lt;image&gt;:&lt;tag&gt;</div></pre></td></tr></table></figure>
 <p>第一条指令必须为FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。</p>
-</li>
-<li><p>MAINTAINER</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">MAINTAINER</span> &lt;name&gt;, 指定维护者信息</div></pre></td></tr></table></figure>
-</li>
-<li><p>RUN</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">RUN</span><span class="bash"> &lt;<span class="built_in">command</span>&gt; 或 RUN [<span class="string">"executable"</span>, <span class="string">"param1"</span>, <span class="string">"param2"</span>]</span></div></pre></td></tr></table></figure>
+<h3 id="MAINTAINER"><a href="#MAINTAINER" class="headerlink" title="MAINTAINER"></a>MAINTAINER</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">MAINTAINER</span> &lt;name&gt;, 指定维护者信息</div></pre></td></tr></table></figure>
+<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">RUN</span><span class="bash"> &lt;<span class="built_in">command</span>&gt; 或 RUN [<span class="string">"executable"</span>, <span class="string">"param1"</span>, <span class="string">"param2"</span>]</span></div></pre></td></tr></table></figure>
 <p>RUN <command> 将在shell终端中运行命令，即 /bin/sh -c</p>
 <p>RUN [“executable”, “param1”, “param2”]则使用exec执行。</p>
 <p>指定使用其他终端可以通过第二种方式实现，例如 RUN [“/bin/bash”, “-c”, “echo hello”]。</p>
 <p>每条RUN指令将在当前镜像基础上执行指令命令，并提交为新的镜像。当命令较长时可以用 \ 来换行。</p>
-</li>
-<li><p>CMD</p>
-<p>支持三种格式</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>支持三种格式</p>
 <ul>
 <li><p>使用exec执行，推荐方式</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"executable"</span>, <span class="string">"param1"</span>, <span class="string">"param2"</span>]</span></div></pre></td></tr></table></figure>
@@ -700,28 +662,18 @@
 </ul>
 <p>指定启动容器时执行的命令，每个Dockerfile只能有一条CMD命令。如果指定了多条命令，只有最后一条会被执行。</p>
 <p>如果用户启动容器时指定了运行的命令，则会覆盖掉CMD指定的命令。</p>
-</li>
-<li><p>EXPOSE</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">EXPOSE</span> &lt;port&gt; [&lt;port&gt;...]</div></pre></td></tr></table></figure>
+<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">EXPOSE</span> &lt;port&gt; [&lt;port&gt;...]</div></pre></td></tr></table></figure>
 <p>例如：EXPOSE 22 80 8443</p>
 <p>就是告诉Docker服务器容器暴露的端口号，供互联系统使用。在启动容器时需要通过-P或者-p来指定端口映射。</p>
-</li>
-<li><p>ENV</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">ENV</span> &lt;key&gt; &lt;value&gt;</div></pre></td></tr></table></figure>
+<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">ENV</span> &lt;key&gt; &lt;value&gt;</div></pre></td></tr></table></figure>
 <p>指定一个环境变量，会被后续RUN指令使用，并在容器运行时保持。例如：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ENV</span> PG_MAJOR <span class="number">9.3</span></div><div class="line"><span class="keyword">ENV</span> PG_VERSION <span class="number">9.3</span>.<span class="number">4</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> curl -SL http://example.com/postgres-<span class="variable">$PG_VERSION</span>.tar.xz | tar -xJC /usr/src/postgress &amp;&amp; ...</span></div><div class="line"><span class="keyword">ENV</span> PATH /usr/local/postgres-$PG_MAJOR/bin:$PATH</div></pre></td></tr></table></figure>
-</li>
-<li><p>ADD</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">ADD</span><span class="bash"> &lt;src&gt; &lt;dest&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">ADD</span><span class="bash"> &lt;src&gt; &lt;dest&gt;</span></div></pre></td></tr></table></figure>
 <p>该命令将复制指定的<src>到容器中的<dest>。其中<src>可以是Dockerfile所在目录的一个相对路径（文件或目录）；也可以是一个URL；还可以是一个tar文件（自动解压为目录）。</src></dest></src></p>
-</li>
-<li><p>COPY</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">COPY</span><span class="bash"> &lt;src&gt; &lt;dest&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">COPY</span><span class="bash"> &lt;src&gt; &lt;dest&gt;</span></div></pre></td></tr></table></figure>
 <p>复制本地主机的<src>（为Dockerfile所在目录的相对路径，文件或目录）为容器中的<dest>。目标路径不存在时，会自动创建。</dest></src></p>
 <p>当使用本地目录为源目录时，推荐使用COPY</p>
-</li>
-<li><p>ENTRYPOINT</p>
-<ul>
+<h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><ul>
 <li><p>使用exec执行，推荐方式</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"executable"</span>, <span class="string">"param1"</span>, <span class="string">"param2"</span>]</span></div></pre></td></tr></table></figure>
 </li>
@@ -731,43 +683,93 @@
 </ul>
 <p>配置容器启动后执行的命令，并且不可被docker run提供的参数覆盖</p>
 <p>每个Dockerfile中只能有一个ENTRYPOINT，当制定多个ENTRYPOINT时，只有最后一个生效。</p>
-</li>
-<li><p>VOLUME</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/data"</span>]</span></div></pre></td></tr></table></figure>
+<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/data"</span>]</span></div></pre></td></tr></table></figure>
 <p>创建一个可以从本地主机或其他容器挂载的挂载点，一般用来存放数据库和需要保持的数据等。</p>
-</li>
-<li><p>USER</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">USER</span> daemon</div></pre></td></tr></table></figure>
+<h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">USER</span> daemon</div></pre></td></tr></table></figure>
 <p>指定运行容器时的用户名或UID，后续的RUN也会使用指定的用户。</p>
 <p>当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户，例如：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RUN</span><span class="bash"> groupadd -r postgres &amp;&amp; useradd -r -g postgres postgres</span></div></pre></td></tr></table></figure>
 <p>要临时获取管理员权限可以使用gosu，不推荐sudo</p>
-</li>
-<li><p>WORKDIR</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">WORKDIR</span><span class="bash"> /path/to/workdir</span></div></pre></td></tr></table></figure>
+<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">WORKDIR</span><span class="bash"> /path/to/workdir</span></div></pre></td></tr></table></figure>
 <p>为后续RUN、CMD、ENTRYPOINT指令配置工作目录。</p>
 <p>可以使用多个WORKDIR指令，后续命令如果参数是相对路径，则会基于之前命令指定的路径。例如:</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> /a</span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> b</span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> c</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">pwd</span></span></div></pre></td></tr></table></figure>
 <p>上面指令最终结果为：/a/b/c</p>
-</li>
-<li><p>ONBUILD</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">ONBUILD</span> [INSTRUCTION]</div></pre></td></tr></table></figure>
+<h3 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">格式为 <span class="keyword">ONBUILD</span> [INSTRUCTION]</div></pre></td></tr></table></figure>
 <p>配置当所创建的镜像作为其他新创建镜像的基础镜像时，所执行的操作指令。例如：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[...]</div><div class="line"><span class="keyword">ONBUILD</span> <span class="keyword">ADD</span><span class="bash"> . /app/src</span></div><div class="line"><span class="keyword">ONBUILD</span> <span class="keyword">RUN</span><span class="bash"> /usr/<span class="built_in">local</span>/bin/python-build --dir /app/src</span></div><div class="line">[...]</div></pre></td></tr></table></figure>
 <p>Dockerfile使用上面的内容创建了镜像image-A，如果基于image-A创建新的镜像时，新的Dockerfile中使用FROM image-A指定基础镜像时，会自动执行ONBUILD指令内容，等价于在Dockerfile后面添加了两条指令，如：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> image-A</div><div class="line"><span class="comment"># Automatically run the following</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> . /app/src</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> /usr/<span class="built_in">local</span>/bin/python-build --dir /app/src</span></div></pre></td></tr></table></figure>
 <p>使用ONBUILD指令的镜像，推荐在标签中注明，例如ruby:1.9-onbuild。</p>
+<h1 id="高级知识"><a href="#高级知识" class="headerlink" title="高级知识"></a>高级知识</h1><h2 id="资源隔离"><a href="#资源隔离" class="headerlink" title="资源隔离"></a>资源隔离</h2><p>Linux内核从2.4.19开始引入namespace的概念，其目的是将某个特定的全局系统资源（global system resource）通过抽象方法使得namespace中的进程看起来拥有它们自己的隔离的全局系统资源实例。</p>
+<table>
+<thead>
+<tr>
+<th>namespace</th>
+<th>系统调用参数</th>
+<th>隔离内容</th>
+<th>在容器语境下的隔离效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UTS</td>
+<td>CLONE_NEWUTS</td>
+<td>主机名和域名</td>
+<td>每个容器可以有自己的hostname和domainname</td>
+</tr>
+<tr>
+<td>IPC</td>
+<td>CLONE_NEWIPC</td>
+<td>信号量、消息队列和共享内存</td>
+<td>每个容器有其自己的System V IPC和POSIX消息队列文件系统，因此，只有在同一个IPC的进程之间才能互相通信</td>
+</tr>
+<tr>
+<td>PID</td>
+<td>CLONE_NEWPID</td>
+<td>进程编号</td>
+<td>每个PID中的namespace中的进程可以有其独立的PID；每个容器可以有其PID为1的root进程；也使得容器可以在不同的host之间迁移，因为namespace中的进程ID和host无关了。这也使得容器中的每个进程有两个PID：容器中的PID和host上的PID</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>CLONE_NEWNET</td>
+<td>网络设备、网络栈、端口等</td>
+<td>每个容器都有其独立的网络设备，IP地址，IP路由表，/proc/net目录，端口号等。这也使得多个容器内的同一个应用都绑定在各自容器的80端口上</td>
+</tr>
+<tr>
+<td>Mount</td>
+<td>CLONE_NEWNS</td>
+<td>挂载点（文件系统）</td>
+<td>每个容器能看到不同的文件系统层次结构</td>
+</tr>
+<tr>
+<td>User</td>
+<td>CLONE_NEWUSER</td>
+<td>用户和组ID空间</td>
+<td>在User中的进程的用户和组ID可以和在host上不通。每个container可以有不同的user和group id；一个host上的非特权用户可以成为User中的特权用户</td>
+</tr>
+</tbody>
+</table>
+<p>Docker的资源隔离也是通过这六种方式实现的，在容器启动时，Docker会创建这六种namespace实例，然后把容器中的所有进程放到这些namespace中，使得Docker容器中只能看到隔离的系统资源。</p>
+<h2 id="网络模式"><a href="#网络模式" class="headerlink" title="网络模式"></a>网络模式</h2><p>docker目前支持四种网络工作的方式，分别为host，container，none，bridge。下面简单介绍下这几种网络模式。</p>
+<ul>
+<li><p>host模式</p>
+<p>Docker使用了Linux的Namespaces技术来进行资源隔离，如网卡、路由、进程等。如果启动容器的时候使用host模式，那么容器不会自己去创建一个独立的Network Namespace，而是与主机共用一个Network Namespace。容器也不会虚拟出自己的网卡、IP等，而是使用宿主机的IP和端口。</p>
 </li>
-</ul>
-<p>​</p>
+<li><p>container模式</p>
+<p>container模式指定创建的新的容器和已经存在的一个容器共享一个Network Namespace。container模式通过-net=container:NAME_OR_ID指定共享的容器。</p>
+</li>
+<li><p>none模式</p>
+<p>在这种模式下，容器拥有自己的Network Namespace，但是不做任何网络配置，需要我们自己给容器添加网卡、IP等。</p>
+</li>
+<li><p>bridge模式</p>
+<p>bridge模式是Docker默认的网络设置，此模式会为每一个容器分配Network Namespace、设置IP等，并将一个主机上的Docker容器连接到虚拟网桥上，实现容器和容器的主机的互连。​</p>
 </li>
 </ul>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="Docker学习笔记"><a href="#Docker学习笔记" class="headerlink" title="Docker学习笔记"></a>Docker学习笔记</h1><blockquote>
-<p>Docker简介</p>
-</blockquote>
-<p>Docker 是一个开源的应用容器引擎，基于 <a href="http://www.runoob.com/go/go-tutorial.html">Go 语言</a> 并遵从Apache2.0协议开源。</p>
+    <![CDATA[<p>[TOC]</p>
+<h1 id="Docker基本操作"><a href="#Docker基本操作" class="headerlink" title="Docker基本操作"></a>Docker基本操作</h1><h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker 是一个开源的应用容器引擎，基于 <a href="http://www.runoob.com/go/go-tutorial.html">Go 语言</a> 并遵从Apache2.0协议开源。</p>
 <p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
 <p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
 <p>Docker的主要目标是“Build,Ship and Run Any App, Anywhere”，即通过对应用组件的封装（Packaging）、分发（Distribution）、部署（Deployment）、运行（Runtime）等生命周期的管理，达到应用组件级别的“一次封装，到处运行”（有点类似于java）。这里的应用组件，即可以是一个Web应用，也可以是一套数据库服务，甚至是一个操作系统或者编译器。<br>]]>

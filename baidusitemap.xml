@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>/2017/06/16/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2018-05-16T11:24:19.000Z</lastmod>
+    <data>
+        <display>
+        <title>Docker学习笔记</title>
+        <pubTime>2017-06-16T11:24:41.000Z</pubTime>
+        
+        <tag>Docker,Dockerfile</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker" url="/categories/Docker/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>/2018/02/08/redis%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2018-05-16T07:53:08.000Z</lastmod>
     <data>
@@ -157,26 +177,6 @@
            
              
               <breadCrumb title="服务器" url="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>/2017/06/16/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2017-07-11T13:28:20.000Z</lastmod>
-    <data>
-        <display>
-        <title>Docker学习笔记</title>
-        <pubTime>2017-06-16T11:24:41.000Z</pubTime>
-        
-        <tag>Docker,Dockerfile</tag>
-         
-         
-           
-             
-              <breadCrumb title="Docker" url="/categories/Docker/"/>
           
         </display>
     </data>
