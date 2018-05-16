@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>/2018/02/08/redis%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2018-05-16T07:53:08.000Z</lastmod>
+    <data>
+        <display>
+        <title>redis常用配置</title>
+        <pubTime>2018-02-08T14:51:33.000Z</pubTime>
+        
+        <tag>Redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>/2017/09/07/lombok%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2018-05-16T07:51:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>lombok常用注解</title>
+        <pubTime>2017-09-07T15:43:12.000Z</pubTime>
+        
+        <tag>开发工具框架</tag>
+         
+         
+           
+             
+              <breadCrumb title="开发工具框架" url="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>/2016/12/13/Spring-Boot%E5%85%A5%E9%97%A8/</loc>
     <lastmod>2018-05-12T16:03:33.000Z</lastmod>
     <data>

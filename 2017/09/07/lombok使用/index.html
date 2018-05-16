@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>lombok常用注解 | ArtIsLong的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="LombokProject Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java fe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lombok常用注解">
+<meta property="og:url" content="/2017/09/07/lombok使用/index.html">
+<meta property="og:site_name" content="ArtIsLong的博客">
+<meta property="og:description" content="LombokProject Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java fe">
+<meta property="og:updated_time" content="2018-05-16T07:51:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lombok常用注解">
+<meta name="twitter:description" content="LombokProject Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java fe">
+  
+    <link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">ArtIsLong的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">好的程序猿都是野路子</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-lombok使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/07/lombok使用/" class="article-date">
+  <time datetime="2017-09-07T15:43:12.000Z" itemprop="datePublished">2017-09-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      lombok常用注解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h1 id="Lombok"><a href="#Lombok" class="headerlink" title="Lombok"></a>Lombok</h1><p><a href="https://projectlombok.org/" target="_blank" rel="external">Project Lombok</a> is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features such as <code>val</code>, and much more.</p>
+<p>这是lombok官网的解释，大概意思是说lombok项目是一个java库，会自动处理代码的编译，比如你不用写getter方法，它就会自动帮你实现。<a id="more"></a></p>
+<p>下面简单介绍一些在开发中常用的注解。</p>
+<h2 id="Lombok常用注解"><a href="#Lombok常用注解" class="headerlink" title="Lombok常用注解"></a>Lombok常用注解</h2><h3 id="Getter"><a href="#Getter" class="headerlink" title="@Getter"></a>@Getter</h3><p>可标注到类或属性上，标注到类上表示此类中的所有属性生成getter方法，标注到某个属性上，表示此属性生成getter方法。</p>
+<h3 id="Setter"><a href="#Setter" class="headerlink" title="@Setter"></a>@Setter</h3><p>和@Getter类似，可标注到类或属性上，标注到类上表示此类中的所有属性生成setter方法，标注到某个属性上，表示此属性生成setter方法。</p>
+<h3 id="ToString"><a href="#ToString" class="headerlink" title="@ToString"></a>@ToString</h3><p>只能标注到类上，相当于是重写此类的toString方法。</p>
+<h3 id="EqualsAndHashCode"><a href="#EqualsAndHashCode" class="headerlink" title="@EqualsAndHashCode"></a>@EqualsAndHashCode</h3><p>只能标注到类上，相当于是重写此类的hashCode和equals方法。</p>
+<h3 id="NoArgsConstructor"><a href="#NoArgsConstructor" class="headerlink" title="@NoArgsConstructor"></a>@NoArgsConstructor</h3><p>只能标注到类上，生成无参的构造方法。</p>
+<h3 id="Data"><a href="#Data" class="headerlink" title="@Data"></a>@Data</h3><p>只能标注到类上，综合@Getter，@Setter，@ToString，@EqualsAndHashCode，@NoArgsConstructor五个注解的功能。</p>
+<h3 id="Value"><a href="#Value" class="headerlink" title="@Value"></a>@Value</h3><p>只能标注到类上，综合@Getter，@Setter，@ToString，@EqualsAndHashCode，@NoArgsConstructor五个注解的功能，和@Data不同的是，默认将所有属性定义成final的，也就是只会生成getter方法，不会生成setter方法，如果不需要final，则给属性加上@NonFinal注解即可。</p>
+<h3 id="AllArgsConstructor"><a href="#AllArgsConstructor" class="headerlink" title="@AllArgsConstructor"></a>@AllArgsConstructor</h3><p>只能标注到类上，生成包含所有属性的构造方法，使用此注解时建议和@NoArgsConstructor结合使用，否则此类将没有无参的构造方法。</p>
+<h3 id="RequiredArgsConstructor"><a href="#RequiredArgsConstructor" class="headerlink" title="@RequiredArgsConstructor"></a>@RequiredArgsConstructor</h3><p>只能标注到类上，会生成一个包含常量，和标识了@NotNull的变量 的构造方法。生成的构造方法是private，如何想要对外提供使用可以使用staticName选项生成一个static方法。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiredArgsConstructor</span>(staticName = <span class="string">"passwd"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@NonNull</span> <span class="keyword">private</span> String password;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码编译后对应下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">User</span><span class="params">(String password)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.password = password;</div><div class="line">	&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> User <span class="title">passwd</span><span class="params">(String password)</span> </span>&#123;</div><div class="line">    	<span class="keyword">return</span> <span class="keyword">new</span> User(password);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Builder"><a href="#Builder" class="headerlink" title="@Builder"></a>@Builder</h3><p>只能标注到类上，将生成类的一个当前流程的一种链式构造工厂，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User buildUser = User.builder().password(<span class="string">"haha"</span>).username(<span class="string">"gaga"</span>).build();</div></pre></td></tr></table></figure>
+<p>可配合@Singular注解使用，@Singular注解使用在jdk内部集合类型的属性，Map类型的属性以及<a href="https://github.com/google/guava" target="_blank" rel="external">Guava</a>的<code>com.google.common.collect</code> 的属性上。例如 未标注@Singular的属性，一般setter时，会直接覆盖原来的引用，标注了@Singular的属性，集合属性支持添加操作，会在属性原来的基础上增加。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">UserBuilder</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> String username;</div><div class="line">        <span class="keyword">private</span> String password;</div><div class="line">        <span class="keyword">private</span> ArrayList&lt;String&gt; projects;</div><div class="line">        UserBuilder() &#123;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">username</span><span class="params">(String username)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.username = username;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">password</span><span class="params">(String password)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.password = password;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">project</span><span class="params">(String project)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span>) <span class="keyword">this</span>.projects = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">            <span class="keyword">this</span>.projects.add(project);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">projects</span><span class="params">(Collection&lt;? extends String&gt; projects)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span>) <span class="keyword">this</span>.projects = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">            <span class="keyword">this</span>.projects.addAll(projects);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">clearProjects</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects != <span class="keyword">null</span>)</div><div class="line">                <span class="keyword">this</span>.projects.clear();</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> User <span class="title">build</span><span class="params">()</span> </span>&#123;</div><div class="line">            Set&lt;String&gt; projects;</div><div class="line">            <span class="keyword">switch</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span> ? <span class="number">0</span> : <span class="keyword">this</span>.projects.size()) &#123;</div><div class="line">                <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">                    projects = java.util.Collections.emptySet();</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">                    projects = java.util.Collections.singleton(<span class="keyword">this</span>.projects.get(<span class="number">0</span>));</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">default</span>:</div><div class="line">                    projects = <span class="keyword">new</span> java.util.LinkedHashSet&lt;String&gt;(<span class="keyword">this</span>.projects.size() &lt; <span class="number">1073741824</span> ? <span class="number">1</span> + <span class="keyword">this</span>.projects.size() + (<span class="keyword">this</span>.projects.size() - <span class="number">3</span>) / <span class="number">3</span> : Integer.MAX_VALUE);</div><div class="line">                    projects.addAll(<span class="keyword">this</span>.projects);</div><div class="line">                    projects = java.util.Collections.unmodifiableSet(projects);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> User(username, password, projects);</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"User.UserBuilder(username="</span> + <span class="keyword">this</span>.username + <span class="string">", password="</span> + <span class="keyword">this</span>.password + <span class="string">", projects="</span> + <span class="keyword">this</span>.projects + <span class="string">")"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="Accessors"><a href="#Accessors" class="headerlink" title="@Accessors"></a>@Accessors</h3><p>可标注在类或属性上，当然最实用的功能还是标注到类上。</p>
+<p><strong>标注到类上</strong>，chain属性设置为true时，类的所有属性的setter方法返回值将为this，用来支持setter方法的链式写法。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> User().setPassword(<span class="string">"gaga"</span>).setUsername(<span class="string">"haha"</span>);</div></pre></td></tr></table></figure>
+<p>fluent属性设置为true时，类的所有getter，setter方法将省略get和set前缀，获取属性值直接使用属性名相同的无参方法，设置属性值使用属性名相同的有参方法，并且返回值为this。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">User user = <span class="keyword">new</span> User().password(<span class="string">"gaga"</span>).username(<span class="string">"haha"</span>);</div><div class="line">String password = user.password();</div><div class="line">String username = user.username();</div></pre></td></tr></table></figure>
+<p><strong>标注到属性上</strong>，使用prefix设置需要省略的属性生成getter，setter方法时的前缀，且属性必须为驼峰式命名。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Accessors</span>(prefix = <span class="string">"a"</span>)</div><div class="line"><span class="meta">@Getter</span></div><div class="line"><span class="meta">@Setter</span></div><div class="line"><span class="keyword">private</span> String aUsername = <span class="string">"gaga"</span>;</div></pre></td></tr></table></figure>
+<p>编译之后为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</div><div class="line">  	<span class="keyword">return</span> aUsername;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String aUsername)</span> </span>&#123;</div><div class="line">  	<span class="keyword">this</span>.aUsername = aUsername;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上一些常用的lombok的用法介绍完了，在日常的开发或者自己的练习中，使用lombok并结合各版本的jdk特性，将更大的提高开发效率，提高开发质量。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="/2017/09/07/lombok使用/" data-id="cjh8t4kzg0000zwzbfjsmrl92" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发工具框架/">开发工具框架</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/04/对前后台分离的思考/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          对前后台分离的思考
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/16/Docker学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Docker学习笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+           <div id="uyan_frame"></div>
+    
+      
+           <div id="gitment_comments"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lombok"><span class="toc-number">1.</span> <span class="toc-text">Lombok</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lombok常用注解"><span class="toc-number">1.1.</span> <span class="toc-text">Lombok常用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Getter"><span class="toc-number">1.1.1.</span> <span class="toc-text">@Getter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setter"><span class="toc-number">1.1.2.</span> <span class="toc-text">@Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ToString"><span class="toc-number">1.1.3.</span> <span class="toc-text">@ToString</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EqualsAndHashCode"><span class="toc-number">1.1.4.</span> <span class="toc-text">@EqualsAndHashCode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NoArgsConstructor"><span class="toc-number">1.1.5.</span> <span class="toc-text">@NoArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data"><span class="toc-number">1.1.6.</span> <span class="toc-text">@Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Value"><span class="toc-number">1.1.7.</span> <span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AllArgsConstructor"><span class="toc-number">1.1.8.</span> <span class="toc-text">@AllArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RequiredArgsConstructor"><span class="toc-number">1.1.9.</span> <span class="toc-text">@RequiredArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Builder"><span class="toc-number">1.1.10.</span> <span class="toc-text">@Builder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Accessors"><span class="toc-number">1.1.11.</span> <span class="toc-text">@Accessors</span></a></li></ol></li></ol></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 ArtIsLong的博客&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;799418876@qq.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+
+
+
+
+ <script  type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=http://v2.uyan.cc/code/uyan.js?uid=2160660"></script>
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script> 
+  <script>
+  var gitment = new Gitment({
+    // id: '页面 ID', // 可选。默认为 location.href
+    owner: 'artislong',
+    repo: 'artislong.github.io',
+    oauth: {
+    client_id: 'ec5670e84a08dfda91f4',
+    client_secret: '3178f788eff4e6684b307a8ab886ff6b8ff236db',
+    }
+  })
+  gitment.render(document.getElementById("gitment_comments"))
+</script>
+
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
