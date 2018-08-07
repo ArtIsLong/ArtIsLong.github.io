@@ -5,18 +5,18 @@
   
   <title>redis常用配置 | ArtIsLong的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Redis1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+  <meta name="description" content="1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis常用配置">
 <meta property="og:url" content="/2018/02/08/redis系统学习/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="Redis1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta property="og:description" content="1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-16T07:53:08.000Z">
+<meta property="og:updated_time" content="2018-08-07T15:41:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis常用配置">
-<meta name="twitter:description" content="Redis1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta name="twitter:description" content="1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
   
     <link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
   
@@ -101,7 +101,7 @@
       
         <!-- Table of Contents -->
         
-        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1、基本配置"><a href="#1、基本配置" class="headerlink" title="1、基本配置"></a>1、基本配置</h2><blockquote>
+        <h2 id="1、基本配置"><a href="#1、基本配置" class="headerlink" title="1、基本配置"></a>1、基本配置</h2><blockquote>
 <p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">daemonize no</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <blockquote>
@@ -335,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="/2018/02/08/redis系统学习/" data-id="cjkja9rxa0019rozb0za9ravp" class="article-share-link">分享</a>
+      <a data-url="/2018/02/08/redis系统学习/" data-id="cjkjvzguh00119gzb6t4kdahp" class="article-share-link">分享</a>
       
       
       
@@ -441,7 +441,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis"><span class="toc-number">1.</span> <span class="toc-text">Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、基本配置"><span class="toc-number">1.1.</span> <span class="toc-text">1、基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、常用操作（高级）"><span class="toc-number">1.2.</span> <span class="toc-text">2、常用操作（高级）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-事务操作"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 事务操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-消息的发布与订阅"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 消息的发布与订阅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Redis持久化配置"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 Redis持久化配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-rdb快照持久化"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">2.3.1 rdb快照持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-aof日志持久化"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">2.3.2 aof日志持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-总结"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">2.3.3 总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Redis主从复制"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4 Redis主从复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-三主三从三哨兵集群模式"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.5 三主三从三哨兵集群模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-环境准备"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">2.5.1 环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-修改配置文件"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">2.5.2 修改配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-3-创建集群"><span class="toc-number">1.2.5.3.</span> <span class="toc-text">2.5.3 创建集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-4-哨兵搭建"><span class="toc-number">1.2.5.4.</span> <span class="toc-text">2.5.4 哨兵搭建</span></a></li></ol></li></ol></li></ol></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、基本配置"><span class="toc-number">1.</span> <span class="toc-text">1、基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、常用操作（高级）"><span class="toc-number">2.</span> <span class="toc-text">2、常用操作（高级）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-事务操作"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 事务操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-消息的发布与订阅"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 消息的发布与订阅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Redis持久化配置"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 Redis持久化配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-rdb快照持久化"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 rdb快照持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-aof日志持久化"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 aof日志持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-总结"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Redis主从复制"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 Redis主从复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-三主三从三哨兵集群模式"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 三主三从三哨兵集群模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-环境准备"><span class="toc-number">2.5.1.</span> <span class="toc-text">2.5.1 环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-修改配置文件"><span class="toc-number">2.5.2.</span> <span class="toc-text">2.5.2 修改配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-3-创建集群"><span class="toc-number">2.5.3.</span> <span class="toc-text">2.5.3 创建集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-4-哨兵搭建"><span class="toc-number">2.5.4.</span> <span class="toc-text">2.5.4 哨兵搭建</span></a></li></ol></li></ol></li></ol>
           </div>
       </div>
     </div>
