@@ -4,7 +4,7 @@
   <subtitle><![CDATA[好的程序猿都是野路子]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="/"/>
-  <updated>2018-05-16T07:53:08.000Z</updated>
+  <updated>2018-08-07T06:29:14.000Z</updated>
   <id>/</id>
   
   <author>
@@ -13,6 +13,416 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[storm集群搭建]]></title>
+    <link href="/2018/08/07/storm%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/"/>
+    <id>/2018/08/07/storm集群搭建/</id>
+    <published>2018-08-07T05:45:58.000Z</published>
+    <updated>2018-08-07T06:29:14.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="基本配置详解"><a href="#基本配置详解" class="headerlink" title="基本配置详解 "></a>基本配置详解 <a id="more"></a></h2><table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>配置说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>storm.zookeeper.servers</td>
+<td>ZooKeeper服务器列表</td>
+</tr>
+<tr>
+<td>storm.zookeeper.port</td>
+<td>ZooKeeper连接端口</td>
+</tr>
+<tr>
+<td>storm.local.dir</td>
+<td>storm使用的本地文件系统目录(必须存在并且storm进程可读写)</td>
+</tr>
+<tr>
+<td>storm.cluster.mode</td>
+<td>Storm集群运行模式([distributed\</td>
+<td>local])</td>
+</tr>
+<tr>
+<td>storm.local.mode.zmq</td>
+<td>Local模式下是否使用ZeroMQ作消息系统，如果设置为false则使用java消息系统。默认为false</td>
+</tr>
+<tr>
+<td>storm.zookeeper.root</td>
+<td>ZooKeeper中Storm的根目录位置</td>
+</tr>
+<tr>
+<td>storm.zookeeper.session.timeout</td>
+<td>客户端连接ZooKeeper超时时间</td>
+</tr>
+<tr>
+<td>storm.id</td>
+<td>运行中拓扑的id,由storm name和一个唯一随机数组成。</td>
+</tr>
+<tr>
+<td>nimbus.host</td>
+<td>nimbus服务器地址</td>
+</tr>
+<tr>
+<td>nimbus.thrift.port</td>
+<td>nimbus的thrift监听端口</td>
+</tr>
+<tr>
+<td>nimbus.childopts</td>
+<td>通过storm-deploy项目部署时指定给nimbus进程的jvm选项</td>
+</tr>
+<tr>
+<td>nimbus.task.timeout.secs</td>
+<td>心跳超时时间，超时后nimbus会认为task死掉并重分配给另一个地址。</td>
+</tr>
+<tr>
+<td>nimbus.monitor.freq.secs</td>
+<td>nimbus检查心跳和重分配任务的时间间隔.注意如果是机器宕掉nimbus会立即接管并处理。</td>
+</tr>
+<tr>
+<td>nimbus.supervisor.timeout.secs</td>
+<td>supervisor的心跳超时时间,一旦超过nimbus会认为该supervisor已死并停止为它分发新任务.</td>
+</tr>
+<tr>
+<td>nimbus.task.launch.secs</td>
+<td>task启动时的一个特殊超时设置.在启动后第一次心跳前会使用该值来临时替代nimbus.task.timeout.secs.</td>
+</tr>
+<tr>
+<td>nimbus.reassign</td>
+<td>当发现task失败时nimbus是否重新分配执行。默认为真，不建议修改。</td>
+</tr>
+<tr>
+<td>nimbus.file.copy.expiration.secs</td>
+<td>nimbus判断上传/下载链接的超时时间，当空闲时间超过该设定时nimbus会认为链接死掉并主动断开</td>
+</tr>
+<tr>
+<td>ui.port</td>
+<td>Storm UI的服务端口</td>
+</tr>
+<tr>
+<td>drpc.servers</td>
+<td>DRPC服务器列表，以便DRPCSpout知道和谁通讯</td>
+</tr>
+<tr>
+<td>drpc.port</td>
+<td>Storm DRPC的服务端口</td>
+</tr>
+<tr>
+<td>supervisor.slots.ports</td>
+<td>supervisor上能够运行workers的端口列表.每个worker占用一个端口,且每个端口只运行一个worker.通过这项配置可以调整每台机器上运行的worker数.(调整slot数/每机)</td>
+</tr>
+<tr>
+<td>supervisor.childopts</td>
+<td>在storm-deploy项目中使用,用来配置supervisor守护进程的jvm选项</td>
+</tr>
+<tr>
+<td>supervisor.worker.timeout.secs</td>
+<td>supervisor中的worker心跳超时时间,一旦超时supervisor会尝试重启worker进程.</td>
+</tr>
+<tr>
+<td>supervisor.worker.start.timeout.secs</td>
+<td>supervisor初始启动时，worker的心跳超时时间，当超过该时间supervisor会尝试重启worker。因为JVM初始启动和配置会带来的额外消耗，从而使得第一次心跳会超过supervisor.worker.timeout.secs的设定</td>
+</tr>
+<tr>
+<td>supervisor.enable</td>
+<td>supervisor是否应当运行分配给他的workers.默认为true,该选项用来进行Storm的单元测试,一般不应修改.</td>
+</tr>
+<tr>
+<td>supervisor.heartbeat.frequency.secs</td>
+<td>supervisor心跳发送频率(多久发送一次)</td>
+</tr>
+<tr>
+<td>supervisor.monitor.frequency.secs</td>
+<td>supervisor检查worker心跳的频率</td>
+</tr>
+<tr>
+<td>worker.childopts</td>
+<td>supervisor启动worker时使用的jvm选项.所有的”%ID%”字串会被替换为对应worker的标识符</td>
+</tr>
+<tr>
+<td>worker.heartbeat.frequency.secs</td>
+<td>worker的心跳发送时间间隔</td>
+</tr>
+<tr>
+<td>task.heartbeat.frequency.secs</td>
+<td>task汇报状态心跳时间间隔</td>
+</tr>
+<tr>
+<td>task.refresh.poll.secs</td>
+<td>task与其他tasks之间链接同步的频率.(如果task被重分配,其他tasks向它发送消息需要刷新连接).一般来讲，重分配发生时其他tasks会理解得到通知。该配置仅仅为了防止未通知的情况。</td>
+</tr>
+<tr>
+<td>topology.debug</td>
+<td>如果设置成true，Storm将记录发射的每条信息。</td>
+</tr>
+<tr>
+<td>topology.optimize</td>
+<td>master是否在合适时机通过在单个线程内运行多个task以达到优化topologies的目的.</td>
+</tr>
+<tr>
+<td>topology.workers</td>
+<td>执行该topology集群中应当启动的进程数量.每个进程内部将以线程方式执行一定数目的tasks.topology的组件结合该参数和并行度提示来优化性能</td>
+</tr>
+<tr>
+<td>topology.ackers</td>
+<td>topology中启动的acker任务数.Acker保存由spout发送的tuples的记录，并探测tuple何时被完全处理.当Acker探测到tuple被处理完毕时会向spout发送确认信息.通常应当根据topology的吞吐量来确定acker的数目，但一般不需要太多.当设置为0时,相当于禁用了消息可靠性,storm会在spout发送tuples后立即进行确认.</td>
+</tr>
+<tr>
+<td>topology.message.timeout.secs</td>
+<td>topology中spout发送消息的最大处理超时时间.如果一条消息在该时间窗口内未被成功ack,Storm会告知spout这条消息失败。而部分spout实现了失败消息重播功能。</td>
+</tr>
+<tr>
+<td>topology.kryo.register</td>
+<td>注册到Kryo(Storm底层的序列化框架)的序列化方案列表.序列化方案可以是一个类名,或者是com.esotericsoftware.kryo.Serializer的实现.</td>
+</tr>
+<tr>
+<td>topology.skip.missing.kryo.registrations</td>
+<td>Storm是否应该跳过它不能识别的kryo序列化方案.如果设置为否task可能会装载失败或者在运行时抛出错误.</td>
+</tr>
+<tr>
+<td>topology.max.task.parallelism</td>
+<td>在一个topology中能够允许的最大组件并行度.该项配置主要用在本地模式中测试线程数限制.</td>
+</tr>
+<tr>
+<td>topology.max.spout.pending</td>
+<td>一个spout task中处于pending状态的最大的tuples数量.该配置应用于单个task,而不是整个spouts或topology.</td>
+</tr>
+<tr>
+<td>topology.state.synchronization.timeout.secs</td>
+<td>组件同步状态源的最大超时时间(保留选项,暂未使用)</td>
+</tr>
+<tr>
+<td>topology.stats.sample.rate</td>
+<td>用来产生task统计信息的tuples抽样百分比</td>
+</tr>
+<tr>
+<td>topology.fall.back.on.java.serialization</td>
+<td>topology中是否使用java的序列化方案</td>
+</tr>
+<tr>
+<td>zmq.threads</td>
+<td>每个worker进程内zeromq通讯用到的线程数</td>
+</tr>
+<tr>
+<td>zmq.linger.millis</td>
+<td>当连接关闭时,链接尝试重新发送消息到目标主机的持续时长.这是一个不常用的高级选项,基本上可以忽略.</td>
+</tr>
+<tr>
+<td>java.library.path</td>
+<td>JVM启动(如Nimbus,Supervisor和workers)时的java.library.path设置.该选项告诉JVM在哪些路径下定位本地库.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<li><p>从<a href="http://storm.apache.org/downloads.html" target="_blank" rel="noopener">Storm官网</a>下载Storm安装包，本文使用的Storm版本为1.2.2 </p>
+</li>
+<li><p>从<a href="http://mirrors.shu.edu.cn/apache/zookeeper/zookeeper-3.4.10" target="_blank" rel="noopener">Zookeeper官网</a>下载Zookeeper安装包</p>
+</li>
+</ul>
+<h2 id="开始安装配置"><a href="#开始安装配置" class="headerlink" title="开始安装配置"></a>开始安装配置</h2><p>由于Zookeeper和Storm都是以Java为基础开发的，所以需要Java环境，在Linux服务器上配置Java开发环境，此处不做累述，读者请自行百度。</p>
+<h3 id="搭建Zookeeper集群"><a href="#搭建Zookeeper集群" class="headerlink" title="搭建Zookeeper集群"></a>搭建Zookeeper集群</h3><p>参考 Zookeeper集群搭建博客</p>
+<h3 id="搭建Storm集群"><a href="#搭建Storm集群" class="headerlink" title="搭建Storm集群"></a>搭建Storm集群</h3><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http<span class="variable">s:</span>//www.apache.org/dyn/closer.<span class="keyword">lua</span>/storm/apache-storm-<span class="number">1.2</span>.<span class="number">2</span>/apache-storm-<span class="number">1.2</span>.<span class="number">2</span>.tar.gz</span><br><span class="line">tar -zxvf apache-storm-<span class="number">1.2</span>.<span class="number">2</span>.tar.gz</span><br><span class="line"><span class="keyword">cd</span> apache-storm-<span class="number">1.2</span>.<span class="number">2</span>/<span class="keyword">conf</span></span><br><span class="line"><span class="keyword">vi</span> storm.yaml</span><br></pre></td></tr></table></figure>
+<p>主要的配置项有一下几点：</p>
+<ul>
+<li><p>配置Storm集群的Zookeeper集群主机列表</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">storm.zookeeper.servers:</span><br><span class="line">    -<span class="ruby"> <span class="string">"master"</span></span></span><br><span class="line"><span class="ruby">    - <span class="string">"slave1"</span></span></span><br><span class="line"><span class="ruby">    - <span class="string">"slave2"</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果Zookeeper集群使用的端口与默认端口不同，还需一下配置：</p>
+</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">storm<span class="selector-class">.zookeeper</span><span class="selector-class">.port</span>: <span class="number">2182</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>指定Storm数据存储目录</li>
+</ul>
+<p>Nimbus和Supervisor守护进程需要在本地磁盘上存储少量状态信息。需要我们手动在每台Supervisor机器上创建此目录，并授予适当的权限。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">storm<span class="selector-class">.local</span><span class="selector-class">.dir</span>: <span class="string">"/home/hadoop/storm/data"</span></span><br></pre></td></tr></table></figure>
+<p>如果使用相对路径，可以相对于安装Storm的位置（STORM_HOME），或者使用默认值留空。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">$STORM</span>_HOME/data</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>supervisor的worker数量配置</li>
+</ul>
+<p>以下配置指定supervisor的工作节点，可以运行的worker数量，每个worker占用一个端口来接收消息，最多分配5个；默认情况下每个节点可以运行4个worker，分别在6700、6701、6702、6703，此处定义几个端口，则就表示可以运行几个worker。</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">supervisor.slots.ports:</span><br><span class="line">    -<span class="ruby"> <span class="number">6700</span></span></span><br><span class="line"><span class="ruby">    - <span class="number">6701</span></span></span><br><span class="line"><span class="ruby">    - <span class="number">6702</span></span></span><br><span class="line"><span class="ruby">    - <span class="number">6703</span></span></span><br></pre></td></tr></table></figure>
+<p>此处为最基本的配置，若需其他对集群的优化配置，请查看官网Storm集群搭建教程，上面有详细的配置方式。（英语较差的童鞋，不要害怕英文文档，试着读，多读几遍，慢慢的大概意思也会了解了，有道是“书读百遍其义自见”）</p>
+<h4 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h4><ul>
+<li>在Nimbus主机上启动nimbus</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/storm nimbus 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在每个Storm集群节点上启动supervisor</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/storm supervisor 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在Nimbus主机上启动Storm UI</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/storm ui 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>]]></content>
+    <summary type="html">
+    <![CDATA[Storm集群搭建]]>
+    
+    </summary>
+    
+      <category term="大数据" scheme="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+      <category term="storm" scheme="/categories/storm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[zookeeper集群搭建]]></title>
+    <link href="/2018/08/07/zookeeper%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/"/>
+    <id>/2018/08/07/zookeeper集群搭建/</id>
+    <published>2018-08-07T05:43:07.000Z</published>
+    <updated>2018-08-07T05:49:43.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="zookeeper集群搭建"><a href="#zookeeper集群搭建" class="headerlink" title="zookeeper集群搭建"></a>zookeeper集群搭建</h2><p>本文的所有配置及集群的搭建，都是基于zookeeper-3.4.10的。<a id="more"></a></p>
+<h3 id="zoo-cfg配置详解"><a href="#zoo-cfg配置详解" class="headerlink" title="zoo.cfg配置详解"></a>zoo.cfg配置详解</h3><table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clientPort</td>
+<td>客户端连接Server的端口，即对外服务端口，一般设置为2181</td>
+</tr>
+<tr>
+<td>dataDir</td>
+<td>存储快照文件snapshot的目录。默认情况下，事务日志也会存储在这里。建议同时配置参数dataLogDir，事务日志的写性能直接影响zk性能</td>
+</tr>
+<tr>
+<td>tickTime</td>
+<td>zk中的一个时间单元，zk中所有时间都是以这个时间单元为基础，进行整数倍配置的。例如，session的最小超时时间是2*tickTime</td>
+</tr>
+<tr>
+<td>dataLogDir</td>
+<td>事务日志输出目录。尽量给事务日志的输出配置单独的磁盘或是挂载点，这将极大的提升zk性能（No Java System Property）</td>
+</tr>
+<tr>
+<td>globalOutstandingLimit</td>
+<td>最大请求堆积数。默认是1000。zk运行的时候，尽管server已经没有空闲来处理更多的客户端请求了，但还是允许客户端将请求提交到服务器上来，以提高吞吐性能。当然，为了防止Server内存溢出，这个请求堆积数还是需要限制下的。(Java System Property:zookeeper.globalOutstandingLimit)</td>
+</tr>
+<tr>
+<td>preAllocSize</td>
+<td>预先开辟磁盘空间，用于后续写入事务日志。默认是64M，每个事务日志大小就是64M。如果zk的快照频率较大的话，建议适当减小这个参数。（Java System Property:zookeeper.preAllocSize）</td>
+</tr>
+<tr>
+<td>snapCount</td>
+<td>每进行snapCount次事务日志输出后，出发一次快照(snapshot)，此时，zk会生成一个snapshot.<em>文件，同时创建一个新的事务日志文件log.\</em>。默认是100000.(真正的代码实现中，会进行一定的随机数处理，以避免所有服务器在同一时间进行快照而影响性能)。(Java System Property:zookeeper.snapCount)</td>
+</tr>
+<tr>
+<td>traceFile</td>
+<td>用于记录所有请求的log，一般调试过程中可以使用，但是生产环境不建议使用，会严重影响性能。(Java System Property:zookeeper.requestTraceFile)</td>
+</tr>
+<tr>
+<td>maxClientCnxns</td>
+<td>单个客户端与单台服务器之间的连接数的限制，是IP级别的，默认是60，如果设置为0，那么表明不作任何限制。请注意这个限制的使用范围，仅仅是单台客户端机器与单台zk服务器直接的连接数限制，不是针对指定客户端IP，也不是zk集群的连接数限制，也不是单台zk对所有客户端的连接数限制。</td>
+</tr>
+<tr>
+<td>clientPortAddress</td>
+<td>对于多网卡的机器，可以为每个IP指定不同的监听端口。默认情况是所有IP都监听clientPort指定的端口。</td>
+</tr>
+<tr>
+<td>minSessionTimeoutmaxSessionTimeout</td>
+<td>Session超时时间限制，如果客户端设置的超时时间不在这个范围，那么会被强制设置为最大或最小时间。默认的Session超时时间是在2*tickTime~20*tickTime这个范文</td>
+</tr>
+<tr>
+<td>fsync.warningthresholdms</td>
+<td>事务日志输出时，如果调用fsync方法超过指定的超时时间，那么会在日志中输出警告信息。默认是1000ms。( Java system property: fsync.warningthresholdms)</td>
+</tr>
+<tr>
+<td>autopurge.purgeInterval</td>
+<td>在上文中已经提到，3.4.0及之后版本，ZK提供了自动清理事务日志和快照文件的功能，这个参数指定了清理频率，单位是小时，需要配置一个1或更大的整数，默认是0，表示不开启自动清理功能。(No Java system property)</td>
+</tr>
+<tr>
+<td>autopurge.snapRetainCount</td>
+<td>这个参数和上面的参数搭配使用，这个参数指定了需要保留的文件数目。默认是保留3个。(No Java system property)</td>
+</tr>
+<tr>
+<td>electionAlg</td>
+<td>在之前的版本中， 这个参数配置是允许我们选择leader选举<a href="http://lib.csdn.net/base/31" target="_blank" rel="noopener">算法</a>，但是由于在以后的版本中，只会留下一种“TCP-based version of fast leader election”算法，所以这个参数目前看来没有用了，这里也不详细展开说了。(No Java system property)</td>
+</tr>
+<tr>
+<td>initLimit</td>
+<td>Follower在启动过程中，会从Leader同步所有最新数据，然后确定自己能够对外服务的起始状态。Leader允许F在 <strong>initLimit</strong> 时间内完成这个工作。通常情况下，我们不用太在意这个参数的设置。如果ZK集群的数据量确实很大了，F在启动的时候，从Leader上同步数据的时间也会相应变长，因此在这种情况下，有必要适当调大这个参数了。(No Java system property)</td>
+</tr>
+<tr>
+<td>syncLimit</td>
+<td>在运行过程中，Leader负责与ZK集群中所有机器进行通信，例如通过一些心跳检测机制，来检测机器的存活状态。如果L发出心跳包在syncLimit之后，还没有从F那里收到响应，那么就认为这个F已经不在线了。注意：不要把这个参数设置得过大，否则可能会掩盖一些问题。(No Java system property)</td>
+</tr>
+<tr>
+<td>leaderServes</td>
+<td>默认情况下，Leader是会接受客户端连接，并提供正常的读写服务。但是，如果你想让Leader专注于集群中机器的协调，那么可以将这个参数设置为no，这样一来，会大大提高写操作的性能。(Java system property: zookeeper.leaderServes)</td>
+</tr>
+<tr>
+<td>server.x=[hostname]:nnnnn[:nnnnn]</td>
+<td>这里的x是一个数字，与myid文件中的id是一致的。右边可以配置两个端口，第一个端口用于F和L之间的数据同步和其它通信，第二个端口用于Leader选举过程中投票通信。   (No Java system property)</td>
+</tr>
+<tr>
+<td>group.x=nnnnn[:nnnnn]weight.x=nnnnn</td>
+<td>对机器分组和权重设置，可以  <a href="http://zookeeper.apache.org/doc/r3.4.3/zookeeperHierarchicalQuorums.html" target="_blank" rel="noopener">参见这里</a>(No Java system property)</td>
+</tr>
+<tr>
+<td>cnxTimeout</td>
+<td>Leader选举过程中，打开一次连接的超时时间，默认是5s。(Java system property: zookeeper.cnxTimeout)</td>
+</tr>
+<tr>
+<td>zookeeper.DigestAuthenticationProvider.superDigest</td>
+<td>ZK权限设置相关，具体参见  <a href="http://nileader.blog.51cto.com/1381108/930635" target="_blank" rel="noopener">《  <strong>使用super</strong>  <strong>身份对有权限的节点进行操作</strong> 》 </a> 和  <a href="http://nileader.blog.51cto.com/1381108/795525" target="_blank" rel="noopener">《 <strong>ZooKeeper</strong>   <strong>权限控制</strong> 》</a></td>
+</tr>
+<tr>
+<td>skipACL</td>
+<td>对所有客户端请求都不作ACL检查。如果之前节点上设置有权限限制，一旦服务器上打开这个开头，那么也将失效。(Java system property: zookeeper.skipACL)</td>
+</tr>
+<tr>
+<td>forceSync</td>
+<td>这个参数确定了是否需要在事务日志提交的时候调用 <a href="http://rdc.taobao.com/team/%5C/java%5C/jdk1.6.0_22%5C/jre%5C/lib%5C/rt.jar%3Cjava.nio.channels(FileChannel.class%E2%98%83FileChannel" target="_blank" rel="noopener">FileChannel </a>.force来保证数据完全同步到磁盘。(Java system property:zookeeper.forceSync)</td>
+</tr>
+<tr>
+<td>jute.maxbuffer</td>
+<td>每个节点最<a href="http://lib.csdn.net/base/20" target="_blank" rel="noopener">大数据</a>量，是默认是1M。这个限制必须在server和client端都进行设置才会生效。(Java system property:jute.maxbuffer)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="zoo-cfg配置要求"><a href="#zoo-cfg配置要求" class="headerlink" title="zoo.cfg配置要求"></a>zoo.cfg配置要求</h3><table><br><tr><br><td>类型</td><br><td>配置项</td><br><td>描述</td><br></tr><br><tr><br><td rowspan="3">最低配置</td><br><td>clientPort</td><br><td>监听客户端连接的端口，默认值为2181</td><br></tr><br><tr><br><td>dataDir</td><br><td>存储持久数据的本地文件系统位置</td><br></tr><br><tr><br><td>tickTime</td><br><td>基本事件单元，以毫秒为单位，用来控制心跳和超时，默认情况下超时时间为两倍的tickTime</td><br></tr><br><tr><br><td rowspan="3">高级配置</td><br><td>dataLogDir</td><br><td>事件日志写入的目录</td><br></tr><br><tr><br><td>maxClientCnxns</td><br><td>限制连接到Zookeeper的客户端数量，并且限制并发连接数量，它通过ip区分不同的客户端</td><br></tr><br><tr><br><td>minSessionTimeout与maxSessionTimeout</td><br><td>最小会话超时时间和最大的会话超时时间，在默认情况下，最小的会话超时时间为两倍的tickTime时间，最大的会话超时时间为20倍的会话超时时间，系统启动时会显示相应的信息。默认为-1</td><br></tr><br><tr><br><td rowspan="3">集群配置</td><br><td>initLimit</td><br><td>参数设定了允许所有Follower与Leader进行连接并同步的时间，如果在设定的时间段内，半数以上的Follower未能完成同步，Leader便会宣布放弃领导地位，进行另一次的Leader选举。如果zk集群环境数量确实很大，同步数据的时间会很变长，因此这种情况下可以适当调大该参数。默认为10</td><br></tr><br><tr><br><td>syncLimit</td><br><td>参数设定了允许一个Follower与一个Leader进行同步的时间，如果在设定的时间段内，Follower未完成同步，它将会被集群丢弃。所有连接到这个Follower的客户端将连接到另外一个Follower</td><br></tr><br><tr><br><td>server.A=B:C:D</td><br><td>其中A是一个数字，表示这个是第几号服务器；B是这个服务器的IP地址或者主机名称；C表示的是Follower与Leader交换信息的端口，默认值为2888；D表示的是Leader选举端口，默认值为3888</td><br></tr><br></table>
+
+<h3 id="集群搭建"><a href="#集群搭建" class="headerlink" title="集群搭建"></a>集群搭建</h3><h4 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h4><p>由于zookeeper是基于Java开发的，所以需要Java环境，需要的童鞋，请自行百度，安装Java环境</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//ftp.mirror.tw/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz</span></span><br><span class="line">tar -zxvf zookeeper-<span class="number">3.4</span>.<span class="number">10</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br><span class="line">cd zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/conf</span><br><span class="line">mv zoo_sample.cfg</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong> zookeeper默认配置文件为zoo_sample.cfg，需要自定义配置时，需要将此配置文件修改为zoo.cfg，注意，zoo.cfg和zoo_sample.cfg文件不能同时存在</p>
+<h4 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h4><ul>
+<li>zoo.cfg<br>对此配置文件的配置项不做解释，每项具体含义，上面都有详细解释，读者可自行查阅<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tickTime</span>=2000</span><br><span class="line"><span class="attribute">initLimit</span>=10</span><br><span class="line"><span class="attribute">syncLimit</span>=5</span><br><span class="line"><span class="attribute">dataDir</span>=/home/zk/zookeeper-3.4.10/data/</span><br><span class="line"><span class="attribute">dataLogDir</span>=/home/zk/zookeeper-3.4.10/logs/</span><br><span class="line"><span class="attribute">clientPort</span>=2181</span><br><span class="line">autopurge.<span class="attribute">snapRetainCount</span>=500</span><br><span class="line">autopurge.<span class="attribute">purgeInterval</span>=24</span><br><span class="line">server.<span class="attribute">1</span>=192.168.11.12:2888:3888</span><br><span class="line">server.<span class="attribute">2</span>=192.168.11.13:2888:3888</span><br><span class="line">server.<span class="attribute">3</span>=192.168.11.14:2888:3888</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>然后将配置文件同步到其他两台服务器上。<br>推荐使用scp命令，如：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp /home/zk/zookeeper-<span class="number">3.4</span>.<span class="number">10</span>/conf/zoo.cfg zk<span class="variable">@192</span>.<span class="number">168.11</span>.<span class="number">12</span><span class="symbol">:/home/zk/zookeeper-</span><span class="number">3.4</span>.<span class="number">10</span>/conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建ServerID标识（敲黑板了，此处是重点）</li>
+</ul>
+<p>在192.168.11.12服务器的/home/zk/zookeeper-3.4.10/data目录下，新建myid文件，输入1；<br>其他服务器上类似，myid与server.x=192.168.11.12:2888:3888的x匹配。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"1"</span> &gt; <span class="regexp">/home/</span>zk<span class="regexp">/zookeeper-3.4.10/</span>data<span class="regexp">/myid</span></span><br></pre></td></tr></table></figure>
+<h4 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h4><p>在三台服务器上执行以下命令。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sh </span>zkServer.<span class="keyword">sh </span>start</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong><br>  启动zookeeper常见问题有以下几点：</p>
+<ul>
+<li>启动第一台zk节点时，查看日志，可以看见有异常，因为其他节点未启动，zk检查线程未找到zk集群的其他节点，所以报错。将其他节点起起来即可。</li>
+<li>节点启动成功，但是不能正常连接，请开发zk集群涉及到的防火墙端口</li>
+<li>启动节点报错，极有可能是zoo.cfg配置文件配置有误，请检查配置文件配置项是否正确</li>
+<li>其他问题请自行百度（解决问题是一个程序员最基本的能力）</li>
+</ul>
+<p>如果一些童鞋的服务器或虚拟机资源不足，可使用zookeeper的伪集群方式部署，思路：通过在同一台机器上，启动不同端口的zookeeper，即可构成集群，此处就不再累述了。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Zookeeper集群搭建]]>
+    
+    </summary>
+    
+      <category term="zookeeper" scheme="/tags/zookeeper/"/>
+    
+      <category term="中间件" scheme="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[redis常用配置]]></title>
