@@ -5,19 +5,18 @@
   
   <title>redis常用配置 | ArtIsLong的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Redis1、基本配置
-Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+  <meta name="description" content="Redis1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis常用配置">
 <meta property="og:url" content="/2018/02/08/redis系统学习/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="Redis1、基本配置
-Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta property="og:description" content="Redis1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2018-05-16T07:53:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis常用配置">
-<meta name="twitter:description" content="Redis1、基本配置
-Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta name="twitter:description" content="Redis1、基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
   
     <link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
   
@@ -47,7 +46,7 @@ Redis默认不是以守护进程的方式运行，可以通过该配置项修改
         <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
       </div>
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
@@ -103,132 +102,134 @@ Redis默认不是以守护进程的方式运行，可以通过该配置项修改
         <!-- Table of Contents -->
         
         <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1、基本配置"><a href="#1、基本配置" class="headerlink" title="1、基本配置"></a>1、基本配置</h2><blockquote>
-<p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">daemonize no</div></pre></td></tr></table></figure></p>
+<p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">daemonize no</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
 <p>当Redis以守护进程方式运行时，Redis会默认把pid写入/var/run/redis.pid文件，可以通过pidfile指定</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pidfile /var/run/redis.pid</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pidfile /var/run/redis.pid</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定Redis监听端口，默认端口为6379</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">port 6379</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port 6379</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>绑定主机地址</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bind 127.0.0.1</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>当客户端闲置多长时间后关闭连接，如果指定为0，表示关闭该功能</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">timeout 300</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timeout 300</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定日志记录级别，Redis总共支持四个级别：debug、verbose、notice、warning，默认为verbose</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">loglevel verbose</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loglevel verbose</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>日志记录方式，默认为标准输出，如果配置Redis为守护进程方式运行，而这里又配置为日志记录方式为标准输出，则日志将会发送给/dev/null</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">logfile stdout</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logfile stdout</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>设置数据库的数量，默认数据库有16个（0-15），默认使用0，可以使用SELECT \<dbid\> 命令在连接上指定数据库id</dbid\></p>
+<p>设置数据库的数量，默认数据库有16个（0-15），默认使用0，可以使用SELECT \&lt;dbid> 命令在连接上指定数据库id</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">databases 16</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">databases 16</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">save &lt;seconds&gt; &lt;changes&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">save &lt;seconds&gt; &lt;changes&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>Redis默认配置文件中提供了三个条件</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">save 900 1</div><div class="line">save 300 10</div><div class="line">save 60 10000</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
 <p>分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改</p>
 <blockquote>
 <p>指定存储至本地数据库时是否压缩数据，默认为yes，Redis采用LZF压缩，如果为了节省CPU时间，可以关闭该选项，但是会导致数据库文件变大</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rdbcompression yes</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rdbcompression yes</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定本地数据库文件名，默认值为dump.rdb</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dbfilename dump.rdb</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定本地数据库存放目录</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dir ./</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir ./</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>设置当本机为slav服务时，设置master服务的IP地址及端口，在Redis启动时，它会自动从master进行数据同步</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">slaveof &lt;masterip&gt; &lt;masterport&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>当master服务设置了密码保护时，slav服务连接master的密码</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">masterauth &lt;master-password&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterauth &lt;master-password&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>如果配置了连接密码，客户端在链接Redis时需要通过AUTH \<password\>命令提供密码，默认关闭</password\></p>
+<p>如果配置了连接密码，客户端在链接Redis时需要通过AUTH \&lt;password>命令提供密码，默认关闭</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">requirepass foobared</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requirepass foobared</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>设置同一时间最大客户端连接数，默认无限制，Redis可以同时打开的客户端连接数为Redis进程可以打开的最大文件描述符数，如果设置maxclients 0，表示不做限制。当客户端连接数达到限制时，Redis会关闭新的连接并像客户端返回max number of clients reached错误信息</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">maxclients 128</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxclients 128</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定Redis最大内存限制，Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理后，仍然达到最大内存限制，将无法再进行写操作，但仍然可以进行读取操作。Redis新的vm机制，会把Key存放内存，Value会存放到swap区</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">maxmemory &lt;bytes&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxmemory &lt;bytes&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定是否在每次更新操作后进行日志记录，Redis在默认情况下是异步的把数据写入磁盘，如果不开启，可能会在断电时导致一段时间内的数据丢失。因为redis本身同步数据文件是按上面的save条件同步的，所以有的数据会在一段时间内只存在于内存中，默认为no</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">appendonly no</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly no</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定更新日志文件名，默认为appendonly.aof</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">appendfilename &quot;appendonly.aof&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定更新日志条件，共有3个可选值</p>
 </blockquote>
 <p>no：表示等操作系统进行数据缓存同步到磁盘（快）</p>
 <p>always：表示每次更新操作后手动调用fsync() 将数据写到磁盘（慢，安全）</p>
 <p>everysec：表示每次同步一次（折衷，默认值）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">appendfsync everysec</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendfsync everysec</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定是否启用虚拟内存机制，默认值为no，VM机制将数据分页存放，由Redis将访问量较少的页即冷数据swap到磁盘上，访问多的页面由磁盘自动缓存到内存中</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vm-enabled no</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-enabled no</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>虚拟内存文件路径，默认值为/tmp/redis.swap，不可多个Redis实例共享</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vm-swap-file /tmp/redis.swap</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-swap-file /tmp/redis.swap</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>将所有大于vm-max-memory的数据存入虚拟内存，无论vm-max-memory设置多小，所有索引数据都是内存存储的（Redis的索引数据就是keys），也就是说，当vm-max-memory设置为0的时候，其实是所有value都存在于磁盘。默认值为0</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vm-max-memory 0</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-max-memory 0</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>Redis swap文件分成了很多的page，一个对象可以保存在多个page上面，但一个page上不能被多个对象共享，vm-page-size是要根据存储的数据大小来设定的，如果存储很多小对象，page大小最好设置为32或者64bytes，如果存储很多的大对象，则可以使用更大的page，如果不确定，就使用默认值</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vm-page-size 32</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-page-size 32</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>设置swap文件中的page数量，由于页表（一种表示页面空闲或使用的bitmap）是存放在内存中的，在磁盘上每8个pages将消耗1byte的内存</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vm-pages 134217728</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-pages 134217728</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>设置访问swap文件的线程数，最好不要超过机器的核数，如果设置为0，那么所有对swap文件的操作都是串行的，可能会造成比较长时间的延迟，默认值为4</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vm-max-threads 4</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-max-threads 4</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>设置在向客户端应答时，是否把较小的包合并为一个包发送，默认为开启</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">glueoutputbuf yes</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glueoutputbuf yes</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定在超过一定的数量或者最大的元素超过某一临界值时，采用一种特殊的哈希算法</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hash-max-zipmap-entries 64</div><div class="line">hash-max-zipmap-value 512</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hash-max-zipmap-entries 64</span><br><span class="line">hash-max-zipmap-value 512</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>指定是否激活重置哈希，默认为开启</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">activerehashing yes</div></pre></td></tr></table></figure>
-<h2 id="2、常用操作（高级）"><a href="#2、常用操作（高级）" class="headerlink" title="2、常用操作（高级）"></a>2、常用操作（高级）</h2><p><a href="https://redis.io/commands" target="_blank" rel="external">Redis官网命令详解</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activerehashing yes</span><br></pre></td></tr></table></figure>
+<h2 id="2、常用操作（高级）"><a href="#2、常用操作（高级）" class="headerlink" title="2、常用操作（高级）"></a>2、常用操作（高级）</h2><p><a href="https://redis.io/commands" target="_blank" rel="noopener">Redis官网命令详解</a></p>
 <h3 id="2-1-事务操作"><a href="#2-1-事务操作" class="headerlink" title="2.1 事务操作"></a>2.1 事务操作</h3><p>Redis的事务也有两种，乐观锁和悲观锁。</p>
 <p>悲观锁，直接给这个key加锁，这个key只能当前连接可以操作。</p>
 <p>乐观锁，给这个key加锁，只要这个key的值没有更改就可以了。</p>
 <p>Redis的事务中，默认启用的是乐观锁，只负责监测key有没有变动。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">watch key1 key2  监听key有没有变化，如果有变化，则事务取消，在multi之前使用</div><div class="line">unwatch key1 key2  不加具体key时，取消所有key的监听。</div><div class="line">multi  开启事务</div><div class="line">...</div><div class="line">discard/exec  取消事务/提交事务</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">watch key1 key2  监听key有没有变化，如果有变化，则事务取消，在multi之前使用</span><br><span class="line">unwatch key1 key2  不加具体key时，取消所有key的监听。</span><br><span class="line">multi  开启事务</span><br><span class="line">...</span><br><span class="line">discard/exec  取消事务/提交事务</span><br></pre></td></tr></table></figure>
 <p>注意：如果在exec时，命令语法有问题，这时所有的语句都得不到执行。如果语法本身没问题，但是适用的对象有问题，exec之后，会执行正确的语句，并跳过有问题的语句。</p>
 <h3 id="2-2-消息的发布与订阅"><a href="#2-2-消息的发布与订阅" class="headerlink" title="2.2 消息的发布与订阅"></a>2.2 消息的发布与订阅</h3><p>使用办法：</p>
 <p>订阅端：subscribe  频道名称</p>
@@ -251,7 +252,7 @@ Redis默认不是以守护进程的方式运行，可以通过该配置项修改
 <blockquote>
 <p>rdb快照相关参数</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">save 900 1 #刷新快照到磁盘中，必须满足两者要求才会触发，即900秒之内至少1个关键字发生变化</div><div class="line">save 300 10 #必须是300秒之内至少10个关键字发生变化</div><div class="line">save 60 10000 #必须是60秒之内至少10000个关键字发生变化</div><div class="line">stop-writes-on-bgsave-error yes #后台存储错误停止写rdb</div><div class="line">rdbcompression yes #使用LZF压缩rdb文件</div><div class="line">rdbchecksum yes #导入rdb恢复时数据时，要不要校验rdb的完整性</div><div class="line">dbfilename dump.rdb #设置rdb文件名</div><div class="line">dir ./ #设置工作目录，rdb文件会写入该目录</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">save 900 1 #刷新快照到磁盘中，必须满足两者要求才会触发，即900秒之内至少1个关键字发生变化</span><br><span class="line">save 300 10 #必须是300秒之内至少10个关键字发生变化</span><br><span class="line">save 60 10000 #必须是60秒之内至少10000个关键字发生变化</span><br><span class="line">stop-writes-on-bgsave-error yes #后台存储错误停止写rdb</span><br><span class="line">rdbcompression yes #使用LZF压缩rdb文件</span><br><span class="line">rdbchecksum yes #导入rdb恢复时数据时，要不要校验rdb的完整性</span><br><span class="line">dbfilename dump.rdb #设置rdb文件名</span><br><span class="line">dir ./ #设置工作目录，rdb文件会写入该目录</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>rdb的缺陷</p>
 </blockquote>
@@ -267,7 +268,7 @@ Redis默认不是以守护进程的方式运行，可以通过该配置项修改
 <blockquote>
 <p>aof配置参数</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">appendonly yes #是否打开aof日志功能</div><div class="line">appendfilename &quot;appendonly.aof&quot;  #设置aof文件名</div><div class="line">appendfsync everysec #折衷方案，每秒写一次</div><div class="line">appendfsync no #写入工作交给操作系统，由操作系统判断缓冲区大小，统一写入到aof，同步频率低，速度快</div><div class="line">appendfsync always #每一个命令都立即同步到aof，安全，速度慢</div><div class="line">no-appendfsync-on-rewrite no #正在到处rbd快照的过程中，要不要停止同步aof</div><div class="line">auto-aof-rewrite-percentage 100 #aof文件大小比起上次重写时的大小，增长率100%时进行重写</div><div class="line">auto-aof-rewrite-min-size 64mb  #aof文件，至少超过64M时进行重写</div><div class="line"># 上面两个aof重写规则同时满足aof才会进行重写</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">appendonly yes #是否打开aof日志功能</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;  #设置aof文件名</span><br><span class="line">appendfsync everysec #折衷方案，每秒写一次</span><br><span class="line">appendfsync no #写入工作交给操作系统，由操作系统判断缓冲区大小，统一写入到aof，同步频率低，速度快</span><br><span class="line">appendfsync always #每一个命令都立即同步到aof，安全，速度慢</span><br><span class="line">no-appendfsync-on-rewrite no #正在到处rbd快照的过程中，要不要停止同步aof</span><br><span class="line">auto-aof-rewrite-percentage 100 #aof文件大小比起上次重写时的大小，增长率100%时进行重写</span><br><span class="line">auto-aof-rewrite-min-size 64mb  #aof文件，至少超过64M时进行重写</span><br><span class="line"># 上面两个aof重写规则同时满足aof才会进行重写</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>aof的缺陷</p>
 </blockquote>
@@ -288,53 +289,53 @@ Redis默认不是以守护进程的方式运行，可以通过该配置项修改
 <blockquote>
 <p>环境准备</p>
 </blockquote>
-<p>从<a href="http://download.redis.io/releases/redis-4.0.2.tar.gz" target="_blank" rel="external">此处</a>下载redis-4.0.2.tar.gz，解压之后，编译源码进行安装。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ wget http://download.redis.io/releases/redis-4.0.2.tar.gz</div><div class="line">$ tar -zxvf redis-4.0.2.tar.gz</div><div class="line">$ cd redis-4.0.2</div><div class="line">$ make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<p>从<a href="http://download.redis.io/releases/redis-4.0.2.tar.gz" target="_blank" rel="noopener">此处</a>下载redis-4.0.2.tar.gz，解压之后，编译源码进行安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget http://download.redis.io/releases/redis-4.0.2.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar -zxvf redis-4.0.2.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> redis-4.0.2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
 <p>在用户家目录下新建redis相关目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cd ~</div><div class="line">$ make redis</div><div class="line">$ cd redis</div><div class="line">$ mkdir master</div><div class="line"># mkdir slave</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make redis</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> redis</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir master</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mkdir slave</span></span><br></pre></td></tr></table></figure>
 <p>然后拷贝redis-4.0.2目录中的redis.conf配置文件到master，修改为redis_master.conf，slave中拷贝两份，分别命名为redis_slave1.conf，redis_slave2.conf。</p>
 <p>接下来修改配置文件内容（只贴出关键几个点，其他辅助内容请读者自行修改）：redis_master.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">port 7000</div><div class="line">daemonize yes</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">port 7000</span><br><span class="line">daemonize yes</span><br></pre></td></tr></table></figure>
 <p>redis_slave1.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">port 7001</div><div class="line">daemonize yes</div><div class="line">slaveof localhost 7000</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">port 7001</span><br><span class="line">daemonize yes</span><br><span class="line">slaveof localhost 7000</span><br></pre></td></tr></table></figure>
 <p>redis_slave2.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">port 7002</div><div class="line">daemonize yes</div><div class="line">slaveof localhost 7000</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">port 7002</span><br><span class="line">daemonize yes</span><br><span class="line">slaveof localhost 7000</span><br></pre></td></tr></table></figure>
 <p>分别启动三个节点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ./redis-4.0.2/src/redis-server ./master/redis_master.conf</div><div class="line">$ ./redis-4.0.2/src/redis-server ./slave/redis_slave1.conf</div><div class="line">$ ./redis-4.0.2/src/redis-server ./slave/redis_slave2.conf</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./master/redis_master.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./slave/redis_slave1.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./slave/redis_slave2.conf</span></span><br></pre></td></tr></table></figure>
 <p>登录进master节点，查看主从模式是否正常启动(主节点上能显示出两个从节点即可)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./redis-4.0.2/src/redis-cli</div><div class="line">&gt; info replication</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-cli</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> info replication</span></span><br></pre></td></tr></table></figure>
 <h3 id="2-5-三主三从三哨兵集群模式"><a href="#2-5-三主三从三哨兵集群模式" class="headerlink" title="2.5 三主三从三哨兵集群模式"></a>2.5 三主三从三哨兵集群模式</h3><p>redis编译安装和上面一样</p>
 <h4 id="2-5-1-环境准备"><a href="#2-5-1-环境准备" class="headerlink" title="2.5.1 环境准备"></a>2.5.1 环境准备</h4><p>master</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6380</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6381</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6382</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6380</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6381</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6382</span></span><br></pre></td></tr></table></figure>
 <p>slave</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6383</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6384</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6385</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6383</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6384</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:6385</span></span><br></pre></td></tr></table></figure>
 <p>sentinel</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:26380</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:26381</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:26382</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:26380</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:26381</span>,192<span class="selector-class">.168</span><span class="selector-class">.10</span><span class="selector-class">.100</span><span class="selector-pseudo">:26382</span></span><br></pre></td></tr></table></figure>
 <h4 id="2-5-2-修改配置文件"><a href="#2-5-2-修改配置文件" class="headerlink" title="2.5.2 修改配置文件"></a>2.5.2 修改配置文件</h4><p>手动在服务器上新建6380,6381,6382,6383,6384,6385几个目录，将redis.conf配置文件每个目录拷贝一份（批量拷贝文件时，最好参考linux中xargs命令；当然，也可以cp多执行几次）。</p>
 <p>redis.conf配置文件修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"># 端口分别为6380,6381,6382,6383,6384,6385</div><div class="line">port 6380</div><div class="line"># 默认端口为127.0.0.1，改为本机地址则为任意服务器都可以访问，若只指定服务器访问，则改为指定服务器ip即可，由于当前是一台服务器上的伪集群，所以配置本机ip地址。</div><div class="line">bind 192.168.10.100</div><div class="line"># Redis后台运行</div><div class="line">daemonize yes</div><div class="line"># pidfile文件对应存放目录(redis节点进程号)</div><div class="line">pidfile /home/admin/redis/cluster/6380/redis.pid</div><div class="line"># 操作日志</div><div class="line">logfile &quot;/home/admin/redis/cluster/6380/redis.log&quot;</div><div class="line"># 数据文件存放目录</div><div class="line">dir /home/admin/redis/cluster/6380/</div><div class="line"># 是否开启集群(重点)</div><div class="line">cluster-enabled yes</div><div class="line"># 集群节点配置，集群首次启动自动生成</div><div class="line">cluster-config-file nodes.conf</div><div class="line"># 集群节点连接超时时间</div><div class="line">cluster-node-timeout 15000</div><div class="line"># aof日志开启，可做为日志记录，也可借此恢复数据</div><div class="line">appendonly yes</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 端口分别为6380,6381,6382,6383,6384,6385</span><br><span class="line">port 6380</span><br><span class="line"># 默认端口为127.0.0.1，改为本机地址则为任意服务器都可以访问，若只指定服务器访问，则改为指定服务器ip即可，由于当前是一台服务器上的伪集群，所以配置本机ip地址。</span><br><span class="line">bind 192.168.10.100</span><br><span class="line"># Redis后台运行</span><br><span class="line">daemonize yes</span><br><span class="line"># pidfile文件对应存放目录(redis节点进程号)</span><br><span class="line">pidfile /home/admin/redis/cluster/6380/redis.pid</span><br><span class="line"># 操作日志</span><br><span class="line">logfile &quot;/home/admin/redis/cluster/6380/redis.log&quot;</span><br><span class="line"># 数据文件存放目录</span><br><span class="line">dir /home/admin/redis/cluster/6380/</span><br><span class="line"># 是否开启集群(重点)</span><br><span class="line">cluster-enabled yes</span><br><span class="line"># 集群节点配置，集群首次启动自动生成</span><br><span class="line">cluster-config-file nodes.conf</span><br><span class="line"># 集群节点连接超时时间</span><br><span class="line">cluster-node-timeout 15000</span><br><span class="line"># aof日志开启，可做为日志记录，也可借此恢复数据</span><br><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
 <p>其他节点类似。</p>
 <p>然后启动每一个节点</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ ./redis-4.0.2/src/redis-server ./cluster/7000/redis.conf</div><div class="line">$ ./redis-4.0.2/src/redis-server ./cluster/7001/redis.conf</div><div class="line">$ ./redis-4.0.2/src/redis-server ./cluster/7002/redis.conf</div><div class="line">$ ./redis-4.0.2/src/redis-server ./cluster/7003/redis.conf</div><div class="line">$ ./redis-4.0.2/src/redis-server ./cluster/7004/redis.conf</div><div class="line">$ ./redis-4.0.2/src/redis-server ./cluster/7005/redis.conf</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./cluster/7000/redis.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./cluster/7001/redis.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./cluster/7002/redis.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./cluster/7003/redis.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./cluster/7004/redis.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-server ./cluster/7005/redis.conf</span></span><br></pre></td></tr></table></figure>
 <h4 id="2-5-3-创建集群"><a href="#2-5-3-创建集群" class="headerlink" title="2.5.3 创建集群"></a>2.5.3 创建集群</h4><p>这里创建集群借助于redis自己提供的一个集群创建工具redis-trib.rb（依赖于ruby环境）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./redis-4.0.2/src/redis-trib.rb create --replicas 1 192.168.10.100:6380 192.168.10.100:6381 192.168.10.100:6382 192.168.10.100:6383 192.168.10.100:6384 192.168.10.100:6385</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-trib.rb create --replicas 1 192.168.10.100:6380 192.168.10.100:6381 192.168.10.100:6382 192.168.10.100:6383 192.168.10.100:6384 192.168.10.100:6385</span></span><br></pre></td></tr></table></figure>
 <p>根据提示完成集群创建</p>
 <p>接下来验证集群是否搭建成功，连接其中一个节点</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ ./redis-4.0.2/src/redis-cli -h 192.168.10.110 -p 6380</div><div class="line">&gt; cluster nodes</div><div class="line">dcebbc47abd482363f221020dd1be714a498b841 192.168.10.110:6382 master - 0</div><div class="line">1524568524063 3 connected 10923-16383</div><div class="line">33eaf24ca33b4f5bcc37c2a7434bddaf5432f057 192.168.10.110:6380 myself,master - 0 0 1</div><div class="line">connected 0-5460</div><div class="line">51ed0849bf29de0221eb3b9b4ccbebfd341593ad 192.168.10.110:6384 slave</div><div class="line">409b146c1fc86acfd6198c491cf77eaf8c8c7c04 0 1524568525066 5 connected</div><div class="line">e29d4537e924f0e29f5155536a636b35a44a8c24 192.168.10.110:6383 slave</div><div class="line">33eaf24ca33b4f5bcc37c2a7434bddaf5432f057 0 1524568523562 4 connected</div><div class="line">dc4f070c42f9002e1c54bb6019ee4c34331570cc 192.168.10.110:6385 slave</div><div class="line">dcebbc47abd482363f221020dd1be714a498b841 0 1524568523062 6 connected</div><div class="line">409b146c1fc86acfd6198c491cf77eaf8c8c7c04 192.168.10.110:6381 master - 0</div><div class="line">1524568524063 2 connected 5461-10922</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-cli -h 192.168.10.110 -p 6380</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> cluster nodes</span></span><br><span class="line">dcebbc47abd482363f221020dd1be714a498b841 192.168.10.110:6382 master - 0</span><br><span class="line">1524568524063 3 connected 10923-16383</span><br><span class="line">33eaf24ca33b4f5bcc37c2a7434bddaf5432f057 192.168.10.110:6380 myself,master - 0 0 1</span><br><span class="line">connected 0-5460</span><br><span class="line">51ed0849bf29de0221eb3b9b4ccbebfd341593ad 192.168.10.110:6384 slave</span><br><span class="line">409b146c1fc86acfd6198c491cf77eaf8c8c7c04 0 1524568525066 5 connected</span><br><span class="line">e29d4537e924f0e29f5155536a636b35a44a8c24 192.168.10.110:6383 slave</span><br><span class="line">33eaf24ca33b4f5bcc37c2a7434bddaf5432f057 0 1524568523562 4 connected</span><br><span class="line">dc4f070c42f9002e1c54bb6019ee4c34331570cc 192.168.10.110:6385 slave</span><br><span class="line">dcebbc47abd482363f221020dd1be714a498b841 0 1524568523062 6 connected</span><br><span class="line">409b146c1fc86acfd6198c491cf77eaf8c8c7c04 192.168.10.110:6381 master - 0</span><br><span class="line">1524568524063 2 connected 5461-10922</span><br></pre></td></tr></table></figure>
 <p>输入info replication可查看节点信息。</p>
 <h4 id="2-5-4-哨兵搭建"><a href="#2-5-4-哨兵搭建" class="headerlink" title="2.5.4 哨兵搭建"></a>2.5.4 哨兵搭建</h4><p>新建sentinel/26380,26381,26382目录，将redis家目录下的sentinel.conf文件拷贝到每个目录中</p>
 <p>sentinel.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">bind 192.168.10.100</div><div class="line">port 26380</div><div class="line">daemonize yes</div><div class="line">dir &quot;/home/admin/redis/cluster/sentinel/26380&quot;</div><div class="line"># 故障转移配置</div><div class="line"># 表示哨兵集群中，至少有两个节点认为Redis节点挂掉，则将节点从集群中剔除</div><div class="line">sentinel monitor mymaster 192.168.10.100 6380 2</div><div class="line">sentinel config-epoch mymaster 0</div><div class="line">sentinel leader-epoch mymaster 0</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bind 192.168.10.100</span><br><span class="line">port 26380</span><br><span class="line">daemonize yes</span><br><span class="line">dir &quot;/home/admin/redis/cluster/sentinel/26380&quot;</span><br><span class="line"># 故障转移配置</span><br><span class="line"># 表示哨兵集群中，至少有两个节点认为Redis节点挂掉，则将节点从集群中剔除</span><br><span class="line">sentinel monitor mymaster 192.168.10.100 6380 2</span><br><span class="line">sentinel config-epoch mymaster 0</span><br><span class="line">sentinel leader-epoch mymaster 0</span><br></pre></td></tr></table></figure>
 <p>其他的类似</p>
 <p>启动哨兵</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ./redis-4.0.2/src/redis-sentinel ./cluster/sentinel/26380/sentinel.conf</div><div class="line">$ ./redis-4.0.2/src/redis-sentinel ./cluster/sentinel/26381/sentinel.conf</div><div class="line">$ ./redis-4.0.2/src/redis-sentinel ./cluster/sentinel/26382/sentinel.conf</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-sentinel ./cluster/sentinel/26380/sentinel.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-sentinel ./cluster/sentinel/26381/sentinel.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-sentinel ./cluster/sentinel/26382/sentinel.conf</span></span><br></pre></td></tr></table></figure>
 <p>查看哨兵节点信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ ./redis-4.0.2/src/redis-cli -h 192.168.10.110 -p 26380</div><div class="line">&gt; info Sentinel</div><div class="line">sentinel_masters:1</div><div class="line">sentinel_tilt:0</div><div class="line">sentinel_running_scripts:0</div><div class="line">sentinel_scripts_queue_length:0</div><div class="line">sentinel_simulate_failure_flags:0</div><div class="line">master0:name=cpicmaster,status=ok,address=192.168.10.110:6380,slaves=1,sentinels=3</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-cli -h 192.168.10.110 -p 26380</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> info Sentinel</span></span><br><span class="line">sentinel_masters:1</span><br><span class="line">sentinel_tilt:0</span><br><span class="line">sentinel_running_scripts:0</span><br><span class="line">sentinel_scripts_queue_length:0</span><br><span class="line">sentinel_simulate_failure_flags:0</span><br><span class="line">master0:name=cpicmaster,status=ok,address=192.168.10.110:6380,slaves=1,sentinels=3</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="/2018/02/08/redis系统学习/" data-id="cjh90ucsb000czlzbkzkkz3n2" class="article-share-link">分享</a>
+      <a data-url="/2018/02/08/redis系统学习/" data-id="cjkj9y8q60011hvzbsog81ks5" class="article-share-link">分享</a>
       
       
       
