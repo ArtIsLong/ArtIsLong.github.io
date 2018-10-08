@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Tomcat源码分析 | ArtIsLong的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Tomcat源码分析">
+<meta name="keywords" content="Tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat源码分析">
+<meta property="og:url" content="/2018/03/21/Tomcat源码分析/index.html">
+<meta property="og:site_name" content="ArtIsLong的博客">
+<meta property="og:description" content="Tomcat源码分析">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true">
+<meta property="og:image" content="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat-startup.gif?raw=true">
+<meta property="og:image" content="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90.png?raw=true">
+<meta property="og:updated_time" content="2018-10-08T08:38:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tomcat源码分析">
+<meta name="twitter:description" content="Tomcat源码分析">
+<meta name="twitter:image" content="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true">
+  
+    <link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">ArtIsLong的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">好的程序猿都是野路子</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Tomcat源码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/21/Tomcat源码分析/" class="article-date">
+  <time datetime="2018-03-21T15:43:07.000Z" itemprop="datePublished">2018-03-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/中间件/">中间件</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Tomcat源码分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="Tomcat目录说明"><a href="#Tomcat目录说明" class="headerlink" title="Tomcat目录说明"></a>Tomcat目录说明<a id="more"></a></h2><ul>
+<li><p>bin</p>
+<p>存放启动和关闭Tomcat的脚本文件</p>
+</li>
+<li><p>conf</p>
+<p>存放Tomcat的各种配置文件</p>
+</li>
+<li><p>lib</p>
+<p>存放Tomcat的依赖jar包</p>
+</li>
+<li><p>logs</p>
+<p>存放Tomcat的日志文件</p>
+</li>
+<li><p>temp</p>
+<p>存放Tomcat运行中产生的临时文件</p>
+</li>
+<li><p>webapps</p>
+<p>web应用所在目录，即供外界访问的web资源的存放目录</p>
+</li>
+<li><p>work</p>
+<p>Tomcat的工作目录</p>
+</li>
+</ul>
+<h2 id="1-conf-配置文件说明"><a href="#1-conf-配置文件说明" class="headerlink" title="1. conf/配置文件说明"></a>1. conf/配置文件说明</h2><h3 id="1-1-catalina-properties"><a href="#1-1-catalina-properties" class="headerlink" title="1.1 catalina.properties"></a>1.1 catalina.properties</h3><p>Tomcat的catalina.properties文件位于%CATALINA_HOME%/conf/目录下面，该文件主要配置tomcat的安全设置、类加载设置、不需要扫描的类设置、字符缓存设置四大块。</p>
+<ul>
+<li><p>安全设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">package.access=sun.,org.apache.catalina.,org.apache.coyote.,org.apache.jasper.,org.apache.tomcat.</span><br><span class="line">package.definition=sun.,java.,org.apache.catalina.,org.apache.coyote.,org.apache.jasper.,org.apache.naming.,org.apache.tomcat.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类加载设置</p>
+<blockquote>
+<p> tomcat的类加载顺序为：</p>
+</blockquote>
+<p>Bootstrap —&gt; System —&gt; /WEB-INF/classes —&gt; /WEB-INF/lib/*.jar —&gt; Common</p>
+<p>注: Common的配置是通过catalina.properties的commons.loader设置的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">common.loader=&quot;$&#123;catalina.base&#125;/lib&quot;,&quot;$&#123;catalina.base&#125;/lib/*.jar&quot;,&quot;$&#123;catalina.home&#125;/lib&quot;,&quot;$&#123;catalina.home&#125;/lib/*.jar&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p> 类加载顺序：</p>
+</blockquote>
+<p>${catalina.base}/lib  未打包的类和资源文件</p>
+<p>${catalina.base}/lib/*.jar  JAR文件</p>
+<p>${catalina.home}/lib  未打包的类和文件</p>
+<p>${catalina.home}/lib/*.jar  JAR文件</p>
+<blockquote>
+<p> 默认情况下，会加载以下内容：</p>
+</blockquote>
+<ul>
+<li><em>annotations-api.jar</em> — JavaEE注释类</li>
+<li><em>catalina.jar</em> — 执行Tomcat的Catalina Servlet容器部分</li>
+<li><em>catalina-ant.jar</em> — Tomcat Catalina Ant 任务</li>
+<li><em>catalina-ha.jar</em> — 高可用包</li>
+<li><em>catalina-tribes.jar</em> — 组通信包</li>
+<li><em>ecj-\</em>.jar* — Eclipse JDT Java 编译器</li>
+<li><em>el-api.jar</em> — EL 2.2 API.</li>
+<li><em>jasper.jar</em> — JSP 运行时编译器</li>
+<li><em>jasper-el.jar</em> — EL表达式的实现</li>
+<li><em>jsp-api.jar</em> — JSP 2.2 API.</li>
+<li><em>servlet-api.jar</em> — Servlet 3.0 API.</li>
+<li><em>tomcat-api.jar</em> — 由Tomcat定义的几个接口</li>
+<li><em>tomcat-coyote.jar</em> — Tomcat连接器和使用程序类</li>
+<li><em>tomcat-dbcp.jar</em> — 基于Apache Commons Pool和Apache Commons DBCP的数据库连接池</li>
+<li><em>tomcat-i18n-**.jar</em> — 包含其他语言的资源约束的可选JAR，默认捆绑包含在每个单独的应用中，如果不需要国际化，可以删除</li>
+<li><em>tomcat-jdbc.jar</em> — Tomcat JDBC数据库连接池</li>
+<li><em>tomcat-util.jar</em> — Tomcat的各种组件使用的常见类</li>
+<li><em>tomcat7-websocket.jar</em> — WebSocket 1.1 实现</li>
+<li><em>websocket-api.jar</em> — WebSocket 1.1 API</li>
+</ul>
+<p><em>注：</em> CATALINA_HOME是Tomcat的安装目录，CATALINA_BASE是Tomcat的工作目录，一个Tomcat可以通过配置CATALINA_BASE来增加多个工作目录，也就是增加多个实例。多个实例各自可以有自己的conf，logs，temp，webapps。</p>
+<blockquote>
+<p> server.loader和shared.loader</p>
+</blockquote>
+<p>在common.loader加载完毕后，tomcat启动程序会检查catalina.properties文件中配置的server.loader和shared.loader是否设置。如果设置，读取tomcat下对应的server和shared这两个目录的类库。server和shared是对应tomcat目录下的两个目录，在Tomcat中默认是没有，catalina.properties中默认也是没有设置其值。设置方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server.loader=$&#123;catalina.base&#125;/server/classes,$&#123;catalina.base&#125;/server/lib/*.jar</span><br><span class="line">shared.loader=$&#123;catalina.base&#125;/shared/classes,$&#123;catalina.base&#125;/shared/lib/*.jar</span><br></pre></td></tr></table></figure>
+<p>同时需要在tomcat目录下创建server和shared目录结构并将公用的、应用类放到里面。类加载顺序为：</p>
+<p>Bootstrap —&gt; System —&gt; /WEB-INF/classes —&gt; /WEB-INF/lib/*.jar —&gt; Common —&gt; Server —&gt; Shared</p>
+</li>
+<li><p>字符缓存设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># String cache configuration.</span><br><span class="line">tomcat.util.buf.StringCache.byte.enabled=true</span><br><span class="line">#tomcat.util.buf.StringCache.char.enabled=true</span><br><span class="line">#tomcat.util.buf.StringCache.trainThreshold=500000</span><br><span class="line">#tomcat.util.buf.StringCache.cacheSize=5000</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>总结：</strong> Tomcat可以通过catalina.properties的server和shared，为webapp提供公用类库。使一些公用的、不需要与webapp放在一起的设置信息单独保存，在更新webapp的war的时候无需更改webapp的设置。</p>
+<h3 id="1-2-catalina-policy"><a href="#1-2-catalina-policy" class="headerlink" title="1.2 catalina.policy"></a>1.2 catalina.policy</h3><p>包含由Java Security Manager实现的安全策略声明，它替换了安装java时带有的java.policy文件。这个文件用来防止欺骗代码或JSP执行带有像System.exit(0)这样可能影响容器的破坏性代码，只有当Tomcat用-security命令行参数启动时这个文件才会被使用。</p>
+<h3 id="1-3-context-xml"><a href="#1-3-context-xml" class="headerlink" title="1.3 context.xml"></a>1.3 context.xml</h3><p>这个通用context.xml可被所有的web应用程序使用，这个文件默认地可以设置到何处访问各web应用程序中的web.xml文件。context.xml文件的作用和server.xml中<context>标签作用相同。在tomcat5.5之后，对Context的配置不推荐在server.xml中进行配置，而是在/conf/context.xml中进行独立的配置。因为server.xml是不可动态重加载的资源，服务器一旦启动了以后，要修改这个文件，就得重启服务器才能重新加载。而context.xml文件则不然，tomcat服务器会定时去扫描这个文件。一旦发现文件被修改（时间戳改变了），就会自动重新加载这个文件，而不需要重启服务器。</context></p>
+<p>默认的context.xml如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">WatchedResource</span>&gt;</span>WEB-INF/web.xml<span class="tag">&lt;/<span class="name">WatchedResource</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">WatchedResource</span>&gt;</span>$&#123;catalina.base&#125;/conf/web.xml<span class="tag">&lt;/<span class="name">WatchedResource</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以下给出一个JNDI数据源的配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"jdbc/mysql"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">auth</span>=<span class="string">"Container"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">type</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">maxActive</span>=<span class="string">"100"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">maxIdle</span>=<span class="string">"30"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">maxWait</span>=<span class="string">"10000"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">username</span>=<span class="string">"root"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">password</span>=<span class="string">"root"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">driverClassName</span>=<span class="string">"com.mysql.jdbc.Driver"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">url</span>=<span class="string">"jdbc:mysql://localhost:3306/test"</span></span></span><br><span class="line"><span class="tag">/&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>context.xml的作用范围</p>
+</blockquote>
+<ul>
+<li><p>tomcat server级别</p>
+<p>在/conf/context.xml里配置</p>
+</li>
+<li><p>Host级别</p>
+<p>在/conf/Catalina/${hostName}里添加context.xml，继而进行配置。</p>
+</li>
+<li><p>web app级别</p>
+<p>在/conf/Catalina/\${hostName}里添加\${webappName}.xml，继而进行配置。</p>
+</li>
+</ul>
+<h3 id="1-4-server-xml"><a href="#1-4-server-xml" class="headerlink" title="1.4 server.xml"></a>1.4 server.xml</h3><p>tomcat的主要配置文件，解析器用这个文件在启动时根据规范创建容器。</p>
+<p>默认的server.xml如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="tag">&lt;<span class="name">Server</span> <span class="attr">port</span>=<span class="string">"8005"</span> <span class="attr">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.startup.VersionLoggerListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.AprLifecycleListener"</span> <span class="attr">SSLEngine</span>=<span class="string">"on"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.JreMemoryLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.ThreadLocalLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"UserDatabase"</span> <span class="attr">auth</span>=<span class="string">"Container"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">type</span>=<span class="string">"org.apache.catalina.UserDatabase"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">description</span>=<span class="string">"User database that can be updated and saved"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">factory</span>=<span class="string">"org.apache.catalina.users.MemoryUserDatabaseFactory"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">pathname</span>=<span class="string">"conf/tomcat-users.xml"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Service</span> <span class="attr">name</span>=<span class="string">"Catalina"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8009"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.LockOutRealm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.UserDatabaseRealm"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">resourceName</span>=<span class="string">"UserDatabase"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Realm</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">prefix</span>=<span class="string">"localhost_access_log"</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Server</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Server是顶级元素，代表一个Tomcat实例。可以包含一个或多个Service，每个Service都有自己的Engines和Connectors。</p>
+<blockquote>
+<p>Server元素</p>
+</blockquote>
+<ul>
+<li><p>className</p>
+<p>使用Java实现类的名称。这个类必须实现org.apache.catalina.Server接口。如果没有指定类名，将会使用标准实现。</p>
+</li>
+<li><p>address</p>
+<p>server在这个TCP/IP地址上监听一个shutdown命令。如果没有指定地址，将会使用localhost。</p>
+</li>
+<li><p>port</p>
+<p>server在这个端口上监听一个shutdown命令。设置为-1表示禁用shutdown命令。</p>
+</li>
+<li><p>shutdown</p>
+<p>连接到指定端口的TCP/IP收到这个命令字符后，将会关闭Tomcat。</p>
+</li>
+</ul>
+<blockquote>
+<p>Listeners元素</p>
+</blockquote>
+<p>Server可以包含多个监听器。一个监听器监听指定事件，并对其作出响应。</p>
+<p>GlobalResourcesLifecycleListener作用于全局资源，保证JNDI对资源的可达性，比如数据库。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>SSLEngine</p>
+<p>使用的SSLEngine名称。off：不适用<a href="https://baike.baidu.com/item/ssl/320778?fr=aladdin" target="_blank" rel="noopener">SSL</a>，on：使用<a href="https://baike.baidu.com/item/ssl/320778?fr=aladdin" target="_blank" rel="noopener">SSL</a>但不指定引擎。默认值是on。会初始化本地<a href="https://baike.baidu.com/item/ssl/320778?fr=aladdin" target="_blank" rel="noopener">SSL</a>引擎，对于使用SSLEnabled属性的APR/native connector来讲，该选项必须可用。</p>
+</li>
+<li><p>SSLRandomSeed</p>
+<p>指定伪随机数生成器（PRNG）的随机数种子源，默认值为builtin。在开发环境下，可能要将其设置为/dev/urandom，以获得更快的启动速度。</p>
+</li>
+<li><p>FIPSMode</p>
+<p>设置为on会请求OpenSSL进入FIPS模式（如果OpenSSL已经处于FIPS模式，将会保留该模式）。该设置为enter会强制OpenSSl进入FIPS模式（如果OpenSSL已经处于FIPS模式，将会产生一个错误）。设置为require要求OpenSSL已经处于FIPS模式（如果OpenSSL当前没有处于FIPS模式将会产生一个错误）。</p>
+</li>
+</ul>
+<blockquote>
+<p>GlobalNamingResources元素全局命名资源</p>
+</blockquote>
+<p>GlobalNamingResources元素定义了JNDI（Java命名和目录接口）资源，其允许Java软件客户端通过名称搜寻和查找数据。默认配置定义了一个名称为UserDatabase的JNDI，通过“conf/tomcat-users.xml”得到一个用于用户授权的内存数据库。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"UserDatabase"</span> <span class="attr">auth</span>=<span class="string">"Container"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">type</span>=<span class="string">"org.apache.catalina.UserDatabase"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">description</span>=<span class="string">"User database that can be updated and saved"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">factory</span>=<span class="string">"org.apache.catalina.users.MemoryUserDatabaseFactory"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">pathname</span>=<span class="string">"conf/tomcat-users.xml"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">GlobalNamingResources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>也可以定义其他全句话JNDI资源来实现连接池，比如MySQL数据库。</p>
+<blockquote>
+<p>Services元素</p>
+</blockquote>
+<p>一个Service可以连接一个或多个Connectors到一个引擎。默认配置定义了一个名为“Catalina”的Service，连接了两个Connectors：HTTP和AJP到当前的引擎。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Service</span> <span class="attr">name</span>=<span class="string">"Catalina"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span> <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8009"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.LockOutRealm"</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.UserDatabaseRealm"</span> 				</span></span><br><span class="line"><span class="tag">              <span class="attr">resourceName</span>=<span class="string">"UserDatabase"</span>/&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">Realm</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">prefix</span>=<span class="string">"localhost_access_log"</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>className</p>
+<p>该实现使用的Java类名称。这个类必须实现org.apache.catalina.Service接口。如果没有指定类名称，将会使用标准实现。</p>
+</li>
+<li><p>name</p>
+<p>Service的显示名称，如果采用了标准的Catalina组件，将会包含日志信息。每个Service与某个特定的Server关联的名称必须是唯一的。</p>
+</li>
+</ul>
+<blockquote>
+<p>Connectors元素</p>
+</blockquote>
+<p>一个Connector关联一个TCP端口，负责处理Service与客户端之间的交互。默认配置定义了两个Connectors。</p>
+<ul>
+<li><p>HTTP/1.1</p>
+<p>处理HTTP请求，使得Tomcat成为一个HTTP服务器。客户端可以通过Connector向服务器发送HTTP请求，接收服务器端的HTTP响应信息。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span> <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>与生产服务默认使用80端口不同，Tomcat HTTP服务默认在TCP端口8080上运行。可以选择1024到65535之间的任意数字作为端口号来运行Tomcat服务器，前提是该端口没有被任何其他应用使用。connectionTimeOut属性定义了这个connector在链接获得同意之后，获得请求URI line（请求信息）响应的最大等待时间毫秒数。默认为20秒。redirect属性会把<a href="https://baike.baidu.com/item/ssl/320778?fr=aladdin" target="_blank" rel="noopener">SSL</a>请求重定向到TCP的8443端口。</p>
+</li>
+</ul>
+<ul>
+<li><p>AJP/1.3</p>
+<p>Apache JServ Protocol connector处理Tomcat服务器与Apache HTTP服务器之间的交互。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8009"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以将Tomcat和Apache HTTP服务运行在一起，Apache HTTP服务器处理静态请求和PHP；Tomcat服务器负责处理Java Servlet/JSP。</p>
+</li>
+</ul>
+<blockquote>
+<p>容器</p>
+</blockquote>
+<p>包含了Engine、Host、Context和Cluster的Tomcat称为容器。最高级的是Engine，最底层的是Context。某些组件，比如Realm和Value，也可以放在容器中。</p>
+<blockquote>
+<p>Engine引擎</p>
+</blockquote>
+<p>引擎是容器中最高级别的部分。可以包含一个或多个Host。Tomcat服务器可以配置为运行在多个主机名上，包括虚拟主机。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Catalina引擎从HTTP connector接收HTTP请求，并根据请求头部信息中主机名或IP地址重定向到正确的主机上。</p>
+<ul>
+<li><p>backgroundProcessorDelay</p>
+<p>这个值表示了在这个引擎和它的子容器上调用backgroundProcess方法之间间隔的秒数，包括所有host和context。值为非负时不会调用子容器（意味着其使用自身的处理线程）。设置为正值会产生一个衍生线程。等待指定的时间之后，该线程会在这个引擎和它的所有子容器上调用backgroundProcess方法。如果没有指定，默认值为10，即会有10秒的延迟。</p>
+</li>
+<li><p>className</p>
+<p>实现该引擎使用的Java类名。该类必须实现org.apache.catalina.Engine接口。如果没有指定，会使用标准值。</p>
+</li>
+<li><p>defaultHost</p>
+<p>默认主机名，定义了处理指向该服务器的请求所在主机的名称，但名称不是在这个文件中配置。</p>
+</li>
+<li><p>jvmRoute</p>
+<p>在负载均衡场景下必须定义该参数，来保证session affinity可用，对于集群中所有Tomcat服务器来讲定义的名称必须是唯一的，该名称将会被添加到生成的会话标示符中，因此，允许前端代理总是将特定会话转发到同一个Tomcat实例。</p>
+</li>
+<li><p>name</p>
+<p>Engine的逻辑名称，用在日志和错误信息中。当在相同的Server中使用多个Service元素时，每个Engine必须制定一个唯一的名称。</p>
+</li>
+<li><p>startStopThreads</p>
+<p>Engine在启动Host子元素时将会并发使用的线程数。如果设置为0，将会使用Runtime.getRuntime().availableProcessors()的值。设置为负数，将会使用Runtime.getRuntime().availableProcessors() + value的值，如果结果小于1，将会使用1个线程。如果没有指定，默认值为1。</p>
+</li>
+</ul>
+<blockquote>
+<p>Realm元素</p>
+</blockquote>
+<p>一个Realm（域）就是一个包含user、password和role认证（比如访问控制）的数据库。你可以在任何容器中定义Realm，例如Engine、Host、Context和Cluster。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.LockOutRealm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.UserDatabaseRealm"</span> <span class="attr">resourceName</span>=<span class="string">"UserDatabase"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Realm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>默认配置定义了一个Catalina Engine的Realm（UserDatabaseRealm），对用户访问engine的权限进行控制。其使用定义在GlobalNamingResources中，名字为UserDatabase的JNDI。</p>
+<p>除了UserDatabaseRealm以外，还有：JDBCRealm（授权用户是否可以通过JDBC驱动连接到关系型数据库）；DataSourceRealm（通过JNDI连接到数据库）；JNDIRealm（连接到一个LDAP目录）；MemoryRealm（将XML文件加载到内存）。</p>
+<ul>
+<li><p>className</p>
+<p>使用Java实现类的名称。这个类必须实现org.apache.catalina.Realm接口。</p>
+</li>
+</ul>
+<blockquote>
+<p>Hosts</p>
+</blockquote>
+<p>一个Host定义了在Engine下的一个虚拟机，反过来其又支持多个Context（web应用）。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>默认配置定义了一个名为localhost的主机。appBase属性定义了所有webapp的根目录，在这种情况下是webapps。默认情况下，每一个webapp的URL和它所在的目录名称相同。例如，默认的Tomcat安装目录的webapps下提供了四个web应用：docs、examples、host-manager和manager。只有ROOT是个例外，它用一个空字符串定义。也就是说，它的URL是<a href="http://localhost:8080/。unpackWARs属性指定了放到webapps目录下的WAR-file是否应该被解压。对于unpackWARs=“false”，Tomcat将会直接从WAR-file运行应用，而不解压，这可能导致应用运行变慢。autoDeploy属性指定了是否自动部署放到webapps目录下的应用。" target="_blank" rel="noopener">http://localhost:8080/。unpackWARs属性指定了放到webapps目录下的WAR-file是否应该被解压。对于unpackWARs=“false”，Tomcat将会直接从WAR-file运行应用，而不解压，这可能导致应用运行变慢。autoDeploy属性指定了是否自动部署放到webapps目录下的应用。</a></p>
+<ul>
+<li><p>appBase</p>
+<p>虚拟机应用的根目录。该目录是一个可能包含部署到虚拟机上web应用的路径名。也可能是一个指定的绝对路径名，或者是一个相对于$CATALINA_BASE目录的路径名。如果没有指定，默认会使用webapps。</p>
+</li>
+<li><p>xmlBase</p>
+<p>虚拟机XML根目录。该目录是一个可能包含部署到虚拟机上context XML描述符的路径名。也可能是一个指定的绝对路径名，或者是一个相对于$CATALINA_BASE目录的路径名。如果没有指定，默认会使用conf/目录。</p>
+</li>
+<li><p>createDirs</p>
+<p>如果设置为true，Tomcat将会在启动阶段，尝试创建一个由appBase和xmlBase属性定义的目录。默认值为true。如果设置为true，并且目录创建失败，将会打印出一个错误信息，但是不会终止启动过程。</p>
+</li>
+<li><p>autoDeploy</p>
+<p>该属性的值指明了在Tomcat运行的时候，是否需要定义检查新的或者更新后的web应用。如果为true，Tomcat会定义检查appBase和xmlBase目录，并对找到的新web应用和context XML描述符进行部署。更新web应用或XML上下文描述符将会触发web应用的重载。默认值为true。</p>
+</li>
+<li><p>backgroundProcessorDeploy</p>
+<p>表示在调用这台主机的backgroundProcess方法和它的子容器方法，包括所有的context，之间延迟的秒数。如果延迟值不是负数的话，不会调用子容器（意味着会使用它们自己的处理线程）。设置为正数会产生衍生线程。在等待指定的时间之后，线程将会在该host上调用backgroundProcess方法，包括它的所有子容器。host将会使用后台进程执行web应用部署相关的任务。如果没有指定，默认值为-1，意味着host将会依赖于它的父引擎的后台处理线程。</p>
+</li>
+<li><p>className</p>
+<p>使用的Java实现类的名称。该类必须实现org.apache.catalina.Host接口。</p>
+</li>
+<li><p>deployIgnore</p>
+<p>一个正则表达式，定义了在自动部署和启动时部署的情况下需要忽略的目录。这就允许我们在版本控制系统中保持自己的配置，例如，不会将.svn或者git文件夹部署到appBase目录下。该正则表达式是相对于appBase的。同时也是固定的，意味着是相对于整个文件或目录的名称进行的。因此，foo只会匹配名称为foo的文件或目录，而不会匹配foo.war等名称的文件或目录。如果想让“foo”匹配任意名称，可以使用“.*foo.*”。</p>
+</li>
+<li><p>deployOnStartup</p>
+<p>指定在Tomcat启动时是否需要自动部署host下的web应用。默认值为true。</p>
+</li>
+<li><p>failCtxlfServletStartFails</p>
+<p>设置为true时，如果它的任意一个load-on-startup &gt;= 0的servlet停止自身启动后，停止启动它的每一个子context。每一个子context可能覆盖这个属性。如果没有指定，将会使用默认值false。</p>
+</li>
+<li><p>name</p>
+<p>通常是虚拟主机的网络名称，注册在你的域名服务器上。无论指定的主机名称是什么样的，Tomcat在内部都会将其转换为小写。嵌套在Engine内部的Host，其中必须有一个Host的名称匹配Engine的默认Host设置。</p>
+</li>
+<li><p>startStopThreads</p>
+<p>Host在启动子Context元素时会并发使用的线程数。如果自动部署被使用的话将会使用该线程池部署新的Context。值为0时将会使用Runtime.getRuntime().availableProcessors()的值。值为负数时将会使用Runtime.getRuntime().availableProcessors()加上该值得和，小于1时将会使用1个线程。如果没有指定，会使用默认值1。</p>
+</li>
+<li><p>undeployOldVersion</p>
+<p>该选项的值决定Tomcat，即自动部署进程部分，是否会检查并发部署的过时web应用，任何找到的应用都会被移除。只有在autoDeploy为true的情况下才会生效。如果没有指定将会使用默认值false。</p>
+</li>
+</ul>
+<blockquote>
+<p>Value</p>
+</blockquote>
+<p>Value（阀门）作为请求的前置处理程序，可以在请求发送到应用之前拦截HTTP请求。可以定义在任何容器中，比如Engine、Host、Context和Cluster。默认配置中，AccessLogValue会拦截HTTP请求，并在日志文件中创建一个切入点</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">prefix</span>=<span class="string">"localhost_access_log"</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>className</p>
+<p>设置为org.apache.catalina.ha.tcp.ReplicationValue</p>
+</li>
+<li><p>filter</p>
+<p>对于已知文件扩展名或url，可以在请求中使用Value通知cluster没有修改session，对于本次变化cluster没有必要通知session管理者。如果请求匹配该过滤器模型，cluster会假设session没有发生变化。一个filter样例大概是这样的filter=“.*.gif|.*.js|.*.jpeg|.*.jpg|.*.png|.*.htm|.*.html|.*.css|.*.txt”。filter使用java.util.regex的正则表达式。</p>
+</li>
+<li><p>primaryIndicator</p>
+<p>布尔值，如果为true，replication value将会把primaryIndicatorName属性定义的名称插入到request属性中，该值无论是Boolean.TRUE或者Boolean.FALSE，都会被放入request属性中。</p>
+</li>
+<li><p>primaryIndicatorName</p>
+<p>默认值为org.apache.catalina.ha.tcp.isPrimarySession，这个值定义了一个request属性的名称，值是一个布尔值，表示会话所在的服务器是否为主服务器。</p>
+</li>
+<li><p>statistics</p>
+<p>布尔值，如果想让value手机请求的统计数据，设置为true，默认值为false。</p>
+</li>
+<li><p>RemoteAddrValue</p>
+<p>阻截来自特定IP地址的请求。</p>
+</li>
+<li><p>RemoteHostValue</p>
+<p>阻截基于主机名称的请求。</p>
+</li>
+<li><p>RequestDumperValue</p>
+<p>记录了请求的详细信息。</p>
+</li>
+<li><p>SingleSignOnValue</p>
+<p>当置于a下时，允许单点登录到该主机下的所有应用上。</p>
+<p>​</p>
+</li>
+</ul>
+<h3 id="1-5-tomcat-users-xml"><a href="#1-5-tomcat-users-xml" class="headerlink" title="1.5 tomcat-users.xml"></a>1.5 tomcat-users.xml</h3><p>用于访问tomcat管理应用程序时的安全性设置，用server.xml中引用的默认的用户数据库域（UserDatabase Realm）使用它，所有的凭证默认都是被注释的，如需授权和访问控制，或配置角色，可参考以下配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"admin-gui,admin,manager-gui,manager"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样tomcat7首页上的Server Status、Manager App、Host Manager就都可以点击登录进去。</p>
+<p>tomcat6配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"admin,manager"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-6-web-xml"><a href="#1-6-web-xml" class="headerlink" title="1.6 web.xml"></a>1.6 web.xml</h3><p>默认的web.xml文件可被所有的web应用程序使用，这个web.xml文件会设置jspservlet以支持应用程序处理jsps，并设置一个默认的servlet来处理静态资源和html文件，它还设置默认的回话超时以及像index.jsp，index.html这类欢迎文件，并且它为最通用的扩展文件设置默认的<a href="http://www.w3school.com.cn/media/media_mimeref.asp" target="_blank" rel="noopener">MIME</a>类型。</p>
+<p>一般在Java工程中，web.xml用来初始化工程配置信息，比如welcome页面，filter，listener，servlet，servlet-mapping，启动加载级别等等。</p>
+<p>当应用程序被部署到tomcat时，它会用[engine name]/[host name]/[context-path name].xml创建与context.xml等效的文件，如用户也在\$CATALINA_BASE/conf/[enginename]/[hostname]/context.xml.default文件，在这个文件中特定主机下的所有web应用程序将对主机器虚拟环境采用一系列默认设置。</p>
+<p>下面就详细介绍一下web.xml中常用的标签及其功能。</p>
+<blockquote>
+<p> \&lt;description>，\&lt;display-name>，\&lt;icon></p>
+</blockquote>
+<ul>
+<li><p>\&lt;description></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">description</span>&gt;</span>项目描述<span class="tag">&lt;/<span class="name">description</span>&gt;</span> <span class="comment">&lt;!--对项目作出描述--&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>\&lt;display-name></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">display-name</span>&gt;</span>项目名称<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span> <span class="comment">&lt;!--定义项目的名称--&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>\&lt;icon>及\&lt;small-icon>，\&lt;large-icon></p>
+<p>\&lt;icon> icon元素包含small-icon和large-icon两个子元素，用来指定web站台中小图标和大图标的路径。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--small-icon元素应指向web站台中某个小图标的路径，大小为16X 16 pixel，但是图像文件必须为GIF或JPEG格式，扩展名必须为.git或.jpg--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">small-icon</span>&gt;</span>/路径/smallicon.gif<span class="tag">&lt;/<span class="name">small-icon</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--large-icon元素应指向web站台中某个大图标路径，大小为32X 32pixel，但是图像文件必须为GIF或JPEG的格式，扩展名必须为.git或.jpg--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">large-icon</span>&gt;</span>/路径/largeicon.jpg<span class="tag">&lt;/<span class="name">large-icon</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">display-name</span>&gt;</span>Demo Example<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">description</span>&gt;</span>JSP 2.0 Demo Example<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">icon</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">small-icon</span>&gt;</span>/images/small.gif<span class="tag">&lt;/<span class="name">small-icon</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">large-icon</span>&gt;</span>/images/large.gif<span class="tag">&lt;/<span class="name">large-icon</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">icon</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>\&lt;context-param></p>
+</blockquote>
+<p>\&lt;context-param>元素含有一对参数名和参数值，用作应用的servlet上下文初始化参数。参数名在整个web应用中必须是唯一的。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">param-name</span>&gt;</span>name<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">param-value</span>&gt;</span>haha<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此处设定的参数，在JSP页面可以使用\${initParam.name}来获取。</p>
+<p>在Servlet中可以使用下列方式获取：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String name = getServletContext().getInitParamter(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;filter></p>
+</blockquote>
+<p>filter元素用于指定web容器中的过滤器。</p>
+<p>在请求和响应对象被servlet处理之前或之后，可以使用过滤器对这两个对象进行操作。通过filter-mapping元素，过滤器被映射到一个servlet或一个URL模式。这个过滤器的filter元素和filter-mapping元素必须具有相同的名称。</p>
+<p>filter元素用来声明filter的相关设定，filter元素除了下面介绍的子元素之外，还包括&lt;icon>，\&lt;display-name>，\&lt;description>，\&lt;init-param>，其用途一样。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>encodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"> 	<span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">  		<span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">      	<span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;filter-mapping></p>
+</blockquote>
+<p>filter-mapping元素用来声明web应用中的过滤器映射。过滤器可被映射到一个servlet或一个URL模式。将过滤器映射到一个servlet中会造成过滤器作用于servlet上。将过滤器映射到一个URL模式中则可以将过滤器应用于任何资源，只要该资源的URL与URL模式匹配。过滤是按照部署描述符的filter-mapping元素出现的顺序执行的。</p>
+<p>filter-mapping元素的两个主要子元素filter-name和url-pattern用来定义Filter对应的URL。还有servlet-name和dispatcher子元素，不是很常用。</p>
+<p>特别说明一下dispatcher，设置Filter对应的请求方式，有：REQUEST,INCLUDE,FORWAR,ERROR四种，默认为REQUEST。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>encodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;servlet></p>
+</blockquote>
+<p>在web.xml中完成一个最常见的任务是对servlet或JSP页面给出名称和定制的URL。用servlet元素分配名称，使用servlet-mapping元素将定制的URL与刚分配的名称相关联。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcher<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;servlet-mapping></p>
+</blockquote>
+<p>servlet-mapping元素包含两个子元素servlet-name和url-pattern，用来定义servlet所对应的URL。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcher<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;listener></p>
+</blockquote>
+<p>listener元素用来注册一个监听器类，可以在web应用中包含该类。使用listener元素，可以收到事件什么时候发生以及用什么作为响应的通知。</p>
+<p>listener元素用来定义Listener接口，它的主要子元素为\&lt;listener-class></p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>com.gnd.web.listener.TestListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;session-config></p>
+</blockquote>
+<p>session-config包含一个子元素session-timeout，定义web应用中session的有效期限。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">session-config</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">session-timeout</span>&gt;</span>900<span class="tag">&lt;/<span class="name">session-timeout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">session-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;mime-mapping></p>
+</blockquote>
+<p>mime-mapping包含两个子元素extension和mime-type，定义某个扩展名和某一MIME Type做对应。</p>
+<p>\&lt;extension>扩展名名称\&lt;/extension></p>
+<p>\&lt;mime-type>MIME格式\&lt;/mime-type></p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mime-mapping</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">extension</span>&gt;</span>doc<span class="tag">&lt;/<span class="name">extension</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">mime-type</span>&gt;</span>application/vnd.ms-word<span class="tag">&lt;/<span class="name">mime-type</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mime-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mime-mapping</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">extension</span>&gt;</span>xls<span class="tag">&lt;/<span class="name">extension</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">mime-type</span>&gt;</span>application/vnd.ms-excel<span class="tag">&lt;/<span class="name">mime-type</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mime-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mime-mapping</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">extension</span>&gt;</span>ppt<span class="tag">&lt;/<span class="name">extension</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">mime-type</span>&gt;</span>application/vnd.ms-powerpoint<span class="tag">&lt;/<span class="name">mime-type</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mime-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;welcome-file-list></p>
+</blockquote>
+<p>welcome-file-list包含一个子元素welcome-file，用来定义首页列表。</p>
+<p>welcome-file用来指定首页文件名称，服务器会按照设定的顺序来找首页。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>index.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>index.html<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;error-page></p>
+</blockquote>
+<p>error-page元素包含三个子元素error-code，exception-type和location。</p>
+<p>将错误代码后异常的种类对应到web应用资源路径。</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">error-page</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">error-code</span>&gt;</span>404<span class="tag">&lt;/<span class="name">error-code</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">location</span>&gt;</span>error404.jsp<span class="tag">&lt;/<span class="name">location</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">error-page</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">error-page</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">exception-type</span>&gt;</span>java.lang.Exception<span class="tag">&lt;/<span class="name">exception-type</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">location</span>&gt;</span>error404.jsp<span class="tag">&lt;/<span class="name">location</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">error-page</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;jsp-config></p>
+</blockquote>
+<p>jsp-config元素主要用来设定jsp的相关配置，jsp-config包括taglib和jsp-property-group两个子元素，其中taglib元素在JSP1.2时就已经存在，而jsp-property-group是JSP2.0新增的元素。</p>
+<p>\&lt;taglib></p>
+<p>taglib元素包含两个子元素taglib-uri和taglib-location，用来设定JSP网页用到的TagLibrary路径。</p>
+<p>\&lt;taglib-uri>URI\&lt;/taglib-uri></p>
+<p>taglib-uri定义TLD文件的URI，JSP网页的taglib指令可以经由这个URI存取到TLD文件。</p>
+<p>\&lt;taglib-location>/WEB-INF/lib/xxx.tld\&lt;/taglib-location></p>
+<p>TLD文件对应web应用的存放位置。</p>
+<p>\&lt;jsp-property-group></p>
+<p>jsp-property-group元素包含8个子元素，分别为：</p>
+<p>\&lt;description>Description\&lt;/description> 此设定的说明</p>
+<p>\&lt;display-name>Name\&lt;/display-name>  此设定的名称</p>
+<p>\&lt;url-pattern>URL\&lt;/url-pattern>  设定值所影响的范围，如*.jsp</p>
+<p>\<el-ignored>true/false\&lt;/el-ignored>  是否支持EL语法</el-ignored></p>
+<p>\&lt;scripting-invalid>true/false\&lt;/scripting-invalid>  是否支持java代码片段&lt;%…%&gt;</p>
+<p>\&lt;page-encoding>UTF-8\&lt;/page-encoding> 设置JSP页面的编码</p>
+<p>\&lt;include-prelude>.jspf\&lt;/include-prelude> 设置JSP页面的抬头，扩展名为.jspf</p>
+<p>\<include-coda>.jspf\</include-coda> 设置JSP页面的结尾，扩展名为.jspf</p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">jsp-config</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">taglib</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">taglib-uri</span>&gt;</span>Taglib<span class="tag">&lt;/<span class="name">taglib-uri</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">taglib-location</span>&gt;</span>/WEB-INF/tlds/MyTaglib.tld<span class="tag">&lt;/<span class="name">taglib-location</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">taglib</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">jsp-property-group</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>Configuration JSP example<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>JspConfig<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">el-ignored</span>&gt;</span>true<span class="tag">&lt;/<span class="name">el-ignored</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">page-encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">page-encoding</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scripting-invalid</span>&gt;</span>true<span class="tag">&lt;/<span class="name">scripting-invalid</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">jsp-property-group</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">jsp-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>\&lt;resource-ref></p>
+</blockquote>
+<p>resource-ref元素包含五个子元素description，res-ref-name，res-type，res-auth，res-sharing-scope，利用JNDI取得应用可利用资源。</p>
+<p>\&lt;res-auth>Application/Container\&lt;/res-auth> 资源由Application或Container来许可。</p>
+<p>\<res-sharing-scope>Shareable|Unshareable\<res-sharing-scope> 资源是否可以共享，默认值为Shareable</res-sharing-scope></res-sharing-scope></p>
+<p>例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resource-ref</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">res-ref-name</span>&gt;</span>jdbc/Druid<span class="tag">&lt;/<span class="name">res-ref-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">res-type</span>&gt;</span>com.alibaba.druid.pool.DruidDataSource<span class="tag">&lt;/<span class="name">res-type</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">res-auth</span>&gt;</span>Container<span class="tag">&lt;/<span class="name">res-auth</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resource-ref</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-7-loggin-properties"><a href="#1-7-loggin-properties" class="headerlink" title="1.7 loggin.properties"></a>1.7 loggin.properties</h3><p>JULI记录器使用默认日志配置，它默认地使用ConsoleHandler和fileHandler设置应用程序或者程序包的日志级别。</p>
+<h2 id="2-启动流程分析"><a href="#2-启动流程分析" class="headerlink" title="2. 启动流程分析"></a>2. 启动流程分析</h2><h3 id="2-1-Idea调试Tomcat源码环境搭建"><a href="#2-1-Idea调试Tomcat源码环境搭建" class="headerlink" title="2.1 Idea调试Tomcat源码环境搭建"></a>2.1 Idea调试Tomcat源码环境搭建</h3><p>首先下载Tomcat源码，读者可自行去<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">Tomcat官网</a> 下载，若执行力差的同学也可直接从此处pull。</p>
+<p>Tomcat源码导入到开发工具中的方法有多种，笔者采用最直接的方式，解压源码包后直接导入到开发工具中，导入之后的源码并不能直接运行，还需要几个依赖包，读者可从此处的lib目录下获取，也可自行搜集。</p>
+<p>找好依赖包也并不能让Tomcat源码正常运行，还需要为Bootstrap这个启动类增加几个启动参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-Dcatalina.home=/Users/chenmin/GitHub/tomcat</span><br><span class="line">-Dcatalina.base=/Users/chenmin/GitHub/tomcat</span><br><span class="line">-Djava.endorsed.dirs=/Users/chenmin/GitHub/tomcat/endorsed</span><br><span class="line">-Djava.io.tmpdir=/Users/chenmin/GitHub/tomcat/temp</span><br><span class="line">-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager</span><br><span class="line">-Djava.util.logging.config.file=/Users/chenmin/GitHub/tomcat/conf/logging.properties</span><br></pre></td></tr></table></figure>
+<p>上面的参数具体代表的意思就不一一详述了，其实光看名字就知道都是干嘛用的了。</p>
+<p>以上准备步骤做好之后，就可以直接运行Bootstrap类，运行Tomcat源码进行调试了。</p>
+<h3 id="2-2-Tomcat-Server的组成"><a href="#2-2-Tomcat-Server的组成" class="headerlink" title="2.2 Tomcat Server的组成"></a>2.2 Tomcat Server的组成</h3><h4 id="2-2-1-整体说明"><a href="#2-2-1-整体说明" class="headerlink" title="2.2.1 整体说明"></a>2.2.1 整体说明</h4><p>在上面对配置文件的说明中，通过server.xml的解释，我们知道server.xml中最顶级的元素是server，而server.xml中的每一个元素我们都可以把它看做是Tomcat中的某一个部分。所以我们可以参照着server.xml来分析源码。</p>
+<p>Tomcat最顶层的容器叫Server，它代表着整个Tomcat服务器。Server中至少要包含一个Service来提供服务。Service包含两部分：Connector和Container。Connector负责网络连接，request/response的创建，并对Socket和request、response进行转换等，Container用于封装和管理Servlet，并处理具体的request请求。</p>
+<p>一个Tomcat中只有一个Server，一个Server可以有多个Service来提供服务，一个Service只有一个Container，但是可以有多个Connector（一个服务可以有多个连接）。</p>
+<p><img src="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true" alt="tomcat整体结构"></p>
+<h4 id="2-2-2-各组件详解"><a href="#2-2-2-各组件详解" class="headerlink" title="2.2.2 各组件详解"></a>2.2.2 各组件详解</h4><p>可结合conf/配置文件说明中的server.xml的说明来看</p>
+<ul>
+<li><p>Server</p>
+<p>Server代表整个Servlet容器</p>
+</li>
+<li><p>Service</p>
+<p>Service是由一个或多个Connector以及一个Engine，负责处理所有Connector所获得的客户请求的集合。</p>
+</li>
+<li><p>Connector</p>
+<p>Connector将在某个指定端口上侦听客户请求，并将获得的请求交给Engine来处理，从Engine处获得回应并返回给客户端。</p>
+<p>Tomcat有两个默认的Connector，一个直接监听来自浏览器的http请求，一个监听来自其他WebServer的请求。</p>
+<p>Coyote Http/1.1 Connector在端口8080上监听来自浏览器的http请求</p>
+<p>Coyote AJP/1.3 Connector在端口8009上监听来自其他WebServer的servlet/jsp代理请求。</p>
+</li>
+<li><p>Engine</p>
+<p>Engine下可以配置多个虚拟主机，每个虚拟主机都有一个域名，当Engine获得一个请求时，Engine会把该请求匹配到某个Host上，然后把该请求交给该Host来处理。</p>
+<p>Engine有一个默认虚拟主机，当请求无法匹配到任何一个Host上的时候，将交给该默认Host来处理。</p>
+</li>
+<li><p>Host</p>
+<p>代表一个虚拟主机，每个虚拟主机和某个网络域名相匹配。每个虚拟主机下都可以部署一个或者多个WebApp，每个WebApp对应于一个Context，有一个ContextPath。当Host获得一个请求时，将把该请求匹配到某个Context上，然后把该请求交给该Context来处理。匹配的方法是“最长匹配”，所以一个path==“”的Context将成为该Host的默认Context，所有无法和其他Context的路径名匹配的请求都将最终和该默认Context匹配。</p>
+</li>
+<li><p>Context</p>
+<p>一个Context对应于一个Web Application（Web应用），一个Web应用有一个或多个Servlet组成，Context在创建的时候将根据配置文件\$CATALINA_HOME/conf/web.xml和\$WEBAPP_HOME/WEB-INF/web.xml载入Servlet类。如果找到，则执行该类，获得请求的回应，并返回。</p>
+<p>Tomcat各组件关系图(此图来此网上)</p>
+<p><img src="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat-startup.gif?raw=true" alt="QQ截图20170913174040"></p>
+</li>
+</ul>
+<h3 id="2-3-源码分析"><a href="#2-3-源码分析" class="headerlink" title="2.3 源码分析"></a>2.3 源码分析</h3><h4 id="2-3-1-启动总体流程"><a href="#2-3-1-启动总体流程" class="headerlink" title="2.3.1 启动总体流程"></a>2.3.1 启动总体流程</h4><p>Tomcat里的Server由org.apache.catalina.startup.Catalina来管理，Catalina是整个Tomcat的管理类，它里面的三个方法load，start，stop分别用来管理整个服务器的生命周期，load方法用于根据conf/server.xml文件创建Server并调用Server的init方法进行初始化，start方法用于启动服务器，stop方法用于停止服务器，start和stop方法在内部分别调用了Server的start和stop方法，load方法内部调用了Server的init方法，这三个方法都会按容器的结构逐层调用相应的方法，比如，Server的start方法中会调用所有的Service中的start方法，Service中的start方法又会调用所有的Service中的start方法，Service中的start方法又会调用所有包含的Connectors和Container的start方法，这样这个服务器就启动了，init和stop方法也一样，这就是整个Tomcat的生命周期的管理方式。Catalina还有个await方法，await方法直接调用了Server的await方法，这个方法的作用是进入一个循环，让主线程不退出。</p>
+<p>Tomcat的启动入口上面说过，是org.apache.catalina.startup.Bootstrap，作用类似于一个CatalinaAdaptor，具体的处理过程还是使用Catalina来完成的，这么做的好处是可以把启动的入口和具体的管理类分开，从而可以很方便的创建出多种启动方式，每种启动方式只需要写一个相应的CatalinaAdaptor就可以了。</p>
+<p><img src="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90.png?raw=true" alt="tomcat启动流程分析"></p>
+<p><em>注：</em>图片比较模糊，如需查看清晰图片，请自行下载resources/images目录中的<strong>tomcat启动流程分析.png</strong> 或 resources/docs中的<strong>Tomcat源码分析.mdl</strong> ，使用Rational Rose等工具打开即可。</p>
+<h4 id="2-3-2-启动流程详解"><a href="#2-3-2-启动流程详解" class="headerlink" title="2.3.2 启动流程详解"></a>2.3.2 启动流程详解</h4><p>正常情况下启动Tomcat，就是调用Bootstrap的main方法，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (daemon == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Don't set daemon until init() has completed</span></span><br><span class="line">            <span class="comment">// 初始化了ClassLoader，并用ClassLoader创建了Catalina实例，赋给catalinaDaemon变量</span></span><br><span class="line">            Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                bootstrap.init();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">                handleThrowable(t);</span><br><span class="line">                t.printStackTrace();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            daemon = bootstrap;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// When running as a service the call to stop will be on a new</span></span><br><span class="line">            <span class="comment">// thread so make sure the correct class loader is used to prevent</span></span><br><span class="line">            <span class="comment">// a range of class not found exceptions.</span></span><br><span class="line">            Thread.currentThread().setContextClassLoader(daemon.catalinaLoader);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String command = <span class="string">"start"</span>;</span><br><span class="line">            <span class="keyword">if</span> (args.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                command = args[args.length - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (command.equals(<span class="string">"startd"</span>)) &#123;</span><br><span class="line">                args[args.length - <span class="number">1</span>] = <span class="string">"start"</span>;</span><br><span class="line">                daemon.load(args);</span><br><span class="line">                daemon.start();</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"stopd"</span>)) &#123;</span><br><span class="line">                args[args.length - <span class="number">1</span>] = <span class="string">"stop"</span>;</span><br><span class="line">                daemon.stop();</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"start"</span>)) &#123;</span><br><span class="line">                daemon.setAwait(<span class="keyword">true</span>);</span><br><span class="line">                daemon.load(args);</span><br><span class="line">                daemon.start();</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"stop"</span>)) &#123;</span><br><span class="line">                daemon.stopServer(args);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"configtest"</span>)) &#123;</span><br><span class="line">                daemon.load(args);</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">null</span>==daemon.getServer()) &#123;</span><br><span class="line">                    System.exit(<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                System.exit(<span class="number">0</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                log.warn(<span class="string">"Bootstrap: command \""</span> + command + <span class="string">"\" does not exist."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">            <span class="comment">// Unwrap the Exception for clearer error reporting</span></span><br><span class="line">            <span class="keyword">if</span> (t <span class="keyword">instanceof</span> InvocationTargetException &amp;&amp;</span><br><span class="line">                    t.getCause() != <span class="keyword">null</span>) &#123;</span><br><span class="line">                t = t.getCause();</span><br><span class="line">            &#125;</span><br><span class="line">            handleThrowable(t);</span><br><span class="line">            t.printStackTrace();</span><br><span class="line">            System.exit(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>main方法中，首先执行init方法初始化了Tomcat自己的类加载器，并通过类加载器创建Catalina实例，然后赋给catalinaDaemon变量，后续操作都使用catalinaDaemon来执行。</p>
+<p>后面默认执行start命令，将调用setAwait(true)，load(args)和start()这三个方法，这三个方法内部都通过反射调用了Catalina的相应方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.apache.catalina.startup.Catalina</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAwait</span><span class="params">(<span class="keyword">boolean</span> b)</span> </span>&#123;</span><br><span class="line">    await = b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>setAwait方法用于设置Server启动完成后是否进入等待状态的标志，如果为true则进入，否则不进入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.apache.catalina.startup.Catalina</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Start a new server instance.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">load</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> t1 = System.nanoTime();</span><br><span class="line">    initDirs();</span><br><span class="line">    <span class="comment">// Before digester - it may be needed</span></span><br><span class="line">    initNaming();</span><br><span class="line">    <span class="comment">// Create and execute our Digester</span></span><br><span class="line">    Digester digester = createStartDigester();</span><br><span class="line">    InputSource inputSource = <span class="keyword">null</span>;</span><br><span class="line">    InputStream inputStream = <span class="keyword">null</span>;</span><br><span class="line">    File file = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            file = configFile();</span><br><span class="line">            inputStream = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">            inputSource = <span class="keyword">new</span> InputSource(file.toURI().toURL().toString());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">          	<span class="keyword">if</span> (log.isDebugEnabled()) &#123;</span><br><span class="line">            	log.debug(sm.getString(<span class="string">"catalina.configFail"</span>, file), e);</span><br><span class="line">          	&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="keyword">if</span> (inputStream == <span class="keyword">null</span>) &#123;</span><br><span class="line">        	<span class="keyword">try</span> &#123;</span><br><span class="line">          		inputStream = getClass().getClassLoader().getResourceAsStream(getConfigFile());</span><br><span class="line">          		inputSource = <span class="keyword">new</span> InputSource(getClass().getClassLoader().getResource(getConfigFile()).toString());</span><br><span class="line">        	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">          		<span class="keyword">if</span> (log.isDebugEnabled()) &#123;</span><br><span class="line">            		log.debug(sm.getString(<span class="string">"catalina.configFail"</span>,getConfigFile()), e);</span><br><span class="line">          		&#125;</span><br><span class="line">        	&#125;</span><br><span class="line">      	&#125;</span><br><span class="line">      	<span class="comment">// This should be included in catalina.jar</span></span><br><span class="line">      	<span class="comment">// Alternative: don't bother with xml, just create it manually.</span></span><br><span class="line">      	<span class="keyword">if</span> (inputStream == <span class="keyword">null</span>) &#123;</span><br><span class="line">        	<span class="keyword">try</span> &#123;</span><br><span class="line">          		inputStream = getClass().getClassLoader().getResourceAsStream(<span class="string">"server-embed.xml"</span>);</span><br><span class="line">          		inputSource = <span class="keyword">new</span> InputSource(getClass().getClassLoader().getResource(<span class="string">"server-embed.xml"</span>).toString());</span><br><span class="line">        	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">          		<span class="keyword">if</span> (log.isDebugEnabled()) &#123;</span><br><span class="line">            		log.debug(sm.getString(<span class="string">"catalina.configFail"</span>,<span class="string">"server-embed.xml"</span>), e);</span><br><span class="line">          		&#125;</span><br><span class="line">        	&#125;	</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (inputStream == <span class="keyword">null</span> || inputSource == <span class="keyword">null</span>) &#123;</span><br><span class="line">        	<span class="keyword">if</span>  (file == <span class="keyword">null</span>) &#123;</span><br><span class="line">          		log.warn(sm.getString(<span class="string">"catalina.configFail"</span>,getConfigFile() + <span class="string">"] or [server-embed.xml]"</span>));</span><br><span class="line">        	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          		log.warn(sm.getString(<span class="string">"catalina.configFail"</span>,file.getAbsolutePath()));</span><br><span class="line">          		<span class="keyword">if</span> (file.exists() &amp;&amp; !file.canRead()) &#123;</span><br><span class="line">            		log.warn(<span class="string">"Permissions incorrect, read permission is not allowed on the file."</span>);</span><br><span class="line">          		&#125;</span><br><span class="line">        	&#125;</span><br><span class="line">        	<span class="keyword">return</span>;</span><br><span class="line">      	&#125;</span><br><span class="line">      	<span class="keyword">try</span> &#123;</span><br><span class="line">        	inputSource.setByteStream(inputStream);</span><br><span class="line">        	digester.push(<span class="keyword">this</span>);</span><br><span class="line">        	digester.parse(inputSource);</span><br><span class="line">      	&#125; <span class="keyword">catch</span> (SAXParseException spe) &#123;</span><br><span class="line">        	log.warn(<span class="string">"Catalina.start using "</span> + getConfigFile() + <span class="string">": "</span> + spe.getMessage());</span><br><span class="line">        	<span class="keyword">return</span>;</span><br><span class="line">      	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        	log.warn(<span class="string">"Catalina.start using "</span> + getConfigFile() + <span class="string">": "</span> , e);</span><br><span class="line">        	<span class="keyword">return</span>;</span><br><span class="line">      	&#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      	<span class="keyword">if</span> (inputStream != <span class="keyword">null</span>) &#123;</span><br><span class="line">        	<span class="keyword">try</span> &#123;</span><br><span class="line">          		inputStream.close();</span><br><span class="line">        	&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">          	<span class="comment">// Ignore</span></span><br><span class="line">        	&#125;</span><br><span class="line">      	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  	getServer().setCatalina(<span class="keyword">this</span>);</span><br><span class="line">  	getServer().setCatalinaHome(Bootstrap.getCatalinaHomeFile());</span><br><span class="line">  	getServer().setCatalinaBase(Bootstrap.getCatalinaBaseFile());</span><br><span class="line">  	<span class="comment">// Stream redirection</span></span><br><span class="line">  	initStreams();</span><br><span class="line">  	<span class="comment">// Start the new server</span></span><br><span class="line">  	<span class="keyword">try</span> &#123;</span><br><span class="line">    	getServer().init();</span><br><span class="line">  	&#125; <span class="keyword">catch</span> (LifecycleException e) &#123;</span><br><span class="line">    	<span class="keyword">if</span> (Boolean.getBoolean(<span class="string">"org.apache.catalina.startup.EXIT_ON_INIT_FAILURE"</span>)) &#123;</span><br><span class="line">      		<span class="keyword">throw</span> <span class="keyword">new</span> java.lang.Error(e);</span><br><span class="line">    	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      		log.error(<span class="string">"Catalina.start"</span>, e);</span><br><span class="line">    	&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">  	<span class="keyword">long</span> t2 = System.nanoTime();</span><br><span class="line">  	<span class="keyword">if</span>(log.isInfoEnabled()) &#123;</span><br><span class="line">    	log.info(<span class="string">"Initialization processed in "</span> + ((t2 - t1) / <span class="number">1000000</span>) + <span class="string">" ms"</span>);</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Catalina的load方法根据conf/server.xml创建了Server对象，并赋值给server属性（具体是通过开源项目Digester完成的），然后调用了server的init方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.apache.catalina.startup.Catalina</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">if</span> (getServer() == <span class="keyword">null</span>) &#123;</span><br><span class="line">		load();</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">if</span> (getServer() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        log.fatal(<span class="string">"Cannot start server. Server instance is not configured."</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> t1 = System.nanoTime();</span><br><span class="line">    <span class="comment">// Start the new server</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        getServer().start();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (LifecycleException e) &#123;</span><br><span class="line">        log.fatal(sm.getString(<span class="string">"catalina.serverStartFail"</span>), e);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            getServer().destroy();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (LifecycleException e1) &#123;</span><br><span class="line">            log.debug(<span class="string">"destroy() failed for failed Server "</span>, e1);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> t2 = System.nanoTime();</span><br><span class="line">    <span class="keyword">if</span>(log.isInfoEnabled()) &#123;</span><br><span class="line">        log.info(<span class="string">"Server startup in "</span> + ((t2 - t1) / <span class="number">1000000</span>) + <span class="string">" ms"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Register shutdown hook</span></span><br><span class="line">    <span class="keyword">if</span> (useShutdownHook) &#123;</span><br><span class="line">        <span class="keyword">if</span> (shutdownHook == <span class="keyword">null</span>) &#123;</span><br><span class="line">            shutdownHook = <span class="keyword">new</span> CatalinaShutdownHook();</span><br><span class="line">        &#125;</span><br><span class="line">        Runtime.getRuntime().addShutdownHook(shutdownHook);</span><br><span class="line">        <span class="comment">// If JULI is being used, disable JULI's shutdown hook since</span></span><br><span class="line">        <span class="comment">// shutdown hooks run in parallel and log messages may be lost</span></span><br><span class="line">        <span class="comment">// if JULI's hook completes before the CatalinaShutdownHook()</span></span><br><span class="line">        LogManager logManager = LogManager.getLogManager();</span><br><span class="line">        <span class="keyword">if</span> (logManager <span class="keyword">instanceof</span> ClassLoaderLogManager) &#123;</span><br><span class="line">            ((ClassLoaderLogManager) logManager).setUseShutdownHook(<span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (await) &#123;</span><br><span class="line">        await();</span><br><span class="line">        stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里首先判断Server是否已经存在了，如果不存在则调用load方法来初始化Server，然后调用Server的start方法来启动服务器，最后注册了关闭钩子并根据await属性判断是否进入等待状态，之前我们已经将这里的await属性设置为true，所以需要进入等待状态。进入等待状态会调用await和stop两个方法，await方法会直接调用Server的await方法，Server的await方法内部会执行一个while循环，这样程序就停到了await方法，当await方法里的while循环退出时，就会执行stop方法，从而关闭服务器。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.apache.catalina.core.StandardServer</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">await</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Negative values - don't wait on port - tomcat is embedded or we just don't like ports</span></span><br><span class="line">    <span class="keyword">if</span>( port == -<span class="number">2</span> ) &#123;</span><br><span class="line">        <span class="comment">// undocumented yet - for embedding apps that are around, alive.</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>( port==-<span class="number">1</span> ) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            awaitThread = Thread.currentThread();</span><br><span class="line">            <span class="keyword">while</span>(!stopAwait) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep( <span class="number">10000</span> );</span><br><span class="line">                &#125; <span class="keyword">catch</span>( InterruptedException ex ) &#123;</span><br><span class="line">                    <span class="comment">// continue and check the flag</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            awaitThread = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Set up a server socket to wait on</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        awaitSocket = <span class="keyword">new</span> ServerSocket(port, <span class="number">1</span>,InetAddress.getByName(address));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        log.error(<span class="string">"StandardServer.await: create["</span> + address+ <span class="string">":"</span> + port+ <span class="string">"]: "</span>, e);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        awaitThread = Thread.currentThread();</span><br><span class="line">        <span class="comment">// Loop waiting for a connection and a valid command</span></span><br><span class="line">        <span class="keyword">while</span> (!stopAwait) &#123;</span><br><span class="line">            ServerSocket serverSocket = awaitSocket;</span><br><span class="line">            <span class="keyword">if</span> (serverSocket == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// Wait for the next connection</span></span><br><span class="line">            Socket socket = <span class="keyword">null</span>;</span><br><span class="line">            StringBuilder command = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                InputStream stream;</span><br><span class="line">                <span class="keyword">long</span> acceptStartTime = System.currentTimeMillis();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    socket = serverSocket.accept();</span><br><span class="line">                    socket.setSoTimeout(<span class="number">10</span> * <span class="number">1000</span>);  <span class="comment">// Ten seconds</span></span><br><span class="line">                    stream = socket.getInputStream();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (SocketTimeoutException ste) &#123;</span><br><span class="line">                    <span class="comment">// This should never happen but bug 56684 suggests that</span></span><br><span class="line">                    <span class="comment">// it does.</span></span><br><span class="line">                    log.warn(sm.getString(<span class="string">"standardServer.accept.timeout"</span>,</span><br><span class="line">                                Long.valueOf(System.currentTimeMillis() - acceptStartTime)), ste);</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (AccessControlException ace) &#123;</span><br><span class="line">                    log.warn(<span class="string">"StandardServer.accept security exception: "</span> + ace.getMessage(), ace);</span><br><span class="line">                	<span class="keyword">continue</span>;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (stopAwait) &#123;</span><br><span class="line">                        <span class="comment">// Wait was aborted with socket.close()</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    log.error(<span class="string">"StandardServer.await: accept: "</span>, e);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// Read a set of characters from the socket</span></span><br><span class="line">                <span class="keyword">int</span> expected = <span class="number">1024</span>; <span class="comment">// Cut off to avoid DoS attack</span></span><br><span class="line">                <span class="keyword">while</span> (expected &lt; shutdown.length()) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (random == <span class="keyword">null</span>)</span><br><span class="line">                        random = <span class="keyword">new</span> Random();</span><br><span class="line">                    expected += (random.nextInt() % <span class="number">1024</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span> (expected &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">int</span> ch = -<span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        ch = stream.read();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                        log.warn(<span class="string">"StandardServer.await: read: "</span>, e);</span><br><span class="line">                        ch = -<span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// Control character or EOF (-1) terminates loop</span></span><br><span class="line">                    <span class="keyword">if</span> (ch &lt; <span class="number">32</span> || ch == <span class="number">127</span>) &#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    command.append((<span class="keyword">char</span>) ch);</span><br><span class="line">                    expected--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="comment">// Close the socket now that we are done with it</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (socket != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        socket.close();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    <span class="comment">// Ignore</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// Match against our command string</span></span><br><span class="line">            <span class="keyword">boolean</span> match = command.toString().equals(shutdown);</span><br><span class="line">            <span class="keyword">if</span> (match) &#123;                					            </span><br><span class="line">              	log.info(sm.getString(<span class="string">"standardServer.shutdownViaPort"</span>));</span><br><span class="line">	        <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">                log.warn(<span class="string">"StandardServer.await: Invalid command '"</span> + command.toString() + <span class="string">"' received"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        ServerSocket serverSocket = awaitSocket;</span><br><span class="line">        awaitThread = <span class="keyword">null</span>;</span><br><span class="line">        awaitSocket = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// Close the server socket and return</span></span><br><span class="line">        <span class="keyword">if</span> (serverSocket != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                serverSocket.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                <span class="comment">// Ignore</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<h2 id="参考书籍"><a href="#参考书籍" class="headerlink" title="参考书籍"></a>参考书籍</h2><blockquote>
+<p> <a href="链接：http://pan.baidu.com/s/1o7Zp1Q6 密码：c87j">看透springMvc源代码分析与实践.pdf</a></p>
+</blockquote>
+<h2 id="推荐博客"><a href="#推荐博客" class="headerlink" title="推荐博客"></a>推荐博客</h2><blockquote>
+<p><a href="http://www.jianshu.com/p/4cdc422b269b" target="_blank" rel="noopener">解析XML之Digester</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="/2018/03/21/Tomcat源码分析/" data-id="cjn04lggi001xcxs657c7es8m" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/07/zookeeper集群搭建/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          zookeeper集群搭建
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/08/redis系统学习/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">redis常用配置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+           <div id="uyan_frame"></div>
+    
+      
+           <div id="gitment_comments"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat目录说明"><span class="toc-number">1.</span> <span class="toc-text">Tomcat目录说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-conf-配置文件说明"><span class="toc-number">2.</span> <span class="toc-text">1. conf/配置文件说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-catalina-properties"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 catalina.properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-catalina-policy"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 catalina.policy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-context-xml"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 context.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-server-xml"><span class="toc-number">2.4.</span> <span class="toc-text">1.4 server.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-tomcat-users-xml"><span class="toc-number">2.5.</span> <span class="toc-text">1.5 tomcat-users.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-web-xml"><span class="toc-number">2.6.</span> <span class="toc-text">1.6 web.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-loggin-properties"><span class="toc-number">2.7.</span> <span class="toc-text">1.7 loggin.properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-启动流程分析"><span class="toc-number">3.</span> <span class="toc-text">2. 启动流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Idea调试Tomcat源码环境搭建"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 Idea调试Tomcat源码环境搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Tomcat-Server的组成"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 Tomcat Server的组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-整体说明"><span class="toc-number">3.2.1.</span> <span class="toc-text">2.2.1 整体说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-各组件详解"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.2.2 各组件详解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-源码分析"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-启动总体流程"><span class="toc-number">3.3.1.</span> <span class="toc-text">2.3.1 启动总体流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-启动流程详解"><span class="toc-number">3.3.2.</span> <span class="toc-text">2.3.2 启动流程详解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考书籍"><span class="toc-number">4.</span> <span class="toc-text">参考书籍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐博客"><span class="toc-number">5.</span> <span class="toc-text">推荐博客</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 ArtIsLong的博客&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;799418876@qq.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+
+
+
+
+ <script  type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=http://v2.uyan.cc/code/uyan.js?uid=2160660"></script>
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script> 
+  <script>
+  var gitment = new Gitment({
+    // id: '页面 ID', // 可选。默认为 location.href
+    owner: 'artislong',
+    repo: 'artislong.github.io',
+    oauth: {
+    client_id: 'ec5670e84a08dfda91f4',
+    client_secret: '3178f788eff4e6684b307a8ab886ff6b8ff236db',
+    }
+  })
+  gitment.render(document.getElementById("gitment_comments"))
+</script>
+
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
