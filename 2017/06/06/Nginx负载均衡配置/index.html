@@ -1,107 +1,267 @@
 <!DOCTYPE html>
-<html>
+<html lang=zh-CN>
 <head>
-  <meta charset="utf-8">
-  
-  <title>Nginx负载均衡配置 | ArtIsLong的博客</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1">
+    <meta charset="utf-8">
+    
+    <title>Nginx负载均衡配置 | ArtIsLong的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1">
 <meta name="keywords" content="Nginx,负载均衡">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx负载均衡配置">
 <meta property="og:url" content="/2017/06/06/Nginx负载均衡配置/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2017-07-11T13:34:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx负载均衡配置">
 <meta name="twitter:description" content="Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1">
-  
-    <link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
     
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
+
+    
+        <link rel="alternate" href="/" title="ArtIsLong的博客" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
 
 </head>
 
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    
-    <div id="header-inner" class="inner">
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
-      </div>
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">首页</a>
-        
-          <a class="main-nav-link" href="/archives">归档</a>
-        
-          <a class="main-nav-link" href="/about">关于</a>
-        
-      </nav>
-      
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">ArtIsLong的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/47c1a368ad9177b591ba064133d38dbc" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
     </div>
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">ArtIsLong的博客</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">好的程序猿都是野路子</a>
-        </h2>
-      
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
     </div>
-  </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-Nginx负载均衡配置" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/06/Nginx负载均衡配置/" class="article-date">
-  <time datetime="2017-06-06T14:50:56.000Z" itemprop="datePublished">2017-06-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/服务器/">服务器</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Nginx负载均衡配置
-    </h1>
-  
+        <div class="outer">
+            
+                
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://www.gravatar.com/avatar/47c1a368ad9177b591ba064133d38dbc?s=128" />
+            <h2 id="name">ArtIsLong</h2>
+            <h3 id="title">爱折腾，钟爱开源</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/artislong/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                17
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                13
+                <span>标签</span>
+            </div>
+        </div>
         
-        <p>Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<a id="more"></a><br>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/artislong" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fab fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Nginx负载均衡配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Nginx负载均衡配置
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/06/06/Nginx负载均衡配置/">
+            <time datetime="2017-06-06T14:50:56.000Z" itemprop="datePublished">2017-06-06</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/服务器/">服务器</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Nginx-负载均衡/">Nginx,负载均衡</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx负载均衡配置"><span class="toc-number">1.</span> <span class="toc-text">Nginx负载均衡配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、Nginx服务器的安装"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、Nginx服务器的安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置Nginx"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、nginx的upstream的几种方式"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、nginx的upstream的几种方式</span></a></li></ol></li></ol></li></ol>
+                </div>
+            
+            <p>Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<a id="more"></a><br>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
 <h2 id="Nginx负载均衡配置"><a href="#Nginx负载均衡配置" class="headerlink" title="Nginx负载均衡配置"></a>Nginx负载均衡配置</h2><p>这段来自百度百科，简单介绍一下，读者若需详细了解可自行查找资料，本文侧重于Nginx负载相关的具体操作配置介绍。</p>
 <p>Nginx常用的功能有Http代理、反向代理，负载均衡器，web缓存等功能，最近项目需要做负载，简单的研究了一下nginx，对反向代理和负载均衡着重看了一下，所以接下来的文章主要对这两部分进行介绍。</p>
 <h4 id="1、Nginx服务器的安装"><a href="#1、Nginx服务器的安装" class="headerlink" title="1、Nginx服务器的安装"></a>1、Nginx服务器的安装</h4><p>windowns版Nginx下载地址：<a href="http://nginx.org/en/docs/windows.html" target="_blank" rel="noopener">http://nginx.org/en/docs/windows.html</a></p>
@@ -172,240 +332,315 @@
 <p>按访问URL的hash结果来分配请求，使每个URL定向到同一个后端服务器，后端服务器为缓存时比较适用。另外，在upstream中加入hash语句后，server语句不能写入weight等其他参数。</p>
 <p>总结一下，负载均衡简单的理解其实可以看做是用户请求Nginx，Nginx将用户的请求URL按照配置的方式截取，然后按照配置的upstream的方式请求后端服务器。</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="/2017/06/06/Nginx负载均衡配置/" data-id="cjn04lfdm0001cxs6vsvo4ziy" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx-负载均衡/">Nginx,负载均衡</a></li></ul>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
 
-    </footer>
-  </div>
-  
-    
- <script src="/jquery/jquery.min.js"></script>
-  <div id="random_posts">
-    <h2>推荐文章</h2>
-    <div class="random_posts_ul">
-      <script>
-          var random_count =4
-          var site = {BASE_URI:'/'};
-          function load_random_posts(obj) {
-              var arr=site.posts;
-              if (!obj) return;
-              // var count = $(obj).attr('data-count') || 6;
-              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
-              arr = arr.slice(0, random_count);
-              var html = '<ul>';
-            
-              for(var j=0;j<arr.length;j++){
-                var item=arr[j];
-                html += '<li><strong>' + 
-                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
-                (item.title || item.uri) + '</a></strong>';
-                if(item.excerpt){
-                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+
+
+</div>
+
+    <a data-url="/2017/06/06/Nginx负载均衡配置/" data-id="cjnevq5qn0004r6s63d0lg3x4" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
                 }
-                html +='</li>';
-                
-              }
-              $(obj).html(html + '</ul>');
-          }
-          $('.random_posts_ul').each(function () {
-              var c = this;
-              if (!site.posts || !site.posts.length){
-                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
-              } 
-               else{
-                load_random_posts(c);
-              }
-          });
-      </script>
-    </div>
-  </div>
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
 
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
     
+
+        </footer>
+    </div>
+    
+        
 <nav id="article-nav">
-  
-    <a href="/2017/06/07/session共享/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          Nginx+Tomcat+Redis实现Session共享
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/06/01/SpringBoot动态数据源切换/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">SpringBoot动态数据源切换</div>
-    </a>
-  
+    
+        <a href="/2017/06/07/session共享/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Nginx+Tomcat+Redis实现Session共享
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/06/01/SpringBoot动态数据源切换/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">SpringBoot动态数据源切换</div>
+        </a>
+    
 </nav>
 
-  
+
+    
 </article>
- 
-     
-  <div class="comments" id="comments">
+
+
     
-     
-       
-      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
-       
-      
-           <div id="uyan_frame"></div>
-    
-      
-           <div id="gitment_comments"></div>
-    
-  </div>
- 
-  
 
 </section>
-           
-    <aside id="sidebar">
-  
-    
-
-  
-    
+            
+                
+<aside id="sidebar">
+   
+        
     <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/08/07/storm集群搭建/" class="thumbnail">
     
-      <div class="widget" id="toc-widget-fixed">
-      
-        <strong class="toc-title">文章目录</strong>
-        <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx负载均衡配置"><span class="toc-number">1.</span> <span class="toc-text">Nginx负载均衡配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、Nginx服务器的安装"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、Nginx服务器的安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置Nginx"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、nginx的upstream的几种方式"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、nginx的upstream的几种方式</span></a></li></ol></li></ol></li></ol>
-          </div>
-      </div>
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/storm/">storm</a></p>
+                            <p class="item-title"><a href="/2018/08/07/storm集群搭建/" class="title">storm集群搭建</a></p>
+                            <p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/08/07/zookeeper集群搭建/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/中间件/">中间件</a></p>
+                            <p class="item-title"><a href="/2018/08/07/zookeeper集群搭建/" class="title">zookeeper集群搭建</a></p>
+                            <p class="item-date"><time datetime="2018-08-07T05:43:07.000Z" itemprop="datePublished">2018-08-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/07/28/Activiti基础总结/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工作流/">工作流</a></p>
+                            <p class="item-title"><a href="/2018/07/28/Activiti基础总结/" class="title">Activiti工作流(一)</a></p>
+                            <p class="item-date"><time datetime="2018-07-28T15:43:07.000Z" itemprop="datePublished">2018-07-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/21/Tomcat源码分析/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/中间件/">中间件</a></p>
+                            <p class="item-title"><a href="/2018/03/21/Tomcat源码分析/" class="title">Tomcat源码分析</a></p>
+                            <p class="item-date"><time datetime="2018-03-21T15:43:07.000Z" itemprop="datePublished">2018-03-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/02/08/redis系统学习/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Redis/">Redis</a></p>
+                            <p class="item-title"><a href="/2018/02/08/redis系统学习/" class="title">redis常用配置</a></p>
+                            <p class="item-date"><time datetime="2018-02-08T14:51:33.000Z" itemprop="datePublished">2018-02-08</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
     </div>
 
-  
     
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java基础/">java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/storm/">storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/中间件/">中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
 
-  
     
-  
-    
-  
-    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
 
-  
     
-  
-    <!--微信公众号二维码-->
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker-Dockerfile/">Docker,Dockerfile</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx-负载均衡/">Nginx,负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java缓存/">java缓存</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk版本/">jdk版本</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构-前后端分离/">项目架构,前后端分离</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Docker-Dockerfile/" style="font-size: 10px;">Docker,Dockerfile</a> <a href="/tags/Nginx-负载均衡/" style="font-size: 10px;">Nginx,负载均衡</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/java缓存/" style="font-size: 10px;">java缓存</a> <a href="/tags/jdk版本/" style="font-size: 10px;">jdk版本</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 15px;">开发工具框架</a> <a href="/tags/项目架构-前后端分离/" style="font-size: 10px;">项目架构,前后端分离</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.xiefayang.com">谢发扬</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
 
 
-  
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
 </aside>
 
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-left">
-      &copy; 2014 - 2018 ArtIsLong的博客&nbsp;|&nbsp;
-      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 ArtIsLong的博客<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
     </div>
-     <div id="footer-right">
-      联系方式&nbsp;|&nbsp;799418876@qq.com
-    </div>
-  </div>
 </footer>
- <script src="/jquery/jquery.min.js"></script>
+        
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">首页</a>
-  
-    <a href="/archives" class="mobile-nav-link">归档</a>
-  
-    <a href="/about" class="mobile-nav-link">关于</a>
-  
-</nav>
-    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
-<script>
-// Elevator script included on the page, already.
-window.onload = function() {
-  var elevator = new Elevator({
-    selector:'.back-to-top-btn',
-    element: document.querySelector('.back-to-top-btn'),
-    duration: 1000 // milliseconds
-  });
-}
-</script>
-      
-
-
-
-
-
- <script  type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=http://v2.uyan.cc/code/uyan.js?uid=2160660"></script>
-
-
-
-<!-- author:forvoid begin -->
-<!-- author:forvoid begin -->
-
-  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script> 
-  <script>
-  var gitment = new Gitment({
-    // id: '页面 ID', // 可选。默认为 location.href
-    owner: 'artislong',
-    repo: 'artislong.github.io',
-    oauth: {
-    client_id: 'ec5670e84a08dfda91f4',
-    client_secret: '3178f788eff4e6684b307a8ab886ff6b8ff236db',
-    }
-  })
-  gitment.render(document.getElementById("gitment_comments"))
-</script>
-
-
-<!-- author:forvoid end -->
-
-<!-- author:forvoid end -->
-
-
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      })
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      })
-    </script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
-
-
- <script src="/js/is.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/elevator.js"></script>
-  </div>
 </body>
 </html>
