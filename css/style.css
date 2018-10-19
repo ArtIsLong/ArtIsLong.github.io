@@ -232,7 +232,7 @@ code {
 .widget-title {
   line-height: 1em;
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: none;
 }
 #header,
 #profile .inner,
@@ -724,7 +724,7 @@ code {
 #profile .inner .article-info .article-info-block span {
   display: block;
   font-size: 14px;
-  text-transform: uppercase;
+  text-transform: none;
 }
 #profile .inner .article-info .article-info-block:first-child {
   border-right: 1px solid #eceff2;
@@ -759,7 +759,7 @@ code {
   position: absolute;
   white-space: nowrap;
   border-radius: 2px;
-  text-transform: uppercase;
+  text-transform: none;
   -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
   box-shadow: 0 0 2px rgba(0,0,0,0.2);
   z-index: 1;
@@ -1187,7 +1187,7 @@ a.article-title:hover {
   line-height: 1em;
   font-weight: bold;
   color: #565a5f;
-  text-transform: uppercase;
+  text-transform: none;
 }
 #article-nav-newer .article-nav-caption {
   margin-right: -2px;
@@ -1926,7 +1926,7 @@ a.article-title:hover {
 #recent-post li .item-inner a,
 #recent-post li .item-inner .item-category {
   font-size: 13px;
-  text-transform: uppercase;
+  text-transform: none;
 }
 #recent-post li .item-inner a a,
 #recent-post li .item-inner .item-category a {
@@ -1955,7 +1955,7 @@ a.article-title:hover {
 #recent-post li .item-inner .item-date {
   color: #aaa;
   font-size: 13px;
-  text-transform: uppercase;
+  text-transform: none;
 }
 #recent-post li:hover .item-thumbnail {
   opacity: 0.8;
