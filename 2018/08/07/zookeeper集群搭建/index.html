@@ -59,15 +59,15 @@
             </a>
             <nav id="main-nav">
                 
-                    <a class="main-nav-link" href="/.">Home</a>
+                    <a class="main-nav-link" href="/.">home</a>
                 
-                    <a class="main-nav-link" href="/archives">Archives</a>
+                    <a class="main-nav-link" href="/archives">archives</a>
                 
-                    <a class="main-nav-link" href="/categories">Categories</a>
+                    <a class="main-nav-link" href="/categories">categories</a>
                 
-                    <a class="main-nav-link" href="/tags">Tags</a>
+                    <a class="main-nav-link" href="/tags">tags</a>
                 
-                    <a class="main-nav-link" href="/about">About</a>
+                    <a class="main-nav-link" href="/about">about</a>
                 
             </nav>
             
@@ -124,15 +124,15 @@
         <table class="menu outer">
             <tr>
                 
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                    <td><a class="main-nav-link" href="/.">home</a></td>
                 
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                    <td><a class="main-nav-link" href="/archives">archives</a></td>
                 
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                    <td><a class="main-nav-link" href="/categories">categories</a></td>
                 
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                    <td><a class="main-nav-link" href="/tags">tags</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">About</a></td>
+                    <td><a class="main-nav-link" href="/about">about</a></td>
                 
                 <td>
                     
@@ -408,7 +408,7 @@
 
 </div>
 
-    <a data-url="/2018/08/07/zookeeper集群搭建/" data-id="cjnevq5ta001dr6s6iskvmxcu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="/2018/08/07/zookeeper集群搭建/" data-id="cjnfn1fge001ehfs68cmk4wos" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -506,6 +506,8 @@
 
 
     
+    
+        <section id="comments"></section>
     
 
 </section>
@@ -685,6 +687,24 @@
     </div>
 </footer>
         
+    
+	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+	<script>
+		if (document.getElementById('comments')) {
+			var gitment = new Gitment({
+				owner: 'artislong',
+				repo: 'artislong.github.io',
+				oauth: {
+					client_id: '2f97f5d71dbb65bf01e1',
+					client_secret: 'f715a8e1507c1fef1c5e3cfaccef8f59aa734318',
+				},
+			})
+			gitment.render('comments')
+		}
+	</script>
+
+
 
 
     
