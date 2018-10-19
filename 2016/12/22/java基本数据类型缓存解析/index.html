@@ -284,6 +284,16 @@
 <h3 id="二、Long及Byte、Character缓存解析"><a href="#二、Long及Byte、Character缓存解析" class="headerlink" title="二、Long及Byte、Character缓存解析"></a>二、Long及Byte、Character缓存解析</h3><figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LongCache</span> </span>&#123;</span><br><span class="line">   	<span class="keyword">private</span> LongCache()&#123;&#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">Long</span> cache[] = <span class="keyword">new</span> <span class="keyword">Long</span>[-(<span class="number">-128</span>) + <span class="number">127</span> + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cache.length; i++)</span><br><span class="line">            cache[i] = <span class="keyword">new</span> <span class="keyword">Long</span>(i - <span class="number">128</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">Long</span> valueOf(<span class="keyword">long</span> l) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> offset = <span class="number">128</span>;</span><br><span class="line">    <span class="keyword">if</span> (l &gt;= <span class="number">-128</span> &amp;&amp; l &lt;= <span class="number">127</span>) &#123; <span class="comment">// will cache</span></span><br><span class="line">        <span class="keyword">return</span> LongCache.cache[(<span class="keyword">int</span>)l + offset];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">Long</span>(l);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Long的缓存机制（LongCache）与Integer的类似，还有Character（CharacterCache），Byte（ByteCache）的缓存机制也是类似。不过只有Integer的最大值可以通过jvm参数设置，其他的都固定的。其中，Byte，Short，Long 的范围： -128 到 127；Character, 范围是 0 到 127。</p>
 
+                <!--打赏-->
+                <div class="reward">
+                    <div class="reward-button">赏 <span class="reward-code">
+                        <span class="alipay-code"> <img class="alipay-img wdp-appear" src="css/images/alipay.jpeg"><b>支付宝打赏</b> </span>
+                        <span class="wechat-code"> <img class="wechat-img wdp-appear" src="css/images/Wechat.jpeg"><b>微信打赏</b> </span>
+                        </span>
+                    </div>
+                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
+                </div>
+                <!--打赏-->
         
         </div>
         <footer class="article-footer">
@@ -357,7 +367,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
     
 </article>
-
 
     
     

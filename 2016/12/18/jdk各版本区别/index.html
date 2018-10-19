@@ -319,6 +319,16 @@
 <h3 id="7、访问对象字段与静态变量"><a href="#7、访问对象字段与静态变量" class="headerlink" title="7、访问对象字段与静态变量"></a>7、访问对象字段与静态变量</h3><p>和本地不良不同的是，lambda内部对于实例的字段以及静态变量是即可读又可写。该行为和匿名对象是一致的：</p>
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">static int outerStaticNum;</span><br><span class="line">int outerNum;</span><br><span class="line">public <span class="literal">void</span> testScopes() &#123;</span><br><span class="line">   	Converter <span class="function"><span class="title">stringConverter1</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> &#123;</span><br><span class="line">       	outerNum = <span class="number">23</span>;</span><br><span class="line">       	<span class="keyword">return</span> String.valueOf(<span class="keyword">from</span>);</span><br><span class="line">   	&#125;;</span><br><span class="line">    Converter <span class="function"><span class="title">stringConverter2</span> = <span class="params">(<span class="keyword">from</span>)</span> -&gt;</span> &#123;</span><br><span class="line">   	    outerStaticNum = <span class="number">72</span>;</span><br><span class="line">       	<span class="keyword">return</span> String.valueOf(<span class="keyword">from</span>);</span><br><span class="line">   	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="8、访问接口的默认方法"><a href="#8、访问接口的默认方法" class="headerlink" title="8、访问接口的默认方法"></a>8、访问接口的默认方法</h3><h3 id="9、Date-API"><a href="#9、Date-API" class="headerlink" title="9、Date API"></a>9、Date API</h3><h3 id="10、Annotation注解"><a href="#10、Annotation注解" class="headerlink" title="10、Annotation注解"></a>10、Annotation注解</h3>
+                <!--打赏-->
+                <div class="reward">
+                    <div class="reward-button">赏 <span class="reward-code">
+                        <span class="alipay-code"> <img class="alipay-img wdp-appear" src="css/images/alipay.jpeg"><b>支付宝打赏</b> </span>
+                        <span class="wechat-code"> <img class="wechat-img wdp-appear" src="css/images/Wechat.jpeg"><b>微信打赏</b> </span>
+                        </span>
+                    </div>
+                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
+                </div>
+                <!--打赏-->
         
         </div>
         <footer class="article-footer">
@@ -392,7 +402,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
     
 </article>
-
 
     
     
