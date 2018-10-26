@@ -6,14 +6,14 @@
     <title>jdk各版本区别 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。">
-<meta name="keywords" content="jdk版本">
+<meta name="keywords" content="Java,Jdk">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jdk各版本区别">
-<meta property="og:url" content="/2016/12/18/jdk各版本区别/index.html">
+<meta property="og:url" content="/2016/12/18/JDK各版本区别/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2016-12-22T14:24:34.000Z">
+<meta property="og:updated_time" content="2018-10-26T08:04:19.756Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jdk各版本区别">
 <meta name="twitter:description" content="自从1996年1月，Sun公司发布了Java的第一个开发工具包（JDK 1.0）以来，到现在jdk的版本已经更新到1.8了，1.9也即将出现。本文将介绍jdk1.5到1.8各版本的特性。">
@@ -49,6 +49,7 @@
 </head>
 
 <body>
+
     <div id="container">
         <header id="header">
     <div id="header-main" class="header-inner">
@@ -62,6 +63,8 @@
                     <a class="main-nav-link" href="/.">首页</a>
                 
                     <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/books">书架</a>
                 
                     <a class="main-nav-link" href="/about">关于</a>
                 
@@ -124,6 +127,8 @@
                 
                     <td><a class="main-nav-link" href="/archives">归档</a></td>
                 
+                    <td><a class="main-nav-link" href="/books">书架</a></td>
+                
                     <td><a class="main-nav-link" href="/about">关于</a></td>
                 
                 <td>
@@ -153,11 +158,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                16
+                23
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                13
+                18
                 <span>标签</span>
             </div>
         </div>
@@ -230,7 +235,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-jdk各版本区别" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-JDK各版本区别" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -247,7 +252,7 @@
                         
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2016/12/18/jdk各版本区别/">
+        <a href="/2016/12/18/JDK各版本区别/">
             <time datetime="2016-12-17T16:06:43.000Z" itemprop="datePublished">2016-12-18</time>
         </a>
     </div>
@@ -256,13 +261,13 @@
                         
     <div class="article-category">
     	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java基础/">Java基础</a>
+        <a class="article-category-link" href="/categories/Jdk/">Jdk</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/jdk版本/">jdk版本</a>
+        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Jdk/">Jdk</a>
     </div>
 
                     </div>
@@ -278,7 +283,8 @@
                     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#jdk5新特性"><span class="toc-number">1.</span> <span class="toc-text">jdk5新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、自动装箱和拆箱"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、自动装箱和拆箱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、枚举"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、静态导入"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、静态导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、可变参数"><span class="toc-number">1.0.4.</span> <span class="toc-text">4、可变参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、內省"><span class="toc-number">1.0.5.</span> <span class="toc-text">5、內省</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、泛型"><span class="toc-number">1.0.6.</span> <span class="toc-text">6、泛型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、For-Each循环"><span class="toc-number">1.0.7.</span> <span class="toc-text">7、For-Each循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk6新特性"><span class="toc-number">1.1.</span> <span class="toc-text">jdk6新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、Desktop类和SystemTray类"><span class="toc-number">1.1.1.</span> <span class="toc-text">1、Desktop类和SystemTray类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、使用JAXB2来实现对象与XML之间的映射"><span class="toc-number">1.1.2.</span> <span class="toc-text">2、使用JAXB2来实现对象与XML之间的映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、StAX"><span class="toc-number">1.1.3.</span> <span class="toc-text">3、StAX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、使用Compiler-API"><span class="toc-number">1.1.4.</span> <span class="toc-text">4、使用Compiler API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、轻量级Http-Server-API"><span class="toc-number">1.1.5.</span> <span class="toc-text">5、轻量级Http Server API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、插入式注解处理API"><span class="toc-number">1.1.6.</span> <span class="toc-text">6、插入式注解处理API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、用Console开发控制台程序"><span class="toc-number">1.1.7.</span> <span class="toc-text">7、用Console开发控制台程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、对脚本语言的支持如：ruby，groovy，javascript"><span class="toc-number">1.1.8.</span> <span class="toc-text">8、对脚本语言的支持如：ruby，groovy，javascript</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、Common-Annotations"><span class="toc-number">1.1.9.</span> <span class="toc-text">9、Common Annotations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk7新特性"><span class="toc-number">1.2.</span> <span class="toc-text">jdk7新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、switch中可以使用字符串"><span class="toc-number">1.2.1.</span> <span class="toc-text">1、switch中可以使用字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、泛型的自动判断"><span class="toc-number">1.2.2.</span> <span class="toc-text">2、泛型的自动判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、自定义自动关闭类（实现AutoCloseable接口）"><span class="toc-number">1.2.3.</span> <span class="toc-text">3、自定义自动关闭类（实现AutoCloseable接口）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、新增一些取环境信息的工具方法（System中的方法）"><span class="toc-number">1.2.4.</span> <span class="toc-text">4、新增一些取环境信息的工具方法（System中的方法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、Boolean类型反转，空指针安全，参数与位运算"><span class="toc-number">1.2.5.</span> <span class="toc-text">5、Boolean类型反转，空指针安全，参数与位运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、两个char间的equals"><span class="toc-number">1.2.6.</span> <span class="toc-text">6、两个char间的equals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、安全的加减乘除"><span class="toc-number">1.2.7.</span> <span class="toc-text">7、安全的加减乘除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1、对Java集合（Collections）的增强支持"><span class="toc-number">1.2.8.</span> <span class="toc-text">1、对Java集合（Collections）的增强支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、int支持二进制数据"><span class="toc-number">1.2.9.</span> <span class="toc-text">2、int支持二进制数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、在try-catch异常捕捉中，一个catch可以写多个异常类型"><span class="toc-number">1.2.10.</span> <span class="toc-text">3、在try catch异常捕捉中，一个catch可以写多个异常类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、try-catch中资源定义好之后try-catch自动关闭"><span class="toc-number">1.2.11.</span> <span class="toc-text">4、try catch中资源定义好之后try catch自动关闭</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk8新特性"><span class="toc-number">1.3.</span> <span class="toc-text">jdk8新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、接口的默认方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">1、接口的默认方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、Lambda表达式"><span class="toc-number">1.3.2.</span> <span class="toc-text">2、Lambda表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、函数式接口"><span class="toc-number">1.3.3.</span> <span class="toc-text">3、函数式接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、方法与构造函数引用"><span class="toc-number">1.3.4.</span> <span class="toc-text">4、方法与构造函数引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、Lambda作用域"><span class="toc-number">1.3.5.</span> <span class="toc-text">5、Lambda作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、访问局部变量"><span class="toc-number">1.3.6.</span> <span class="toc-text">6、访问局部变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、访问对象字段与静态变量"><span class="toc-number">1.3.7.</span> <span class="toc-text">7、访问对象字段与静态变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、访问接口的默认方法"><span class="toc-number">1.3.8.</span> <span class="toc-text">8、访问接口的默认方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、Date-API"><span class="toc-number">1.3.9.</span> <span class="toc-text">9、Date API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10、Annotation注解"><span class="toc-number">1.3.10.</span> <span class="toc-text">10、Annotation注解</span></a></li></ol></li></ol></li></ol>
                 </div>
             
-            <h1 id="jdk5新特性"><a href="#jdk5新特性" class="headerlink" title="jdk5新特性"></a>jdk5新特性</h1><h3 id="1、自动装箱和拆箱"><a href="#1、自动装箱和拆箱" class="headerlink" title="1、自动装箱和拆箱"></a>1、自动装箱和拆箱</h3><h3 id="2、枚举"><a href="#2、枚举" class="headerlink" title="2、枚举"></a>2、枚举</h3><h3 id="3、静态导入"><a href="#3、静态导入" class="headerlink" title="3、静态导入"></a>3、静态导入</h3><h3 id="4、可变参数"><a href="#4、可变参数" class="headerlink" title="4、可变参数"></a>4、可变参数</h3><h3 id="5、內省"><a href="#5、內省" class="headerlink" title="5、內省"></a>5、內省</h3><p>   内省是Java语言对Bean类属性、事件的一种缺省处理方法。例如类A中有属性那么，那我们可以通过getName，setName来得到其值或者设置新的值。通过getName/setName来访问name属性，这就是默认的规则。<a id="more"></a>Java中提供了一套API用来访问某个属性的getter，setter方法，通过这些API可以使你不需要了解这个规则，这些API存放于包java.beans中。<br><br>   一般的做法是通过类Introspector来获取某个对象的BeanInfo信息，然后通过BeanInfo来获取属性的描述器（PropertyDescriptor），通过这个属性描述器就可以获取某个属性对应的getter/setter方法，然后我们就可以通过反射机制来调用这些方法。</p>
+            <p>从2013年开始自学Java起，到现在已经有三个年头了，Jdk当前各个版本在自学还是工作中都有涉及，此文对每个版本的特性略作记载。<a id="more"></a></p>
+<h1 id="jdk5新特性"><a href="#jdk5新特性" class="headerlink" title="jdk5新特性"></a>jdk5新特性</h1><h3 id="1、自动装箱和拆箱"><a href="#1、自动装箱和拆箱" class="headerlink" title="1、自动装箱和拆箱"></a>1、自动装箱和拆箱</h3><h3 id="2、枚举"><a href="#2、枚举" class="headerlink" title="2、枚举"></a>2、枚举</h3><h3 id="3、静态导入"><a href="#3、静态导入" class="headerlink" title="3、静态导入"></a>3、静态导入</h3><h3 id="4、可变参数"><a href="#4、可变参数" class="headerlink" title="4、可变参数"></a>4、可变参数</h3><h3 id="5、內省"><a href="#5、內省" class="headerlink" title="5、內省"></a>5、內省</h3><p>   内省是Java语言对Bean类属性、事件的一种缺省处理方法。例如类A中有属性那么，那我们可以通过getName，setName来得到其值或者设置新的值。通过getName/setName来访问name属性，这就是默认的规则。Java中提供了一套API用来访问某个属性的getter，setter方法，通过这些API可以使你不需要了解这个规则，这些API存放于包java.beans中。<br><br>   一般的做法是通过类Introspector来获取某个对象的BeanInfo信息，然后通过BeanInfo来获取属性的描述器（PropertyDescriptor），通过这个属性描述器就可以获取某个属性对应的getter/setter方法，然后我们就可以通过反射机制来调用这些方法。</p>
 <h3 id="6、泛型"><a href="#6、泛型" class="headerlink" title="6、泛型"></a>6、泛型</h3><h3 id="7、For-Each循环"><a href="#7、For-Each循环" class="headerlink" title="7、For-Each循环"></a>7、For-Each循环</h3><h2 id="jdk6新特性"><a href="#jdk6新特性" class="headerlink" title="jdk6新特性"></a>jdk6新特性</h2><h3 id="1、Desktop类和SystemTray类"><a href="#1、Desktop类和SystemTray类" class="headerlink" title="1、Desktop类和SystemTray类"></a>1、Desktop类和SystemTray类</h3><p>   AWT新增加了两个雷：Desktop，SystemTray。</p><p><br>   Desktop可以用来打开系统默认浏览器指定的URL，打开系统默认邮件客户端给指定的邮件账号发邮件，用默认应用程序打开或编辑文件（比如，用记事本打开txt文件），用系统默认的打印机打印文档</p><p><br>   SystemTray可以用来在系统托盘区创建一个托盘程序</p>
 <h3 id="2、使用JAXB2来实现对象与XML之间的映射"><a href="#2、使用JAXB2来实现对象与XML之间的映射" class="headerlink" title="2、使用JAXB2来实现对象与XML之间的映射"></a>2、使用JAXB2来实现对象与XML之间的映射</h3><p>   也就是对象与XML之间的映射（OXM），也可以通过XMLBeans和Castor等来实现同样的功能。</p>
 <h3 id="3、StAX"><a href="#3、StAX" class="headerlink" title="3、StAX"></a>3、StAX</h3><p>   StAX是The Streaming API for XML的缩写，一种利用拉模式解析(pull-parsing)XML文档的API.StAX通过提供一种基于事件迭代器(Iterator)的API让 程序员去控制xml文档解析过程,程序遍历这个事件迭代器去处理每一个解析事件，解析事件可以看做是程序拉出来的，也就是程序促使解析器产生一个解析事件 然后处理该事件，之后又促使解析器产生下一个解析事件，如此循环直到碰到文档结束符； </p><p><br>   SAX也是基于事件处理xml文档，但却 是用推模式解析，解析器解析完整个xml文档后，才产生解析事件，然后推给程序去处理这些事件；DOM 采用的方式是将整个xml文档映射到一颗内存树，这样就可以很容易地得到父节点和子结点以及兄弟节点的数据，但如果文档很大，将会严重影响性能。</p>
@@ -422,7 +428,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/08/07/storm集群搭建/" class="thumbnail">
+                            <a href="/2018/08/07/Storm集群搭建/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -433,27 +439,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/storm/">storm</a></p>
-                            <p class="item-title"><a href="/2018/08/07/storm集群搭建/" class="title">storm集群搭建</a></p>
+                            <p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">storm集群搭建</a></p>
                             <p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/08/07/zookeeper集群搭建/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/中间件/">中间件</a></p>
-                            <p class="item-title"><a href="/2018/08/07/zookeeper集群搭建/" class="title">zookeeper集群搭建</a></p>
-                            <p class="item-date"><time datetime="2018-08-07T05:43:07.000Z" itemprop="datePublished">2018-08-07</time></p>
                         </div>
                     </li>
                 
@@ -479,7 +466,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/03/21/Tomcat源码分析/" class="thumbnail">
+                            <a href="/2018/03/21/Tomcat源码分析之启动流程分析/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -489,8 +476,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/中间件/">中间件</a></p>
-                            <p class="item-title"><a href="/2018/03/21/Tomcat源码分析/" class="title">Tomcat源码分析</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tomcat/">Tomcat</a></p>
+                            <p class="item-title"><a href="/2018/03/21/Tomcat源码分析之启动流程分析/" class="title">Tomcat源码分析之启动流程分析</a></p>
                             <p class="item-date"><time datetime="2018-03-21T15:43:07.000Z" itemprop="datePublished">2018-03-21</time></p>
                         </div>
                     </li>
@@ -498,7 +485,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/02/08/redis系统学习/" class="thumbnail">
+                            <a href="/2018/03/19/Tomcat架构介绍及配置分析/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -508,9 +495,28 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Redis/">Redis</a></p>
-                            <p class="item-title"><a href="/2018/02/08/redis系统学习/" class="title">redis常用配置</a></p>
-                            <p class="item-date"><time datetime="2018-02-08T14:51:33.000Z" itemprop="datePublished">2018-02-08</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tomcat/">Tomcat</a></p>
+                            <p class="item-title"><a href="/2018/03/19/Tomcat架构介绍及配置分析/" class="title">Tomcat架构介绍及配置分析</a></p>
+                            <p class="item-date"><time datetime="2018-03-19T15:43:07.000Z" itemprop="datePublished">2018-03-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/05/对前后台分离的思考/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/思考/">思考</a></p>
+                            <p class="item-title"><a href="/2018/03/05/对前后台分离的思考/" class="title">对前后台分离的思考</a></p>
+                            <p class="item-date"><time datetime="2018-03-05T03:17:33.000Z" itemprop="datePublished">2018-03-05</time></p>
                         </div>
                     </li>
                 
@@ -523,7 +529,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java基础/">java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/storm/">storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/中间件/">中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">2</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jdk/">Jdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/storm/">storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -532,7 +538,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -541,7 +547,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker-Dockerfile/">Docker,Dockerfile</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx-负载均衡/">Nginx,负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java缓存/">java缓存</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk版本/">jdk版本</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构-前后端分离/">项目架构,前后端分离</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jdk/">Jdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -550,7 +556,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Docker-Dockerfile/" style="font-size: 10px;">Docker,Dockerfile</a> <a href="/tags/Nginx-负载均衡/" style="font-size: 10px;">Nginx,负载均衡</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/java缓存/" style="font-size: 10px;">java缓存</a> <a href="/tags/jdk版本/" style="font-size: 10px;">jdk版本</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 10px;">开发工具框架</a> <a href="/tags/项目架构-前后端分离/" style="font-size: 10px;">项目架构,前后端分离</a>
+            <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/Jdk/" style="font-size: 10px;">Jdk</a> <a href="/tags/Nginx/" style="font-size: 16.67px;">Nginx</a> <a href="/tags/Quartz/" style="font-size: 10px;">Quartz</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Tomcat/" style="font-size: 13.33px;">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size: 10px;">前后端分离</a> <a href="/tags/多数据源/" style="font-size: 10px;">多数据源</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 10px;">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/集群/" style="font-size: 10px;">集群</a> <a href="/tags/项目架构/" style="font-size: 10px;">项目架构</a>
         </div>
     </div>
 

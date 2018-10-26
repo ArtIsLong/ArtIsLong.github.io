@@ -5,18 +5,18 @@
     
     <title>Nginx+Tomcat+Redis实现Session共享 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Nginx+Tomcat+Redis实现Session共享之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。 经过百度，查资料，找到了几种解决session共享的方案。  不适用session，换作cookie">
-<meta name="keywords" content="Session">
+    <meta name="description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
+<meta name="keywords" content="Session,集群">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx+Tomcat+Redis实现Session共享">
-<meta property="og:url" content="/2017/06/07/session共享/index.html">
+<meta property="og:url" content="/2017/06/07/Session共享/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="Nginx+Tomcat+Redis实现Session共享之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。 经过百度，查资料，找到了几种解决session共享的方案。  不适用session，换作cookie">
+<meta property="og:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-04T03:23:28.000Z">
+<meta property="og:updated_time" content="2018-10-26T07:51:28.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx+Tomcat+Redis实现Session共享">
-<meta name="twitter:description" content="Nginx+Tomcat+Redis实现Session共享之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。 经过百度，查资料，找到了几种解决session共享的方案。  不适用session，换作cookie">
+<meta name="twitter:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
     
 
     
@@ -49,6 +49,7 @@
 </head>
 
 <body>
+
     <div id="container">
         <header id="header">
     <div id="header-main" class="header-inner">
@@ -62,6 +63,8 @@
                     <a class="main-nav-link" href="/.">首页</a>
                 
                     <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/books">书架</a>
                 
                     <a class="main-nav-link" href="/about">关于</a>
                 
@@ -124,6 +127,8 @@
                 
                     <td><a class="main-nav-link" href="/archives">归档</a></td>
                 
+                    <td><a class="main-nav-link" href="/books">书架</a></td>
+                
                     <td><a class="main-nav-link" href="/about">关于</a></td>
                 
                 <td>
@@ -153,11 +158,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                16
+                23
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                13
+                18
                 <span>标签</span>
             </div>
         </div>
@@ -230,7 +235,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-session共享" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Session共享" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -247,7 +252,7 @@
                         
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2017/06/07/session共享/">
+        <a href="/2017/06/07/Session共享/">
             <time datetime="2017-06-07T06:43:12.000Z" itemprop="datePublished">2017-06-07</time>
         </a>
     </div>
@@ -262,7 +267,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Session/">Session</a>
+        <a class="tag-link" href="/tags/Session/">Session</a>, <a class="tag-link" href="/tags/集群/">集群</a>
     </div>
 
                     </div>
@@ -275,13 +280,13 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-Tomcat-Redis实现Session共享"><span class="toc-number">1.</span> <span class="toc-text">Nginx+Tomcat+Redis实现Session共享</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、软件准备"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、软件准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置tomcat"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、配置tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、配置Nginx"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、测试页面"><span class="toc-number">1.0.4.</span> <span class="toc-text">4、测试页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、启动测试"><span class="toc-number">1.0.5.</span> <span class="toc-text">5、启动测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、Session共享原理分析"><span class="toc-number">1.0.6.</span> <span class="toc-text">6、Session共享原理分析</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、软件准备"><span class="toc-number">1.</span> <span class="toc-text">1、软件准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置tomcat"><span class="toc-number">2.</span> <span class="toc-text">2、配置tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、配置Nginx"><span class="toc-number">3.</span> <span class="toc-text">3、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、测试页面"><span class="toc-number">4.</span> <span class="toc-text">4、测试页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、启动测试"><span class="toc-number">5.</span> <span class="toc-text">5、启动测试</span></a></li></ol>
                 </div>
             
-            <h2 id="Nginx-Tomcat-Redis实现Session共享"><a href="#Nginx-Tomcat-Redis实现Session共享" class="headerlink" title="Nginx+Tomcat+Redis实现Session共享"></a>Nginx+Tomcat+Redis实现Session共享</h2><p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。</p>
-<p>经过百度，查资料，找到了几种解决session共享的方案。</p>
+            <p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。<a id="more"></a></p>
+<p>经过查资料，找到了几种解决session共享的方案。</p>
 <ul>
-<li><p>不适用session，换作cookie<a id="more"></a></p>
+<li><p>不适用session，换作cookie</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">能把session改成cookie，就能避开session的一些弊端，也有资料表明在集群系统中不能使用session。但是博主思考再三，公司项目的session中存储一些比较重要的信息，在以后的业务中也会使用session中的数据，所以直接使用cookie这种方案果断舍弃。</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>应用服务器自行实现共享</p>
@@ -320,10 +325,8 @@
 <li>直接访问三个tomcat，【<a href="http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。" target="_blank" rel="noopener">http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。</a></li>
 <li>多次访问nginx，【<a href="http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致" target="_blank" rel="noopener">http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致</a></li>
 </ul>
-<p>好了，这种session共享完成。不过还没完，刚开始介绍时说的那三个jar包还没说说呢，接下来通过tomcat-redis-session-manager-tomcat7.jar的源码来解释一下这种方式实现session共享的原理。</p>
-<h4 id="6、Session共享原理分析"><a href="#6、Session共享原理分析" class="headerlink" title="6、Session共享原理分析"></a>6、Session共享原理分析</h4><p>在解释Session共享原理之前，我们先简单的看看Tomcat架构方面的一些知识作为铺垫。</p>
-<pre><code>##### 6.1 Tomcat架构原理分析
-</code></pre><p>正在深入剖析tomcat源码中，解读清楚了此部分补上</p>
+<p>好了，这种session共享完成。</p>
+<p>这种Session共享是基于Tomcat完成的，不会侵入项目。当前还有一种实现Session共享的方式，Spring全家桶中，Spring Session框架就是专门做Session管控的。</p>
 
                 <!--打赏-->
                 <div class="reward">
@@ -388,19 +391,19 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2017/06/16/Docker学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2017/06/07/Nginx配置/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    Docker学习笔记
+                    Nginx配置
                 
             </div>
         </a>
     
     
-        <a href="/2017/06/06/Nginx负载均衡配置/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/06/06/Nginx入门/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">Nginx负载均衡配置</div>
+            <div class="article-nav-title">Nginx入门</div>
         </a>
     
 </nav>
@@ -428,7 +431,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/08/07/storm集群搭建/" class="thumbnail">
+                            <a href="/2018/08/07/Storm集群搭建/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -439,27 +442,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/storm/">storm</a></p>
-                            <p class="item-title"><a href="/2018/08/07/storm集群搭建/" class="title">storm集群搭建</a></p>
+                            <p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">storm集群搭建</a></p>
                             <p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/08/07/zookeeper集群搭建/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/中间件/">中间件</a></p>
-                            <p class="item-title"><a href="/2018/08/07/zookeeper集群搭建/" class="title">zookeeper集群搭建</a></p>
-                            <p class="item-date"><time datetime="2018-08-07T05:43:07.000Z" itemprop="datePublished">2018-08-07</time></p>
                         </div>
                     </li>
                 
@@ -485,7 +469,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/03/21/Tomcat源码分析/" class="thumbnail">
+                            <a href="/2018/03/21/Tomcat源码分析之启动流程分析/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -495,8 +479,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/中间件/">中间件</a></p>
-                            <p class="item-title"><a href="/2018/03/21/Tomcat源码分析/" class="title">Tomcat源码分析</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tomcat/">Tomcat</a></p>
+                            <p class="item-title"><a href="/2018/03/21/Tomcat源码分析之启动流程分析/" class="title">Tomcat源码分析之启动流程分析</a></p>
                             <p class="item-date"><time datetime="2018-03-21T15:43:07.000Z" itemprop="datePublished">2018-03-21</time></p>
                         </div>
                     </li>
@@ -504,7 +488,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/02/08/redis系统学习/" class="thumbnail">
+                            <a href="/2018/03/19/Tomcat架构介绍及配置分析/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -514,9 +498,28 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Redis/">Redis</a></p>
-                            <p class="item-title"><a href="/2018/02/08/redis系统学习/" class="title">redis常用配置</a></p>
-                            <p class="item-date"><time datetime="2018-02-08T14:51:33.000Z" itemprop="datePublished">2018-02-08</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tomcat/">Tomcat</a></p>
+                            <p class="item-title"><a href="/2018/03/19/Tomcat架构介绍及配置分析/" class="title">Tomcat架构介绍及配置分析</a></p>
+                            <p class="item-date"><time datetime="2018-03-19T15:43:07.000Z" itemprop="datePublished">2018-03-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/05/对前后台分离的思考/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/思考/">思考</a></p>
+                            <p class="item-title"><a href="/2018/03/05/对前后台分离的思考/" class="title">对前后台分离的思考</a></p>
+                            <p class="item-date"><time datetime="2018-03-05T03:17:33.000Z" itemprop="datePublished">2018-03-05</time></p>
                         </div>
                     </li>
                 
@@ -529,7 +532,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java基础/">java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/storm/">storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/中间件/">中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">2</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jdk/">Jdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/storm/">storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -538,7 +541,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -547,7 +550,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker-Dockerfile/">Docker,Dockerfile</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx-负载均衡/">Nginx,负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java缓存/">java缓存</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk版本/">jdk版本</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构-前后端分离/">项目架构,前后端分离</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jdk/">Jdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/大数据/">大数据</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -556,7 +559,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Docker-Dockerfile/" style="font-size: 10px;">Docker,Dockerfile</a> <a href="/tags/Nginx-负载均衡/" style="font-size: 10px;">Nginx,负载均衡</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/java缓存/" style="font-size: 10px;">java缓存</a> <a href="/tags/jdk版本/" style="font-size: 10px;">jdk版本</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 10px;">开发工具框架</a> <a href="/tags/项目架构-前后端分离/" style="font-size: 10px;">项目架构,前后端分离</a>
+            <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/Jdk/" style="font-size: 10px;">Jdk</a> <a href="/tags/Nginx/" style="font-size: 16.67px;">Nginx</a> <a href="/tags/Quartz/" style="font-size: 10px;">Quartz</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Tomcat/" style="font-size: 13.33px;">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size: 10px;">前后端分离</a> <a href="/tags/多数据源/" style="font-size: 10px;">多数据源</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 10px;">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/集群/" style="font-size: 10px;">集群</a> <a href="/tags/项目架构/" style="font-size: 10px;">项目架构</a>
         </div>
     </div>
 
