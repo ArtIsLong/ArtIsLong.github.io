@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Spring-Boot简介"><span class="toc-number">1.</span> <span class="toc-text">一、Spring Boot简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、Spring-Boot入门工程搭建："><span class="toc-number">2.</span> <span class="toc-text">二、Spring Boot入门工程搭建：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、采用Spring官网提供的SPRING-INITIALIZR进行搭建。"><span class="toc-number">2.1.</span> <span class="toc-text">1、采用Spring官网提供的SPRING INITIALIZR进行搭建。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）"><span class="toc-number">2.2.</span> <span class="toc-text">2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、新建一个Maven的web工程"><span class="toc-number">2.2.1.</span> <span class="toc-text">1、新建一个Maven的web工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、在pom-xml文件中添加Spring-Boot的相关依赖"><span class="toc-number">2.2.2.</span> <span class="toc-text">2、在pom.xml文件中添加Spring Boot的相关依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、简单测试"><span class="toc-number">2.2.3.</span> <span class="toc-text">3、简单测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、运行"><span class="toc-number">2.2.4.</span> <span class="toc-text">4、运行</span></a></li></ol></li></ol></li></ol>
                 </div>
             
+
             <h1 id="一、Spring-Boot简介"><a href="#一、Spring-Boot简介" class="headerlink" title="一、Spring Boot简介"></a>一、Spring Boot简介</h1><p>   <strong><em>Spring Boot</em></strong>是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式使得开发人员使用Spring开发极大的简便了配置过程，基本上实现了零配置。<a id="more"></a><br>    </p><p>Spring Boot有以下几个优点：<br><br>    1、 没有代码生成，不需要XML配置文件<br><br>    2、 内嵌Tomcat，Jetty或者Undertow服务器，不需要额外部署web工程到Servlet容器<br><br>    3、 可以独立运行Spring应用程序<br><br>    4、 提供了Maven，Gradle两种方法搭建Spring Boot工程<br><br>    5、 无缝整合其他开源框架（只需要添加开源框架的依赖包，Spring Boot自动完成整合）<br><br>    6、 提供可以直接在生产环境中使用的功能，如性能指标、应用信息和应用健康检查<br></p>
 <h1 id="二、Spring-Boot入门工程搭建："><a href="#二、Spring-Boot入门工程搭建：" class="headerlink" title="二、Spring Boot入门工程搭建："></a>二、Spring Boot入门工程搭建：</h1><h2 id="1、采用Spring官网提供的SPRING-INITIALIZR进行搭建。"><a href="#1、采用Spring官网提供的SPRING-INITIALIZR进行搭建。" class="headerlink" title="1、采用Spring官网提供的SPRING INITIALIZR进行搭建。"></a>1、采用Spring官网提供的<a href="https://start.spring.io/" target="_blank" rel="noopener">SPRING INITIALIZR</a>进行搭建。</h2><p>可以选择Maven Project或者Gradle Project来搭建，然后选择Spring Boot版本，输入Group，Artifact，以及需要的依赖包，然后点击Generate Project，会生成一个Artifact.zip压缩包，将Artifact工程导入常用的开发工具即可。</p>
 <h2 id="2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）"><a href="#2、使用开发工具手动构建Spring-Boot工程（本文采用Intellij-Idea-2016-3）" class="headerlink" title="2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）"></a>2、使用开发工具手动构建Spring Boot工程（本文采用Intellij Idea 2016.3）</h2><h3 id="1、新建一个Maven的web工程"><a href="#1、新建一个Maven的web工程" class="headerlink" title="1、新建一个Maven的web工程"></a>1、新建一个Maven的web工程</h3><h3 id="2、在pom-xml文件中添加Spring-Boot的相关依赖"><a href="#2、在pom-xml文件中添加Spring-Boot的相关依赖" class="headerlink" title="2、在pom.xml文件中添加Spring Boot的相关依赖"></a>2、在pom.xml文件中添加Spring Boot的相关依赖</h3><p>添加父级依赖，这样当前的项目就是Spring Boot项目了。spring-boot-starter-parent是一个特殊的starer，它用来提供相关的maven默认依赖，使用它之后，当前项目的的常用依赖包就可以省去version标签。</p>
@@ -302,6 +303,7 @@
 <p><strong>@RestController</strong>也是一个组合注解，组合了<strong>@Controller</strong>，<strong>@ResponseBody</strong>两个注解</p>
 <h3 id="4、运行"><a href="#4、运行" class="headerlink" title="4、运行"></a>4、运行</h3><p>使用Spring Boot命令运行工程，mvn spring-boot:run，或者直接运行Chapter01Application类，在浏览器中访问<a href="http://localhost:8080/hello" target="_blank" rel="noopener">http://localhost:8080/hello</a>即可访问HelloController。</p>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -312,8 +314,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -360,6 +364,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -386,10 +391,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置详解"><span class="toc-number">1.</span> <span class="toc-text">基本配置详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境准备"><span class="toc-number">2.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始安装配置"><span class="toc-number">3.</span> <span class="toc-text">开始安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建Zookeeper集群"><span class="toc-number">3.1.</span> <span class="toc-text">搭建Zookeeper集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建Storm集群"><span class="toc-number">3.2.</span> <span class="toc-text">搭建Storm集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">3.2.1.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动集群"><span class="toc-number">3.2.2.</span> <span class="toc-text">启动集群</span></a></li></ol></li></ol></li></ol>
                 </div>
             
+
             <p>近来公司项目步入大数据的范畴，需要Spark、Storm方面的知识储备。在学习了Scala之后，进入正式的开发准备工作，接下来对Storm集群的搭建略作介绍。<a id="more"></a></p>
 <p>Storm集群搭建方式，可参考<a href="http://storm.apache.org/releases/1.2.2/Setting-up-a-Storm-cluster.html" target="_blank" rel="noopener">Storm官方文档</a>搭建。</p>
 <h2 id="基本配置详解"><a href="#基本配置详解" class="headerlink" title="基本配置详解"></a>基本配置详解</h2><table>
@@ -526,6 +527,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/storm ui 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
 <p>启动成功之后可在浏览器中，使用<a href="http://xxx.xxx.xxx.xxx:8080访问。" target="_blank" rel="noopener">http://xxx.xxx.xxx.xxx:8080访问。</a></p>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -536,8 +538,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -584,6 +588,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -601,10 +606,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

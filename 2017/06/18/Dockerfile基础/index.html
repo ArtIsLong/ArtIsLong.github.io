@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本结构"><span class="toc-number">1.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指令"><span class="toc-number">2.</span> <span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FROM"><span class="toc-number">2.1.</span> <span class="toc-text">FROM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAINTAINER"><span class="toc-number">2.2.</span> <span class="toc-text">MAINTAINER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RUN"><span class="toc-number">2.3.</span> <span class="toc-text">RUN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMD"><span class="toc-number">2.4.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EXPOSE"><span class="toc-number">2.5.</span> <span class="toc-text">EXPOSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENV"><span class="toc-number">2.6.</span> <span class="toc-text">ENV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADD"><span class="toc-number">2.7.</span> <span class="toc-text">ADD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COPY"><span class="toc-number">2.8.</span> <span class="toc-text">COPY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENTRYPOINT"><span class="toc-number">2.9.</span> <span class="toc-text">ENTRYPOINT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VOLUME"><span class="toc-number">2.10.</span> <span class="toc-text">VOLUME</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USER"><span class="toc-number">2.11.</span> <span class="toc-text">USER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WORKDIR"><span class="toc-number">2.12.</span> <span class="toc-text">WORKDIR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ONBUILD"><span class="toc-number">2.13.</span> <span class="toc-text">ONBUILD</span></a></li></ol></li></ol>
                 </div>
             
+
             <p>Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。<a id="more"></a></p>
 <h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p>Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。</p>
 <p>一般Dockerfile文件分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。</p>
@@ -441,6 +442,7 @@
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> image-A</span><br><span class="line"><span class="comment"># Automatically run the following</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /app/src</span></span><br><span class="line"><span class="bash">RUN /usr/<span class="built_in">local</span>/bin/python-build --dir /app/src</span></span><br></pre></td></tr></table></figure>
 <p>使用ONBUILD指令的镜像，推荐在标签中注明，例如ruby:1.9-onbuild。</p>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -451,8 +453,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -499,6 +503,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -525,10 +530,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

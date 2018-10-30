@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     
                 </div>
             
+
             <p>在真正开始配置之前，先说一下Nginx的配置文件配置的基础知识。（Linux和Windows的配置一样，不分开说了）<a id="more"></a></p>
 <p>Nginx的配置文件在安装目录下的conf目录中，一些默认配置都在这个目录下。</p>
 <p>nginx.conf 的注释符号为 #</p>
@@ -342,6 +343,7 @@
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>  <span class="number">8088</span>;</span><br><span class="line">    <span class="attribute">server_name</span> file;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>    /Users/admin/share;</span><br><span class="line">        <span class="attribute">add_header</span> Cache-Control <span class="string">"no-cache, must-revalidate"</span>;</span><br><span class="line">        <span class="attribute">autoindex</span> <span class="literal">on</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><span style="color: red; font-size: 18px">在配置部分，强调一个重要的问题，Nginx配置文件中，空格很重要。</span></p>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -352,8 +354,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -400,6 +404,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -426,10 +431,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

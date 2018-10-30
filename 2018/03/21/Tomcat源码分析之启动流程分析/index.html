@@ -70,7 +70,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -133,7 +133,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -287,6 +287,7 @@
                     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Tomcat源码调试环境准备"><span class="toc-number">1.</span> <span class="toc-text">Tomcat源码调试环境准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tomcat-Server的组成"><span class="toc-number">2.</span> <span class="toc-text">Tomcat Server的组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#整体说明"><span class="toc-number">2.1.</span> <span class="toc-text">整体说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#各组件详解"><span class="toc-number">2.2.</span> <span class="toc-text">各组件详解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#源码分析"><span class="toc-number">3.</span> <span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动总体流程"><span class="toc-number">3.1.</span> <span class="toc-text">启动总体流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动流程详解"><span class="toc-number">3.2.</span> <span class="toc-text">启动流程详解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考书籍"><span class="toc-number"></span> <span class="toc-text">参考书籍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐博客"><span class="toc-number"></span> <span class="toc-text">推荐博客</span></a>
                 </div>
             
+
             <p>前面的博客介绍了Tomcat的整个架构及各个配置文件及目录的作用，接下来就对Tomcat的源码进行分析了。<a id="more"></a></p>
 <h3 id="Tomcat源码调试环境准备"><a href="#Tomcat源码调试环境准备" class="headerlink" title="Tomcat源码调试环境准备"></a>Tomcat源码调试环境准备</h3><p>首先下载Tomcat源码，读者可自行去<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">Tomcat官网</a> 下载，若执行力差的同学也可直接从<a href="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src.git" target="_blank" rel="noopener">此处</a>pull。</p>
 <p>Tomcat源码导入到开发工具中的方法有多种，笔者采用最直接的方式，解压源码包后直接导入到开发工具中，导入之后的源码并不能直接运行，还需要几个依赖包，读者可从<a href="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src.git" target="_blank" rel="noopener">此处</a>的lib目录下获取，也可自行搜集。</p>
@@ -349,6 +350,7 @@
 <p><a href="http://www.jianshu.com/p/4cdc422b269b" target="_blank" rel="noopener">解析XML之Digester</a></p>
 </blockquote>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -359,8 +361,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -407,6 +411,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -433,10 +438,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     
                 </div>
             
+
             <p>Nginx的负载均衡是通过upstream实现的，在前面也有介绍过，下面对Nginx常用的upstream方式<a id="more"></a></p>
 <ul>
 <li>nginx的upstream的几种方式</li>
@@ -311,6 +312,7 @@
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream blog.test.com &#123;</span><br><span class="line">    #upstream的负载均衡，weight是权重，可以根据机器配置定义权重。weigth参数表示权值，权值越高被分配到的几率越大。</span><br><span class="line">   <span class="built_in"> server </span>192.168.80.121:80 <span class="attribute">weight</span>=3;</span><br><span class="line">   <span class="built_in"> server </span>192.168.80.122:80 <span class="attribute">weight</span>=2;</span><br><span class="line">   <span class="built_in"> server </span>192.168.80.123:80 <span class="attribute">weight</span>=3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>总结一下，负载均衡简单的理解其实可以看做是用户请求Nginx，Nginx将用户的请求URL按照配置的方式截取，然后按照配置的upstream的方式请求后端服务器。</p>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -321,8 +323,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -369,6 +373,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -395,10 +400,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

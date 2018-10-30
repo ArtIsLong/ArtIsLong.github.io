@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis主从复制"><span class="toc-number">1.</span> <span class="toc-text">Redis主从复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三主三从三哨兵集群模式"><span class="toc-number">2.</span> <span class="toc-text">三主三从三哨兵集群模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#环境准备"><span class="toc-number">2.1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建集群"><span class="toc-number">2.3.</span> <span class="toc-text">创建集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#哨兵搭建"><span class="toc-number">2.4.</span> <span class="toc-text">哨兵搭建</span></a></li></ol></li></ol>
                 </div>
             
+
             <p>此文将对Redis的各种集群搭建方式稍作介绍<a id="more"></a></p>
 <h3 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h3><p>此处使用 4.0.2 的版本，搭建一主两从的Redis集群。</p>
 <blockquote>
@@ -331,6 +332,7 @@
 <p>查看哨兵节点信息</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-cli -h 192.168.10.110 -p 26380</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> info Sentinel</span></span><br><span class="line">sentinel_masters:1</span><br><span class="line">sentinel_tilt:0</span><br><span class="line">sentinel_running_scripts:0</span><br><span class="line">sentinel_scripts_queue_length:0</span><br><span class="line">sentinel_simulate_failure_flags:0</span><br><span class="line">master0:name=cpicmaster,status=ok,address=192.168.10.110:6380,slaves=1,sentinels=3</span><br></pre></td></tr></table></figure>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -341,8 +343,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -389,24 +393,25 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
 <nav id="article-nav">
     
-        <a href="/2018/03/05/对前后台分离的思考/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018/02/08/Redis基础配置/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    对前后台分离的思考
+                    redis基础配置
                 
             </div>
         </a>
     
     
-        <a href="/2018/02/08/Redis基础配置/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/01/04/针对SpringBoot封装的Quartz-starter模块/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">redis基础配置</div>
+            <div class="article-nav-title">针对SpringBoot封装的Quartz starter模块</div>
         </a>
     
 </nav>
@@ -415,10 +420,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

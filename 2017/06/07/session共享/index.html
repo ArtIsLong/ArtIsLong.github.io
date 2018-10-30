@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、软件准备"><span class="toc-number">1.</span> <span class="toc-text">1、软件准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置tomcat"><span class="toc-number">2.</span> <span class="toc-text">2、配置tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、配置Nginx"><span class="toc-number">3.</span> <span class="toc-text">3、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、测试页面"><span class="toc-number">4.</span> <span class="toc-text">4、测试页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、启动测试"><span class="toc-number">5.</span> <span class="toc-text">5、启动测试</span></a></li></ol>
                 </div>
             
+
             <p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。<a id="more"></a></p>
 <p>经过查资料，找到了几种解决session共享的方案。</p>
 <ul>
@@ -328,6 +329,7 @@
 <p>好了，这种session共享完成。</p>
 <p>这种Session共享是基于Tomcat完成的，不会侵入项目。当前还有一种实现Session共享的方式，Spring全家桶中，Spring Session框架就是专门做Session管控的。</p>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -338,8 +340,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -386,6 +390,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -412,10 +417,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

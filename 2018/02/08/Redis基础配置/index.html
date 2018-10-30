@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置"><span class="toc-number">1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用操作（高级）"><span class="toc-number">2.</span> <span class="toc-text">常用操作（高级）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事务操作"><span class="toc-number">2.1.</span> <span class="toc-text">事务操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息的发布与订阅"><span class="toc-number">2.2.</span> <span class="toc-text">消息的发布与订阅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis持久化配置"><span class="toc-number">2.3.</span> <span class="toc-text">Redis持久化配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rdb快照持久化"><span class="toc-number">2.3.1.</span> <span class="toc-text">rdb快照持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aof日志持久化"><span class="toc-number">2.3.2.</span> <span class="toc-text">aof日志持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">2.3.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
                 </div>
             
+
             <h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><blockquote>
 <p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">daemonize no</span><br></pre></td></tr></table></figure></p>
 </blockquote>
@@ -468,6 +469,7 @@
 <p>3、对于rdb和aof两种持久化方式，没有绝对的谁好谁坏，所以可以两者同时用，效果更优</p>
 <p>4、rdb和aof相比，rdb的数据恢复更快，因为rdb的数据是内存映射，可以直接载入到内存，而aof是一条条的命令，需要逐条执行</p>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -478,8 +480,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -526,24 +530,25 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
 <nav id="article-nav">
     
-        <a href="/2018/02/08/Redis集群搭建/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018/03/05/对前后台分离的思考/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    Redis集群搭建
+                    对前后台分离的思考
                 
             </div>
         </a>
     
     
-        <a href="/2018/01/04/针对SpringBoot封装的Quartz-starter模块/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/02/08/Redis集群搭建/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">针对SpringBoot封装的Quartz starter模块</div>
+            <div class="article-nav-title">Redis集群搭建</div>
         </a>
     
 </nav>
@@ -552,10 +557,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             

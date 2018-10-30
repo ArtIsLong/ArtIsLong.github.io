@@ -66,7 +66,7 @@
                 
                     <a class="main-nav-link" href="/books">书架</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/about">关于我</a>
                 
             </nav>
             
@@ -129,7 +129,7 @@
                 
                     <td><a class="main-nav-link" href="/books">书架</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
                 
                 <td>
                     
@@ -283,6 +283,7 @@
                     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心注解-SpringBootApplication"><span class="toc-number">2.1.</span> <span class="toc-text">核心注解@SpringBootApplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动配置核心类SpringFactoriesLoader"><span class="toc-number">2.2.</span> <span class="toc-text">自动配置核心类SpringFactoriesLoader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整体启动流程"><span class="toc-number">3.</span> <span class="toc-text">整体启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化SpringApplication类"><span class="toc-number">3.1.</span> <span class="toc-text">初始化SpringApplication类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行核心run方法"><span class="toc-number">3.2.</span> <span class="toc-text">执行核心run方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#run方法整体执行流程总结"><span class="toc-number">3.2.1.</span> <span class="toc-text">run方法整体执行流程总结</span></a></li></ol></li></ol></li></ol>
                 </div>
             
+
             <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。</p>
 <p>此文的SpringBoot启动流程分析是基于SpringBoot 1.x的，SpringBoot 2.x的启动流程与1.x的略有不同，后续再进行补充分析。<a id="more"></a></p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="核心注解-SpringBootApplication"><a href="#核心注解-SpringBootApplication" class="headerlink" title="核心注解@SpringBootApplication"></a>核心注解@SpringBootApplication</h3><p>每个SpringBoot应用，都有一个入口类，标注@SpringBootApplication注解。</p>
@@ -343,6 +344,7 @@
 <li>获取所有的</li>
 </ul>
 
+                
                 <!--打赏-->
                 <div class="reward">
                     <div class="reward-button">赏 <span class="reward-code">
@@ -353,8 +355,10 @@
                     <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                 </div>
                 <!--打赏-->
+                
         
         </div>
+        
         <footer class="article-footer">
             <div class="share-container">
 
@@ -401,6 +405,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 
         </footer>
+        
     </div>
     
         
@@ -427,10 +432,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
+
     
     
         <section id="comments"></section>
     
+
 
 </section>
             
