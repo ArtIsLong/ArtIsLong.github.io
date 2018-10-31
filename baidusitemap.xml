@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>/2018/08/07/Storm%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2018-10-31T02:57:39.985Z</lastmod>
+    <data>
+        <display>
+        <title>Storm集群搭建</title>
+        <pubTime>2018-08-07T05:45:58.000Z</pubTime>
+        
+        <tag>大数据</tag>
+         
+        <tag>Storm</tag>
+         
+         
+           
+             
+              <breadCrumb title="Storm" url="/categories/Storm/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>/2016/12/13/Spring-Boot%E5%85%A5%E9%97%A8/</loc>
     <lastmod>2018-10-31T01:30:20.827Z</lastmod>
     <data>
@@ -350,26 +372,6 @@
            
              
               <breadCrumb title="SpringBoot" url="/categories/SpringBoot/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>/2018/08/07/Storm%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
-    <lastmod>2018-10-26T07:27:38.279Z</lastmod>
-    <data>
-        <display>
-        <title>storm集群搭建</title>
-        <pubTime>2018-08-07T05:45:58.000Z</pubTime>
-        
-        <tag>大数据</tag>
-         
-         
-           
-             
-              <breadCrumb title="storm" url="/categories/storm/"/>
           
         </display>
     </data>
