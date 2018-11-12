@@ -1547,7 +1547,7 @@ a.article-title:hover {
   margin-right: 8px;
 }
 .layout-wrap-inner.tag-cloud a:before {
-  content: '#';
+  content: '';
 }
 #page-nav {
   margin: 40px auto;
