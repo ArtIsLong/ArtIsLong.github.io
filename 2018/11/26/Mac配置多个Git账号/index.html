@@ -3,18 +3,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
-    <title>分类: 思考 | ArtIsLong的博客</title>
+    <title>Mac多Git账号配置.md | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="甘肃农业大学16级毕业生">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ArtIsLong的博客">
-<meta property="og:url" content="/categories/思考/index.html">
+    <meta name="description" content="1、 准备两个Git账号，如Github账号和Gitee账号2、在用户家目录下新建.ssh目录，进入目录后新建config文件3、使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名   12Generating public/private rsa k">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac多Git账号配置.md">
+<meta property="og:url" content="/2018/11/26/Mac配置多个Git账号/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="甘肃农业大学16级毕业生">
+<meta property="og:description" content="1、 准备两个Git账号，如Github账号和Gitee账号2、在用户家目录下新建.ssh目录，进入目录后新建config文件3、使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名   12Generating public/private rsa k">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-26T03:02:53.069Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ArtIsLong的博客">
-<meta name="twitter:description" content="甘肃农业大学16级毕业生">
+<meta name="twitter:title" content="Mac多Git账号配置.md">
+<meta name="twitter:description" content="1、 准备两个Git账号，如Github账号和Gitee账号2、在用户家目录下新建.ssh目录，进入目录后新建config文件3、使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名   12Generating public/private rsa k">
     
 
     
@@ -233,50 +234,144 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fas fa-folder"></i></span>
-        <h1 class="title">思考</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-Mac配置多个Git账号" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/03/05/对前后台分离的思考/">对前后台分离的思考</a>
+        <h1 class="article-title" itemprop="name">
+            Mac多Git账号配置.md
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/03/05/对前后台分离的思考/">
-            <time datetime="2018-03-05T03:17:33.000Z" itemprop="datePublished">2018-03-05</time>
+        <a href="/2018/11/26/Mac配置多个Git账号/">
+            <time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26</time>
         </a>
     </div>
 
 
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/思考/">思考</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/前后端分离/">前后端分离</a>, <a class="tag-link" href="/tags/项目架构/">项目架构</a>
-    </div>
-
+                        
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、-准备两个Git账号，如Github账号和Gitee账号"><span class="toc-number">1.</span> <span class="toc-text">1、 准备两个Git账号，如Github账号和Gitee账号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、在用户家目录下新建-ssh目录，进入目录后新建config文件"><span class="toc-number">2.</span> <span class="toc-text">2、在用户家目录下新建.ssh目录，进入目录后新建config文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key"><span class="toc-number">3.</span> <span class="toc-text">3、使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、在config文件中配置pub文件"><span class="toc-number">4.</span> <span class="toc-text">4、在config文件中配置pub文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、配置测试"><span class="toc-number">5.</span> <span class="toc-text">5、配置测试</span></a></li></ol>
                 </div>
-            </div>
+            
+
+            <h3 id="1、-准备两个Git账号，如Github账号和Gitee账号"><a href="#1、-准备两个Git账号，如Github账号和Gitee账号" class="headerlink" title="1、 准备两个Git账号，如Github账号和Gitee账号"></a>1、 准备两个Git账号，如Github账号和Gitee账号</h3><h3 id="2、在用户家目录下新建-ssh目录，进入目录后新建config文件"><a href="#2、在用户家目录下新建-ssh目录，进入目录后新建config文件" class="headerlink" title="2、在用户家目录下新建.ssh目录，进入目录后新建config文件"></a>2、在用户家目录下新建.ssh目录，进入目录后新建config文件</h3><h3 id="3、使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key"><a href="#3、使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key" class="headerlink" title="3、使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key"></a>3、使用ssh-keygen -t rsa -C “<a href="mailto:xxxxx@xxxxx.com" target="_blank" rel="noopener">xxxxx@xxxxx.com</a>“，生成ssh key</h3><pre><code>单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名
+</code></pre>  <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generating <span class="keyword">public</span>/<span class="keyword">private</span> rsa <span class="keyword">key</span> pair.</span><br><span class="line">Enter file <span class="keyword">in</span> which <span class="keyword">to</span> save the <span class="keyword">key</span> (/Users/chenmin/.ssh/id_rsa): id_rsa_github</span><br></pre></td></tr></table></figure>
+<pre><code>其他配置项继续回车即可
+</code></pre>  <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generating <span class="keyword">public</span>/<span class="keyword">private</span> rsa <span class="keyword">key</span> pair.</span><br><span class="line">Enter file <span class="keyword">in</span> which <span class="keyword">to</span> save the <span class="keyword">key</span> (/Users/chenmin/.ssh/id_rsa): id_rsa_gitee</span><br></pre></td></tr></table></figure>
+<pre><code>此时会在.ssh目录下看到四个文件，id_rsa_github、id_rsa_github.pub和id_rsa_gitee、id_rsa_gitee.pub
+</code></pre><h3 id="4、在config文件中配置pub文件"><a href="#4、在config文件中配置pub文件" class="headerlink" title="4、在config文件中配置pub文件"></a>4、在config文件中配置pub文件</h3>  <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Host user</span><br><span class="line">HostName https://github.com</span><br><span class="line"><span class="keyword">User</span> <span class="title">user</span></span><br><span class="line">IdentityFile ~/.ssh/id_rsa_github</span><br></pre></td></tr></table></figure>
+<p>  注：<br>  HostName是服务器的地址，User是用户名，PreferredAuthentications照抄即可，这里主要说的是IdentityFile</p>
+<h3 id="5、配置测试"><a href="#5、配置测试" class="headerlink" title="5、配置测试"></a>5、配置测试</h3>  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-T</span> <span class="selector-tag">git</span>@<span class="keyword">gitee</span>.<span class="keyword">com</span></span><br></pre></td></tr></table></figure>
+<p>  显示 Welcome to Gitee.com, yourname! 时则表示配置成功<br>  若报错或不是这个结果，可使用</p>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-vT</span> <span class="selector-tag">git</span>@<span class="keyword">gihub</span>.<span class="keyword">com</span></span><br></pre></td></tr></table></figure>
+<p>  查看错误信息，并使用下面的命令解决</p>
+  <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-agent bash</span><br><span class="line">ssh-<span class="keyword">add</span><span class="bash"> ~/.ssh/id_rsa</span></span><br></pre></td></tr></table></figure>
+
+                
+                <!--打赏-->
+                <div class="reward">
+                    <div class="reward-button">赏 <span class="reward-code">
+                        <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
+                        <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
+                        </span>
+                    </div>
+                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
+                </div>
+                <!--打赏-->
+                
+        
         </div>
-    
+        
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
 </div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+        
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/08/07/Storm集群搭建/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Storm集群搭建</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments"></section>
+    
+
+
 </section>
             
                 
