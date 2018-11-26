@@ -5,18 +5,18 @@
     
     <title>Mac多Git账号配置 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="准备两个Git账号，如Github账号和Gitee账号在用户家目录下新建.ssh目录，进入目录后新建config文件使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名   12Generating public/private rsa key pair">
+    <meta name="description" content="准备两个Git账号，如Github账号和Gitee账号在用户家目录下新建.ssh目录，进入目录后新建config文件使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac多Git账号配置">
 <meta property="og:url" content="/2018/11/26/Mac配置多个Git账号/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="准备两个Git账号，如Github账号和Gitee账号在用户家目录下新建.ssh目录，进入目录后新建config文件使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名   12Generating public/private rsa key pair">
+<meta property="og:description" content="准备两个Git账号，如Github账号和Gitee账号在用户家目录下新建.ssh目录，进入目录后新建config文件使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-26T03:16:48.892Z">
+<meta property="og:updated_time" content="2018-11-26T04:50:38.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac多Git账号配置">
-<meta name="twitter:description" content="准备两个Git账号，如Github账号和Gitee账号在用户家目录下新建.ssh目录，进入目录后新建config文件使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名   12Generating public/private rsa key pair">
+<meta name="twitter:description" content="准备两个Git账号，如Github账号和Gitee账号在用户家目录下新建.ssh目录，进入目录后新建config文件使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key">
     
 
     
@@ -284,7 +284,7 @@
                 </div>
             
 
-            <h3 id="准备两个Git账号，如Github账号和Gitee账号"><a href="#准备两个Git账号，如Github账号和Gitee账号" class="headerlink" title="准备两个Git账号，如Github账号和Gitee账号"></a>准备两个Git账号，如Github账号和Gitee账号</h3><h3 id="在用户家目录下新建-ssh目录，进入目录后新建config文件"><a href="#在用户家目录下新建-ssh目录，进入目录后新建config文件" class="headerlink" title="在用户家目录下新建.ssh目录，进入目录后新建config文件"></a>在用户家目录下新建.ssh目录，进入目录后新建config文件</h3><h3 id="使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key"><a href="#使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key" class="headerlink" title="使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key"></a>使用ssh-keygen -t rsa -C “<a href="mailto:xxxxx@xxxxx.com" target="_blank" rel="noopener">xxxxx@xxxxx.com</a>“，生成ssh key</h3><pre><code>单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名
+            <h3 id="准备两个Git账号，如Github账号和Gitee账号"><a href="#准备两个Git账号，如Github账号和Gitee账号" class="headerlink" title="准备两个Git账号，如Github账号和Gitee账号"></a>准备两个Git账号，如Github账号和Gitee账号</h3><h3 id="在用户家目录下新建-ssh目录，进入目录后新建config文件"><a href="#在用户家目录下新建-ssh目录，进入目录后新建config文件" class="headerlink" title="在用户家目录下新建.ssh目录，进入目录后新建config文件"></a>在用户家目录下新建.ssh目录，进入目录后新建config文件</h3><h3 id="使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key"><a href="#使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key" class="headerlink" title="使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key"></a>使用ssh-keygen -t rsa -C “<a href="mailto:xxxxx@xxxxx.com" target="_blank" rel="noopener">xxxxx@xxxxx.com</a>“，生成ssh key<a id="more"></a></h3><pre><code>单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名
 </code></pre>  <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generating <span class="keyword">public</span>/<span class="keyword">private</span> rsa <span class="keyword">key</span> pair.</span><br><span class="line">Enter file <span class="keyword">in</span> which <span class="keyword">to</span> save the <span class="keyword">key</span> (/Users/chenmin/.ssh/id_rsa): id_rsa_github</span><br></pre></td></tr></table></figure>
 <pre><code>其他配置项继续回车即可
 </code></pre>  <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generating <span class="keyword">public</span>/<span class="keyword">private</span> rsa <span class="keyword">key</span> pair.</span><br><span class="line">Enter file <span class="keyword">in</span> which <span class="keyword">to</span> save the <span class="keyword">key</span> (/Users/chenmin/.ssh/id_rsa): id_rsa_gitee</span><br></pre></td></tr></table></figure>
