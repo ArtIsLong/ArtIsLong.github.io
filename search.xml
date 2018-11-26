@@ -4,6 +4,12 @@
     <title><![CDATA[Mac多Git账号配置.md]]></title>
     <url>%2F2018%2F11%2F26%2FMac%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAGit%E8%B4%A6%E5%8F%B7%2F</url>
     <content type="text"><![CDATA[1、 准备两个Git账号，如Github账号和Gitee账号2、在用户家目录下新建.ssh目录，进入目录后新建config文件3、使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名 12Generating public/private rsa key pair.Enter file in which to save the key (/Users/chenmin/.ssh/id_rsa): id_rsa_github 其他配置项继续回车即可 12Generating public/private rsa key pair.Enter file in which to save the key (/Users/chenmin/.ssh/id_rsa): id_rsa_gitee 此时会在.ssh目录下看到四个文件，id_rsa_github、id_rsa_github.pub和id_rsa_gitee、id_rsa_gitee.pub 4、在config文件中配置pub文件 1234Host userHostName https://github.comUser userIdentityFile ~/.ssh/id_rsa_github 注： HostName是服务器的地址，User是用户名，PreferredAuthentications照抄即可，这里主要说的是IdentityFile 5、配置测试 1ssh -T git@gitee.com 显示 Welcome to Gitee.com, yourname! 时则表示配置成功 若报错或不是这个结果，可使用 1ssh -vT git@gihub.com 查看错误信息，并使用下面的命令解决 12ssh-agent bashssh-add ~/.ssh/id_rsa]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Storm集群搭建]]></title>
