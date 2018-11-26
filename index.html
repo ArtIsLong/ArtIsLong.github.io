@@ -242,7 +242,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2018/11/26/Mac配置多个Git账号/">Mac多Git账号配置.md</a>
+            <a class="article-title" href="/2018/11/26/Mac配置多个Git账号/">Mac多Git账号配置</a>
         </h1>
     
 
@@ -278,14 +278,14 @@
         
             
 
-            <h3 id="1、-准备两个Git账号，如Github账号和Gitee账号"><a href="#1、-准备两个Git账号，如Github账号和Gitee账号" class="headerlink" title="1、 准备两个Git账号，如Github账号和Gitee账号"></a>1、 准备两个Git账号，如Github账号和Gitee账号</h3><h3 id="2、在用户家目录下新建-ssh目录，进入目录后新建config文件"><a href="#2、在用户家目录下新建-ssh目录，进入目录后新建config文件" class="headerlink" title="2、在用户家目录下新建.ssh目录，进入目录后新建config文件"></a>2、在用户家目录下新建.ssh目录，进入目录后新建config文件</h3><h3 id="3、使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key"><a href="#3、使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key" class="headerlink" title="3、使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key"></a>3、使用ssh-keygen -t rsa -C “<a href="mailto:xxxxx@xxxxx.com" target="_blank" rel="noopener">xxxxx@xxxxx.com</a>“，生成ssh key</h3><pre><code>单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名
+            <h3 id="准备两个Git账号，如Github账号和Gitee账号"><a href="#准备两个Git账号，如Github账号和Gitee账号" class="headerlink" title="准备两个Git账号，如Github账号和Gitee账号"></a>准备两个Git账号，如Github账号和Gitee账号</h3><h3 id="在用户家目录下新建-ssh目录，进入目录后新建config文件"><a href="#在用户家目录下新建-ssh目录，进入目录后新建config文件" class="headerlink" title="在用户家目录下新建.ssh目录，进入目录后新建config文件"></a>在用户家目录下新建.ssh目录，进入目录后新建config文件</h3><h3 id="使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key"><a href="#使用ssh-keygen-t-rsa-C-“xxxxx-xxxxx-com“，生成ssh-key" class="headerlink" title="使用ssh-keygen -t rsa -C “xxxxx@xxxxx.com“，生成ssh key"></a>使用ssh-keygen -t rsa -C “<a href="mailto:xxxxx@xxxxx.com" target="_blank" rel="noopener">xxxxx@xxxxx.com</a>“，生成ssh key</h3><pre><code>单个git账号配置时，不需要指定publicKey文件名，但是多个git账号配置，就需要指定文件名
 </code></pre>  <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generating <span class="keyword">public</span>/<span class="keyword">private</span> rsa <span class="keyword">key</span> pair.</span><br><span class="line">Enter file <span class="keyword">in</span> which <span class="keyword">to</span> save the <span class="keyword">key</span> (/Users/chenmin/.ssh/id_rsa): id_rsa_github</span><br></pre></td></tr></table></figure>
 <pre><code>其他配置项继续回车即可
 </code></pre>  <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generating <span class="keyword">public</span>/<span class="keyword">private</span> rsa <span class="keyword">key</span> pair.</span><br><span class="line">Enter file <span class="keyword">in</span> which <span class="keyword">to</span> save the <span class="keyword">key</span> (/Users/chenmin/.ssh/id_rsa): id_rsa_gitee</span><br></pre></td></tr></table></figure>
 <pre><code>此时会在.ssh目录下看到四个文件，id_rsa_github、id_rsa_github.pub和id_rsa_gitee、id_rsa_gitee.pub
-</code></pre><h3 id="4、在config文件中配置pub文件"><a href="#4、在config文件中配置pub文件" class="headerlink" title="4、在config文件中配置pub文件"></a>4、在config文件中配置pub文件</h3>  <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Host user</span><br><span class="line">HostName https://github.com</span><br><span class="line"><span class="keyword">User</span> <span class="title">user</span></span><br><span class="line">IdentityFile ~/.ssh/id_rsa_github</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="在config文件中配置pub文件"><a href="#在config文件中配置pub文件" class="headerlink" title="在config文件中配置pub文件"></a>在config文件中配置pub文件</h3>  <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Host user</span><br><span class="line">HostName https://github.com</span><br><span class="line"><span class="keyword">User</span> <span class="title">user</span></span><br><span class="line">IdentityFile ~/.ssh/id_rsa_github</span><br></pre></td></tr></table></figure>
 <p>  注：<br>  HostName是服务器的地址，User是用户名，PreferredAuthentications照抄即可，这里主要说的是IdentityFile</p>
-<h3 id="5、配置测试"><a href="#5、配置测试" class="headerlink" title="5、配置测试"></a>5、配置测试</h3>  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-T</span> <span class="selector-tag">git</span>@<span class="keyword">gitee</span>.<span class="keyword">com</span></span><br></pre></td></tr></table></figure>
+<h3 id="配置测试"><a href="#配置测试" class="headerlink" title="配置测试"></a>配置测试</h3>  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-T</span> <span class="selector-tag">git</span>@<span class="keyword">gitee</span>.<span class="keyword">com</span></span><br></pre></td></tr></table></figure>
 <p>  显示 Welcome to Gitee.com, yourname! 时则表示配置成功<br>  若报错或不是这个结果，可使用</p>
   <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-vT</span> <span class="selector-tag">git</span>@<span class="keyword">gihub</span>.<span class="keyword">com</span></span><br></pre></td></tr></table></figure>
 <p>  查看错误信息，并使用下面的命令解决</p>
@@ -1330,7 +1330,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p>
-                            <p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置.md</a></p>
+                            <p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p>
                             <p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26</time></p>
                         </div>
                     </li>
