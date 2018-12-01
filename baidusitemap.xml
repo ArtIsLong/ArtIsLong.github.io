@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>/2018/02/08/Redis%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2018-12-01T16:27:02.640Z</lastmod>
+    <data>
+        <display>
+        <title>Redis基础配置</title>
+        <pubTime>2018-02-08T14:51:33.000Z</pubTime>
+        
+        <tag>Redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>/2018/08/07/Storm%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2018-12-01T08:12:47.650Z</lastmod>
     <data>
@@ -175,26 +195,6 @@
     <data>
         <display>
         <title>Redis集群搭建</title>
-        <pubTime>2018-02-08T14:51:33.000Z</pubTime>
-        
-        <tag>Redis</tag>
-         
-         
-           
-             
-              <breadCrumb title="Redis" url="/categories/Redis/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>/2018/02/08/Redis%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2018-10-31T01:29:54.410Z</lastmod>
-    <data>
-        <display>
-        <title>Redis基础配置</title>
         <pubTime>2018-02-08T14:51:33.000Z</pubTime>
         
         <tag>Redis</tag>

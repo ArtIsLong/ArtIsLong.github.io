@@ -5,18 +5,18 @@
     
     <title>Redis基础配置 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+    <meta name="description" content="Redis常用配置积累">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis基础配置">
 <meta property="og:url" content="/2018/02/08/Redis基础配置/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta property="og:description" content="Redis常用配置积累">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-31T01:29:54.410Z">
+<meta property="og:updated_time" content="2018-12-01T16:27:02.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis基础配置">
-<meta name="twitter:description" content="基本配置 Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程">
+<meta name="twitter:description" content="Redis常用配置积累">
     
 
     
@@ -284,8 +284,9 @@
                 </div>
             
 
-            <h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><blockquote>
-<p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">daemonize no</span><br></pre></td></tr></table></figure></p>
+            <p>Redis常用配置积累<a id="more"></a></p>
+<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><blockquote>
+<p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">daemonize no</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <blockquote>
 <p>当Redis以守护进程方式运行时，Redis会默认把pid写入/var/run/redis.pid文件，可以通过pidfile指定</p>
