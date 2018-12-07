@@ -312,13 +312,13 @@ var _hmt = _hmt || [];
 </blockquote>
 <ul>
 <li><p>解压Nginx源码包</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> tar -zxvf nginx-1.11.5.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> tar -zxvf nginx-1.11.5.tar.gz</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>设置一下nginx配置信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> chmod -R 755 nginx-1.11.5</span><br><span class="line"><span class="meta">&gt;</span> cd nginx-1.11.5</span><br><span class="line"><span class="meta">&gt;</span> ./configure --prefix=/usr/local/nginx  #此处设置prefix，是设置nginx的安装路径，可通过./configure --help查看其它参数项</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> chmod -R 755 nginx-1.11.5</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">cd</span> nginx-1.11.5</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ./configure --prefix=/usr/<span class="built_in">local</span>/nginx  <span class="comment">#此处设置prefix，是设置nginx的安装路径，可通过./configure --help查看其它参数项</span></span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编译安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> make | make install #将源码文件编译成可执行文件和各种库文件，并将其复制到上面设置的安装目录中</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> make | make install <span class="comment">#将源码文件编译成可执行文件和各种库文件，并将其复制到上面设置的安装目录中</span></span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <ul>
@@ -327,23 +327,23 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>缺少Nginx组件</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> wget http://www.openssl.org/source/openssl-fips-2.0.10.tar.gz</span><br><span class="line"><span class="meta">$</span> tar zxvf openssl-fips-2.0.10.tar.gz</span><br><span class="line"><span class="meta">$</span> cd openssl-fips-2.0.10</span><br><span class="line"><span class="meta">$</span> ./config &amp;&amp; make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> wget http://zlib.net/zlib-1.2.11.tar.gz</span><br><span class="line"><span class="meta">$</span> tar zxvf zlib-1.2.11.tar.gz</span><br><span class="line"><span class="meta">$</span> cd zlib-1.2.11</span><br><span class="line"><span class="meta">$</span> ./configure &amp;&amp; make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz</span><br><span class="line"><span class="meta">$</span> tar zxvf pcre-8.40.tar.gz</span><br><span class="line"><span class="meta">$</span> cd pcre-8.40</span><br><span class="line"><span class="meta">$</span> ./configure &amp;&amp; make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget http://www.openssl.org/<span class="built_in">source</span>/openssl-fips-2.0.10.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar zxvf openssl-fips-2.0.10.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> openssl-fips-2.0.10</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./config &amp;&amp; make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget http://zlib.net/zlib-1.2.11.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar zxvf zlib-1.2.11.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> zlib-1.2.11</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./configure &amp;&amp; make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar zxvf pcre-8.40.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> pcre-8.40</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./configure &amp;&amp; make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>缺少g++环境</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> yum install gcc-c++</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yum install gcc-c++</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>报错了，error while loading shared libraries: libpcre.so.1: cannot open shared object file: No such file or directory</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> whereis libpcre.so.1</span><br><span class="line"><span class="meta">$</span> ln -s /usr/local/lib/libpcre.so.1 /lib64</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> whereis libpcre.so.1</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ln -s /usr/<span class="built_in">local</span>/lib/libpcre.so.1 /lib64</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>启动nginx</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>这一步可以不指定nginx配置文件(nginx.conf文件在默认目录下时可不指定)</span><br><span class="line"><span class="meta">&gt;</span> /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">这一步可以不指定nginx配置文件(nginx.conf文件在默认目录下时可不指定)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> /usr/<span class="built_in">local</span>/nginx/sbin/nginx -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>还有最重要的一步，打开Nginx的防火墙端口</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> vi /etc/sysconfig/iptables</span><br><span class="line"><span class="meta">&gt;</span> 添加端口，如： -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</span><br><span class="line"><span class="meta">&gt;</span> /etc/init.d/iptables restart #重启防火墙，让修改生效</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> vi /etc/sysconfig/iptables</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 添加端口，如： -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> /etc/init.d/iptables restart <span class="comment">#重启防火墙，让修改生效</span></span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在自己本机的浏览器中输入localhost就可以看到Nginx的欢迎页面。</p>
 </li>
@@ -351,15 +351,15 @@ var _hmt = _hmt || [];
 <h3 id="Nginx其他常用命令参数"><a href="#Nginx其他常用命令参数" class="headerlink" title="Nginx其他常用命令参数"></a>Nginx其他常用命令参数</h3><ul>
 <li>校验配置文件</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> nginx -t</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> nginx -t</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>重启</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> nginx -s reload</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> nginx -s reload</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>安全停止</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> nginx -s quit</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> nginx -s quit</span></span><br></pre></td></tr></table></figure>
 <p>其他参数可使用’man nginx’命令查看，就不一一列举了。</p>
 <p><strong>注</strong>: Nginx停止也可以通过杀死Nginx进程的方式停止，Nginx默认会启动两个进程，master和worker，直接杀死进程时需要kill这两个进程。<br>master和worker的区别在以后的文章中再做说明。</p>
 

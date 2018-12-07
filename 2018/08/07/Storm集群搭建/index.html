@@ -520,7 +520,7 @@ var _hmt = _hmt || [];
 <p>Nimbus和Supervisor守护进程需要在本地磁盘上存储少量状态信息。需要我们手动在每台Supervisor机器上创建此目录，并授予适当的权限。</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">storm<span class="selector-class">.local</span><span class="selector-class">.dir</span>: <span class="string">"/home/hadoop/storm/data"</span></span><br></pre></td></tr></table></figure>
 <p>如果使用相对路径，可以相对于安装Storm的位置（STORM_HOME），或者使用默认值留空。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">STORM_HOME/data</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">$STORM</span>_HOME/data</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>supervisor的worker数量配置</li>
 </ul>
