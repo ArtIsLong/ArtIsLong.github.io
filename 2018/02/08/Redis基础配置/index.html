@@ -5,18 +5,18 @@
     
     <title>Redis基础配置 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Redis常用配置积累">
+    <meta name="description" content="Redis常用配置总结">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis基础配置">
 <meta property="og:url" content="/2018/02/08/Redis基础配置/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="Redis常用配置积累">
+<meta property="og:description" content="Redis常用配置总结">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-01T16:27:02.640Z">
+<meta property="og:updated_time" content="2018-12-07T07:27:03.203Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis基础配置">
-<meta name="twitter:description" content="Redis常用配置积累">
+<meta name="twitter:description" content="Redis常用配置总结">
     
 
     
@@ -281,24 +281,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Redis/">Redis</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置"><span class="toc-number">1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用操作（高级）"><span class="toc-number">2.</span> <span class="toc-text">常用操作（高级）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事务操作"><span class="toc-number">2.1.</span> <span class="toc-text">事务操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息的发布与订阅"><span class="toc-number">2.2.</span> <span class="toc-text">消息的发布与订阅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis持久化配置"><span class="toc-number">2.3.</span> <span class="toc-text">Redis持久化配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rdb快照持久化"><span class="toc-number">2.3.1.</span> <span class="toc-text">rdb快照持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aof日志持久化"><span class="toc-number">2.3.2.</span> <span class="toc-text">aof日志持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">2.3.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置"><span class="toc-number">1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用操作（高级）"><span class="toc-number">2.</span> <span class="toc-text">常用操作（高级）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事务操作"><span class="toc-number">2.1.</span> <span class="toc-text">事务操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息的发布与订阅"><span class="toc-number">2.2.</span> <span class="toc-text">消息的发布与订阅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis持久化配置"><span class="toc-number">2.3.</span> <span class="toc-text">Redis持久化配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rdb快照持久化"><span class="toc-number">2.3.1.</span> <span class="toc-text">rdb快照持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aof日志持久化"><span class="toc-number">2.3.2.</span> <span class="toc-text">aof日志持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">2.3.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                
 
-            <p>Redis常用配置积累<a id="more"></a></p>
+                <p>Redis常用配置总结<a id="more"></a></p>
 <h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><blockquote>
 <p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">daemonize no</span><br></pre></td></tr></table></figure></p>
 </blockquote>
@@ -485,22 +485,22 @@ var _hmt = _hmt || [];
 <p>4、rdb和aof相比，rdb的数据恢复更快，因为rdb的数据是内存映射，可以直接载入到内存，而aof是一条条的命令，需要逐条执行</p>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -541,29 +541,29 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
         
 <nav id="article-nav">
     
-        <a href="/2018/02/08/Redis集群搭建/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018/03/05/对前后台分离的思考/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    Redis集群搭建
+                    对前后台分离的思考
                 
             </div>
         </a>
     
     
-        <a href="/2018/01/04/针对SpringBoot封装的Quartz-starter模块/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/02/08/Redis集群搭建/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">针对SpringBoot封装的Quartz starter模块</div>
+            <div class="article-nav-title">Redis集群搭建</div>
         </a>
     
 </nav>
@@ -572,13 +572,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -758,9 +758,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

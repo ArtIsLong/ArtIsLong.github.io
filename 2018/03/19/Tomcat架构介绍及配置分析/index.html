@@ -15,7 +15,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true">
 <meta property="og:image" content="https://github.com/ArtIsLong/apache-tomcat-8.5.16-src/blob/master/resources/images/tomcat-startup.gif?raw=true">
-<meta property="og:updated_time" content="2018-10-26T07:35:46.367Z">
+<meta property="og:updated_time" content="2018-12-07T03:25:41.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tomcat架构介绍及配置分析">
 <meta name="twitter:description" content="Tomcat架构介绍及配置分析">
@@ -284,24 +284,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Tomcat/">Tomcat</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-conf-配置文件说明"><span class="toc-number">1.</span> <span class="toc-text">1. conf/配置文件说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-catalina-properties"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 catalina.properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-catalina-policy"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 catalina.policy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-context-xml"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 context.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-server-xml"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 server.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-tomcat-users-xml"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 tomcat-users.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-web-xml"><span class="toc-number">1.6.</span> <span class="toc-text">1.6 web.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-loggin-properties"><span class="toc-number">1.7.</span> <span class="toc-text">1.7 loggin.properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-启动流程分析"><span class="toc-number">2.</span> <span class="toc-text">2. 启动流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Idea调试Tomcat源码环境搭建"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Idea调试Tomcat源码环境搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Tomcat-Server的组成"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Tomcat Server的组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-整体说明"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 整体说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-各组件详解"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 各组件详解</span></a></li></ol></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-conf-配置文件说明"><span class="toc-number">1.</span> <span class="toc-text">1. conf/配置文件说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-catalina-properties"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 catalina.properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-catalina-policy"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 catalina.policy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-context-xml"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 context.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-server-xml"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 server.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-tomcat-users-xml"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 tomcat-users.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-web-xml"><span class="toc-number">1.6.</span> <span class="toc-text">1.6 web.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-loggin-properties"><span class="toc-number">1.7.</span> <span class="toc-text">1.7 loggin.properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-启动流程分析"><span class="toc-number">2.</span> <span class="toc-text">2. 启动流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Idea调试Tomcat源码环境搭建"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Idea调试Tomcat源码环境搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Tomcat-Server的组成"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Tomcat Server的组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-整体说明"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 整体说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-各组件详解"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 各组件详解</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                
 
-            <p>在之前的项目中，需要对项目做集群，由于项目对系统的并发要求不大，所以就采取Session共享方式实现，虽然根据在网上找的资料完成了集群，但是对Tomcat的Session的共享的底层原理一直比较好奇，正好借此机会，调试一下Tomcat源码，略作分析。<a id="more"></a></p>
+                <p>在之前的项目中，需要对项目做集群，由于项目对系统的并发要求不大，所以就采取Session共享方式实现，虽然根据在网上找的资料完成了集群，但是对Tomcat的Session的共享的底层原理一直比较好奇，正好借此机会，调试一下Tomcat源码，略作分析。<a id="more"></a></p>
 <ul>
 <li><p>bin</p>
 <p>存放启动和关闭Tomcat的脚本文件</p>
@@ -766,22 +766,22 @@ var _hmt = _hmt || [];
 </ul>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -822,10 +822,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -853,13 +853,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -1039,9 +1039,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

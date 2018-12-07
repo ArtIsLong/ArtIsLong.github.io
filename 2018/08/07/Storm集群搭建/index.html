@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="近来公司项目步入大数据的范畴，需要Spark、Storm方面的知识储备。在学习了Scala之后，进入正式的开发准备工作，接下来对Storm集群的搭建略作介绍。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-01T08:12:47.650Z">
+<meta property="og:updated_time" content="2018-12-07T03:25:03.762Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Storm集群搭建">
 <meta name="twitter:description" content="近来公司项目步入大数据的范畴，需要Spark、Storm方面的知识储备。在学习了Scala之后，进入正式的开发准备工作，接下来对Storm集群的搭建略作介绍。">
@@ -281,24 +281,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Storm/">Storm</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置详解"><span class="toc-number">1.</span> <span class="toc-text">基本配置详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境准备"><span class="toc-number">2.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始安装配置"><span class="toc-number">3.</span> <span class="toc-text">开始安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建Zookeeper集群"><span class="toc-number">3.1.</span> <span class="toc-text">搭建Zookeeper集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建Storm集群"><span class="toc-number">3.2.</span> <span class="toc-text">搭建Storm集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">3.2.1.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动集群"><span class="toc-number">3.2.2.</span> <span class="toc-text">启动集群</span></a></li></ol></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置详解"><span class="toc-number">1.</span> <span class="toc-text">基本配置详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境准备"><span class="toc-number">2.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始安装配置"><span class="toc-number">3.</span> <span class="toc-text">开始安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建Zookeeper集群"><span class="toc-number">3.1.</span> <span class="toc-text">搭建Zookeeper集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建Storm集群"><span class="toc-number">3.2.</span> <span class="toc-text">搭建Storm集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-number">3.2.1.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动集群"><span class="toc-number">3.2.2.</span> <span class="toc-text">启动集群</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                
 
-            <p>近来公司项目步入大数据的范畴，需要Spark、Storm方面的知识储备。在学习了Scala之后，进入正式的开发准备工作，接下来对Storm集群的搭建略作介绍。<a id="more"></a></p>
+                <p>近来公司项目步入大数据的范畴，需要Spark、Storm方面的知识储备。在学习了Scala之后，进入正式的开发准备工作，接下来对Storm集群的搭建略作介绍。<a id="more"></a></p>
 <p>Storm集群搭建方式，可参考<a href="http://storm.apache.org/releases/1.2.2/Setting-up-a-Storm-cluster.html" target="_blank" rel="noopener">Storm官方文档</a>搭建。</p>
 <h2 id="基本配置详解"><a href="#基本配置详解" class="headerlink" title="基本配置详解"></a>基本配置详解</h2><table>
 <thead>
@@ -542,22 +542,22 @@ var _hmt = _hmt || [];
 <p>启动成功之后可在浏览器中，使用<a href="http://xxx.xxx.xxx.xxx:8080访问。" target="_blank" rel="noopener">http://xxx.xxx.xxx.xxx:8080访问。</a></p>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -598,10 +598,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -629,13 +629,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -815,9 +815,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

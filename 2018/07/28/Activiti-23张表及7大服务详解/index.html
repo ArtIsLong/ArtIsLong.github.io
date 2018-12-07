@@ -5,18 +5,18 @@
     
     <title>Activiti 23张表及7大服务详解 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Activiti 23张表及7大服务详解">
+    <meta name="description" content="近来要做流程项目了，由于上大学的时候学过BPMN，现在重新入手Activiti，感觉还是比较容易的，此文先将Activiti6相关的服务接口及相关表略做记录，方便以后查看。">
 <meta name="keywords" content="工作流">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Activiti 23张表及7大服务详解">
 <meta property="og:url" content="/2018/07/28/Activiti-23张表及7大服务详解/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="Activiti 23张表及7大服务详解">
+<meta property="og:description" content="近来要做流程项目了，由于上大学的时候学过BPMN，现在重新入手Activiti，感觉还是比较容易的，此文先将Activiti6相关的服务接口及相关表略做记录，方便以后查看。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-30T10:21:17.861Z">
+<meta property="og:updated_time" content="2018-12-07T02:34:13.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti 23张表及7大服务详解">
-<meta name="twitter:description" content="Activiti 23张表及7大服务详解">
+<meta name="twitter:description" content="近来要做流程项目了，由于上大学的时候学过BPMN，现在重新入手Activiti，感觉还是比较容易的，此文先将Activiti6相关的服务接口及相关表略做记录，方便以后查看。">
     
 
     
@@ -281,24 +281,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/工作流/">工作流</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#7大服务介绍"><span class="toc-number">1.</span> <span class="toc-text">7大服务介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23张表概览"><span class="toc-number">2.</span> <span class="toc-text">23张表概览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23张表详解"><span class="toc-number">3.</span> <span class="toc-text">23张表详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制数据表（act-ge-bytearray）"><span class="toc-number">3.1.</span> <span class="toc-text">二进制数据表（act_ge_bytearray）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#属性数据表-act-ge-property"><span class="toc-number">3.2.</span> <span class="toc-text">属性数据表(act_ge_property)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史节点表（act-hi-actinst）"><span class="toc-number">3.3.</span> <span class="toc-text">历史节点表（act_hi_actinst）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史附件表-act-hi-attachment"><span class="toc-number">3.4.</span> <span class="toc-text">历史附件表( act_hi_attachment )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史意见表-act-hi-comment"><span class="toc-number">3.5.</span> <span class="toc-text">历史意见表( act_hi_comment )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史详情表-act-hi-detail"><span class="toc-number">3.6.</span> <span class="toc-text">历史详情表( act_hi_detail )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史流程人员表-act-ru-identitylink"><span class="toc-number">3.7.</span> <span class="toc-text">历史流程人员表( act_ru_identitylink )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史流程实例表（act-hi-procinst）"><span class="toc-number">3.8.</span> <span class="toc-text">历史流程实例表（act_hi_procinst）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史任务实例表-act-hi-taskinst"><span class="toc-number">3.9.</span> <span class="toc-text">历史任务实例表( act_hi_taskinst )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史变量表-act-hi-varinst"><span class="toc-number">3.10.</span> <span class="toc-text">历史变量表( act_hi_varinst )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户组信息表-act-id-group"><span class="toc-number">3.11.</span> <span class="toc-text">用户组信息表( act_id_group )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户扩展信息表-act-id-info"><span class="toc-number">3.12.</span> <span class="toc-text">用户扩展信息表( act_id_info )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户与分组对应信息表-act-id-membership"><span class="toc-number">3.13.</span> <span class="toc-text">用户与分组对应信息表( act_id_membership )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户信息表-act-id-user"><span class="toc-number">3.14.</span> <span class="toc-text">用户信息表( act_id_user )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#部署信息表-act-re-deployment"><span class="toc-number">3.15.</span> <span class="toc-text">部署信息表( act_re_deployment )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流程设计模型部署表-act-re-model"><span class="toc-number">3.16.</span> <span class="toc-text">流程设计模型部署表( act_re_model )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流程定义数据表-act-re-procdef"><span class="toc-number">3.17.</span> <span class="toc-text">流程定义数据表( act_re_procdef )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#act-ru-event-subscr"><span class="toc-number">3.18.</span> <span class="toc-text">act_ru_event_subscr</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时流程执行实例表-act-ru-execution"><span class="toc-number">3.19.</span> <span class="toc-text">运行时流程执行实例表( act_ru_execution )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时流程人员表-act-ru-identitylink"><span class="toc-number">3.20.</span> <span class="toc-text">运行时流程人员表( act_ru_identitylink )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时定时任务数据表-act-ru-job"><span class="toc-number">3.21.</span> <span class="toc-text">运行时定时任务数据表( act_ru_job )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时任务节点表-act-ru-task"><span class="toc-number">3.22.</span> <span class="toc-text">运行时任务节点表( act_ru_task )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时流程变量数据表-act-ru-variable"><span class="toc-number">3.23.</span> <span class="toc-text">运行时流程变量数据表( act_ru_variable )</span></a></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#7大服务介绍"><span class="toc-number">1.</span> <span class="toc-text">7大服务介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23张表概览"><span class="toc-number">2.</span> <span class="toc-text">23张表概览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23张表详解"><span class="toc-number">3.</span> <span class="toc-text">23张表详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制数据表（act-ge-bytearray）"><span class="toc-number">3.1.</span> <span class="toc-text">二进制数据表（act_ge_bytearray）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#属性数据表-act-ge-property"><span class="toc-number">3.2.</span> <span class="toc-text">属性数据表(act_ge_property)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史节点表（act-hi-actinst）"><span class="toc-number">3.3.</span> <span class="toc-text">历史节点表（act_hi_actinst）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史附件表-act-hi-attachment"><span class="toc-number">3.4.</span> <span class="toc-text">历史附件表( act_hi_attachment )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史意见表-act-hi-comment"><span class="toc-number">3.5.</span> <span class="toc-text">历史意见表( act_hi_comment )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史详情表-act-hi-detail"><span class="toc-number">3.6.</span> <span class="toc-text">历史详情表( act_hi_detail )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史流程人员表-act-ru-identitylink"><span class="toc-number">3.7.</span> <span class="toc-text">历史流程人员表( act_ru_identitylink )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史流程实例表（act-hi-procinst）"><span class="toc-number">3.8.</span> <span class="toc-text">历史流程实例表（act_hi_procinst）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史任务实例表-act-hi-taskinst"><span class="toc-number">3.9.</span> <span class="toc-text">历史任务实例表( act_hi_taskinst )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#历史变量表-act-hi-varinst"><span class="toc-number">3.10.</span> <span class="toc-text">历史变量表( act_hi_varinst )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户组信息表-act-id-group"><span class="toc-number">3.11.</span> <span class="toc-text">用户组信息表( act_id_group )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户扩展信息表-act-id-info"><span class="toc-number">3.12.</span> <span class="toc-text">用户扩展信息表( act_id_info )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户与分组对应信息表-act-id-membership"><span class="toc-number">3.13.</span> <span class="toc-text">用户与分组对应信息表( act_id_membership )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户信息表-act-id-user"><span class="toc-number">3.14.</span> <span class="toc-text">用户信息表( act_id_user )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#部署信息表-act-re-deployment"><span class="toc-number">3.15.</span> <span class="toc-text">部署信息表( act_re_deployment )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流程设计模型部署表-act-re-model"><span class="toc-number">3.16.</span> <span class="toc-text">流程设计模型部署表( act_re_model )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流程定义数据表-act-re-procdef"><span class="toc-number">3.17.</span> <span class="toc-text">流程定义数据表( act_re_procdef )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#act-ru-event-subscr"><span class="toc-number">3.18.</span> <span class="toc-text">act_ru_event_subscr</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时流程执行实例表-act-ru-execution"><span class="toc-number">3.19.</span> <span class="toc-text">运行时流程执行实例表( act_ru_execution )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时流程人员表-act-ru-identitylink"><span class="toc-number">3.20.</span> <span class="toc-text">运行时流程人员表( act_ru_identitylink )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时定时任务数据表-act-ru-job"><span class="toc-number">3.21.</span> <span class="toc-text">运行时定时任务数据表( act_ru_job )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时任务节点表-act-ru-task"><span class="toc-number">3.22.</span> <span class="toc-text">运行时任务节点表( act_ru_task )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行时流程变量数据表-act-ru-variable"><span class="toc-number">3.23.</span> <span class="toc-text">运行时流程变量数据表( act_ru_variable )</span></a></li></ol></li></ol>
+                    </div>
+                
 
-            <p>近来要做流程项目了，由于上大学的时候学过BPMN，现在重新入手Activiti，感觉还是比较容易的，此文先将Activiti6相关的服务接口及相关表略做记录，方便以后查看。<br><a id="more"></a></p>
+                <p>近来要做流程项目了，由于上大学的时候学过BPMN，现在重新入手Activiti，感觉还是比较容易的，此文先将Activiti6相关的服务接口及相关表略做记录，方便以后查看。<br><a id="more"></a></p>
 <h3 id="7大服务介绍"><a href="#7大服务介绍" class="headerlink" title="7大服务介绍"></a>7大服务介绍</h3><table>
 <thead>
 <tr>
@@ -2634,22 +2634,22 @@ var _hmt = _hmt || [];
 </table>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -2690,10 +2690,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -2721,13 +2721,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -2907,9 +2907,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

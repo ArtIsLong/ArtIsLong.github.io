@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-31T01:24:08.463Z">
+<meta property="og:updated_time" content="2018-12-07T03:14:12.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx+Tomcat+Redis实现Session共享">
 <meta name="twitter:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
@@ -281,24 +281,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Session/">Session</a>, <a class="tag-link" href="/tags/集群/">集群</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、软件准备"><span class="toc-number">1.</span> <span class="toc-text">1、软件准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置tomcat"><span class="toc-number">2.</span> <span class="toc-text">2、配置tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、配置Nginx"><span class="toc-number">3.</span> <span class="toc-text">3、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、测试页面"><span class="toc-number">4.</span> <span class="toc-text">4、测试页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、启动测试"><span class="toc-number">5.</span> <span class="toc-text">5、启动测试</span></a></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、软件准备"><span class="toc-number">1.</span> <span class="toc-text">1、软件准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置tomcat"><span class="toc-number">2.</span> <span class="toc-text">2、配置tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、配置Nginx"><span class="toc-number">3.</span> <span class="toc-text">3、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、测试页面"><span class="toc-number">4.</span> <span class="toc-text">4、测试页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、启动测试"><span class="toc-number">5.</span> <span class="toc-text">5、启动测试</span></a></li></ol>
+                    </div>
+                
 
-            <p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。<a id="more"></a></p>
+                <p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。<a id="more"></a></p>
 <p>经过查资料，找到了几种解决session共享的方案。</p>
 <ul>
 <li><p>不适用session，换作cookie</p>
@@ -344,22 +344,22 @@ var _hmt = _hmt || [];
 <p>这种Session共享是基于Tomcat完成的，不会侵入项目。当前还有一种实现Session共享的方式，Spring全家桶中，Spring Session框架就是专门做Session管控的。</p>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -400,10 +400,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -431,13 +431,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -617,9 +617,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

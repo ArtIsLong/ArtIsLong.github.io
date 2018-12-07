@@ -5,18 +5,18 @@
     
     <title>Jackson-annotations常用注解 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="原文链接:https://www.dubby.cn/detail.html?id=9071">
+    <meta name="description" content="从以前的Struts2，到SpringMVC、SpringBoot，Jackson总是伴随在前后台数据交互的过程中，其他更强大、更细致的功能一直未进行挖掘，本文在参考大神博客的基础上，自己对Jackson练习的一些记录总结。">
 <meta name="keywords" content="开发工具框架,Jackson">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Jackson-annotations常用注解">
 <meta property="og:url" content="/2018/12/01/Jackson-annotations常用注解/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="原文链接:https://www.dubby.cn/detail.html?id=9071">
+<meta property="og:description" content="从以前的Struts2，到SpringMVC、SpringBoot，Jackson总是伴随在前后台数据交互的过程中，其他更强大、更细致的功能一直未进行挖掘，本文在参考大神博客的基础上，自己对Jackson练习的一些记录总结。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-01T06:58:03.263Z">
+<meta property="og:updated_time" content="2018-12-07T03:13:23.088Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jackson-annotations常用注解">
-<meta name="twitter:description" content="原文链接:https://www.dubby.cn/detail.html?id=9071">
+<meta name="twitter:description" content="从以前的Struts2，到SpringMVC、SpringBoot，Jackson总是伴随在前后台数据交互的过程中，其他更强大、更细致的功能一直未进行挖掘，本文在参考大神博客的基础上，自己对Jackson练习的一些记录总结。">
     
 
     
@@ -281,24 +281,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Jackson/">Jackson</a>, <a class="tag-link" href="/tags/开发工具框架/">开发工具框架</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#字段命名"><span class="toc-number">1.</span> <span class="toc-text">字段命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段包含"><span class="toc-number">2.</span> <span class="toc-text">字段包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段文档，元数据"><span class="toc-number">3.</span> <span class="toc-text">字段文档，元数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反序列化和序列化的细节"><span class="toc-number">4.</span> <span class="toc-text">反序列化和序列化的细节</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#反序列化细节"><span class="toc-number"></span> <span class="toc-text">反序列化细节</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#序列化细节"><span class="toc-number"></span> <span class="toc-text">序列化细节</span></a>
-                </li></div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#字段命名"><span class="toc-number">1.</span> <span class="toc-text">字段命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段包含"><span class="toc-number">2.</span> <span class="toc-text">字段包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段文档，元数据"><span class="toc-number">3.</span> <span class="toc-text">字段文档，元数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反序列化和序列化的细节"><span class="toc-number">4.</span> <span class="toc-text">反序列化和序列化的细节</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#反序列化细节"><span class="toc-number"></span> <span class="toc-text">反序列化细节</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#序列化细节"><span class="toc-number"></span> <span class="toc-text">序列化细节</span></a>
+                    </li></div>
+                
 
-            <p>原文链接:<a href="https://www.dubby.cn/detail.html?id=9071" target="_blank" rel="noopener">https://www.dubby.cn/detail.html?id=9071</a> <a id="more"></a></p>
+                <p>原文链接:<a href="https://www.dubby.cn/detail.html?id=9071" target="_blank" rel="noopener">https://www.dubby.cn/detail.html?id=9071</a> <a id="more"></a></p>
 <h3 id="字段命名"><a href="#字段命名" class="headerlink" title="字段命名"></a>字段命名</h3><ul>
 <li><p>@JsonProperty</p>
 <p>可以指定字段的命名（还可以指定这个字段需要参与序列化和反序列化）。 </p>
@@ -395,22 +395,22 @@ var _hmt = _hmt || [];
 <p>输出:</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"root"</span>:&#123;<span class="attr">"name1"</span>:<span class="string">"value1"</span>,<span class="attr">"name2"</span>:<span class="string">"value2"</span>,<span class="attr">"name3"</span>:<span class="string">"value3"</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -451,10 +451,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -482,13 +482,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -668,9 +668,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

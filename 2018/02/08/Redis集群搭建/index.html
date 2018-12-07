@@ -5,18 +5,18 @@
     
     <title>Redis集群搭建 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="此文将对Redis的各种集群搭建方式稍作介绍">
+    <meta name="description" content="Redis的各种集群搭建方式介绍">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis集群搭建">
 <meta property="og:url" content="/2018/02/08/Redis集群搭建/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="此文将对Redis的各种集群搭建方式稍作介绍">
+<meta property="og:description" content="Redis的各种集群搭建方式介绍">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-31T01:30:03.634Z">
+<meta property="og:updated_time" content="2018-12-07T07:26:29.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis集群搭建">
-<meta name="twitter:description" content="此文将对Redis的各种集群搭建方式稍作介绍">
+<meta name="twitter:description" content="Redis的各种集群搭建方式介绍">
     
 
     
@@ -281,24 +281,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Redis/">Redis</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis主从复制"><span class="toc-number">1.</span> <span class="toc-text">Redis主从复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三主三从三哨兵集群模式"><span class="toc-number">2.</span> <span class="toc-text">三主三从三哨兵集群模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#环境准备"><span class="toc-number">2.1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建集群"><span class="toc-number">2.3.</span> <span class="toc-text">创建集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#哨兵搭建"><span class="toc-number">2.4.</span> <span class="toc-text">哨兵搭建</span></a></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis主从复制"><span class="toc-number">1.</span> <span class="toc-text">Redis主从复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三主三从三哨兵集群模式"><span class="toc-number">2.</span> <span class="toc-text">三主三从三哨兵集群模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#环境准备"><span class="toc-number">2.1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建集群"><span class="toc-number">2.3.</span> <span class="toc-text">创建集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#哨兵搭建"><span class="toc-number">2.4.</span> <span class="toc-text">哨兵搭建</span></a></li></ol></li></ol>
+                    </div>
+                
 
-            <p>此文将对Redis的各种集群搭建方式稍作介绍<a id="more"></a></p>
+                <p>Redis的各种集群搭建方式介绍<a id="more"></a></p>
 <h3 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h3><p>此处使用 4.0.2 的版本，搭建一主两从的Redis集群。</p>
 <blockquote>
 <p>环境准备</p>
@@ -347,22 +347,22 @@ var _hmt = _hmt || [];
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./redis-4.0.2/src/redis-cli -h 192.168.10.110 -p 26380</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> info Sentinel</span></span><br><span class="line">sentinel_masters:1</span><br><span class="line">sentinel_tilt:0</span><br><span class="line">sentinel_running_scripts:0</span><br><span class="line">sentinel_scripts_queue_length:0</span><br><span class="line">sentinel_simulate_failure_flags:0</span><br><span class="line">master0:name=cpicmaster,status=ok,address=192.168.10.110:6380,slaves=1,sentinels=3</span><br></pre></td></tr></table></figure>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -403,29 +403,29 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
         
 <nav id="article-nav">
     
-        <a href="/2018/03/05/对前后台分离的思考/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018/02/08/Redis基础配置/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    对前后台分离的思考
+                    Redis基础配置
                 
             </div>
         </a>
     
     
-        <a href="/2018/02/08/Redis基础配置/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/01/04/针对SpringBoot封装的Quartz-starter模块/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">Redis基础配置</div>
+            <div class="article-nav-title">针对SpringBoot封装的Quartz starter模块</div>
         </a>
     
 </nav>
@@ -434,13 +434,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -620,9 +620,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

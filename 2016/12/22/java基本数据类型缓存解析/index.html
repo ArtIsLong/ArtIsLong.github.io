@@ -3,20 +3,20 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
-    <title>java基本数据类型缓存解析 | ArtIsLong的博客</title>
+    <title>Java基本-数据类型缓存解析 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="此文对Jdk的常用基础类的缓存机制进行简单分析。">
+    <meta name="description" content="本文对Java基础类的缓存机制进行简单分析记录。">
 <meta name="keywords" content="Java基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java基本数据类型缓存解析">
+<meta property="og:title" content="Java基本-数据类型缓存解析">
 <meta property="og:url" content="/2016/12/22/Java基本数据类型缓存解析/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="此文对Jdk的常用基础类的缓存机制进行简单分析。">
+<meta property="og:description" content="本文对Java基础类的缓存机制进行简单分析记录。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-01T13:01:19.508Z">
+<meta property="og:updated_time" content="2018-12-07T02:48:25.529Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java基本数据类型缓存解析">
-<meta name="twitter:description" content="此文对Jdk的常用基础类的缓存机制进行简单分析。">
+<meta name="twitter:title" content="Java基本-数据类型缓存解析">
+<meta name="twitter:description" content="本文对Java基础类的缓存机制进行简单分析记录。">
     
 
     
@@ -254,7 +254,7 @@ var _hmt = _hmt || [];
                 
     
         <h1 class="article-title" itemprop="name">
-            java基本数据类型缓存解析
+            Java基本-数据类型缓存解析
         </h1>
     
 
@@ -281,47 +281,47 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Java基础/">Java基础</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本类型缓存解析"><span class="toc-number">1.</span> <span class="toc-text">基本类型缓存解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Integer缓存解析："><span class="toc-number">1.1.</span> <span class="toc-text">Integer缓存解析：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Long及Byte、Character缓存解析"><span class="toc-number">1.2.</span> <span class="toc-text">Long及Byte、Character缓存解析</span></a></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本类型缓存解析"><span class="toc-number">1.</span> <span class="toc-text">基本类型缓存解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Integer缓存解析："><span class="toc-number">1.1.</span> <span class="toc-text">Integer缓存解析：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Long及Byte、Character缓存解析"><span class="toc-number">1.2.</span> <span class="toc-text">Long及Byte、Character缓存解析</span></a></li></ol></li></ol>
+                    </div>
+                
 
-            <p>此文对Jdk的常用基础类的缓存机制进行简单分析。<a id="more"></a></p>
+                <p>此文对Jdk的常用基础类的缓存机制进行简单分析。<a id="more"></a></p>
 <h2 id="基本类型缓存解析"><a href="#基本类型缓存解析" class="headerlink" title="基本类型缓存解析"></a>基本类型缓存解析</h2><h3 id="Integer缓存解析："><a href="#Integer缓存解析：" class="headerlink" title="Integer缓存解析："></a>Integer缓存解析：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerCache</span> </span>&#123;</span><br><span class="line">       <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> low = -<span class="number">128</span>;</span><br><span class="line">       <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> high;</span><br><span class="line">       <span class="keyword">static</span> <span class="keyword">final</span> Integer cache[];</span><br><span class="line">       <span class="keyword">static</span> &#123;</span><br><span class="line">           <span class="comment">// high value may be configured by property</span></span><br><span class="line">           <span class="keyword">int</span> h = <span class="number">127</span>;</span><br><span class="line">           String integerCacheHighPropValue =</span><br><span class="line">               sun.misc.VM.getSavedProperty(<span class="string">"java.lang.Integer.IntegerCache.high"</span>);</span><br><span class="line">           <span class="keyword">if</span> (integerCacheHighPropValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="keyword">int</span> i = parseInt(integerCacheHighPropValue);</span><br><span class="line">               i = Math.max(i, <span class="number">127</span>);</span><br><span class="line">               <span class="comment">// Maximum array size is Integer.MAX_VALUE</span></span><br><span class="line">               h = Math.min(i, Integer.MAX_VALUE - (-low));</span><br><span class="line">           &#125;</span><br><span class="line">           high = h;</span><br><span class="line">           cache = <span class="keyword">new</span> Integer[(high - low) + <span class="number">1</span>];</span><br><span class="line">           <span class="keyword">int</span> j = low;</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; cache.length; k++)</span><br><span class="line">               cache[k] = <span class="keyword">new</span> Integer(j++);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="title">IntegerCache</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   	<span class="keyword">assert</span> IntegerCache.high &gt;= <span class="number">127</span>;</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>1、使用自动装箱（Integer i = 1）方式创建Integer对象时，会使用valueOf进行Integer对象的初始化，此时，会调用IntegerCache.high，这是需要对IntegerCache这个静态内部类进行初始化。</p><p><br>2、IntegerCache类中有一个cache数组，在加载IntegerCache的时候，会将-128到127的Integer对象都创建了，并存到cache数组中，然后在判断当前初始化的Integer对象的值是否在-128到127之间，如果是，就直接从cache缓存中取，如果不存在，则new一个新的Integer对象。</p><p><br>3、之后再使用自动装箱的方式创建Integer对象时，值在-128到127之间时会直接从cache缓存中取。</p><p></p>
 <p>所以，使用自动装箱的方式创建的Integer对象，两者进行比较时，只要其值相等就是ture。而不在-128到127之间的，比较时会新new一个对象，而导致比较结果为false</p><p><br><strong><strong>注意</strong></strong>：Integer的最低值是固定的，只能是-128，而最高值是可以通过jvm参数设置的。在执行java程序的时候加上-XX:AutoBoxCacheMax=<size>参数即可。</size></p>
-<h3 id="Long及Byte、Character缓存解析"><a href="#Long及Byte、Character缓存解析" class="headerlink" title="Long及Byte、Character缓存解析"></a>Long及Byte、Character缓存解析</h3><figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LongCache</span> </span>&#123;</span><br><span class="line">   	<span class="keyword">private</span> LongCache()&#123;&#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">Long</span> cache[] = <span class="keyword">new</span> <span class="keyword">Long</span>[-(<span class="number">-128</span>) + <span class="number">127</span> + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cache.length; i++)</span><br><span class="line">            cache[i] = <span class="keyword">new</span> <span class="keyword">Long</span>(i - <span class="number">128</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">Long</span> valueOf(<span class="keyword">long</span> l) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> offset = <span class="number">128</span>;</span><br><span class="line">    <span class="keyword">if</span> (l &gt;= <span class="number">-128</span> &amp;&amp; l &lt;= <span class="number">127</span>) &#123; <span class="comment">// will cache</span></span><br><span class="line">        <span class="keyword">return</span> LongCache.cache[(<span class="keyword">int</span>)l + offset];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">Long</span>(l);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Long及Byte、Character缓存解析"><a href="#Long及Byte、Character缓存解析" class="headerlink" title="Long及Byte、Character缓存解析"></a>Long及Byte、Character缓存解析</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LongCache</span> </span>&#123;</span><br><span class="line">   	<span class="function"><span class="keyword">private</span> <span class="title">LongCache</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Long cache[] = <span class="keyword">new</span> Long[-(-<span class="number">128</span>) + <span class="number">127</span> + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cache.length; i++)</span><br><span class="line">            cache[i] = <span class="keyword">new</span> Long(i - <span class="number">128</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Long <span class="title">valueOf</span><span class="params">(<span class="keyword">long</span> l)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> offset = <span class="number">128</span>;</span><br><span class="line">    <span class="keyword">if</span> (l &gt;= -<span class="number">128</span> &amp;&amp; l &lt;= <span class="number">127</span>) &#123; <span class="comment">// will cache</span></span><br><span class="line">        <span class="keyword">return</span> LongCache.cache[(<span class="keyword">int</span>)l + offset];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Long(l);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Long的缓存机制（LongCache）与Integer的类似，还有Character（CharacterCache），Byte（ByteCache）的缓存机制也是类似。不过只有Integer的最大值可以通过jvm参数设置，其他的都固定的。其中，Byte，Short，Long 的范围： -128 到 127；Character, 范围是 0 到 127。</p>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -362,10 +362,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -393,13 +393,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -579,9 +579,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

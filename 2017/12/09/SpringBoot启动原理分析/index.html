@@ -5,18 +5,18 @@
     
     <title>SpringBoot启动原理分析 | ArtIsLong的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="前言用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。 此文的SpringBoot启动流程分析是基于SpringBoot 1.x的，SpringBoot 2.x的启动流程与1.x的略有不同，后续再进行补充分析。">
+    <meta name="description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。">
 <meta name="keywords" content="SpringBoot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot启动原理分析">
 <meta property="og:url" content="/2017/12/09/SpringBoot启动原理分析/index.html">
 <meta property="og:site_name" content="ArtIsLong的博客">
-<meta property="og:description" content="前言用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。 此文的SpringBoot启动流程分析是基于SpringBoot 1.x的，SpringBoot 2.x的启动流程与1.x的略有不同，后续再进行补充分析。">
+<meta property="og:description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-08T08:43:39.000Z">
+<meta property="og:updated_time" content="2018-12-07T03:24:52.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot启动原理分析">
-<meta name="twitter:description" content="前言用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。 此文的SpringBoot启动流程分析是基于SpringBoot 1.x的，SpringBoot 2.x的启动流程与1.x的略有不同，后续再进行补充分析。">
+<meta name="twitter:description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。">
     
 
     
@@ -281,24 +281,24 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/SpringBoot/">SpringBoot</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心注解-SpringBootApplication"><span class="toc-number">2.1.</span> <span class="toc-text">核心注解@SpringBootApplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动配置核心类SpringFactoriesLoader"><span class="toc-number">2.2.</span> <span class="toc-text">自动配置核心类SpringFactoriesLoader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整体启动流程"><span class="toc-number">3.</span> <span class="toc-text">整体启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化SpringApplication类"><span class="toc-number">3.1.</span> <span class="toc-text">初始化SpringApplication类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行核心run方法"><span class="toc-number">3.2.</span> <span class="toc-text">执行核心run方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#run方法整体执行流程总结"><span class="toc-number">3.2.1.</span> <span class="toc-text">run方法整体执行流程总结</span></a></li></ol></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心注解-SpringBootApplication"><span class="toc-number">2.1.</span> <span class="toc-text">核心注解@SpringBootApplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动配置核心类SpringFactoriesLoader"><span class="toc-number">2.2.</span> <span class="toc-text">自动配置核心类SpringFactoriesLoader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整体启动流程"><span class="toc-number">3.</span> <span class="toc-text">整体启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化SpringApplication类"><span class="toc-number">3.1.</span> <span class="toc-text">初始化SpringApplication类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行核心run方法"><span class="toc-number">3.2.</span> <span class="toc-text">执行核心run方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#run方法整体执行流程总结"><span class="toc-number">3.2.1.</span> <span class="toc-text">run方法整体执行流程总结</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                
 
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。</p>
 <p>此文的SpringBoot启动流程分析是基于SpringBoot 1.x的，SpringBoot 2.x的启动流程与1.x的略有不同，后续再进行补充分析。<a id="more"></a></p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="核心注解-SpringBootApplication"><a href="#核心注解-SpringBootApplication" class="headerlink" title="核心注解@SpringBootApplication"></a>核心注解@SpringBootApplication</h3><p>每个SpringBoot应用，都有一个入口类，标注@SpringBootApplication注解。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -354,27 +354,25 @@ var _hmt = _hmt || [];
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(Object[] sources)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (sources != <span class="keyword">null</span> &amp;&amp; sources.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">this</span>.sources.addAll(Arrays.asList(sources));</span><br><span class="line">	&#125;</span><br><span class="line">  	<span class="comment">// 根据标志类javax.servlet.Servlet,org.springframework.web.context.ConfigurableWebApplicationContext是否存在，判断是否是web环境</span></span><br><span class="line">	<span class="keyword">this</span>.webEnvironment = deduceWebEnvironment();</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories中的ApplicationContextInitializer，并实例化</span></span><br><span class="line">	setInitializers((Collection) getSpringFactoriesInstances(</span><br><span class="line">			ApplicationContextInitializer.class));</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories中的ApplicationListener，并实例化</span></span><br><span class="line">	setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));</span><br><span class="line">  	<span class="comment">// 获取执行当前main方法的类，也就是启动类</span></span><br><span class="line">	<span class="keyword">this</span>.mainApplicationClass = deduceMainApplicationClass();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>注 ：</strong> 各方法内部执行逻辑就不做说明了，比较简单，需要的读者可自行点进源码查看</p>
 <h3 id="执行核心run方法"><a href="#执行核心run方法" class="headerlink" title="执行核心run方法"></a>执行核心run方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ConfigurableApplicationContext <span class="title">run</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">  	<span class="comment">// 启动任务执行的时间监听器</span></span><br><span class="line">	StopWatch stopWatch = <span class="keyword">new</span> StopWatch();</span><br><span class="line">	stopWatch.start();</span><br><span class="line">  	</span><br><span class="line">	ConfigurableApplicationContext context = <span class="keyword">null</span>;</span><br><span class="line">	FailureAnalyzers analyzers = <span class="keyword">null</span>;</span><br><span class="line">  	<span class="comment">// 设置系统java.awt.headless属性，确定是否开启headless模式(默认开启headless模式)</span></span><br><span class="line">	configureHeadlessProperty();</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories下的SpringApplicationRunListeners并实例化</span></span><br><span class="line">	SpringApplicationRunListeners listeners = getRunListeners(args);</span><br><span class="line">  	<span class="comment">// 开始广播启动</span></span><br><span class="line">	listeners.started();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 创建SpringBoot默认启动参数对象</span></span><br><span class="line">		ApplicationArguments applicationArguments = <span class="keyword">new</span> DefaultApplicationArguments(args);</span><br><span class="line">        <span class="comment">// 根据启动参数创建并配置Environment(所有有效的配置，如Profile)，并遍历所有的listeners，广播启动环境已准备</span></span><br><span class="line">		ConfigurableEnvironment environment = prepareEnvironment(listeners,applicationArguments);</span><br><span class="line">        <span class="comment">// 打印启动图案</span></span><br><span class="line">		Banner printedBanner = printBanner(environment);</span><br><span class="line">        <span class="comment">// 根据标志类(上面有提到过)，创建对应类型的ApplicationContext</span></span><br><span class="line">		context = createApplicationContext();</span><br><span class="line">        <span class="comment">// 创建异常解析器(当启动失败时，由此解析器处理失败结果)</span></span><br><span class="line">		analyzers = <span class="keyword">new</span> FailureAnalyzers(context);</span><br><span class="line">        <span class="comment">// 准备Spring上下文环境</span></span><br><span class="line">        <span class="comment">// 在这个方法中，主要完成了以下几件事：</span></span><br><span class="line">        <span class="comment">// 	1、设置SpringBoot的环境配置(Environment)</span></span><br><span class="line">        <span class="comment">// 	2、注册Spring Bean名称的序列化器BeanNameGenerator，并设置资源加载器ResourceLoader</span></span><br><span class="line">        <span class="comment">//	3、加载ApplicationContextInitializer初始化器，并进行初始化</span></span><br><span class="line">        <span class="comment">//	4、统一将上面的Environment、BeanNameGenerator、ResourceLoader使用默认的Bean注册器进行注册</span></span><br><span class="line">		prepareContext(context, environment, listeners, applicationArguments,printedBanner);</span><br><span class="line">        <span class="comment">// 注册一个关闭Spring容器的钩子</span></span><br><span class="line">		refreshContext(context);</span><br><span class="line">        <span class="comment">// 获取当前所有ApplicationRunner和CommandLineRunner接口的实现类，执行其run方法</span></span><br><span class="line">        <span class="comment">// ApplicationRunner和CommandLineRunner功能基本一样，在Spring容器启动完成时执行，唯一不同的是ApplicationRunner的run方法入参是ApplicationArguments，而CommandLineRunner是String数组</span></span><br><span class="line">		afterRefresh(context, applicationArguments);</span><br><span class="line">        <span class="comment">// 通知所有listener，Spring容器启动完成</span></span><br><span class="line">		listeners.finished(context, <span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">// 停止时间监听器</span></span><br><span class="line">		stopWatch.stop();</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.logStartupInfo) &#123;</span><br><span class="line">			<span class="keyword">new</span> StartupInfoLogger(<span class="keyword">this</span>.mainApplicationClass)</span><br><span class="line">					.logStarted(getApplicationLog(), stopWatch);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> context;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        <span class="comment">// 启动有异常时，调用异常解析器解析异常信息，根据异常级别，判断是否退出Spring容器</span></span><br><span class="line">		handleRunFailure(context, listeners, analyzers, ex);</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="run方法整体执行流程总结"><a href="#run方法整体执行流程总结" class="headerlink" title="run方法整体执行流程总结"></a>run方法整体执行流程总结</h4><ul>
-<li>获取所有的</li>
-</ul>
+<h4 id="run方法整体执行流程总结"><a href="#run方法整体执行流程总结" class="headerlink" title="run方法整体执行流程总结"></a>run方法整体执行流程总结</h4><p>———————————————————未完待续—————————————————</p>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -415,10 +413,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -446,13 +444,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -632,9 +630,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

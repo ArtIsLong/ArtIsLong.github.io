@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-01T06:54:16.803Z">
+<meta property="og:updated_time" content="2018-12-07T09:22:28.532Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swagger常用注解">
 <meta name="twitter:description" content="Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。">
@@ -281,24 +281,19 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Swagger/">Swagger</a>, <a class="tag-link" href="/tags/开发工具框架/">开发工具框架</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    
-                </div>
-            
+                
 
-            <p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。<a id="more"></a></p>
+                <p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。<a id="more"></a></p>
 <p>Swagger主要有以下几个作用：</p>
 <ul>
 <li>Swagger可以生成一个具有互动性的API控制台，开发者可以用来快速学习和尝试API。</li>
@@ -310,59 +305,48 @@ var _hmt = _hmt || [];
 <ul>
 <li><p>@Api()用于类； </p>
 <p>表示标识这个类是swagger的资源 </p>
-<blockquote>
-<p>tags–表示说明<br>value–也是说明，可以使用tags替代<br><strong>但是tags如果有多个值，会生成多个list</strong></p>
-</blockquote>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags</span>–表示说明 </span><br><span class="line">value–也是说明，可以使用<span class="keyword">tags</span>替代 </span><br><span class="line">但是<span class="keyword">tags</span>如果有多个值，会生成多个<span class="keyword">list</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>@ApiOperation()用于方法；<br>表示一个http请求的操作 </p>
-<blockquote>
-<p>value用于方法描述<br>notes用于提示内容<br>tags可以重新分组（视情况而用） </p>
-</blockquote>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">value</span>用于方法描述 </span><br><span class="line">notes用于提示内容 </span><br><span class="line">tags可以重新分组（视情况而用）</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>@ApiParam()用于方法，参数，字段说明；<br>表示对参数的添加元数据（说明或是否必填等） </p>
-<blockquote>
-<p>name–参数名<br>value–参数说明<br>required–是否必填</p>
-</blockquote>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">name</span>–参数名 </span><br><span class="line"><span class="keyword">value</span>–参数说明 </span><br><span class="line">required–是否必填</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>@ApiModel()用于类<br>表示对类进行说明，用于参数用实体类接收 </p>
-<blockquote>
-<p>value–表示对象名<br>description–描述</p>
-</blockquote>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">value</span>–表示对象名 </span><br><span class="line">description–描述</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>@ApiModelProperty()用于方法，字段<br>表示对model属性的说明或者数据操作更改 </p>
-<blockquote>
-<p>value–字段说明<br>name–重写属性名字<br>dataType–重写属性类型<br>required–是否必填<br>example–举例说明<br>hidden–隐藏</p>
-</blockquote>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">value</span>–字段说明 </span><br><span class="line"><span class="keyword">name</span>–重写属性名字 </span><br><span class="line">dataType–重写属性类型 </span><br><span class="line">required–是否必填 </span><br><span class="line">example–举例说明 </span><br><span class="line">hidden–隐藏</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>@ApiIgnore()用于类，方法，方法参数<br>表示这个方法或者类被忽略,不被序列化</p>
 </li>
 <li><p>@ApiImplicitParam() 用于方法<br>表示单独的请求参数 </p>
 </li>
 <li><p>@ApiImplicitParams() 用于方法，包含多个 @ApiImplicitParam</p>
-<blockquote>
-<p>name–参数ming<br>value–参数说明<br>dataType–数据类型<br>paramType–参数类型<br>example–举例说明</p>
-</blockquote>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">name</span>–参数ming </span><br><span class="line"><span class="keyword">value</span>–参数说明 </span><br><span class="line">dataType–数据类型 </span><br><span class="line">paramType–参数类型 </span><br><span class="line">example–举例说明</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>推荐个大神的swagger-spring-boot-starter</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spring4all<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>swagger-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -403,10 +387,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -425,13 +409,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -611,9 +595,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     

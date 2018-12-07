@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ArtIsLong的博客">
 <meta property="og:description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-01T06:13:00.259Z">
+<meta property="og:updated_time" content="2018-12-07T02:55:35.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lombok常用注解">
 <meta name="twitter:description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features">
@@ -281,25 +281,25 @@ var _hmt = _hmt || [];
         <a class="tag-link" href="/tags/Lombok/">Lombok</a>, <a class="tag-link" href="/tags/开发工具框架/">开发工具框架</a>
     </div>
 
-                        <!--
-                        <div style="font-size: 12px"><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></div>
-                        -->
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
                     </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
-        
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lombok常用注解"><span class="toc-number">1.</span> <span class="toc-text">Lombok常用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Getter"><span class="toc-number">1.1.</span> <span class="toc-text">@Getter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setter"><span class="toc-number">1.2.</span> <span class="toc-text">@Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ToString"><span class="toc-number">1.3.</span> <span class="toc-text">@ToString</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EqualsAndHashCode"><span class="toc-number">1.4.</span> <span class="toc-text">@EqualsAndHashCode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NoArgsConstructor"><span class="toc-number">1.5.</span> <span class="toc-text">@NoArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data"><span class="toc-number">1.6.</span> <span class="toc-text">@Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Value"><span class="toc-number">1.7.</span> <span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AllArgsConstructor"><span class="toc-number">1.8.</span> <span class="toc-text">@AllArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RequiredArgsConstructor"><span class="toc-number">1.9.</span> <span class="toc-text">@RequiredArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Builder"><span class="toc-number">1.10.</span> <span class="toc-text">@Builder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Accessors"><span class="toc-number">1.11.</span> <span class="toc-text">@Accessors</span></a></li></ol></li></ol>
-                </div>
-            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lombok常用注解"><span class="toc-number">1.</span> <span class="toc-text">Lombok常用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Getter"><span class="toc-number">1.1.</span> <span class="toc-text">@Getter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setter"><span class="toc-number">1.2.</span> <span class="toc-text">@Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ToString"><span class="toc-number">1.3.</span> <span class="toc-text">@ToString</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EqualsAndHashCode"><span class="toc-number">1.4.</span> <span class="toc-text">@EqualsAndHashCode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NoArgsConstructor"><span class="toc-number">1.5.</span> <span class="toc-text">@NoArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data"><span class="toc-number">1.6.</span> <span class="toc-text">@Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Value"><span class="toc-number">1.7.</span> <span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AllArgsConstructor"><span class="toc-number">1.8.</span> <span class="toc-text">@AllArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RequiredArgsConstructor"><span class="toc-number">1.9.</span> <span class="toc-text">@RequiredArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Builder"><span class="toc-number">1.10.</span> <span class="toc-text">@Builder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Accessors"><span class="toc-number">1.11.</span> <span class="toc-text">@Accessors</span></a></li></ol></li></ol>
+                    </div>
+                
 
-            <p><a href="https://projectlombok.org/" target="_blank" rel="noopener">Project Lombok</a> is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features such as <code>val</code>, and much more.</p>
-<p>这是lombok官网的解释，大概意思是说lombok项目是一个java库，会自动处理代码的编译，比如你不用写getter方法，它就会自动帮你实现。<a id="more"></a></p>
+                <p><a href="https://projectlombok.org/" target="_blank" rel="noopener">Project Lombok</a> is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features such as <code>val</code>, and much more.</p>
+<p>这是lombok官网的解释，大概意思是说Lombok项目是一个java库，会自动处理代码的编译，比如你不用写getter方法，它就会自动帮你实现。<a id="more"></a></p>
 <p>下面简单介绍一些在开发中常用的注解。</p>
 <h2 id="Lombok常用注解"><a href="#Lombok常用注解" class="headerlink" title="Lombok常用注解"></a>Lombok常用注解</h2><h3 id="Getter"><a href="#Getter" class="headerlink" title="@Getter"></a>@Getter</h3><p>可标注到类或属性上，标注到类上表示此类中的所有属性生成getter方法，标注到某个属性上，表示此属性生成getter方法。</p>
 <h3 id="Setter"><a href="#Setter" class="headerlink" title="@Setter"></a>@Setter</h3><p>和@Getter类似，可标注到类或属性上，标注到类上表示此类中的所有属性生成setter方法，标注到某个属性上，表示此属性生成setter方法。</p>
@@ -330,22 +330,22 @@ var _hmt = _hmt || [];
 <p>以上一些常用的lombok的用法介绍完了，在日常的开发或者自己的练习中，使用lombok并结合各版本的jdk特性，将更大的提高开发效率，提高开发质量。</p>
 
                 
-                <!--打赏-->
-                <div class="reward">
-                    <div class="reward-button">赏 <span class="reward-code">
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
                         <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
                         <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
                         </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
                     </div>
-                    <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
-                </div>
-                <!--打赏-->
+                    <!--打赏-->
                 
-        
+            
         </div>
         
-        <footer class="article-footer">
-            <div class="share-container">
+            <footer class="article-footer">
+                <div class="share-container">
 
 
     <div class="bdsharebuttonbox">
@@ -386,10 +386,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 </div>
 
-            
+                
     
 
-        </footer>
+            </footer>
         
     </div>
     
@@ -417,13 +417,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     
 </article>
 
-
     
+        
     
         <section id="comments"></section>
     
 
-
+    
 </section>
             
                 
@@ -603,9 +603,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
-    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>-->
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
         
     
