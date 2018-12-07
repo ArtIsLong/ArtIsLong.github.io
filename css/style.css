@@ -1742,7 +1742,7 @@ a.article-title:hover {
   left: 50%;
   display: none;
   width: 350px;
-  height: 200px;
+  height: 250px;
   margin-left: -175px;
   padding: 15px;
   border: 1px solid #e6e6e6;
@@ -1756,7 +1756,7 @@ a.article-title:hover {
 .reward .reward-code span {
   display: inline-block;
   width: 150px;
-  height: 150px;
+  height: 180px;
 }
 .reward .reward-code span.alipay-code {
   float: left;
@@ -1771,7 +1771,7 @@ a.article-title:hover {
   display: inline-block;
   float: left;
   width: 150px;
-  height: 150px;
+  height: 200px;
   margin: 0 auto;
   border: 0;
 }
