@@ -1,1 +1,706 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><title>Nginx+Tomcat+Redis实现Session共享 | ArtIsLong的博客</title><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。"><meta name="keywords" content="Session,集群"><meta property="og:type" content="article"><meta property="og:title" content="Nginx+Tomcat+Redis实现Session共享"><meta property="og:url" content="/2017/06/07/Session共享/index.html"><meta property="og:site_name" content="ArtIsLong的博客"><meta property="og:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2018-12-07T03:14:12.754Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Nginx+Tomcat+Redis实现Session共享"><meta name="twitter:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。"><link rel="alternate" href="/" title="ArtIsLong的博客" type="application/atom+xml"><link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css"><link rel="stylesheet" href="/libs/open-sans/styles.css"><link rel="stylesheet" href="/libs/source-code-pro/styles.css"><link rel="stylesheet" href="/css/style.css"><script src="/libs/jquery/2.1.3/jquery.min.js"></script><link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css"><link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css"><script>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script></head></html><body><div id="container"><header id="header"><div id="header-main" class="header-inner"><div class="outer"><a href="/" id="logo"><i class="logo"></i> <span class="site-title">ArtIsLong的博客</span></a><nav id="main-nav"> <a class="main-nav-link" href="/.">首页</a> <a class="main-nav-link" href="/archives">归档</a> <a class="main-nav-link" href="/books">书架</a> <a class="main-nav-link" href="/about">关于我</a></nav><nav id="sub-nav"><div class="profile" id="profile-nav"> <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/head.png"><i class="fas fa-caret-down"></i></a></div></nav><div id="search-form-wrap"><form class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"> <button type="submit" class="search-form-submit"></button></form><div class="ins-search"><div class="ins-search-mask"></div><div class="ins-search-container"><div class="ins-input-wrapper"> <input type="text" class="ins-search-input" placeholder="想要查找什么..."><span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span></div><div class="ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>window.INSIGHT_CONFIG={TRANSLATION:{POSTS:"文章",PAGES:"页面",CATEGORIES:"分类",TAGS:"标签",UNTITLED:"(未命名)"},ROOT_URL:"/",CONTENT_URL:"/content.json"}</script><script src="/js/insight.js"></script></div></div></div><div id="main-nav-mobile" class="header-sub header-inner"><table class="menu outer"><tr><td><a class="main-nav-link" href="/.">首页</a></td><td><a class="main-nav-link" href="/archives">归档</a></td><td><a class="main-nav-link" href="/books">书架</a></td><td><a class="main-nav-link" href="/about">关于我</a></td><td><div class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"></div></td></tr></table></div></header><div class="outer"><aside id="profile" class="profile-fixed"><div class="inner profile-inner"><div class="base-info profile-block"> <a href="/"><img id="avatar" src="/css/images/head.png"></a><h2 id="name">ArtIsLong</h2><h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3><span id="location"><i class="fas fa-map-marker-alt" style="padding-right:5px"></i> Shanghai, China</span> <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a></div><div class="article-info profile-block"><div class="article-info-block"> 26 <span>文章</span></div><div class="article-info-block"> 21 <span>标签</span></div></div><div class="profile-block social-links"><table><tr><td><a href="http://github.com/ArtIsLong" target="_blank" title="github" class="tooltip"><i class="fab fa-github"></i></a></td><td><a href="https://gitee.com/artislong" target="_blank" title="gitee" class="tooltip"><i class="fab fa-gitee"></i></a></td><td><a href="/799418876@qq.com" target="_blank" title="mail" class="tooltip"><i class="fab fa-mail"></i></a></td><td><a href="/" target="_blank" title="facebook" class="tooltip"><i class="fab fa-facebook"></i></a></td><td><a href="/" target="_blank" title="rss" class="tooltip"><i class="fas fa-rss"></i></a></td></tr></table></div></div></aside><section id="main"><article id="post-Session共享" class="article article-type-post" itemscope="" itemprop="blogPost"><div class="article-inner"><header class="article-header"><h1 class="article-title" itemprop="name"> Nginx+Tomcat+Redis实现Session共享</h1><div class="article-meta"><div class="article-date"><i class="fas fa-calendar-alt"></i> <a href="/2017/06/07/Session共享/"><time datetime="2017-06-07T06:43:12.000Z" itemprop="datePublished">2017-06-07 14:43:12</time></a></div><div class="article-category"><i class="fas fa-folder"></i> <a class="article-category-link" href="/categories/服务器/">服务器</a></div><div class="article-tag"><i class="fas fa-tag"></i> <a class="tag-link" href="/tags/Session/">Session</a>, <a class="tag-link" href="/tags/集群/">集群</a></div><div style="font-size:12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div></div></header><div class="article-entry" itemprop="articleBody"><div id="toc" class="toc-article"> <strong class="toc-title">文章目录</strong><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、软件准备"><span class="toc-number">1.</span> <span class="toc-text">1、软件准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置tomcat"><span class="toc-number">2.</span> <span class="toc-text">2、配置tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、配置Nginx"><span class="toc-number">3.</span> <span class="toc-text">3、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、测试页面"><span class="toc-number">4.</span> <span class="toc-text">4、测试页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、启动测试"><span class="toc-number">5.</span> <span class="toc-text">5、启动测试</span></a></li></ol></div><p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。<a id="more"></a></p><p>经过查资料，找到了几种解决session共享的方案。</p><ul><li><p>不适用session，换作cookie</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">能把session改成cookie，就能避开session的一些弊端，也有资料表明在集群系统中不能使用session。但是博主思考再三，公司项目的session中存储一些比较重要的信息，在以后的业务中也会使用session中的数据，所以直接使用cookie这种方案果断舍弃。</span><br></pre></td></tr></table></figure></li><li><p>应用服务器自行实现共享</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">让服务器自行实现session共享，就需要提供一个后端服务器都能访问的公共容器来存储session，比如redis或者memcache，当系统需要获取session时，直接从redis或memcache中获取即可。</span><br></pre></td></tr></table></figure><p>以上两种方式都与Nginx没多大关系了。下面说说使用nginx如何处理</p></li><li><p>ip_hash</p><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">之前的博客中对upstream的几种方式做了介绍，相信大家还记得ip_hash的介绍吧，每个请求按访问<span class="built_in">ip</span>的hash结果分配，这样每个访问固定访问一个后端服务器。</span><br><span class="line">这样一来这个<span class="built_in">ip</span>下的某个客户端和某个后端服务器就能建立稳固的session。这样每个客户端都只对应一个服务器，那就不存在需要共享session的需要了，不过只用<span class="built_in">ip</span>这个因子来分配后端，所以还是存在一些缺陷，不能在以下情况下使用：</span><br><span class="line"><span class="number">1</span>、nginx不是最前端的服务器。ip_hash要求nginx一定是最前端的服务器，否则nginx就得不到正确的<span class="built_in">ip</span>，也就不能根据<span class="built_in">ip</span>来分配后端了。比如squid(一个高性能的代理缓存服务器)作为最前端，那么nginx只能获取到squid所在服务器的<span class="built_in">ip</span>地址，这种分流方式肯定会混乱的。</span><br><span class="line"><span class="number">2</span>、nginx的后端还有其他方式的负载均衡。如果nginx后端又有其他的负载均衡，将请求又通过另外的方式分流了，那么某个客户端的请求肯定不能定位到同一台服务器上。</span><br></pre></td></tr></table></figure></li><li><p>upstream_hash</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">为了解决ip_hash的一些问题，可以使用upstream_hash这个第三方模块，这个模块大多数情况下是用作url_hash的，但是并不妨碍将它用来做session共享；</span><br><span class="line">这种方式不是很理解，就不做累述了，以后再慢慢研究。读者可自行查找资料学习。</span><br></pre></td></tr></table></figure></li></ul><p>来自于网络上的方案介绍完了，接下来说说博主项目中的实际操作。</p><p>博主最初的打算是使用redis来缓存系统数据，刚好也可以实现session共享。可惜，客户公司方面服务器资源不够，不让使用redis，上面第二种方案瞬间被阉割掉了，有点不爽。这里必须吐槽吐槽客户公司。</p><p>由于不让使用redis，所以只能使用第三种方式了，这里就不做太多的累述了，比较简单，配置nginx负载均衡的时候将upstream的方式配置为ip_hash即可，具体配置方式在上篇“Nginx负载均衡配置”中已有例子，可做参考。</p><p>简单的解释一下公司项目架构，公司项目采用前后台分离的架构，前端页面使用angularJS实现一种单页面应用，后台服务则使用SpringBoot为前端提供数据服务，后台开发者只需要关注后端逻辑，然后将前端需要的数据转为json传给前端，而不需要去考虑页面的跳转等，而前端人员也不需要关注后台逻辑，可以全身心的提供前端的用户体验度，最主要的是前后台分离后，系统开发职责划分的更加清晰。</p><p>关于前后台分离方案，这个<a href="http://web.jobbole.com/82637/" target="_blank" rel="noopener">博客</a>讲的比较好，读者可做参考。</p><p>这样就完了？没有，这就完了这篇博客也太水了，虽然客户公司不让使用redis，但是博主还是自己抽时间使用nginx+tomcat+redis来自己实现session共享。</p><p>——————————————————————这是一个分隔线——————————————————————-</p><h4 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h4><p>因为是自己玩，所以直接在windows上开工了。</p><p>nginx-1.11.5，apache-tomcat-7.0.55，redis-2.6.12(windows版)</p><p>读者可从<a href="https://github.com/ArtIsLong/documentation/blob/master/resources/nginx_redis_tomcat.zip" target="_blank" rel="noopener">这里</a>下载。其中有三个jar包最为重要：</p><p>commons-pool-1.6.jar，jedis-2.1.0.jar，tomcat-redis-session-manager-tomcat7.jar，在软件包中的tomcat的lib目录下可找到。</p><h4 id="2、配置tomcat"><a href="#2、配置tomcat" class="headerlink" title="2、配置tomcat"></a>2、配置tomcat</h4><p>在tomcat中的context.xml文件中加入以下内容</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Valve</span>  <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionHandlerValve"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionManager"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">host</span>=<span class="string">"localhost"</span> </span></span><br><span class="line"><span class="tag">	<span class="attr">port</span>=<span class="string">"6379"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">database</span>=<span class="string">"0"</span> </span></span><br><span class="line"><span class="tag">	<span class="attr">maxInactiveInterval</span>=<span class="string">"60"</span> /&gt;</span></span><br></pre></td></tr></table></figure><p>将配置好的tomcat三份，分别命名为apache-tomcat-7.0.55-1，apache-tomcat-7.0.55-2，apache-tomcat-7.0.55-3，然后去将每个tomcat的端口改掉，分别改为8081，8082，8083</p><h4 id="3、配置Nginx"><a href="#3、配置Nginx" class="headerlink" title="3、配置Nginx"></a>3、配置Nginx</h4><p>将三个tomcat服务器用nginx代理，</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span>  localhost   &#123;</span><br><span class="line">	<span class="attribute">server</span>   localhost:<span class="number">8081</span> weight=<span class="number">1</span>;  </span><br><span class="line">	<span class="attribute">server</span>   localhost:<span class="number">8082</span> weight=<span class="number">1</span>;  </span><br><span class="line">	<span class="attribute">server</span>   localhost:<span class="number">8083</span> weight=<span class="number">1</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="4、测试页面"><a href="#4、测试页面" class="headerlink" title="4、测试页面"></a>4、测试页面</h4><p>在tomcat的webapp目录下新建test目录，在test中新建index.jsp，然后给三个tomcat都拷贝一份</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> %&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	out.println(request.getSession().getId());</span><br><span class="line">%&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure><p>这可能是可与Hello，World媲美的页面了。</p><h4 id="5、启动测试"><a href="#5、启动测试" class="headerlink" title="5、启动测试"></a>5、启动测试</h4><p>先启动redis，在启动三个tomcat，最后再启动nginx，然后访问页面。</p><p>有两种访问方式：</p><ul><li>直接访问三个tomcat，【<a href="http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。" target="_blank" rel="noopener">http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。</a></li><li>多次访问nginx，【<a href="http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致" target="_blank" rel="noopener">http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致</a></li></ul><p>好了，这种session共享完成。</p><p>这种Session共享是基于Tomcat完成的，不会侵入项目。当前还有一种实现Session共享的方式，Spring全家桶中，Spring Session框架就是专门做Session管控的。</p><div class="reward"><div class="reward-button">赏 <span class="reward-code"><span class="alipay-code"><img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"></span> <span class="wechat-code"><img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"></span></span></div><p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p></div></div><footer class="article-footer"><div class="share-container"><div class="bdsharebuttonbox"> <a href="#" class="bds_more" data-cmd="more">分享到：</a> <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a> <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a> <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a> <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a> <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a></div><script>with(window._bd_share_config={common:{bdSnsKey:{},bdText:"",bdMini:"2",bdMiniList:!1,bdPic:"",bdStyle:"0",bdSize:"16"},share:{bdSize:16}},document)(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date/36e5)</script><style>.bdshare_popup_box{border-radius:4px;border:#e1e1e1 solid 1px}.bdshare-button-style0-16 .bds_more,.bdshare-button-style0-16 a{padding-left:20px;margin:6px 10px 6px 0}.bdshare_dialog_list a,.bdshare_popup_bottom a,.bdshare_popup_list a{font-family:'Microsoft Yahei'}.bdshare_popup_top{display:none}.bdshare_popup_bottom{height:auto;padding:5px}</style></div></footer></div><nav id="article-nav"> <a href="/2017/06/07/Nginx配置/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">上一篇</strong><div class="article-nav-title"> Nginx配置</div></a> <a href="/2017/06/06/Nginx入门/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">下一篇</strong><div class="article-nav-title">Nginx入门</div></a></nav></article><section id="comments"></section></section><aside id="sidebar"><div class="widget-wrap"><h3 class="widget-title">最新文章</h3><div class="widget"><ul id="recent-post" class=""><li><div class="item-thumbnail"><a href="/2018/12/01/Swagger常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p><p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p><p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p><p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p><p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/08/07/Storm集群搭建/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Storm/">Storm</a></p><p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">Storm集群搭建</a></p><p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07 13:45:58</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/07/28/Activiti-23张表及7大服务详解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/工作流/">工作流</a></p><p class="item-title"><a href="/2018/07/28/Activiti-23张表及7大服务详解/" class="title">Activiti 23张表及7大服务详解</a></p><p class="item-date"><time datetime="2018-07-28T15:43:07.000Z" itemprop="datePublished">2018-07-28 23:43:07</time></p></div></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">分类</h3><div class="widget"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">归档</h3><div class="widget"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签</h3><div class="widget"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签云</h3><div class="widget tagcloud"> <a href="/tags/Docker/" style="font-size:16.67px">Docker</a> <a href="/tags/Git/" style="font-size:10px">Git</a> <a href="/tags/Jackson/" style="font-size:10px">Jackson</a> <a href="/tags/Java基础/" style="font-size:13.33px">Java基础</a> <a href="/tags/Lombok/" style="font-size:10px">Lombok</a> <a href="/tags/Nginx/" style="font-size:16.67px">Nginx</a> <a href="/tags/Quartz/" style="font-size:10px">Quartz</a> <a href="/tags/Redis/" style="font-size:13.33px">Redis</a> <a href="/tags/Session/" style="font-size:10px">Session</a> <a href="/tags/SpringBoot/" style="font-size:20px">SpringBoot</a> <a href="/tags/Storm/" style="font-size:10px">Storm</a> <a href="/tags/Swagger/" style="font-size:10px">Swagger</a> <a href="/tags/Tomcat/" style="font-size:13.33px">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size:10px">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size:10px">前后端分离</a> <a href="/tags/多数据源/" style="font-size:10px">多数据源</a> <a href="/tags/工作流/" style="font-size:10px">工作流</a> <a href="/tags/开发工具框架/" style="font-size:16.67px">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size:10px">负载均衡</a> <a href="/tags/集群/" style="font-size:10px">集群</a> <a href="/tags/项目架构/" style="font-size:10px">项目架构</a></div></div><div class="widget-wrap widget-list"><h3 class="widget-title">链接</h3><div class="widget"><ul><li> <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a></li><li> <a href="http://fullsmilespace.com">微笑空间站</a></li></ul></div></div><div id="toTop" class="fas fa-angle-up"></div></aside></div><footer id="footer"><div class="outer"><div id="footer-info" class="inner"> &copy; 2018 ArtIsLong的博客<br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a></div></div><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></footer><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><script>if(document.getElementById("comments")){var gitalk=new Gitalk({clientID:"2f97f5d71dbb65bf01e1",clientSecret:"f715a8e1507c1fef1c5e3cfaccef8f59aa734318",repo:"ArtIsLong.github.io",owner:"ArtIsLong",admin:["ArtIsLong"],id:decodeURI(window.location.pathname),distractionFreeMode:!1,createIssueManually:!1,perPage:15});gitalk.render("comments")}</script><script src="/libs/lightgallery/js/lightgallery.min.js"></script><script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script><script src="/libs/lightgallery/js/lg-pager.min.js"></script><script src="/libs/lightgallery/js/lg-autoplay.min.js"></script><script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script><script src="/libs/lightgallery/js/lg-zoom.min.js"></script><script src="/libs/lightgallery/js/lg-hash.min.js"></script><script src="/libs/lightgallery/js/lg-share.min.js"></script><script src="/libs/lightgallery/js/lg-video.min.js"></script><script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script><script src="/js/main.js"></script></div><script>((window.gitter={}).chat={}).options={room:"artislong/Lobby"}</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer="defer"></script><script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script></body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>Nginx+Tomcat+Redis实现Session共享 | ArtIsLong的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
+<meta name="keywords" content="Session,集群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx+Tomcat+Redis实现Session共享">
+<meta property="og:url" content="/2017/06/07/Session共享/index.html">
+<meta property="og:site_name" content="ArtIsLong的博客">
+<meta property="og:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-07T03:14:12.754Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx+Tomcat+Redis实现Session共享">
+<meta name="twitter:description" content="之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。">
+    
+
+    
+        <link rel="alternate" href="/" title="ArtIsLong的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+</head>
+</html>
+<body>
+
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">ArtIsLong的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/books">书架</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/head.png">
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/books">书架</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <a href="/"><img id="avatar" src="/css/images/head.png"></a>
+            <h2 id="name">ArtIsLong</h2>
+            <h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                27
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                22
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <!--<a href="http://github.com/ArtIsLong" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>-->
+                        <a href="http://github.com/ArtIsLong" target="_blank" title="github" class="tooltip">
+                            
+                                <i class="fab fa-github"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="https://gitee.com/artislong" target="_blank" title="gitee" class=tooltip>
+                            <i class="fab fa-gitee"></i>
+                        </a>-->
+                        <a href="https://gitee.com/artislong" target="_blank" title="gitee" class="tooltip">
+                            
+                                <i class="fab fa-gitee"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="/799418876@qq.com" target="_blank" title="mail" class=tooltip>
+                            <i class="fab fa-mail"></i>
+                        </a>-->
+                        <a href="/799418876@qq.com" target="_blank" title="mail" class="tooltip">
+                            
+                                <i class="fab fa-mail"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fab fa-facebook"></i>
+                        </a>-->
+                        <a href="/" target="_blank" title="facebook" class="tooltip">
+                            
+                                <i class="fab fa-facebook"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>-->
+                        <a href="/" target="_blank" title="rss" class="tooltip">
+                            
+                                <i class="fas fa-rss"></i>
+                            
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Session共享" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Nginx+Tomcat+Redis实现Session共享
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/06/07/Session共享/">
+            <time datetime="2017-06-07T06:43:12.000Z" itemprop="datePublished">2017-06-07 14:43:12</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/服务器/">服务器</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Session/">Session</a>, <a class="tag-link" href="/tags/集群/">集群</a>
+    </div>
+
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、软件准备"><span class="toc-number">1.</span> <span class="toc-text">1、软件准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、配置tomcat"><span class="toc-number">2.</span> <span class="toc-text">2、配置tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、配置Nginx"><span class="toc-number">3.</span> <span class="toc-text">3、配置Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、测试页面"><span class="toc-number">4.</span> <span class="toc-text">4、测试页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、启动测试"><span class="toc-number">5.</span> <span class="toc-text">5、启动测试</span></a></li></ol>
+                    </div>
+                
+
+                <p>之前的博文中简单的介绍了一下Nginx的负载均衡配置，比较简单，但是如果实现多台服务器之间的session共享就是一个难题了。<a id="more"></a></p>
+<p>经过查资料，找到了几种解决session共享的方案。</p>
+<ul>
+<li><p>不适用session，换作cookie</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">能把session改成cookie，就能避开session的一些弊端，也有资料表明在集群系统中不能使用session。但是博主思考再三，公司项目的session中存储一些比较重要的信息，在以后的业务中也会使用session中的数据，所以直接使用cookie这种方案果断舍弃。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>应用服务器自行实现共享</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">让服务器自行实现session共享，就需要提供一个后端服务器都能访问的公共容器来存储session，比如redis或者memcache，当系统需要获取session时，直接从redis或memcache中获取即可。</span><br></pre></td></tr></table></figure>
+<p>以上两种方式都与Nginx没多大关系了。下面说说使用nginx如何处理</p>
+</li>
+<li><p>ip_hash</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">之前的博客中对upstream的几种方式做了介绍，相信大家还记得ip_hash的介绍吧，每个请求按访问<span class="built_in">ip</span>的hash结果分配，这样每个访问固定访问一个后端服务器。</span><br><span class="line">这样一来这个<span class="built_in">ip</span>下的某个客户端和某个后端服务器就能建立稳固的session。这样每个客户端都只对应一个服务器，那就不存在需要共享session的需要了，不过只用<span class="built_in">ip</span>这个因子来分配后端，所以还是存在一些缺陷，不能在以下情况下使用：</span><br><span class="line"><span class="number">1</span>、nginx不是最前端的服务器。ip_hash要求nginx一定是最前端的服务器，否则nginx就得不到正确的<span class="built_in">ip</span>，也就不能根据<span class="built_in">ip</span>来分配后端了。比如squid(一个高性能的代理缓存服务器)作为最前端，那么nginx只能获取到squid所在服务器的<span class="built_in">ip</span>地址，这种分流方式肯定会混乱的。</span><br><span class="line"><span class="number">2</span>、nginx的后端还有其他方式的负载均衡。如果nginx后端又有其他的负载均衡，将请求又通过另外的方式分流了，那么某个客户端的请求肯定不能定位到同一台服务器上。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>upstream_hash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">为了解决ip_hash的一些问题，可以使用upstream_hash这个第三方模块，这个模块大多数情况下是用作url_hash的，但是并不妨碍将它用来做session共享；</span><br><span class="line">这种方式不是很理解，就不做累述了，以后再慢慢研究。读者可自行查找资料学习。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>来自于网络上的方案介绍完了，接下来说说博主项目中的实际操作。</p>
+<p>博主最初的打算是使用redis来缓存系统数据，刚好也可以实现session共享。可惜，客户公司方面服务器资源不够，不让使用redis，上面第二种方案瞬间被阉割掉了，有点不爽。这里必须吐槽吐槽客户公司。</p>
+<p>由于不让使用redis，所以只能使用第三种方式了，这里就不做太多的累述了，比较简单，配置nginx负载均衡的时候将upstream的方式配置为ip_hash即可，具体配置方式在上篇“Nginx负载均衡配置”中已有例子，可做参考。</p>
+<p>简单的解释一下公司项目架构，公司项目采用前后台分离的架构，前端页面使用angularJS实现一种单页面应用，后台服务则使用SpringBoot为前端提供数据服务，后台开发者只需要关注后端逻辑，然后将前端需要的数据转为json传给前端，而不需要去考虑页面的跳转等，而前端人员也不需要关注后台逻辑，可以全身心的提供前端的用户体验度，最主要的是前后台分离后，系统开发职责划分的更加清晰。</p>
+<p>关于前后台分离方案，这个<a href="http://web.jobbole.com/82637/" target="_blank" rel="noopener">博客</a>讲的比较好，读者可做参考。 </p>
+<p>这样就完了？没有，这就完了这篇博客也太水了，虽然客户公司不让使用redis，但是博主还是自己抽时间使用nginx+tomcat+redis来自己实现session共享。</p>
+<p>——————————————————————这是一个分隔线——————————————————————-</p>
+<h4 id="1、软件准备"><a href="#1、软件准备" class="headerlink" title="1、软件准备"></a>1、软件准备</h4><p>因为是自己玩，所以直接在windows上开工了。</p>
+<p>nginx-1.11.5，apache-tomcat-7.0.55，redis-2.6.12(windows版)</p>
+<p>读者可从<a href="https://github.com/ArtIsLong/documentation/blob/master/resources/nginx_redis_tomcat.zip" target="_blank" rel="noopener">这里</a>下载。其中有三个jar包最为重要：</p>
+<p>commons-pool-1.6.jar，jedis-2.1.0.jar，tomcat-redis-session-manager-tomcat7.jar，在软件包中的tomcat的lib目录下可找到。</p>
+<h4 id="2、配置tomcat"><a href="#2、配置tomcat" class="headerlink" title="2、配置tomcat"></a>2、配置tomcat</h4><p>在tomcat中的context.xml文件中加入以下内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Valve</span>  <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionHandlerValve"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"com.radiadesign.catalina.session.RedisSessionManager"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">host</span>=<span class="string">"localhost"</span> </span></span><br><span class="line"><span class="tag">	<span class="attr">port</span>=<span class="string">"6379"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">database</span>=<span class="string">"0"</span> </span></span><br><span class="line"><span class="tag">	<span class="attr">maxInactiveInterval</span>=<span class="string">"60"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>将配置好的tomcat三份，分别命名为apache-tomcat-7.0.55-1，apache-tomcat-7.0.55-2，apache-tomcat-7.0.55-3，然后去将每个tomcat的端口改掉，分别改为8081，8082，8083</p>
+<h4 id="3、配置Nginx"><a href="#3、配置Nginx" class="headerlink" title="3、配置Nginx"></a>3、配置Nginx</h4><p>将三个tomcat服务器用nginx代理，</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span>  localhost   &#123;</span><br><span class="line">	<span class="attribute">server</span>   localhost:<span class="number">8081</span> weight=<span class="number">1</span>;  </span><br><span class="line">	<span class="attribute">server</span>   localhost:<span class="number">8082</span> weight=<span class="number">1</span>;  </span><br><span class="line">	<span class="attribute">server</span>   localhost:<span class="number">8083</span> weight=<span class="number">1</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4、测试页面"><a href="#4、测试页面" class="headerlink" title="4、测试页面"></a>4、测试页面</h4><p>在tomcat的webapp目录下新建test目录，在test中新建index.jsp，然后给三个tomcat都拷贝一份</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> %&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	out.println(request.getSession().getId());</span><br><span class="line">%&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>这可能是可与Hello，World媲美的页面了。</p>
+<h4 id="5、启动测试"><a href="#5、启动测试" class="headerlink" title="5、启动测试"></a>5、启动测试</h4><p>先启动redis，在启动三个tomcat，最后再启动nginx，然后访问页面。</p>
+<p>有两种访问方式：</p>
+<ul>
+<li>直接访问三个tomcat，【<a href="http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。" target="_blank" rel="noopener">http://localhost:808x/test/index.jsp】，查看页面打印出的sessionId是否一致。</a></li>
+<li>多次访问nginx，【<a href="http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致" target="_blank" rel="noopener">http://localhost:80/test/index.jsp】，同时配置Nginx时将upstream配置为轮询，使用上面路径访问时会将请求轮流转发到三台服务器上，确实此时页面上的sessionId是否一致</a></li>
+</ul>
+<p>好了，这种session共享完成。</p>
+<p>这种Session共享是基于Tomcat完成的，不会侵入项目。当前还有一种实现Session共享的方式，Spring全家桶中，Spring Session框架就是专门做Session管控的。</p>
+
+                
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
+                        <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
+                        <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
+                        </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
+                    </div>
+                    <!--打赏-->
+                
+            
+        </div>
+        
+            <footer class="article-footer">
+                <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+                
+    
+
+            </footer>
+        
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/06/07/Nginx配置/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Nginx配置
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/06/06/Nginx入门/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Nginx入门</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+    
+        
+    
+        <section id="comments"></section>
+    
+
+    
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Shiro/">Shiro</a></p>
+                            <p class="item-title"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="title">Shiro在前后台分离架构项目汇总的应用</a></p>
+                            <p class="item-date"><time datetime="2018-12-15T14:51:39.000Z" itemprop="datePublished">2018-12-15 22:51:39</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Swagger常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p>
+                            <p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p>
+                            <p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/08/07/Storm集群搭建/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Storm/">Storm</a></p>
+                            <p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">Storm集群搭建</a></p>
+                            <p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07 13:45:58</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Jackson/" style="font-size: 10px;">Jackson</a> <a href="/tags/Java基础/" style="font-size: 13.33px;">Java基础</a> <a href="/tags/Lombok/" style="font-size: 10px;">Lombok</a> <a href="/tags/Nginx/" style="font-size: 16.67px;">Nginx</a> <a href="/tags/Quartz/" style="font-size: 10px;">Quartz</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Storm/" style="font-size: 10px;">Storm</a> <a href="/tags/Swagger/" style="font-size: 13.33px;">Swagger</a> <a href="/tags/Tomcat/" style="font-size: 13.33px;">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size: 10px;">前后端分离</a> <a href="/tags/多数据源/" style="font-size: 10px;">多数据源</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 16.67px;">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/集群/" style="font-size: 10px;">集群</a> <a href="/tags/项目架构/" style="font-size: 10px;">项目架构</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://fullsmilespace.com">微笑空间站</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 ArtIsLong的博客<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+        
+    
+	<!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>-->
+	<!--<link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">-->
+	<!--<script src="https://billts.site/js/gitment.js"></script>-->
+    <!--<script>
+		if (document.getElementById('comments')) {
+			var gitment = new Gitment({
+				owner: '<-%= theme.comment.gitment.owner %>',
+				repo: '<-%= theme.comment.gitment.repo %>',
+				oauth: {
+					client_id: '<-%= theme.comment.gitment.client_id %>',
+					client_secret: '<-%= theme.comment.gitment.client_secret %>',
+				},
+			})
+			gitment.render('comments')
+		}
+	</script>-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+	<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+	<script>
+        if (document.getElementById('comments')) {
+            var gitalk = new Gitalk({
+                clientID: '2f97f5d71dbb65bf01e1',
+                clientSecret: 'f715a8e1507c1fef1c5e3cfaccef8f59aa734318',
+                repo: 'ArtIsLong.github.io',
+                owner: 'ArtIsLong',
+                admin: ['ArtIsLong'],
+                id: decodeURI(window.location.pathname),      // Ensure uniqueness and length less than 50
+                distractionFreeMode: false,  // Facebook-like distraction free mode
+                createIssueManually: false,
+                perPage: 15/*,
+                flipMoveOptions: {
+                    staggerDelayBy: 150,
+                    appearAnimation: 'accordionVertical',
+                    enterAnimation: 'accordionVertical',
+                    leaveAnimation: 'accordionVertical',
+                }*/
+            })
+
+            gitalk.render('comments')
+        }
+
+	</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+    <script>
+        ((window.gitter = {}).chat = {}).options = {
+            room: 'artislong/Lobby'
+        };
+    </script>
+    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+    
+    <script type="text/javascript"
+            color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+    
+</body>
+</html>

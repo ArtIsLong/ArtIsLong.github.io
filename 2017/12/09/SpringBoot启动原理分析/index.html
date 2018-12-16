@@ -1,1 +1,719 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><title>SpringBoot启动原理分析 | ArtIsLong的博客</title><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。"><meta name="keywords" content="SpringBoot"><meta property="og:type" content="article"><meta property="og:title" content="SpringBoot启动原理分析"><meta property="og:url" content="/2017/12/09/SpringBoot启动原理分析/index.html"><meta property="og:site_name" content="ArtIsLong的博客"><meta property="og:description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2018-12-07T03:24:52.577Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SpringBoot启动原理分析"><meta name="twitter:description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。"><link rel="alternate" href="/" title="ArtIsLong的博客" type="application/atom+xml"><link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css"><link rel="stylesheet" href="/libs/open-sans/styles.css"><link rel="stylesheet" href="/libs/source-code-pro/styles.css"><link rel="stylesheet" href="/css/style.css"><script src="/libs/jquery/2.1.3/jquery.min.js"></script><link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css"><link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css"><script>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script></head></html><body><div id="container"><header id="header"><div id="header-main" class="header-inner"><div class="outer"><a href="/" id="logo"><i class="logo"></i> <span class="site-title">ArtIsLong的博客</span></a><nav id="main-nav"> <a class="main-nav-link" href="/.">首页</a> <a class="main-nav-link" href="/archives">归档</a> <a class="main-nav-link" href="/books">书架</a> <a class="main-nav-link" href="/about">关于我</a></nav><nav id="sub-nav"><div class="profile" id="profile-nav"> <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/head.png"><i class="fas fa-caret-down"></i></a></div></nav><div id="search-form-wrap"><form class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"> <button type="submit" class="search-form-submit"></button></form><div class="ins-search"><div class="ins-search-mask"></div><div class="ins-search-container"><div class="ins-input-wrapper"> <input type="text" class="ins-search-input" placeholder="想要查找什么..."><span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span></div><div class="ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>window.INSIGHT_CONFIG={TRANSLATION:{POSTS:"文章",PAGES:"页面",CATEGORIES:"分类",TAGS:"标签",UNTITLED:"(未命名)"},ROOT_URL:"/",CONTENT_URL:"/content.json"}</script><script src="/js/insight.js"></script></div></div></div><div id="main-nav-mobile" class="header-sub header-inner"><table class="menu outer"><tr><td><a class="main-nav-link" href="/.">首页</a></td><td><a class="main-nav-link" href="/archives">归档</a></td><td><a class="main-nav-link" href="/books">书架</a></td><td><a class="main-nav-link" href="/about">关于我</a></td><td><div class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"></div></td></tr></table></div></header><div class="outer"><aside id="profile" class="profile-fixed"><div class="inner profile-inner"><div class="base-info profile-block"> <a href="/"><img id="avatar" src="/css/images/head.png"></a><h2 id="name">ArtIsLong</h2><h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3><span id="location"><i class="fas fa-map-marker-alt" style="padding-right:5px"></i> Shanghai, China</span> <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a></div><div class="article-info profile-block"><div class="article-info-block"> 26 <span>文章</span></div><div class="article-info-block"> 21 <span>标签</span></div></div><div class="profile-block social-links"><table><tr><td><a href="http://github.com/ArtIsLong" target="_blank" title="github" class="tooltip"><i class="fab fa-github"></i></a></td><td><a href="https://gitee.com/artislong" target="_blank" title="gitee" class="tooltip"><i class="fab fa-gitee"></i></a></td><td><a href="/799418876@qq.com" target="_blank" title="mail" class="tooltip"><i class="fab fa-mail"></i></a></td><td><a href="/" target="_blank" title="facebook" class="tooltip"><i class="fab fa-facebook"></i></a></td><td><a href="/" target="_blank" title="rss" class="tooltip"><i class="fas fa-rss"></i></a></td></tr></table></div></div></aside><section id="main"><article id="post-SpringBoot启动原理分析" class="article article-type-post" itemscope="" itemprop="blogPost"><div class="article-inner"><header class="article-header"><h1 class="article-title" itemprop="name"> SpringBoot启动原理分析</h1><div class="article-meta"><div class="article-date"><i class="fas fa-calendar-alt"></i> <a href="/2017/12/09/SpringBoot启动原理分析/"><time datetime="2017-12-09T14:30:56.000Z" itemprop="datePublished">2017-12-09 22:30:56</time></a></div><div class="article-category"><i class="fas fa-folder"></i> <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a></div><div class="article-tag"><i class="fas fa-tag"></i> <a class="tag-link" href="/tags/SpringBoot/">SpringBoot</a></div><div style="font-size:12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div></div></header><div class="article-entry" itemprop="articleBody"><div id="toc" class="toc-article"> <strong class="toc-title">文章目录</strong><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心注解-SpringBootApplication"><span class="toc-number">2.1.</span> <span class="toc-text">核心注解@SpringBootApplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动配置核心类SpringFactoriesLoader"><span class="toc-number">2.2.</span> <span class="toc-text">自动配置核心类SpringFactoriesLoader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整体启动流程"><span class="toc-number">3.</span> <span class="toc-text">整体启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化SpringApplication类"><span class="toc-number">3.1.</span> <span class="toc-text">初始化SpringApplication类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行核心run方法"><span class="toc-number">3.2.</span> <span class="toc-text">执行核心run方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#run方法整体执行流程总结"><span class="toc-number">3.2.1.</span> <span class="toc-text">run方法整体执行流程总结</span></a></li></ol></li></ol></li></ol></div><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。</p><p>此文的SpringBoot启动流程分析是基于SpringBoot 1.x的，SpringBoot 2.x的启动流程与1.x的略有不同，后续再进行补充分析。<a id="more"></a></p><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="核心注解-SpringBootApplication"><a href="#核心注解-SpringBootApplication" class="headerlink" title="核心注解@SpringBootApplication"></a>核心注解@SpringBootApplication</h3><p>每个SpringBoot应用，都有一个入口类，标注@SpringBootApplication注解。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>点开@SpringBootApplication的源码，可以看到这个注解其实包含了@SpringBootConfiguration，@EnableAutoConfiguration，@ComponentScan三个注解。</p><p>下面对这三个注解简单解释解释。</p><ul><li><p>@SpringBootConfiguration</p><p>对于这个注解不做解释，将这个注解点进去，发现还有@Configuration注解，对于@Configuration注解，用过Spring或SpringBoot的基本上都不陌生，标注了@Configuration的类相当于Spring中的配置XML，不过SpringBoot社区推荐使用JavaConfig，所以@Configuration就构建出了一个基础JavaConfig的Ioc容器。</p></li><li><p>@EnableAutoConfiguration</p><p>Spring中有很多Enable*的注解，表示开启某项东西，如@EnableSchuduling。所以看这个注解的名字就知道是开启自动配置。这是一个复合注解，其中最主要的还是@Import，借助于EnableAutoConfigurationImportSelector，将所有符合自动配置条件的Bean加载到Ioc容器里。</p><p>SpringBoot加载自动配置的方式有两种（目前我知道的）：</p><ul><li><p>在classpath下新建META-INF/spring.factories文件，将标注了@Configuration的类的全路径配置到此文件中，如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line"> com.quartz.config.QuartzBeanConfiguration,\</span><br><span class="line"> com.quartz.config.QuartzAutoConfiguration</span><br></pre></td></tr></table></figure><p>在启动时，通过SpringFactoriesLoader工具类，将所有META-INF目录下的spring.factories文件中的配置类加载到Ioc容器里。</p></li><li><p>使用@Import，将配置类加载到Ioc容器里。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Import</span>(&#123;QuartzAutoConfiguration.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> EnableQuartz &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>使用@Import导入的类必须满足以下任意一个要求：</p><ol><li>导入的类使用@Configuration进行标注</li><li>导入的类中至少有一个使用@Bean标准的方法</li><li>导入的类实现了ImportSelector接口</li><li>导入的类实现了ImportBeanDefinitionRegistrar接口</li></ol></li></ul></li><li><p>@ComponentScan</p><p>看到这个注解，可以回想一下以前使用SpringMVC时，xml配置文件里的一个标签</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">""</span> /&gt;</span></span><br></pre></td></tr></table></figure><p>不过这个注解一般不需要手动指定扫描的包路径，它默认会从标注了@ComponentScan的类所在包往下查找，将标注了如@Component，@Service等Bean加载到Ioc容器里。</p></li></ul><h3 id="自动配置核心类SpringFactoriesLoader"><a href="#自动配置核心类SpringFactoriesLoader" class="headerlink" title="自动配置核心类SpringFactoriesLoader"></a>自动配置核心类SpringFactoriesLoader</h3><p>上面在说@EnableAutoConfiguration的时候有说META-INF下的spring.factories文件，那么这个文件是怎么被spring加载到的呢，其实就是SpringFactoriesLoader类。</p><p>SpringFactoriesLoader是一个供Spring内部使用的通用工厂装载器，SpringFactoriesLoader里有两个方法，</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载工厂类并实例化</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">loadFactories</span><span class="params">(Class&lt;T&gt; factoryClass, ClassLoader classLoader)</span> </span>&#123;&#125;</span><br><span class="line"><span class="comment">// 加载工厂类的类名</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">loadFactoryNames</span><span class="params">(Class&lt;?&gt; factoryClass, ClassLoader classLoader)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure><p>在这个SpringBoot应用启动过程中，SpringFactoriesLoader做了以下几件事：</p><ol><li>加载所有META-INF/spring.factories中的Initializer</li><li>加载所有META-INF/spring.factories中的Listener</li><li>加载EnvironmentPostProcessor（允许在Spring应用构建之前定制环境配置）</li><li>接下来加载Properties和YAML的PropertySourceLoader（针对SpringBoot的两种配置文件的加载器）</li><li>各种异常情况的FailureAnalyzer（异常解释器）</li><li>加载SpringBoot内部实现的各种AutoConfiguration</li><li>模板引擎TemplateAvailabilityProvider（如Freemarker、Thymeleaf、Jsp、Velocity等）</li></ol><p>总得来说，SpringFactoriesLoader和@EnableAutoConfiguration配合起来，整体功能就是查找spring.factories文件，加载自动配置类。</p><h2 id="整体启动流程"><a href="#整体启动流程" class="headerlink" title="整体启动流程"></a>整体启动流程</h2><p>在我们执行入口类的main方法之后，运行SpringApplication.run，后面new了一个SpringApplication对象，然后执行它的run方法。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ConfigurableApplicationContext <span class="title">run</span><span class="params">(Object[] sources, String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> SpringApplication(sources).run(args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="初始化SpringApplication类"><a href="#初始化SpringApplication类" class="headerlink" title="初始化SpringApplication类"></a>初始化SpringApplication类</h3><p>创建一个SpringApplication对象时，会调用它自己的initialize方法</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(Object[] sources)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (sources != <span class="keyword">null</span> &amp;&amp; sources.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">this</span>.sources.addAll(Arrays.asList(sources));</span><br><span class="line">	&#125;</span><br><span class="line">  	<span class="comment">// 根据标志类javax.servlet.Servlet,org.springframework.web.context.ConfigurableWebApplicationContext是否存在，判断是否是web环境</span></span><br><span class="line">	<span class="keyword">this</span>.webEnvironment = deduceWebEnvironment();</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories中的ApplicationContextInitializer，并实例化</span></span><br><span class="line">	setInitializers((Collection) getSpringFactoriesInstances(</span><br><span class="line">			ApplicationContextInitializer.class));</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories中的ApplicationListener，并实例化</span></span><br><span class="line">	setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));</span><br><span class="line">  	<span class="comment">// 获取执行当前main方法的类，也就是启动类</span></span><br><span class="line">	<span class="keyword">this</span>.mainApplicationClass = deduceMainApplicationClass();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><strong>注 ：</strong> 各方法内部执行逻辑就不做说明了，比较简单，需要的读者可自行点进源码查看</p><h3 id="执行核心run方法"><a href="#执行核心run方法" class="headerlink" title="执行核心run方法"></a>执行核心run方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ConfigurableApplicationContext <span class="title">run</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">  	<span class="comment">// 启动任务执行的时间监听器</span></span><br><span class="line">	StopWatch stopWatch = <span class="keyword">new</span> StopWatch();</span><br><span class="line">	stopWatch.start();</span><br><span class="line">  	</span><br><span class="line">	ConfigurableApplicationContext context = <span class="keyword">null</span>;</span><br><span class="line">	FailureAnalyzers analyzers = <span class="keyword">null</span>;</span><br><span class="line">  	<span class="comment">// 设置系统java.awt.headless属性，确定是否开启headless模式(默认开启headless模式)</span></span><br><span class="line">	configureHeadlessProperty();</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories下的SpringApplicationRunListeners并实例化</span></span><br><span class="line">	SpringApplicationRunListeners listeners = getRunListeners(args);</span><br><span class="line">  	<span class="comment">// 开始广播启动</span></span><br><span class="line">	listeners.started();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 创建SpringBoot默认启动参数对象</span></span><br><span class="line">		ApplicationArguments applicationArguments = <span class="keyword">new</span> DefaultApplicationArguments(args);</span><br><span class="line">        <span class="comment">// 根据启动参数创建并配置Environment(所有有效的配置，如Profile)，并遍历所有的listeners，广播启动环境已准备</span></span><br><span class="line">		ConfigurableEnvironment environment = prepareEnvironment(listeners,applicationArguments);</span><br><span class="line">        <span class="comment">// 打印启动图案</span></span><br><span class="line">		Banner printedBanner = printBanner(environment);</span><br><span class="line">        <span class="comment">// 根据标志类(上面有提到过)，创建对应类型的ApplicationContext</span></span><br><span class="line">		context = createApplicationContext();</span><br><span class="line">        <span class="comment">// 创建异常解析器(当启动失败时，由此解析器处理失败结果)</span></span><br><span class="line">		analyzers = <span class="keyword">new</span> FailureAnalyzers(context);</span><br><span class="line">        <span class="comment">// 准备Spring上下文环境</span></span><br><span class="line">        <span class="comment">// 在这个方法中，主要完成了以下几件事：</span></span><br><span class="line">        <span class="comment">// 	1、设置SpringBoot的环境配置(Environment)</span></span><br><span class="line">        <span class="comment">// 	2、注册Spring Bean名称的序列化器BeanNameGenerator，并设置资源加载器ResourceLoader</span></span><br><span class="line">        <span class="comment">//	3、加载ApplicationContextInitializer初始化器，并进行初始化</span></span><br><span class="line">        <span class="comment">//	4、统一将上面的Environment、BeanNameGenerator、ResourceLoader使用默认的Bean注册器进行注册</span></span><br><span class="line">		prepareContext(context, environment, listeners, applicationArguments,printedBanner);</span><br><span class="line">        <span class="comment">// 注册一个关闭Spring容器的钩子</span></span><br><span class="line">		refreshContext(context);</span><br><span class="line">        <span class="comment">// 获取当前所有ApplicationRunner和CommandLineRunner接口的实现类，执行其run方法</span></span><br><span class="line">        <span class="comment">// ApplicationRunner和CommandLineRunner功能基本一样，在Spring容器启动完成时执行，唯一不同的是ApplicationRunner的run方法入参是ApplicationArguments，而CommandLineRunner是String数组</span></span><br><span class="line">		afterRefresh(context, applicationArguments);</span><br><span class="line">        <span class="comment">// 通知所有listener，Spring容器启动完成</span></span><br><span class="line">		listeners.finished(context, <span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">// 停止时间监听器</span></span><br><span class="line">		stopWatch.stop();</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.logStartupInfo) &#123;</span><br><span class="line">			<span class="keyword">new</span> StartupInfoLogger(<span class="keyword">this</span>.mainApplicationClass)</span><br><span class="line">					.logStarted(getApplicationLog(), stopWatch);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> context;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        <span class="comment">// 启动有异常时，调用异常解析器解析异常信息，根据异常级别，判断是否退出Spring容器</span></span><br><span class="line">		handleRunFailure(context, listeners, analyzers, ex);</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="run方法整体执行流程总结"><a href="#run方法整体执行流程总结" class="headerlink" title="run方法整体执行流程总结"></a>run方法整体执行流程总结</h4><p>———————————————————未完待续—————————————————</p><div class="reward"><div class="reward-button">赏 <span class="reward-code"><span class="alipay-code"><img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"></span> <span class="wechat-code"><img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"></span></span></div><p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p></div></div><footer class="article-footer"><div class="share-container"><div class="bdsharebuttonbox"> <a href="#" class="bds_more" data-cmd="more">分享到：</a> <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a> <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a> <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a> <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a> <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a></div><script>with(window._bd_share_config={common:{bdSnsKey:{},bdText:"",bdMini:"2",bdMiniList:!1,bdPic:"",bdStyle:"0",bdSize:"16"},share:{bdSize:16}},document)(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date/36e5)</script><style>.bdshare_popup_box{border-radius:4px;border:#e1e1e1 solid 1px}.bdshare-button-style0-16 .bds_more,.bdshare-button-style0-16 a{padding-left:20px;margin:6px 10px 6px 0}.bdshare_dialog_list a,.bdshare_popup_bottom a,.bdshare_popup_list a{font-family:'Microsoft Yahei'}.bdshare_popup_top{display:none}.bdshare_popup_bottom{height:auto;padding:5px}</style></div></footer></div><nav id="article-nav"> <a href="/2018/01/04/针对SpringBoot封装的Quartz-starter模块/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">上一篇</strong><div class="article-nav-title"> 针对SpringBoot封装的Quartz starter模块</div></a> <a href="/2017/10/11/Docker高级应用/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">下一篇</strong><div class="article-nav-title">Docker高级应用</div></a></nav></article><section id="comments"></section></section><aside id="sidebar"><div class="widget-wrap"><h3 class="widget-title">最新文章</h3><div class="widget"><ul id="recent-post" class=""><li><div class="item-thumbnail"><a href="/2018/12/01/Swagger常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p><p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p><p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p><p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p><p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/08/07/Storm集群搭建/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Storm/">Storm</a></p><p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">Storm集群搭建</a></p><p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07 13:45:58</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/07/28/Activiti-23张表及7大服务详解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/工作流/">工作流</a></p><p class="item-title"><a href="/2018/07/28/Activiti-23张表及7大服务详解/" class="title">Activiti 23张表及7大服务详解</a></p><p class="item-date"><time datetime="2018-07-28T15:43:07.000Z" itemprop="datePublished">2018-07-28 23:43:07</time></p></div></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">分类</h3><div class="widget"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">归档</h3><div class="widget"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签</h3><div class="widget"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签云</h3><div class="widget tagcloud"> <a href="/tags/Docker/" style="font-size:16.67px">Docker</a> <a href="/tags/Git/" style="font-size:10px">Git</a> <a href="/tags/Jackson/" style="font-size:10px">Jackson</a> <a href="/tags/Java基础/" style="font-size:13.33px">Java基础</a> <a href="/tags/Lombok/" style="font-size:10px">Lombok</a> <a href="/tags/Nginx/" style="font-size:16.67px">Nginx</a> <a href="/tags/Quartz/" style="font-size:10px">Quartz</a> <a href="/tags/Redis/" style="font-size:13.33px">Redis</a> <a href="/tags/Session/" style="font-size:10px">Session</a> <a href="/tags/SpringBoot/" style="font-size:20px">SpringBoot</a> <a href="/tags/Storm/" style="font-size:10px">Storm</a> <a href="/tags/Swagger/" style="font-size:10px">Swagger</a> <a href="/tags/Tomcat/" style="font-size:13.33px">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size:10px">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size:10px">前后端分离</a> <a href="/tags/多数据源/" style="font-size:10px">多数据源</a> <a href="/tags/工作流/" style="font-size:10px">工作流</a> <a href="/tags/开发工具框架/" style="font-size:16.67px">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size:10px">负载均衡</a> <a href="/tags/集群/" style="font-size:10px">集群</a> <a href="/tags/项目架构/" style="font-size:10px">项目架构</a></div></div><div class="widget-wrap widget-list"><h3 class="widget-title">链接</h3><div class="widget"><ul><li> <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a></li><li> <a href="http://fullsmilespace.com">微笑空间站</a></li></ul></div></div><div id="toTop" class="fas fa-angle-up"></div></aside></div><footer id="footer"><div class="outer"><div id="footer-info" class="inner"> &copy; 2018 ArtIsLong的博客<br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a></div></div><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></footer><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><script>if(document.getElementById("comments")){var gitalk=new Gitalk({clientID:"2f97f5d71dbb65bf01e1",clientSecret:"f715a8e1507c1fef1c5e3cfaccef8f59aa734318",repo:"ArtIsLong.github.io",owner:"ArtIsLong",admin:["ArtIsLong"],id:decodeURI(window.location.pathname),distractionFreeMode:!1,createIssueManually:!1,perPage:15});gitalk.render("comments")}</script><script src="/libs/lightgallery/js/lightgallery.min.js"></script><script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script><script src="/libs/lightgallery/js/lg-pager.min.js"></script><script src="/libs/lightgallery/js/lg-autoplay.min.js"></script><script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script><script src="/libs/lightgallery/js/lg-zoom.min.js"></script><script src="/libs/lightgallery/js/lg-hash.min.js"></script><script src="/libs/lightgallery/js/lg-share.min.js"></script><script src="/libs/lightgallery/js/lg-video.min.js"></script><script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script><script src="/js/main.js"></script></div><script>((window.gitter={}).chat={}).options={room:"artislong/Lobby"}</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer="defer"></script><script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script></body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>SpringBoot启动原理分析 | ArtIsLong的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot启动原理分析">
+<meta property="og:url" content="/2017/12/09/SpringBoot启动原理分析/index.html">
+<meta property="og:site_name" content="ArtIsLong的博客">
+<meta property="og:description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-07T03:24:52.577Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot启动原理分析">
+<meta name="twitter:description" content="用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。">
+    
+
+    
+        <link rel="alternate" href="/" title="ArtIsLong的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+</head>
+</html>
+<body>
+
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">ArtIsLong的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/books">书架</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/head.png">
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/books">书架</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <a href="/"><img id="avatar" src="/css/images/head.png"></a>
+            <h2 id="name">ArtIsLong</h2>
+            <h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                27
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                22
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <!--<a href="http://github.com/ArtIsLong" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>-->
+                        <a href="http://github.com/ArtIsLong" target="_blank" title="github" class="tooltip">
+                            
+                                <i class="fab fa-github"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="https://gitee.com/artislong" target="_blank" title="gitee" class=tooltip>
+                            <i class="fab fa-gitee"></i>
+                        </a>-->
+                        <a href="https://gitee.com/artislong" target="_blank" title="gitee" class="tooltip">
+                            
+                                <i class="fab fa-gitee"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="/799418876@qq.com" target="_blank" title="mail" class=tooltip>
+                            <i class="fab fa-mail"></i>
+                        </a>-->
+                        <a href="/799418876@qq.com" target="_blank" title="mail" class="tooltip">
+                            
+                                <i class="fab fa-mail"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fab fa-facebook"></i>
+                        </a>-->
+                        <a href="/" target="_blank" title="facebook" class="tooltip">
+                            
+                                <i class="fab fa-facebook"></i>
+                            
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <!--<a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>-->
+                        <a href="/" target="_blank" title="rss" class="tooltip">
+                            
+                                <i class="fas fa-rss"></i>
+                            
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-SpringBoot启动原理分析" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            SpringBoot启动原理分析
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/12/09/SpringBoot启动原理分析/">
+            <time datetime="2017-12-09T14:30:56.000Z" itemprop="datePublished">2017-12-09 22:30:56</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/SpringBoot/">SpringBoot</a>
+    </div>
+
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#核心注解-SpringBootApplication"><span class="toc-number">2.1.</span> <span class="toc-text">核心注解@SpringBootApplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动配置核心类SpringFactoriesLoader"><span class="toc-number">2.2.</span> <span class="toc-text">自动配置核心类SpringFactoriesLoader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整体启动流程"><span class="toc-number">3.</span> <span class="toc-text">整体启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化SpringApplication类"><span class="toc-number">3.1.</span> <span class="toc-text">初始化SpringApplication类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行核心run方法"><span class="toc-number">3.2.</span> <span class="toc-text">执行核心run方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#run方法整体执行流程总结"><span class="toc-number">3.2.1.</span> <span class="toc-text">run方法整体执行流程总结</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                
+
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用了差不多两年的SpringBoot了，可以说对SpringBoot已经很熟了，但是仔细一想SpringBoot的启动流程，还是让自己有点懵逼，不得不说是自己工作和学习的失误，所以以此文对SpringBoot的启动流程略作记录。</p>
+<p>此文的SpringBoot启动流程分析是基于SpringBoot 1.x的，SpringBoot 2.x的启动流程与1.x的略有不同，后续再进行补充分析。<a id="more"></a></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="核心注解-SpringBootApplication"><a href="#核心注解-SpringBootApplication" class="headerlink" title="核心注解@SpringBootApplication"></a>核心注解@SpringBootApplication</h3><p>每个SpringBoot应用，都有一个入口类，标注@SpringBootApplication注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>点开@SpringBootApplication的源码，可以看到这个注解其实包含了@SpringBootConfiguration，@EnableAutoConfiguration，@ComponentScan三个注解。</p>
+<p>下面对这三个注解简单解释解释。</p>
+<ul>
+<li><p>@SpringBootConfiguration</p>
+<p>对于这个注解不做解释，将这个注解点进去，发现还有@Configuration注解，对于@Configuration注解，用过Spring或SpringBoot的基本上都不陌生，标注了@Configuration的类相当于Spring中的配置XML，不过SpringBoot社区推荐使用JavaConfig，所以@Configuration就构建出了一个基础JavaConfig的Ioc容器。</p>
+</li>
+<li><p>@EnableAutoConfiguration</p>
+<p>Spring中有很多Enable*的注解，表示开启某项东西，如@EnableSchuduling。所以看这个注解的名字就知道是开启自动配置。这是一个复合注解，其中最主要的还是@Import，借助于EnableAutoConfigurationImportSelector，将所有符合自动配置条件的Bean加载到Ioc容器里。</p>
+<p>SpringBoot加载自动配置的方式有两种（目前我知道的）：</p>
+<ul>
+<li><p>在classpath下新建META-INF/spring.factories文件，将标注了@Configuration的类的全路径配置到此文件中，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line"> com.quartz.config.QuartzBeanConfiguration,\</span><br><span class="line"> com.quartz.config.QuartzAutoConfiguration</span><br></pre></td></tr></table></figure>
+<p>在启动时，通过SpringFactoriesLoader工具类，将所有META-INF目录下的spring.factories文件中的配置类加载到Ioc容器里。</p>
+</li>
+<li><p>使用@Import，将配置类加载到Ioc容器里。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Import</span>(&#123;QuartzAutoConfiguration.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> EnableQuartz &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用@Import导入的类必须满足以下任意一个要求：</p>
+<ol>
+<li>导入的类使用@Configuration进行标注</li>
+<li>导入的类中至少有一个使用@Bean标准的方法</li>
+<li>导入的类实现了ImportSelector接口</li>
+<li>导入的类实现了ImportBeanDefinitionRegistrar接口</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>@ComponentScan</p>
+<p>看到这个注解，可以回想一下以前使用SpringMVC时，xml配置文件里的一个标签</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">""</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>不过这个注解一般不需要手动指定扫描的包路径，它默认会从标注了@ComponentScan的类所在包往下查找，将标注了如@Component，@Service等Bean加载到Ioc容器里。</p>
+</li>
+</ul>
+<h3 id="自动配置核心类SpringFactoriesLoader"><a href="#自动配置核心类SpringFactoriesLoader" class="headerlink" title="自动配置核心类SpringFactoriesLoader"></a>自动配置核心类SpringFactoriesLoader</h3><p>上面在说@EnableAutoConfiguration的时候有说META-INF下的spring.factories文件，那么这个文件是怎么被spring加载到的呢，其实就是SpringFactoriesLoader类。</p>
+<p>SpringFactoriesLoader是一个供Spring内部使用的通用工厂装载器，SpringFactoriesLoader里有两个方法，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载工厂类并实例化</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">loadFactories</span><span class="params">(Class&lt;T&gt; factoryClass, ClassLoader classLoader)</span> </span>&#123;&#125;</span><br><span class="line"><span class="comment">// 加载工厂类的类名</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">loadFactoryNames</span><span class="params">(Class&lt;?&gt; factoryClass, ClassLoader classLoader)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个SpringBoot应用启动过程中，SpringFactoriesLoader做了以下几件事：</p>
+<ol>
+<li>加载所有META-INF/spring.factories中的Initializer</li>
+<li>加载所有META-INF/spring.factories中的Listener</li>
+<li>加载EnvironmentPostProcessor（允许在Spring应用构建之前定制环境配置）</li>
+<li>接下来加载Properties和YAML的PropertySourceLoader（针对SpringBoot的两种配置文件的加载器）</li>
+<li>各种异常情况的FailureAnalyzer（异常解释器）</li>
+<li>加载SpringBoot内部实现的各种AutoConfiguration</li>
+<li>模板引擎TemplateAvailabilityProvider（如Freemarker、Thymeleaf、Jsp、Velocity等）</li>
+</ol>
+<p>总得来说，SpringFactoriesLoader和@EnableAutoConfiguration配合起来，整体功能就是查找spring.factories文件，加载自动配置类。</p>
+<h2 id="整体启动流程"><a href="#整体启动流程" class="headerlink" title="整体启动流程"></a>整体启动流程</h2><p>在我们执行入口类的main方法之后，运行SpringApplication.run，后面new了一个SpringApplication对象，然后执行它的run方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ConfigurableApplicationContext <span class="title">run</span><span class="params">(Object[] sources, String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> SpringApplication(sources).run(args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="初始化SpringApplication类"><a href="#初始化SpringApplication类" class="headerlink" title="初始化SpringApplication类"></a>初始化SpringApplication类</h3><p>创建一个SpringApplication对象时，会调用它自己的initialize方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(Object[] sources)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (sources != <span class="keyword">null</span> &amp;&amp; sources.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">this</span>.sources.addAll(Arrays.asList(sources));</span><br><span class="line">	&#125;</span><br><span class="line">  	<span class="comment">// 根据标志类javax.servlet.Servlet,org.springframework.web.context.ConfigurableWebApplicationContext是否存在，判断是否是web环境</span></span><br><span class="line">	<span class="keyword">this</span>.webEnvironment = deduceWebEnvironment();</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories中的ApplicationContextInitializer，并实例化</span></span><br><span class="line">	setInitializers((Collection) getSpringFactoriesInstances(</span><br><span class="line">			ApplicationContextInitializer.class));</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories中的ApplicationListener，并实例化</span></span><br><span class="line">	setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));</span><br><span class="line">  	<span class="comment">// 获取执行当前main方法的类，也就是启动类</span></span><br><span class="line">	<span class="keyword">this</span>.mainApplicationClass = deduceMainApplicationClass();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注 ：</strong> 各方法内部执行逻辑就不做说明了，比较简单，需要的读者可自行点进源码查看</p>
+<h3 id="执行核心run方法"><a href="#执行核心run方法" class="headerlink" title="执行核心run方法"></a>执行核心run方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ConfigurableApplicationContext <span class="title">run</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">  	<span class="comment">// 启动任务执行的时间监听器</span></span><br><span class="line">	StopWatch stopWatch = <span class="keyword">new</span> StopWatch();</span><br><span class="line">	stopWatch.start();</span><br><span class="line">  	</span><br><span class="line">	ConfigurableApplicationContext context = <span class="keyword">null</span>;</span><br><span class="line">	FailureAnalyzers analyzers = <span class="keyword">null</span>;</span><br><span class="line">  	<span class="comment">// 设置系统java.awt.headless属性，确定是否开启headless模式(默认开启headless模式)</span></span><br><span class="line">	configureHeadlessProperty();</span><br><span class="line">  	<span class="comment">// 通过SpringFactoriesLoader，获取到所有META-INF/spring.factories下的SpringApplicationRunListeners并实例化</span></span><br><span class="line">	SpringApplicationRunListeners listeners = getRunListeners(args);</span><br><span class="line">  	<span class="comment">// 开始广播启动</span></span><br><span class="line">	listeners.started();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 创建SpringBoot默认启动参数对象</span></span><br><span class="line">		ApplicationArguments applicationArguments = <span class="keyword">new</span> DefaultApplicationArguments(args);</span><br><span class="line">        <span class="comment">// 根据启动参数创建并配置Environment(所有有效的配置，如Profile)，并遍历所有的listeners，广播启动环境已准备</span></span><br><span class="line">		ConfigurableEnvironment environment = prepareEnvironment(listeners,applicationArguments);</span><br><span class="line">        <span class="comment">// 打印启动图案</span></span><br><span class="line">		Banner printedBanner = printBanner(environment);</span><br><span class="line">        <span class="comment">// 根据标志类(上面有提到过)，创建对应类型的ApplicationContext</span></span><br><span class="line">		context = createApplicationContext();</span><br><span class="line">        <span class="comment">// 创建异常解析器(当启动失败时，由此解析器处理失败结果)</span></span><br><span class="line">		analyzers = <span class="keyword">new</span> FailureAnalyzers(context);</span><br><span class="line">        <span class="comment">// 准备Spring上下文环境</span></span><br><span class="line">        <span class="comment">// 在这个方法中，主要完成了以下几件事：</span></span><br><span class="line">        <span class="comment">// 	1、设置SpringBoot的环境配置(Environment)</span></span><br><span class="line">        <span class="comment">// 	2、注册Spring Bean名称的序列化器BeanNameGenerator，并设置资源加载器ResourceLoader</span></span><br><span class="line">        <span class="comment">//	3、加载ApplicationContextInitializer初始化器，并进行初始化</span></span><br><span class="line">        <span class="comment">//	4、统一将上面的Environment、BeanNameGenerator、ResourceLoader使用默认的Bean注册器进行注册</span></span><br><span class="line">		prepareContext(context, environment, listeners, applicationArguments,printedBanner);</span><br><span class="line">        <span class="comment">// 注册一个关闭Spring容器的钩子</span></span><br><span class="line">		refreshContext(context);</span><br><span class="line">        <span class="comment">// 获取当前所有ApplicationRunner和CommandLineRunner接口的实现类，执行其run方法</span></span><br><span class="line">        <span class="comment">// ApplicationRunner和CommandLineRunner功能基本一样，在Spring容器启动完成时执行，唯一不同的是ApplicationRunner的run方法入参是ApplicationArguments，而CommandLineRunner是String数组</span></span><br><span class="line">		afterRefresh(context, applicationArguments);</span><br><span class="line">        <span class="comment">// 通知所有listener，Spring容器启动完成</span></span><br><span class="line">		listeners.finished(context, <span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">// 停止时间监听器</span></span><br><span class="line">		stopWatch.stop();</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.logStartupInfo) &#123;</span><br><span class="line">			<span class="keyword">new</span> StartupInfoLogger(<span class="keyword">this</span>.mainApplicationClass)</span><br><span class="line">					.logStarted(getApplicationLog(), stopWatch);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> context;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        <span class="comment">// 启动有异常时，调用异常解析器解析异常信息，根据异常级别，判断是否退出Spring容器</span></span><br><span class="line">		handleRunFailure(context, listeners, analyzers, ex);</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="run方法整体执行流程总结"><a href="#run方法整体执行流程总结" class="headerlink" title="run方法整体执行流程总结"></a>run方法整体执行流程总结</h4><p>———————————————————未完待续—————————————————</p>
+
+                
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
+                        <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
+                        <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
+                        </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
+                    </div>
+                    <!--打赏-->
+                
+            
+        </div>
+        
+            <footer class="article-footer">
+                <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+                
+    
+
+            </footer>
+        
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/04/针对SpringBoot封装的Quartz-starter模块/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    针对SpringBoot封装的Quartz starter模块
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/10/11/Docker高级应用/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Docker高级应用</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+    
+        
+    
+        <section id="comments"></section>
+    
+
+    
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Shiro/">Shiro</a></p>
+                            <p class="item-title"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="title">Shiro在前后台分离架构项目汇总的应用</a></p>
+                            <p class="item-date"><time datetime="2018-12-15T14:51:39.000Z" itemprop="datePublished">2018-12-15 22:51:39</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Swagger常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p>
+                            <p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p>
+                            <p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/08/07/Storm集群搭建/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Storm/">Storm</a></p>
+                            <p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">Storm集群搭建</a></p>
+                            <p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07 13:45:58</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Jackson/" style="font-size: 10px;">Jackson</a> <a href="/tags/Java基础/" style="font-size: 13.33px;">Java基础</a> <a href="/tags/Lombok/" style="font-size: 10px;">Lombok</a> <a href="/tags/Nginx/" style="font-size: 16.67px;">Nginx</a> <a href="/tags/Quartz/" style="font-size: 10px;">Quartz</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Storm/" style="font-size: 10px;">Storm</a> <a href="/tags/Swagger/" style="font-size: 13.33px;">Swagger</a> <a href="/tags/Tomcat/" style="font-size: 13.33px;">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size: 10px;">前后端分离</a> <a href="/tags/多数据源/" style="font-size: 10px;">多数据源</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 16.67px;">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/集群/" style="font-size: 10px;">集群</a> <a href="/tags/项目架构/" style="font-size: 10px;">项目架构</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://fullsmilespace.com">微笑空间站</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 ArtIsLong的博客<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+        
+    
+	<!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>-->
+	<!--<link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">-->
+	<!--<script src="https://billts.site/js/gitment.js"></script>-->
+    <!--<script>
+		if (document.getElementById('comments')) {
+			var gitment = new Gitment({
+				owner: '<-%= theme.comment.gitment.owner %>',
+				repo: '<-%= theme.comment.gitment.repo %>',
+				oauth: {
+					client_id: '<-%= theme.comment.gitment.client_id %>',
+					client_secret: '<-%= theme.comment.gitment.client_secret %>',
+				},
+			})
+			gitment.render('comments')
+		}
+	</script>-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+	<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+	<script>
+        if (document.getElementById('comments')) {
+            var gitalk = new Gitalk({
+                clientID: '2f97f5d71dbb65bf01e1',
+                clientSecret: 'f715a8e1507c1fef1c5e3cfaccef8f59aa734318',
+                repo: 'ArtIsLong.github.io',
+                owner: 'ArtIsLong',
+                admin: ['ArtIsLong'],
+                id: decodeURI(window.location.pathname),      // Ensure uniqueness and length less than 50
+                distractionFreeMode: false,  // Facebook-like distraction free mode
+                createIssueManually: false,
+                perPage: 15/*,
+                flipMoveOptions: {
+                    staggerDelayBy: 150,
+                    appearAnimation: 'accordionVertical',
+                    enterAnimation: 'accordionVertical',
+                    leaveAnimation: 'accordionVertical',
+                }*/
+            })
+
+            gitalk.render('comments')
+        }
+
+	</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+    <script>
+        ((window.gitter = {}).chat = {}).options = {
+            room: 'artislong/Lobby'
+        };
+    </script>
+    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+    
+    <script type="text/javascript"
+            color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+    
+</body>
+</html>
