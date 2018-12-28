@@ -1,1 +1,717 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta name="google-site-verification" content="wD1H9sqEoDWmIBFt7TjlgbVqcJqiqpwR2Wq7_bvEHcE"><meta name="baidu-site-verification" content="RZErJH3v0Z"><meta charset="utf-8"><title>Lombok常用注解 | ArtIsLong的博客</title><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features"><meta name="keywords" content="开发工具框架,Lombok"><meta property="og:type" content="article"><meta property="og:title" content="Lombok常用注解"><meta property="og:url" content="/2017/09/07/Lombok使用/index.html"><meta property="og:site_name" content="ArtIsLong的博客"><meta property="og:description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2018-12-07T02:55:35.095Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Lombok常用注解"><meta name="twitter:description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features"><link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml"><link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css"><link rel="stylesheet" href="/libs/open-sans/styles.css"><link rel="stylesheet" href="/libs/source-code-pro/styles.css"><link rel="stylesheet" href="/css/style.css"><script src="/libs/jquery/2.1.3/jquery.min.js"></script><link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css"><link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css"><script>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script></head></html><body><div id="container"><header id="header"><div id="header-main" class="header-inner"><div class="outer"><a href="/" id="logo"><i class="logo"></i> <span class="site-title">ArtIsLong的博客</span></a><nav id="main-nav"> <a class="main-nav-link" href="/.">首页</a> <a class="main-nav-link" href="/archives">归档</a> <a class="main-nav-link" href="/books">书架</a> <a class="main-nav-link" href="/about">关于我</a></nav><nav id="sub-nav"><div class="profile" id="profile-nav"> <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/head.png"><i class="fas fa-caret-down"></i></a></div></nav><div id="search-form-wrap"><form class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"> <button type="submit" class="search-form-submit"></button></form><div class="ins-search"><div class="ins-search-mask"></div><div class="ins-search-container"><div class="ins-input-wrapper"> <input type="text" class="ins-search-input" placeholder="想要查找什么..."><span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span></div><div class="ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>window.INSIGHT_CONFIG={TRANSLATION:{POSTS:"文章",PAGES:"页面",CATEGORIES:"分类",TAGS:"标签",UNTITLED:"(未命名)"},ROOT_URL:"/",CONTENT_URL:"/content.json"}</script><script src="/js/insight.js"></script></div></div></div><div id="main-nav-mobile" class="header-sub header-inner"><table class="menu outer"><tr><td><a class="main-nav-link" href="/.">首页</a></td><td><a class="main-nav-link" href="/archives">归档</a></td><td><a class="main-nav-link" href="/books">书架</a></td><td><a class="main-nav-link" href="/about">关于我</a></td><td><div class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"></div></td></tr></table></div></header><div class="outer"><aside id="profile" class="profile-fixed"><div class="inner profile-inner"><div class="base-info profile-block"> <a href="/"><img id="avatar" src="/css/images/head.png"></a><h2 id="name">ArtIsLong</h2><h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3><span id="location"><i class="fas fa-map-marker-alt" style="padding-right:5px"></i> Shanghai, China</span> <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a></div><div class="article-info profile-block"><div class="article-info-block"> 28 <span>文章</span></div><div class="article-info-block"> 22 <span>标签</span></div></div><div class="profile-block social-links"><table><tr><td><a href="http://github.com/ArtIsLong" target="_blank" title="Github" class="tooltip"><i class="fab fa-github"></i></a></td><td> <a href="https://gitee.com/artislong" target="_blank" title="Gitee" class="tooltip"><i class="fab"><img src="https://gitee.com/artislong/artislong/widgets/widget_5.svg" style="height:25px;margin-bottom:-5px"></i></a></td><td> <a href="https://www.jianshu.com/u/46d989a94f20" target="_blank" title="简书" class="tooltip"><i class="fab"><span style="height:25px;margin-bottom:-5px;color:#ff8c00">简</span></i></a></td><td> <a href="mailto:chenmin049@163.com" target="_blank" title="E-Mail" class="tooltip"><i class="fab"><span style="height:25px;width:20px;margin-bottom:-5px;color:#1e90ff;font-size:16px">Mail</span></i></a></td><td><a href="/atom.xml" target="_blank" title="RSS" class="tooltip"><i class="fas fa-rss"></i></a></td></tr></table></div></div></aside><section id="main"><article id="post-Lombok使用" class="article article-type-post" itemscope="" itemprop="blogPost"><div class="article-inner"><header class="article-header"><h1 class="article-title" itemprop="name"> Lombok常用注解</h1><div class="article-meta"><div class="article-date"><i class="fas fa-calendar-alt"></i> <a href="/2017/09/07/Lombok使用/"><time datetime="2017-09-07T15:43:12.000Z" itemprop="datePublished">2017-09-07 23:43:12</time></a></div><div class="article-category"><i class="fas fa-folder"></i> <a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></div><div class="article-tag"><i class="fas fa-tag"></i> <a class="tag-link" href="/tags/Lombok/">Lombok</a>, <a class="tag-link" href="/tags/开发工具框架/">开发工具框架</a></div><div style="font-size:12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div></div></header><div class="article-entry" itemprop="articleBody"><div id="toc" class="toc-article"> <strong class="toc-title">文章目录</strong><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lombok常用注解"><span class="toc-number">1.</span> <span class="toc-text">Lombok常用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Getter"><span class="toc-number">1.1.</span> <span class="toc-text">@Getter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setter"><span class="toc-number">1.2.</span> <span class="toc-text">@Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ToString"><span class="toc-number">1.3.</span> <span class="toc-text">@ToString</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EqualsAndHashCode"><span class="toc-number">1.4.</span> <span class="toc-text">@EqualsAndHashCode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NoArgsConstructor"><span class="toc-number">1.5.</span> <span class="toc-text">@NoArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data"><span class="toc-number">1.6.</span> <span class="toc-text">@Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Value"><span class="toc-number">1.7.</span> <span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AllArgsConstructor"><span class="toc-number">1.8.</span> <span class="toc-text">@AllArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RequiredArgsConstructor"><span class="toc-number">1.9.</span> <span class="toc-text">@RequiredArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Builder"><span class="toc-number">1.10.</span> <span class="toc-text">@Builder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Accessors"><span class="toc-number">1.11.</span> <span class="toc-text">@Accessors</span></a></li></ol></li></ol></div><p><a href="https://projectlombok.org/" target="_blank" rel="noopener">Project Lombok</a> is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features such as <code>val</code>, and much more.</p><p>这是lombok官网的解释，大概意思是说Lombok项目是一个java库，会自动处理代码的编译，比如你不用写getter方法，它就会自动帮你实现。<a id="more"></a></p><p>下面简单介绍一些在开发中常用的注解。</p><h2 id="Lombok常用注解"><a href="#Lombok常用注解" class="headerlink" title="Lombok常用注解"></a>Lombok常用注解</h2><h3 id="Getter"><a href="#Getter" class="headerlink" title="@Getter"></a>@Getter</h3><p>可标注到类或属性上，标注到类上表示此类中的所有属性生成getter方法，标注到某个属性上，表示此属性生成getter方法。</p><h3 id="Setter"><a href="#Setter" class="headerlink" title="@Setter"></a>@Setter</h3><p>和@Getter类似，可标注到类或属性上，标注到类上表示此类中的所有属性生成setter方法，标注到某个属性上，表示此属性生成setter方法。</p><h3 id="ToString"><a href="#ToString" class="headerlink" title="@ToString"></a>@ToString</h3><p>只能标注到类上，相当于是重写此类的toString方法。</p><h3 id="EqualsAndHashCode"><a href="#EqualsAndHashCode" class="headerlink" title="@EqualsAndHashCode"></a>@EqualsAndHashCode</h3><p>只能标注到类上，相当于是重写此类的hashCode和equals方法。</p><h3 id="NoArgsConstructor"><a href="#NoArgsConstructor" class="headerlink" title="@NoArgsConstructor"></a>@NoArgsConstructor</h3><p>只能标注到类上，生成无参的构造方法。</p><h3 id="Data"><a href="#Data" class="headerlink" title="@Data"></a>@Data</h3><p>只能标注到类上，综合@Getter，@Setter，@ToString，@EqualsAndHashCode，@NoArgsConstructor五个注解的功能。</p><h3 id="Value"><a href="#Value" class="headerlink" title="@Value"></a>@Value</h3><p>只能标注到类上，综合@Getter，@Setter，@ToString，@EqualsAndHashCode，@NoArgsConstructor五个注解的功能，和@Data不同的是，默认将所有属性定义成final的，也就是只会生成getter方法，不会生成setter方法，如果不需要final，则给属性加上@NonFinal注解即可。</p><h3 id="AllArgsConstructor"><a href="#AllArgsConstructor" class="headerlink" title="@AllArgsConstructor"></a>@AllArgsConstructor</h3><p>只能标注到类上，生成包含所有属性的构造方法，使用此注解时建议和@NoArgsConstructor结合使用，否则此类将没有无参的构造方法。</p><h3 id="RequiredArgsConstructor"><a href="#RequiredArgsConstructor" class="headerlink" title="@RequiredArgsConstructor"></a>@RequiredArgsConstructor</h3><p>只能标注到类上，会生成一个包含常量，和标识了@NotNull的变量 的构造方法。生成的构造方法是private，如何想要对外提供使用可以使用staticName选项生成一个static方法。如：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequiredArgsConstructor</span>(staticName = <span class="string">"passwd"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@NonNull</span> <span class="keyword">private</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上面代码编译后对应下面的代码</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">User</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.password = password;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> User <span class="title">passwd</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> <span class="keyword">new</span> User(password);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="Builder"><a href="#Builder" class="headerlink" title="@Builder"></a>@Builder</h3><p>只能标注到类上，将生成类的一个当前流程的一种链式构造工厂，如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User buildUser = User.builder().password(<span class="string">"haha"</span>).username(<span class="string">"gaga"</span>).build();</span><br></pre></td></tr></table></figure><p>可配合@Singular注解使用，@Singular注解使用在jdk内部集合类型的属性，Map类型的属性以及<a href="https://github.com/google/guava" target="_blank" rel="noopener">Guava</a>的<code>com.google.common.collect</code> 的属性上。例如 未标注@Singular的属性，一般setter时，会直接覆盖原来的引用，标注了@Singular的属性，集合属性支持添加操作，会在属性原来的基础上增加。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">UserBuilder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String username;</span><br><span class="line">        <span class="keyword">private</span> String password;</span><br><span class="line">        <span class="keyword">private</span> ArrayList&lt;String&gt; projects;</span><br><span class="line">        UserBuilder() &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">username</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.username = username;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">password</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.password = password;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">project</span><span class="params">(String project)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span>) <span class="keyword">this</span>.projects = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">            <span class="keyword">this</span>.projects.add(project);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">projects</span><span class="params">(Collection&lt;? extends String&gt; projects)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span>) <span class="keyword">this</span>.projects = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">            <span class="keyword">this</span>.projects.addAll(projects);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">clearProjects</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects != <span class="keyword">null</span>)</span><br><span class="line">                <span class="keyword">this</span>.projects.clear();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> User <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Set&lt;String&gt; projects;</span><br><span class="line">            <span class="keyword">switch</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span> ? <span class="number">0</span> : <span class="keyword">this</span>.projects.size()) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                    projects = java.util.Collections.emptySet();</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                    projects = java.util.Collections.singleton(<span class="keyword">this</span>.projects.get(<span class="number">0</span>));</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    projects = <span class="keyword">new</span> java.util.LinkedHashSet&lt;String&gt;(<span class="keyword">this</span>.projects.size() &lt; <span class="number">1073741824</span> ? <span class="number">1</span> + <span class="keyword">this</span>.projects.size() + (<span class="keyword">this</span>.projects.size() - <span class="number">3</span>) / <span class="number">3</span> : Integer.MAX_VALUE);</span><br><span class="line">                    projects.addAll(<span class="keyword">this</span>.projects);</span><br><span class="line">                    projects = java.util.Collections.unmodifiableSet(projects);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> User(username, password, projects);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"User.UserBuilder(username="</span> + <span class="keyword">this</span>.username + <span class="string">", password="</span> + <span class="keyword">this</span>.password + <span class="string">", projects="</span> + <span class="keyword">this</span>.projects + <span class="string">")"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><h3 id="Accessors"><a href="#Accessors" class="headerlink" title="@Accessors"></a>@Accessors</h3><p>可标注在类或属性上，当然最实用的功能还是标注到类上。</p><p><strong>标注到类上</strong>，chain属性设置为true时，类的所有属性的setter方法返回值将为this，用来支持setter方法的链式写法。如：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> User().setPassword(<span class="string">"gaga"</span>).setUsername(<span class="string">"haha"</span>);</span><br></pre></td></tr></table></figure><p>fluent属性设置为true时，类的所有getter，setter方法将省略get和set前缀，获取属性值直接使用属性名相同的无参方法，设置属性值使用属性名相同的有参方法，并且返回值为this。如：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">User user = <span class="keyword">new</span> User().password(<span class="string">"gaga"</span>).username(<span class="string">"haha"</span>);</span><br><span class="line">String password = user.password();</span><br><span class="line">String username = user.username();</span><br></pre></td></tr></table></figure><p><strong>标注到属性上</strong>，使用prefix设置需要省略的属性生成getter，setter方法时的前缀，且属性必须为驼峰式命名。</p><p>如：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Accessors</span>(prefix = <span class="string">"a"</span>)</span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="keyword">private</span> String aUsername = <span class="string">"gaga"</span>;</span><br></pre></td></tr></table></figure><p>编译之后为</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> aUsername;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String aUsername)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">this</span>.aUsername = aUsername;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>以上一些常用的lombok的用法介绍完了，在日常的开发或者自己的练习中，使用lombok并结合各版本的jdk特性，将更大的提高开发效率，提高开发质量。</p><div class="reward"><div class="reward-button">赏 <span class="reward-code"><span class="alipay-code"><img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"></span> <span class="wechat-code"><img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"></span></span></div><p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p></div></div><footer class="article-footer"><div class="share-container"><div class="bdsharebuttonbox"> <a href="#" class="bds_more" data-cmd="more">分享到：</a> <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a> <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a> <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a> <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a> <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a></div><script>with(window._bd_share_config={common:{bdSnsKey:{},bdText:"",bdMini:"2",bdMiniList:!1,bdPic:"",bdStyle:"0",bdSize:"16"},share:{bdSize:16}},document)(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date/36e5)</script><style>.bdshare_popup_box{border-radius:4px;border:#e1e1e1 solid 1px}.bdshare-button-style0-16 .bds_more,.bdshare-button-style0-16 a{padding-left:20px;margin:6px 10px 6px 0}.bdshare_dialog_list a,.bdshare_popup_bottom a,.bdshare_popup_list a{font-family:'Microsoft Yahei'}.bdshare_popup_top{display:none}.bdshare_popup_bottom{height:auto;padding:5px}</style></div></footer></div><nav id="article-nav"> <a href="/2017/10/11/Docker高级应用/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">上一篇</strong><div class="article-nav-title"> Docker高级应用</div></a> <a href="/2017/06/18/Dockerfile基础/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">下一篇</strong><div class="article-nav-title">Dockerfile</div></a></nav></article><section id="comments"></section></section><aside id="sidebar"><div class="widget-wrap"><h3 class="widget-title">最新文章</h3><div class="widget"><ul id="recent-post" class=""><li><div class="item-thumbnail"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Shiro/">Shiro</a></p><p class="item-title"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="title">Shiro在前后台分离架构项目中的应用</a></p><p class="item-date"><time datetime="2018-12-15T14:51:39.000Z" itemprop="datePublished">2018-12-15 22:51:39</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/12/01/Swagger常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p><p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p><p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p><p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p><p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/08/07/Storm集群搭建/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Storm/">Storm</a></p><p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">Storm集群搭建</a></p><p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07 13:45:58</time></p></div></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">分类</h3><div class="widget"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">归档</h3><div class="widget"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签</h3><div class="widget"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签云</h3><div class="widget tagcloud"> <a href="/tags/Docker/" style="font-size:16.67px">Docker</a> <a href="/tags/Git/" style="font-size:10px">Git</a> <a href="/tags/Jackson/" style="font-size:10px">Jackson</a> <a href="/tags/Java基础/" style="font-size:13.33px">Java基础</a> <a href="/tags/Lombok/" style="font-size:10px">Lombok</a> <a href="/tags/Nginx/" style="font-size:16.67px">Nginx</a> <a href="/tags/Quartz/" style="font-size:10px">Quartz</a> <a href="/tags/Redis/" style="font-size:13.33px">Redis</a> <a href="/tags/Session/" style="font-size:10px">Session</a> <a href="/tags/Shiro/" style="font-size:10px">Shiro</a> <a href="/tags/SpringBoot/" style="font-size:20px">SpringBoot</a> <a href="/tags/Storm/" style="font-size:10px">Storm</a> <a href="/tags/Swagger/" style="font-size:13.33px">Swagger</a> <a href="/tags/Tomcat/" style="font-size:13.33px">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size:10px">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size:10px">前后端分离</a> <a href="/tags/多数据源/" style="font-size:13.33px">多数据源</a> <a href="/tags/工作流/" style="font-size:10px">工作流</a> <a href="/tags/开发工具框架/" style="font-size:16.67px">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size:10px">负载均衡</a> <a href="/tags/集群/" style="font-size:10px">集群</a> <a href="/tags/项目架构/" style="font-size:10px">项目架构</a></div></div><div class="widget-wrap widget-list"><h3 class="widget-title">链接</h3><div class="widget"><ul><li> <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a></li><li> <a href="http://fullsmilespace.com">微笑空间站</a></li></ul></div></div><div id="toTop" class="fas fa-angle-up"></div></aside></div><footer id="footer"><div class="outer"><div id="footer-info" class="inner"> &copy; 2018 ArtIsLong的博客<br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a></div></div><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></footer><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><script>if(document.getElementById("comments")){var gitalk=new Gitalk({clientID:"2f97f5d71dbb65bf01e1",clientSecret:"f715a8e1507c1fef1c5e3cfaccef8f59aa734318",repo:"ArtIsLong.github.io",owner:"ArtIsLong",admin:["ArtIsLong"],id:decodeURI(window.location.pathname),distractionFreeMode:!0,perPage:15});gitalk.render("comments")}</script><script src="/libs/lightgallery/js/lightgallery.min.js"></script><script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script><script src="/libs/lightgallery/js/lg-pager.min.js"></script><script src="/libs/lightgallery/js/lg-autoplay.min.js"></script><script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script><script src="/libs/lightgallery/js/lg-zoom.min.js"></script><script src="/libs/lightgallery/js/lg-hash.min.js"></script><script src="/libs/lightgallery/js/lg-share.min.js"></script><script src="/libs/lightgallery/js/lg-video.min.js"></script><script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script><script src="/js/main.js"></script></div><script>((window.gitter={}).chat={}).options={room:"artislong/Lobby"}</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer="defer"></script><script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script></body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta name="google-site-verification" content="wD1H9sqEoDWmIBFt7TjlgbVqcJqiqpwR2Wq7_bvEHcE">
+    <meta name="baidu-site-verification" content="RZErJH3v0Z">
+    <meta charset="utf-8">
+    
+    <title>Lombok常用注解 | ArtIsLong的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features">
+<meta name="keywords" content="开发工具框架,Lombok">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lombok常用注解">
+<meta property="og:url" content="/2017/09/07/Lombok使用/index.html">
+<meta property="og:site_name" content="ArtIsLong的博客">
+<meta property="og:description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-07T02:55:35.095Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lombok常用注解">
+<meta name="twitter:description" content="Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+</head>
+</html>
+<body>
+
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">ArtIsLong的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/books">书架</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/head.png">
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/books">书架</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <a href="/"><img id="avatar" src="/css/images/head.png"></a>
+            <h2 id="name">ArtIsLong</h2>
+            <h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                29
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                23
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    <!---->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="http://github.com/ArtIsLong" target="_blank" title="github" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-github"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="https://gitee.com/artislong" target="_blank" title="gitee" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-gitee"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="mailto:chenmin049@163.com" target="_blank" title="mail" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-mail"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="https://www.jianshu.com/u/46d989a94f20" target="_blank" title="jianshu" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-jianshu"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="/atom.xml" target="_blank" title="rss" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fas fa-rss"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+
+                    <td>
+                        <a href="http://github.com/ArtIsLong" target="_blank" title="Github" class="tooltip">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="https://gitee.com/artislong" target="_blank" title="Gitee" class="tooltip">
+                            <i class="fab"><img src="https://gitee.com/artislong/artislong/widgets/widget_5.svg" style="height: 25px; margin-bottom: -5px"></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="https://www.jianshu.com/u/46d989a94f20" target="_blank" title="简书" class="tooltip">
+                            <i class="fab"><span style="height: 25px; margin-bottom: -5px; color: darkorange">简</span></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="mailto:chenmin049@163.com" target="_blank" title="E-Mail" class="tooltip">
+                            <i class="fab"><span style="height: 25px; width: 20px; margin-bottom: -5px; color: dodgerblue; font-size: 16px">Mail</span></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="RSS" class="tooltip">
+                            <i class="fas fa-rss"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Lombok使用" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Lombok常用注解
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/09/07/Lombok使用/">
+            <time datetime="2017-09-07T15:43:12.000Z" itemprop="datePublished">2017-09-07 23:43:12</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Lombok/">Lombok</a>, <a class="tag-link" href="/tags/开发工具框架/">开发工具框架</a>
+    </div>
+
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lombok常用注解"><span class="toc-number">1.</span> <span class="toc-text">Lombok常用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Getter"><span class="toc-number">1.1.</span> <span class="toc-text">@Getter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setter"><span class="toc-number">1.2.</span> <span class="toc-text">@Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ToString"><span class="toc-number">1.3.</span> <span class="toc-text">@ToString</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EqualsAndHashCode"><span class="toc-number">1.4.</span> <span class="toc-text">@EqualsAndHashCode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NoArgsConstructor"><span class="toc-number">1.5.</span> <span class="toc-text">@NoArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data"><span class="toc-number">1.6.</span> <span class="toc-text">@Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Value"><span class="toc-number">1.7.</span> <span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AllArgsConstructor"><span class="toc-number">1.8.</span> <span class="toc-text">@AllArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RequiredArgsConstructor"><span class="toc-number">1.9.</span> <span class="toc-text">@RequiredArgsConstructor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Builder"><span class="toc-number">1.10.</span> <span class="toc-text">@Builder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Accessors"><span class="toc-number">1.11.</span> <span class="toc-text">@Accessors</span></a></li></ol></li></ol>
+                    </div>
+                
+
+                <p><a href="https://projectlombok.org/" target="_blank" rel="noopener">Project Lombok</a> is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write another getter or equals method again. Early access to future java features such as <code>val</code>, and much more.</p>
+<p>这是lombok官网的解释，大概意思是说Lombok项目是一个java库，会自动处理代码的编译，比如你不用写getter方法，它就会自动帮你实现。<a id="more"></a></p>
+<p>下面简单介绍一些在开发中常用的注解。</p>
+<h2 id="Lombok常用注解"><a href="#Lombok常用注解" class="headerlink" title="Lombok常用注解"></a>Lombok常用注解</h2><h3 id="Getter"><a href="#Getter" class="headerlink" title="@Getter"></a>@Getter</h3><p>可标注到类或属性上，标注到类上表示此类中的所有属性生成getter方法，标注到某个属性上，表示此属性生成getter方法。</p>
+<h3 id="Setter"><a href="#Setter" class="headerlink" title="@Setter"></a>@Setter</h3><p>和@Getter类似，可标注到类或属性上，标注到类上表示此类中的所有属性生成setter方法，标注到某个属性上，表示此属性生成setter方法。</p>
+<h3 id="ToString"><a href="#ToString" class="headerlink" title="@ToString"></a>@ToString</h3><p>只能标注到类上，相当于是重写此类的toString方法。</p>
+<h3 id="EqualsAndHashCode"><a href="#EqualsAndHashCode" class="headerlink" title="@EqualsAndHashCode"></a>@EqualsAndHashCode</h3><p>只能标注到类上，相当于是重写此类的hashCode和equals方法。</p>
+<h3 id="NoArgsConstructor"><a href="#NoArgsConstructor" class="headerlink" title="@NoArgsConstructor"></a>@NoArgsConstructor</h3><p>只能标注到类上，生成无参的构造方法。</p>
+<h3 id="Data"><a href="#Data" class="headerlink" title="@Data"></a>@Data</h3><p>只能标注到类上，综合@Getter，@Setter，@ToString，@EqualsAndHashCode，@NoArgsConstructor五个注解的功能。</p>
+<h3 id="Value"><a href="#Value" class="headerlink" title="@Value"></a>@Value</h3><p>只能标注到类上，综合@Getter，@Setter，@ToString，@EqualsAndHashCode，@NoArgsConstructor五个注解的功能，和@Data不同的是，默认将所有属性定义成final的，也就是只会生成getter方法，不会生成setter方法，如果不需要final，则给属性加上@NonFinal注解即可。</p>
+<h3 id="AllArgsConstructor"><a href="#AllArgsConstructor" class="headerlink" title="@AllArgsConstructor"></a>@AllArgsConstructor</h3><p>只能标注到类上，生成包含所有属性的构造方法，使用此注解时建议和@NoArgsConstructor结合使用，否则此类将没有无参的构造方法。</p>
+<h3 id="RequiredArgsConstructor"><a href="#RequiredArgsConstructor" class="headerlink" title="@RequiredArgsConstructor"></a>@RequiredArgsConstructor</h3><p>只能标注到类上，会生成一个包含常量，和标识了@NotNull的变量 的构造方法。生成的构造方法是private，如何想要对外提供使用可以使用staticName选项生成一个static方法。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequiredArgsConstructor</span>(staticName = <span class="string">"passwd"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@NonNull</span> <span class="keyword">private</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码编译后对应下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">User</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.password = password;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> User <span class="title">passwd</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> <span class="keyword">new</span> User(password);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Builder"><a href="#Builder" class="headerlink" title="@Builder"></a>@Builder</h3><p>只能标注到类上，将生成类的一个当前流程的一种链式构造工厂，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User buildUser = User.builder().password(<span class="string">"haha"</span>).username(<span class="string">"gaga"</span>).build();</span><br></pre></td></tr></table></figure>
+<p>可配合@Singular注解使用，@Singular注解使用在jdk内部集合类型的属性，Map类型的属性以及<a href="https://github.com/google/guava" target="_blank" rel="noopener">Guava</a>的<code>com.google.common.collect</code> 的属性上。例如 未标注@Singular的属性，一般setter时，会直接覆盖原来的引用，标注了@Singular的属性，集合属性支持添加操作，会在属性原来的基础上增加。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">UserBuilder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String username;</span><br><span class="line">        <span class="keyword">private</span> String password;</span><br><span class="line">        <span class="keyword">private</span> ArrayList&lt;String&gt; projects;</span><br><span class="line">        UserBuilder() &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">username</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.username = username;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">password</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.password = password;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">project</span><span class="params">(String project)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span>) <span class="keyword">this</span>.projects = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">            <span class="keyword">this</span>.projects.add(project);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">projects</span><span class="params">(Collection&lt;? extends String&gt; projects)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span>) <span class="keyword">this</span>.projects = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">            <span class="keyword">this</span>.projects.addAll(projects);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> User.<span class="function">UserBuilder <span class="title">clearProjects</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.projects != <span class="keyword">null</span>)</span><br><span class="line">                <span class="keyword">this</span>.projects.clear();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> User <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Set&lt;String&gt; projects;</span><br><span class="line">            <span class="keyword">switch</span> (<span class="keyword">this</span>.projects == <span class="keyword">null</span> ? <span class="number">0</span> : <span class="keyword">this</span>.projects.size()) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                    projects = java.util.Collections.emptySet();</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                    projects = java.util.Collections.singleton(<span class="keyword">this</span>.projects.get(<span class="number">0</span>));</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    projects = <span class="keyword">new</span> java.util.LinkedHashSet&lt;String&gt;(<span class="keyword">this</span>.projects.size() &lt; <span class="number">1073741824</span> ? <span class="number">1</span> + <span class="keyword">this</span>.projects.size() + (<span class="keyword">this</span>.projects.size() - <span class="number">3</span>) / <span class="number">3</span> : Integer.MAX_VALUE);</span><br><span class="line">                    projects.addAll(<span class="keyword">this</span>.projects);</span><br><span class="line">                    projects = java.util.Collections.unmodifiableSet(projects);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> User(username, password, projects);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"User.UserBuilder(username="</span> + <span class="keyword">this</span>.username + <span class="string">", password="</span> + <span class="keyword">this</span>.password + <span class="string">", projects="</span> + <span class="keyword">this</span>.projects + <span class="string">")"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Accessors"><a href="#Accessors" class="headerlink" title="@Accessors"></a>@Accessors</h3><p>可标注在类或属性上，当然最实用的功能还是标注到类上。</p>
+<p><strong>标注到类上</strong>，chain属性设置为true时，类的所有属性的setter方法返回值将为this，用来支持setter方法的链式写法。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> User().setPassword(<span class="string">"gaga"</span>).setUsername(<span class="string">"haha"</span>);</span><br></pre></td></tr></table></figure>
+<p>fluent属性设置为true时，类的所有getter，setter方法将省略get和set前缀，获取属性值直接使用属性名相同的无参方法，设置属性值使用属性名相同的有参方法，并且返回值为this。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">User user = <span class="keyword">new</span> User().password(<span class="string">"gaga"</span>).username(<span class="string">"haha"</span>);</span><br><span class="line">String password = user.password();</span><br><span class="line">String username = user.username();</span><br></pre></td></tr></table></figure>
+<p><strong>标注到属性上</strong>，使用prefix设置需要省略的属性生成getter，setter方法时的前缀，且属性必须为驼峰式命名。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Accessors</span>(prefix = <span class="string">"a"</span>)</span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="keyword">private</span> String aUsername = <span class="string">"gaga"</span>;</span><br></pre></td></tr></table></figure>
+<p>编译之后为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> aUsername;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String aUsername)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">this</span>.aUsername = aUsername;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上一些常用的lombok的用法介绍完了，在日常的开发或者自己的练习中，使用lombok并结合各版本的jdk特性，将更大的提高开发效率，提高开发质量。</p>
+
+                
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
+                        <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
+                        <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
+                        </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
+                    </div>
+                    <!--打赏-->
+                
+            
+        </div>
+        
+            <footer class="article-footer">
+                <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+                
+    
+
+            </footer>
+        
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/10/11/Docker高级应用/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Docker高级应用
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/06/18/Dockerfile基础/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Dockerfile</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+    
+        
+    
+        <section id="comments"></section>
+    
+
+    
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/20/Java基础面试题（只有一题）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java基础/">Java基础</a></p>
+                            <p class="item-title"><a href="/2018/12/20/Java基础面试题（只有一题）/" class="title">Java基础-面试题</a></p>
+                            <p class="item-date"><time datetime="2018-12-19T16:06:43.000Z" itemprop="datePublished">2018-12-20 00:06:43</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Shiro/">Shiro</a></p>
+                            <p class="item-title"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="title">Shiro在前后台分离架构项目中的应用</a></p>
+                            <p class="item-date"><time datetime="2018-12-15T14:51:39.000Z" itemprop="datePublished">2018-12-15 22:51:39</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Swagger常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p>
+                            <p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p>
+                            <p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Jackson/" style="font-size: 10px;">Jackson</a> <a href="/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/tags/Lombok/" style="font-size: 10px;">Lombok</a> <a href="/tags/Nginx/" style="font-size: 16.67px;">Nginx</a> <a href="/tags/Quartz/" style="font-size: 10px;">Quartz</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Storm/" style="font-size: 10px;">Storm</a> <a href="/tags/Swagger/" style="font-size: 13.33px;">Swagger</a> <a href="/tags/Tomcat/" style="font-size: 13.33px;">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size: 10px;">前后端分离</a> <a href="/tags/多数据源/" style="font-size: 13.33px;">多数据源</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 16.67px;">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/集群/" style="font-size: 10px;">集群</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a> <a href="/tags/项目架构/" style="font-size: 10px;">项目架构</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://fullsmilespace.com">微笑空间站</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 ArtIsLong的博客<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+        
+    
+	<!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>-->
+	<!--<link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">-->
+	<!--<script src="https://billts.site/js/gitment.js"></script>-->
+    <!--<script>
+		if (document.getElementById('comments')) {
+			var gitment = new Gitment({
+				owner: '<-%= theme.comment.gitment.owner %>',
+				repo: '<-%= theme.comment.gitment.repo %>',
+				oauth: {
+					client_id: '<-%= theme.comment.gitment.client_id %>',
+					client_secret: '<-%= theme.comment.gitment.client_secret %>',
+				},
+			})
+			gitment.render('comments')
+		}
+	</script>-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+	<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+	<script>
+        if (document.getElementById('comments')) {
+            var gitalk = new Gitalk({
+                clientID: '2f97f5d71dbb65bf01e1',
+                clientSecret: 'f715a8e1507c1fef1c5e3cfaccef8f59aa734318',
+                repo: 'ArtIsLong.github.io',
+                owner: 'ArtIsLong',
+                admin: ['ArtIsLong'],
+                id: decodeURI(window.location.pathname),      // Ensure uniqueness and length less than 50
+                distractionFreeMode: true,  // Facebook-like distraction free mode
+                perPage: 15
+            })
+
+            gitalk.render('comments')
+        }
+
+	</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+    <script>
+        ((window.gitter = {}).chat = {}).options = {
+            room: 'artislong/Lobby'
+        };
+    </script>
+    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+    
+    <script type="text/javascript"
+            color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+    
+</body>
+</html>

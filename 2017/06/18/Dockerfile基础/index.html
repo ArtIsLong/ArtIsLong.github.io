@@ -1,1 +1,844 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta name="google-site-verification" content="wD1H9sqEoDWmIBFt7TjlgbVqcJqiqpwR2Wq7_bvEHcE"><meta name="baidu-site-verification" content="RZErJH3v0Z"><meta charset="utf-8"><title>Dockerfile | ArtIsLong的博客</title><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。"><meta name="keywords" content="Docker"><meta property="og:type" content="article"><meta property="og:title" content="Dockerfile"><meta property="og:url" content="/2017/06/18/Dockerfile基础/index.html"><meta property="og:site_name" content="ArtIsLong的博客"><meta property="og:description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2018-12-07T03:13:27.255Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Dockerfile"><meta name="twitter:description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。"><link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml"><link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css"><link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css"><link rel="stylesheet" href="/libs/open-sans/styles.css"><link rel="stylesheet" href="/libs/source-code-pro/styles.css"><link rel="stylesheet" href="/css/style.css"><script src="/libs/jquery/2.1.3/jquery.min.js"></script><link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css"><link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css"><script>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script></head></html><body><div id="container"><header id="header"><div id="header-main" class="header-inner"><div class="outer"><a href="/" id="logo"><i class="logo"></i> <span class="site-title">ArtIsLong的博客</span></a><nav id="main-nav"> <a class="main-nav-link" href="/.">首页</a> <a class="main-nav-link" href="/archives">归档</a> <a class="main-nav-link" href="/books">书架</a> <a class="main-nav-link" href="/about">关于我</a></nav><nav id="sub-nav"><div class="profile" id="profile-nav"> <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/css/images/head.png"><i class="fas fa-caret-down"></i></a></div></nav><div id="search-form-wrap"><form class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"> <button type="submit" class="search-form-submit"></button></form><div class="ins-search"><div class="ins-search-mask"></div><div class="ins-search-container"><div class="ins-input-wrapper"> <input type="text" class="ins-search-input" placeholder="想要查找什么..."><span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span></div><div class="ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>window.INSIGHT_CONFIG={TRANSLATION:{POSTS:"文章",PAGES:"页面",CATEGORIES:"分类",TAGS:"标签",UNTITLED:"(未命名)"},ROOT_URL:"/",CONTENT_URL:"/content.json"}</script><script src="/js/insight.js"></script></div></div></div><div id="main-nav-mobile" class="header-sub header-inner"><table class="menu outer"><tr><td><a class="main-nav-link" href="/.">首页</a></td><td><a class="main-nav-link" href="/archives">归档</a></td><td><a class="main-nav-link" href="/books">书架</a></td><td><a class="main-nav-link" href="/about">关于我</a></td><td><div class="search-form"> <input type="text" class="ins-search-input search-form-input" placeholder="搜索"></div></td></tr></table></div></header><div class="outer"><aside id="profile" class="profile-fixed"><div class="inner profile-inner"><div class="base-info profile-block"> <a href="/"><img id="avatar" src="/css/images/head.png"></a><h2 id="name">ArtIsLong</h2><h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3><span id="location"><i class="fas fa-map-marker-alt" style="padding-right:5px"></i> Shanghai, China</span> <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a></div><div class="article-info profile-block"><div class="article-info-block"> 28 <span>文章</span></div><div class="article-info-block"> 22 <span>标签</span></div></div><div class="profile-block social-links"><table><tr><td><a href="http://github.com/ArtIsLong" target="_blank" title="Github" class="tooltip"><i class="fab fa-github"></i></a></td><td> <a href="https://gitee.com/artislong" target="_blank" title="Gitee" class="tooltip"><i class="fab"><img src="https://gitee.com/artislong/artislong/widgets/widget_5.svg" style="height:25px;margin-bottom:-5px"></i></a></td><td> <a href="https://www.jianshu.com/u/46d989a94f20" target="_blank" title="简书" class="tooltip"><i class="fab"><span style="height:25px;margin-bottom:-5px;color:#ff8c00">简</span></i></a></td><td> <a href="mailto:chenmin049@163.com" target="_blank" title="E-Mail" class="tooltip"><i class="fab"><span style="height:25px;width:20px;margin-bottom:-5px;color:#1e90ff;font-size:16px">Mail</span></i></a></td><td><a href="/atom.xml" target="_blank" title="RSS" class="tooltip"><i class="fas fa-rss"></i></a></td></tr></table></div></div></aside><section id="main"><article id="post-Dockerfile基础" class="article article-type-post" itemscope="" itemprop="blogPost"><div class="article-inner"><header class="article-header"><h1 class="article-title" itemprop="name"> Dockerfile</h1><div class="article-meta"><div class="article-date"><i class="fas fa-calendar-alt"></i> <a href="/2017/06/18/Dockerfile基础/"><time datetime="2017-06-18T15:21:34.000Z" itemprop="datePublished">2017-06-18 23:21:34</time></a></div><div class="article-category"><i class="fas fa-folder"></i> <a class="article-category-link" href="/categories/Docker/">Docker</a></div><div class="article-tag"><i class="fas fa-tag"></i> <a class="tag-link" href="/tags/Docker/">Docker</a></div><div style="font-size:12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div></div></header><div class="article-entry" itemprop="articleBody"><div id="toc" class="toc-article"> <strong class="toc-title">文章目录</strong><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本结构"><span class="toc-number">1.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指令"><span class="toc-number">2.</span> <span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FROM"><span class="toc-number">2.1.</span> <span class="toc-text">FROM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAINTAINER"><span class="toc-number">2.2.</span> <span class="toc-text">MAINTAINER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RUN"><span class="toc-number">2.3.</span> <span class="toc-text">RUN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMD"><span class="toc-number">2.4.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EXPOSE"><span class="toc-number">2.5.</span> <span class="toc-text">EXPOSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENV"><span class="toc-number">2.6.</span> <span class="toc-text">ENV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADD"><span class="toc-number">2.7.</span> <span class="toc-text">ADD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COPY"><span class="toc-number">2.8.</span> <span class="toc-text">COPY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENTRYPOINT"><span class="toc-number">2.9.</span> <span class="toc-text">ENTRYPOINT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VOLUME"><span class="toc-number">2.10.</span> <span class="toc-text">VOLUME</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USER"><span class="toc-number">2.11.</span> <span class="toc-text">USER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WORKDIR"><span class="toc-number">2.12.</span> <span class="toc-text">WORKDIR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ONBUILD"><span class="toc-number">2.13.</span> <span class="toc-text">ONBUILD</span></a></li></ol></li></ol></div><p>Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。<a id="more"></a></p><h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p>Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。</p><p>一般Dockerfile文件分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This dockerfile uses the ubuntu image</span></span><br><span class="line"><span class="comment"># VERSION 2 - EDITION 1</span></span><br><span class="line"><span class="comment"># Author:docker_user</span></span><br><span class="line"><span class="comment"># Command format: Instruction [arguments / command] ..</span></span><br><span class="line"><span class="comment"># 第一行必须制定基于的基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="comment"># 维护者信息</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> docker_user docker_user@email.com</span><br><span class="line"><span class="comment"># 镜像的操作指令</span></span><br><span class="line"><span class="keyword">RUN</span> echo "deb http://archive.ubuntu.com/ubuntu/ raring main universe" &gt;&gt; /etc/apt/sources.list</span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y nginx</span><br><span class="line">RUN echo "\ndaemon off;" &gt;&gt; /etc/nginx/nginx.conf</span><br><span class="line"># 容器启动时执行指令</span><br><span class="line">CMD /usr/sbin/nginx</span><br></pre></td></tr></table></figure><p>Dockerfile文件编写时，一开始必须指明所基于的镜像名称，接下来一般会说明维护者信息</p><p>后面则是镜像操作指令，例如RUN指令，镜像增加新的一层，并提交。最后是CMD指令，来指定运行容器时的操作命令。</p><p>以下有两个摘自书上的Dockerfile例子：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ngnix</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># VERSION 0.0.1</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="keyword">MAINTAINER</span> Victor Vieux &lt;victor@docker.com&gt;</span><br><span class="line"><span class="keyword">RUN</span> apt-get update &amp;&amp; apt-get install -y inotify-tools nginx apache2 openssh-server</span><br></pre></td></tr></table></figure><p>此Dockerfile文件是在ubuntu父镜像基础上安装inotify-tools、nginx、apache2、openssh-server软件，从而创建一个新的Nginx镜像</p><p><strong>注</strong> ：inotify-tools是为linux下inotify文件监控工具提供的一套c的开发接口库函数，同时还提供了一系列的命令行工具，这些工具可以用来监控文件系统的事件。</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Firefox over VNC</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># VERSION 0.3</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="comment"># Install vnc, xvfb in order to reate a 'fake' display and firefox</span></span><br><span class="line"><span class="keyword">RUN</span> apt-get update &amp;&amp; apt-get install -y xllvnc xvfb firefox</span><br><span class="line">RUN mkdir /.vnc</span><br><span class="line"># Setup a password</span><br><span class="line">RUN xllvnc -storepasswd 1234 ~/.vnc/passwd</span><br><span class="line"># Autostart firefox (might not be the best way, but it does the trick)</span><br><span class="line">RUN bash -c 'echo "firefox" &gt;&gt; /.bashrc'</span><br><span class="line">EXPOSE 5900</span><br><span class="line">CMD ["xllvnc", "-forever", "-usepw", "-create"]</span><br></pre></td></tr></table></figure><p>此Dockerfile基于ubuntu父镜像，安装filefox和vnc软件，启动后，用户可以通过5900端口通过vnc方式使用firefox。</p><h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><p>指令的一般格式为INSTRUCTION arguments，指令包括FROM、MAINTAINER、RUN等。</p><p>Dockerfile指令说明</p><table><thead><tr><th style="text-align:center">指令</th><th style="text-align:center">说明</th></tr></thead><tbody><tr><td style="text-align:center">FROM</td><td style="text-align:center">指定所创建镜像的基础镜像</td></tr><tr><td style="text-align:center">MAINTAINER</td><td style="text-align:center">指定维护者信息</td></tr><tr><td style="text-align:center">RUN</td><td style="text-align:center">运行命令</td></tr><tr><td style="text-align:center">CMD</td><td style="text-align:center">指定启动容器时默认执行的命令</td></tr><tr><td style="text-align:center">LABEL</td><td style="text-align:center">指定生成镜像的元数据标签信息</td></tr><tr><td style="text-align:center">EXPOSE</td><td style="text-align:center">声明镜像内服务所监听的端口</td></tr><tr><td style="text-align:center">ENV</td><td style="text-align:center">指定容器环境变量</td></tr><tr><td style="text-align:center">ADD</td><td style="text-align:center">复制指定的 \&lt;src> 路径下的内容到容器中的 \&lt;dest> 路径下，\&lt;src> 可以为URL；如果为tar文件，会自动解压到 \&lt;dest> 路径下</td></tr><tr><td style="text-align:center">COPY</td><td style="text-align:center">复制本地主机的 \&lt;src> 路径下的内容到镜像中的 \&lt;dest> 路径下；一般情况下推荐使用COPY而不是ADD</td></tr><tr><td style="text-align:center">ENTRYPOINT</td><td style="text-align:center">指定镜像的默认入口</td></tr><tr><td style="text-align:center">VOLUME</td><td style="text-align:center">创建数据卷挂载点</td></tr><tr><td style="text-align:center">USER</td><td style="text-align:center">指定运行容器时的用户名或UID</td></tr><tr><td style="text-align:center">WORKDIR</td><td style="text-align:center">配置工作目录</td></tr><tr><td style="text-align:center">ARG</td><td style="text-align:center">指定镜像内使用的参数 （例如版本号信息等）</td></tr><tr><td style="text-align:center">ONBUILD</td><td style="text-align:center">配置当所创建的镜像作为其他镜像的基础镜像时，所执行的创建操作指令</td></tr><tr><td style="text-align:center">STOPSIGNAL</td><td style="text-align:center">容器退出的信号值</td></tr><tr><td style="text-align:center">HEALTHCHECK</td><td style="text-align:center">如何进行健康检查</td></tr><tr><td style="text-align:center">SHELL</td><td style="text-align:center">指定使用shell时的默认shell类型</td></tr></tbody></table><h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">FROM</span> &lt;image&gt; 或<span class="keyword">FROM</span>&lt;image&gt;:&lt;tag&gt;</span><br></pre></td></tr></table></figure><p>第一条指令必须为FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。</p><h3 id="MAINTAINER"><a href="#MAINTAINER" class="headerlink" title="MAINTAINER"></a>MAINTAINER</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">MAINTAINER</span> &lt;name&gt;, 指定维护者信息</span><br></pre></td></tr></table></figure><h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">RUN</span> &lt;command&gt; 或 RUN ["executable", "param1", "param2"]</span><br></pre></td></tr></table></figure><p>RUN<command> 将在shell终端中运行命令，即 /bin/sh -c</command></p><p>RUN [“executable”, “param1”, “param2”]则使用exec执行。</p><p>指定使用其他终端可以通过第二种方式实现，例如 RUN [“/bin/bash”, “-c”, “echo hello”]。</p><p>每条RUN指令将在当前镜像基础上执行指令命令，并提交为新的镜像。当命令较长时可以用 \ 来换行。</p><h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>支持三种格式</p><ul><li><p>使用exec执行，推荐方式</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span> ["executable", "param1", "param2"]</span><br></pre></td></tr></table></figure></li><li><p>在/bin/sh中执行，提供给需要交互的应用</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span> command param1 param2</span><br></pre></td></tr></table></figure></li><li><p>提供给ENTRYPOINT的默认参数</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span> ["param1", "param2"]</span><br></pre></td></tr></table></figure></li></ul><p>指定启动容器时执行的命令，每个Dockerfile只能有一条CMD命令。如果指定了多条命令，只有最后一条会被执行。</p><p>如果用户启动容器时指定了运行的命令，则会覆盖掉CMD指定的命令。</p><h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">EXPOSE</span> &lt;port&gt; [&lt;port&gt;...]</span><br></pre></td></tr></table></figure><p>例如：EXPOSE 22 80 8443</p><p>就是告诉Docker服务器容器暴露的端口号，供互联系统使用。在启动容器时需要通过-P或者-p来指定端口映射。</p><h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">ENV</span> &lt;key&gt; &lt;value&gt;</span><br></pre></td></tr></table></figure><p>指定一个环境变量，会被后续RUN指令使用，并在容器运行时保持。例如：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> PG_MAJOR <span class="number">9.3</span></span><br><span class="line"><span class="keyword">ENV</span> PG_VERSION <span class="number">9.3</span>.<span class="number">4</span></span><br><span class="line"><span class="keyword">RUN</span> curl -SL http://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress &amp;&amp; ...</span><br><span class="line">ENV PATH /usr/local/postgres-$PG_MAJOR/bin:$PATH</span><br></pre></td></tr></table></figure><h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">ADD</span> &lt;src&gt; &lt;dest&gt;</span><br></pre></td></tr></table></figure><p>该命令将复制指定的<src>到容器中的<dest>。其中<src>可以是Dockerfile所在目录的一个相对路径（文件或目录）；也可以是一个URL；还可以是一个tar文件（自动解压为目录）。</src></dest></src></p><h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">COPY</span> &lt;src&gt; &lt;dest&gt;</span><br></pre></td></tr></table></figure><p>复制本地主机的<src>（为Dockerfile所在目录的相对路径，文件或目录）为容器中的<dest>。目标路径不存在时，会自动创建。</dest></src></p><p>当使用本地目录为源目录时，推荐使用COPY</p><h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><ul><li><p>使用exec执行，推荐方式</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span> ["executable", "param1", "param2"]</span><br></pre></td></tr></table></figure></li><li><p>在shell中执行</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span> command param1 param2</span><br></pre></td></tr></table></figure></li></ul><p>配置容器启动后执行的命令，并且不可被docker run提供的参数覆盖</p><p>每个Dockerfile中只能有一个ENTRYPOINT，当制定多个ENTRYPOINT时，只有最后一个生效。</p><h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">VOLUME</span> ["/data"]</span><br></pre></td></tr></table></figure><p>创建一个可以从本地主机或其他容器挂载的挂载点，一般用来存放数据库和需要保持的数据等。</p><h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">USER</span> daemon</span><br></pre></td></tr></table></figure><p>指定运行容器时的用户名或UID，后续的RUN也会使用指定的用户。</p><p>当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户，例如：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span> groupadd -r postgres &amp;&amp; useradd -r -g postgres postgres</span><br></pre></td></tr></table></figure><p>要临时获取管理员权限可以使用gosu，不推荐sudo</p><h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">WORKDIR</span> /path/to/workdir</span><br></pre></td></tr></table></figure><p>为后续RUN、CMD、ENTRYPOINT指令配置工作目录。</p><p>可以使用多个WORKDIR指令，后续命令如果参数是相对路径，则会基于之前命令指定的路径。例如:</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span> /a</span><br><span class="line">WORKDIR b</span><br><span class="line">WORKDIR c</span><br><span class="line">RUN pwd</span><br></pre></td></tr></table></figure><p>上面指令最终结果为：/a/b/c</p><h3 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">ONBUILD</span> [INSTRUCTION]</span><br></pre></td></tr></table></figure><p>配置当所创建的镜像作为其他新创建镜像的基础镜像时，所执行的操作指令。例如：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[...]</span><br><span class="line"><span class="keyword">ONBUILD</span> <span class="keyword">ADD</span> . /app/src</span><br><span class="line">ONBUILD RUN /usr/local/bin/python-build --dir /app/src</span><br><span class="line">[...]</span><br></pre></td></tr></table></figure><p>Dockerfile使用上面的内容创建了镜像image-A，如果基于image-A创建新的镜像时，新的Dockerfile中使用FROM image-A指定基础镜像时，会自动执行ONBUILD指令内容，等价于在Dockerfile后面添加了两条指令，如：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> image-A</span><br><span class="line"><span class="comment"># Automatically run the following</span></span><br><span class="line"><span class="keyword">ADD</span> . /app/src</span><br><span class="line">RUN /usr/local/bin/python-build --dir /app/src</span><br></pre></td></tr></table></figure><p>使用ONBUILD指令的镜像，推荐在标签中注明，例如ruby:1.9-onbuild。</p><div class="reward"><div class="reward-button">赏 <span class="reward-code"><span class="alipay-code"><img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"></span> <span class="wechat-code"><img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"></span></span></div><p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p></div></div><footer class="article-footer"><div class="share-container"><div class="bdsharebuttonbox"> <a href="#" class="bds_more" data-cmd="more">分享到：</a> <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a> <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a> <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a> <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a> <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a></div><script>with(window._bd_share_config={common:{bdSnsKey:{},bdText:"",bdMini:"2",bdMiniList:!1,bdPic:"",bdStyle:"0",bdSize:"16"},share:{bdSize:16}},document)(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date/36e5)</script><style>.bdshare_popup_box{border-radius:4px;border:#e1e1e1 solid 1px}.bdshare-button-style0-16 .bds_more,.bdshare-button-style0-16 a{padding-left:20px;margin:6px 10px 6px 0}.bdshare_dialog_list a,.bdshare_popup_bottom a,.bdshare_popup_list a{font-family:'Microsoft Yahei'}.bdshare_popup_top{display:none}.bdshare_popup_bottom{height:auto;padding:5px}</style></div></footer></div><nav id="article-nav"> <a href="/2017/09/07/Lombok使用/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">上一篇</strong><div class="article-nav-title"> Lombok常用注解</div></a> <a href="/2017/06/16/Docker入门/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">下一篇</strong><div class="article-nav-title">Docker入门</div></a></nav></article><section id="comments"></section></section><aside id="sidebar"><div class="widget-wrap"><h3 class="widget-title">最新文章</h3><div class="widget"><ul id="recent-post" class=""><li><div class="item-thumbnail"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Shiro/">Shiro</a></p><p class="item-title"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="title">Shiro在前后台分离架构项目中的应用</a></p><p class="item-date"><time datetime="2018-12-15T14:51:39.000Z" itemprop="datePublished">2018-12-15 22:51:39</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/12/01/Swagger常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p><p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p><p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p><p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p><p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p><p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p></div></li><li><div class="item-thumbnail"><a href="/2018/08/07/Storm集群搭建/" class="thumbnail"><span class="thumbnail-image thumbnail-none"></span></a></div><div class="item-inner"><p class="item-category"><a class="article-category-link" href="/categories/Storm/">Storm</a></p><p class="item-title"><a href="/2018/08/07/Storm集群搭建/" class="title">Storm集群搭建</a></p><p class="item-date"><time datetime="2018-08-07T05:45:58.000Z" itemprop="datePublished">2018-08-07 13:45:58</time></p></div></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">分类</h3><div class="widget"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">归档</h3><div class="widget"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签</h3><div class="widget"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul></div></div><div class="widget-wrap"><h3 class="widget-title">标签云</h3><div class="widget tagcloud"> <a href="/tags/Docker/" style="font-size:16.67px">Docker</a> <a href="/tags/Git/" style="font-size:10px">Git</a> <a href="/tags/Jackson/" style="font-size:10px">Jackson</a> <a href="/tags/Java基础/" style="font-size:13.33px">Java基础</a> <a href="/tags/Lombok/" style="font-size:10px">Lombok</a> <a href="/tags/Nginx/" style="font-size:16.67px">Nginx</a> <a href="/tags/Quartz/" style="font-size:10px">Quartz</a> <a href="/tags/Redis/" style="font-size:13.33px">Redis</a> <a href="/tags/Session/" style="font-size:10px">Session</a> <a href="/tags/Shiro/" style="font-size:10px">Shiro</a> <a href="/tags/SpringBoot/" style="font-size:20px">SpringBoot</a> <a href="/tags/Storm/" style="font-size:10px">Storm</a> <a href="/tags/Swagger/" style="font-size:13.33px">Swagger</a> <a href="/tags/Tomcat/" style="font-size:13.33px">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size:10px">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size:10px">前后端分离</a> <a href="/tags/多数据源/" style="font-size:13.33px">多数据源</a> <a href="/tags/工作流/" style="font-size:10px">工作流</a> <a href="/tags/开发工具框架/" style="font-size:16.67px">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size:10px">负载均衡</a> <a href="/tags/集群/" style="font-size:10px">集群</a> <a href="/tags/项目架构/" style="font-size:10px">项目架构</a></div></div><div class="widget-wrap widget-list"><h3 class="widget-title">链接</h3><div class="widget"><ul><li> <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a></li><li> <a href="http://fullsmilespace.com">微笑空间站</a></li></ul></div></div><div id="toTop" class="fas fa-angle-up"></div></aside></div><footer id="footer"><div class="outer"><div id="footer-info" class="inner"> &copy; 2018 ArtIsLong的博客<br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a></div></div><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></footer><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><script>if(document.getElementById("comments")){var gitalk=new Gitalk({clientID:"2f97f5d71dbb65bf01e1",clientSecret:"f715a8e1507c1fef1c5e3cfaccef8f59aa734318",repo:"ArtIsLong.github.io",owner:"ArtIsLong",admin:["ArtIsLong"],id:decodeURI(window.location.pathname),distractionFreeMode:!0,perPage:15});gitalk.render("comments")}</script><script src="/libs/lightgallery/js/lightgallery.min.js"></script><script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script><script src="/libs/lightgallery/js/lg-pager.min.js"></script><script src="/libs/lightgallery/js/lg-autoplay.min.js"></script><script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script><script src="/libs/lightgallery/js/lg-zoom.min.js"></script><script src="/libs/lightgallery/js/lg-hash.min.js"></script><script src="/libs/lightgallery/js/lg-share.min.js"></script><script src="/libs/lightgallery/js/lg-video.min.js"></script><script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script><script src="/js/main.js"></script></div><script>((window.gitter={}).chat={}).options={room:"artislong/Lobby"}</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer="defer"></script><script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script></body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta name="google-site-verification" content="wD1H9sqEoDWmIBFt7TjlgbVqcJqiqpwR2Wq7_bvEHcE">
+    <meta name="baidu-site-verification" content="RZErJH3v0Z">
+    <meta charset="utf-8">
+    
+    <title>Dockerfile | ArtIsLong的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dockerfile">
+<meta property="og:url" content="/2017/06/18/Dockerfile基础/index.html">
+<meta property="og:site_name" content="ArtIsLong的博客">
+<meta property="og:description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-07T03:13:27.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dockerfile">
+<meta name="twitter:description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="ArtIsLong的博客" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b59777544dd5d59ce94e191bac62427c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+</head>
+</html>
+<body>
+
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">ArtIsLong的博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/books">书架</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/head.png">
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/books">书架</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <a href="/"><img id="avatar" src="/css/images/head.png"></a>
+            <h2 id="name">ArtIsLong</h2>
+            <h3 id="title">不吹牛，不装逼，只做最单纯的技术分享</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/ArtIsLong">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                29
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                23
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    <!---->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="http://github.com/ArtIsLong" target="_blank" title="github" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-github"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="https://gitee.com/artislong" target="_blank" title="gitee" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-gitee"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="mailto:chenmin049@163.com" target="_blank" title="mail" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-mail"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="https://www.jianshu.com/u/46d989a94f20" target="_blank" title="jianshu" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fab fa-jianshu"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+                    <!--<td>-->
+                        <!--<a href="/atom.xml" target="_blank" title="rss" class=tooltip>-->
+                            <!---->
+                                <!--<i class="fas fa-rss"></i>-->
+                            <!---->
+                        <!--</a>-->
+                    <!--</td>-->
+                    <!---->
+
+                    <td>
+                        <a href="http://github.com/ArtIsLong" target="_blank" title="Github" class="tooltip">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="https://gitee.com/artislong" target="_blank" title="Gitee" class="tooltip">
+                            <i class="fab"><img src="https://gitee.com/artislong/artislong/widgets/widget_5.svg" style="height: 25px; margin-bottom: -5px"></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="https://www.jianshu.com/u/46d989a94f20" target="_blank" title="简书" class="tooltip">
+                            <i class="fab"><span style="height: 25px; margin-bottom: -5px; color: darkorange">简</span></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="mailto:chenmin049@163.com" target="_blank" title="E-Mail" class="tooltip">
+                            <i class="fab"><span style="height: 25px; width: 20px; margin-bottom: -5px; color: dodgerblue; font-size: 16px">Mail</span></i>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="RSS" class="tooltip">
+                            <i class="fas fa-rss"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Dockerfile基础" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Dockerfile
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/06/18/Dockerfile基础/">
+            <time datetime="2017-06-18T15:21:34.000Z" itemprop="datePublished">2017-06-18 23:21:34</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Docker/">Docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Docker/">Docker</a>
+    </div>
+
+                        
+                            <div style="font-size: 12px"><span id="busuanzi_container_page_pv">阅读次数：<span id="busuanzi_value_page_pv"></span></span></div>
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+                
+                    <div id="toc" class="toc-article">
+                        <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本结构"><span class="toc-number">1.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指令"><span class="toc-number">2.</span> <span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FROM"><span class="toc-number">2.1.</span> <span class="toc-text">FROM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAINTAINER"><span class="toc-number">2.2.</span> <span class="toc-text">MAINTAINER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RUN"><span class="toc-number">2.3.</span> <span class="toc-text">RUN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMD"><span class="toc-number">2.4.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EXPOSE"><span class="toc-number">2.5.</span> <span class="toc-text">EXPOSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENV"><span class="toc-number">2.6.</span> <span class="toc-text">ENV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADD"><span class="toc-number">2.7.</span> <span class="toc-text">ADD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COPY"><span class="toc-number">2.8.</span> <span class="toc-text">COPY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENTRYPOINT"><span class="toc-number">2.9.</span> <span class="toc-text">ENTRYPOINT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VOLUME"><span class="toc-number">2.10.</span> <span class="toc-text">VOLUME</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USER"><span class="toc-number">2.11.</span> <span class="toc-text">USER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WORKDIR"><span class="toc-number">2.12.</span> <span class="toc-text">WORKDIR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ONBUILD"><span class="toc-number">2.13.</span> <span class="toc-text">ONBUILD</span></a></li></ol></li></ol>
+                    </div>
+                
+
+                <p>Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义的镜像。<a id="more"></a></p>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p>Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。</p>
+<p>一般Dockerfile文件分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This dockerfile uses the ubuntu image</span></span><br><span class="line"><span class="comment"># VERSION 2 - EDITION 1</span></span><br><span class="line"><span class="comment"># Author:docker_user</span></span><br><span class="line"><span class="comment"># Command format: Instruction [arguments / command] ..</span></span><br><span class="line"><span class="comment"># 第一行必须制定基于的基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="comment"># 维护者信息</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> docker_user docker_user@email.com</span><br><span class="line"><span class="comment"># 镜像的操作指令</span></span><br><span class="line"><span class="keyword">RUN</span> echo "deb http://archive.ubuntu.com/ubuntu/ raring main universe" &gt;&gt; /etc/apt/sources.list</span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y nginx</span><br><span class="line">RUN echo "\ndaemon off;" &gt;&gt; /etc/nginx/nginx.conf</span><br><span class="line"># 容器启动时执行指令</span><br><span class="line">CMD /usr/sbin/nginx</span><br></pre></td></tr></table></figure>
+<p>Dockerfile文件编写时，一开始必须指明所基于的镜像名称，接下来一般会说明维护者信息</p>
+<p>后面则是镜像操作指令，例如RUN指令，镜像增加新的一层，并提交。最后是CMD指令，来指定运行容器时的操作命令。</p>
+<p>以下有两个摘自书上的Dockerfile例子：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ngnix</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># VERSION 0.0.1</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="keyword">MAINTAINER</span> Victor Vieux &lt;victor@docker.com&gt;</span><br><span class="line"><span class="keyword">RUN</span> apt-get update &amp;&amp; apt-get install -y inotify-tools nginx apache2 openssh-server</span><br></pre></td></tr></table></figure>
+<p>此Dockerfile文件是在ubuntu父镜像基础上安装inotify-tools、nginx、apache2、openssh-server软件，从而创建一个新的Nginx镜像</p>
+<p><strong>注</strong> ：inotify-tools是为linux下inotify文件监控工具提供的一套c的开发接口库函数，同时还提供了一系列的命令行工具，这些工具可以用来监控文件系统的事件。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Firefox over VNC</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># VERSION 0.3</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="comment"># Install vnc, xvfb in order to reate a 'fake' display and firefox</span></span><br><span class="line"><span class="keyword">RUN</span> apt-get update &amp;&amp; apt-get install -y xllvnc xvfb firefox</span><br><span class="line">RUN mkdir /.vnc</span><br><span class="line"># Setup a password</span><br><span class="line">RUN xllvnc -storepasswd 1234 ~/.vnc/passwd</span><br><span class="line"># Autostart firefox (might not be the best way, but it does the trick)</span><br><span class="line">RUN bash -c 'echo "firefox" &gt;&gt; /.bashrc'</span><br><span class="line">EXPOSE 5900</span><br><span class="line">CMD ["xllvnc", "-forever", "-usepw", "-create"]</span><br></pre></td></tr></table></figure>
+<p>此Dockerfile基于ubuntu父镜像，安装filefox和vnc软件，启动后，用户可以通过5900端口通过vnc方式使用firefox。</p>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><p>指令的一般格式为INSTRUCTION arguments，指令包括FROM、MAINTAINER、RUN等。</p>
+<p>Dockerfile指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:center">指定所创建镜像的基础镜像</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:center">指定维护者信息</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:center">运行命令</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:center">指定启动容器时默认执行的命令</td>
+</tr>
+<tr>
+<td style="text-align:center">LABEL</td>
+<td style="text-align:center">指定生成镜像的元数据标签信息</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:center">声明镜像内服务所监听的端口</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:center">指定容器环境变量</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:center">复制指定的 \&lt;src> 路径下的内容到容器中的 \&lt;dest> 路径下，\&lt;src> 可以为URL；如果为tar文件，会自动解压到 \&lt;dest> 路径下</td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:center">复制本地主机的 \&lt;src> 路径下的内容到镜像中的 \&lt;dest> 路径下；一般情况下推荐使用COPY而不是ADD</td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:center">指定镜像的默认入口</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:center">创建数据卷挂载点</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:center">指定运行容器时的用户名或UID</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:center">配置工作目录</td>
+</tr>
+<tr>
+<td style="text-align:center">ARG</td>
+<td style="text-align:center">指定镜像内使用的参数 （例如版本号信息等）</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:center">配置当所创建的镜像作为其他镜像的基础镜像时，所执行的创建操作指令</td>
+</tr>
+<tr>
+<td style="text-align:center">STOPSIGNAL</td>
+<td style="text-align:center">容器退出的信号值</td>
+</tr>
+<tr>
+<td style="text-align:center">HEALTHCHECK</td>
+<td style="text-align:center">如何进行健康检查</td>
+</tr>
+<tr>
+<td style="text-align:center">SHELL</td>
+<td style="text-align:center">指定使用shell时的默认shell类型</td>
+</tr>
+</tbody>
+</table>
+<h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">FROM</span> &lt;image&gt; 或<span class="keyword">FROM</span>&lt;image&gt;:&lt;tag&gt;</span><br></pre></td></tr></table></figure>
+<p>第一条指令必须为FROM指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个FROM指令（每个镜像一次）。</p>
+<h3 id="MAINTAINER"><a href="#MAINTAINER" class="headerlink" title="MAINTAINER"></a>MAINTAINER</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">MAINTAINER</span> &lt;name&gt;, 指定维护者信息</span><br></pre></td></tr></table></figure>
+<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">RUN</span> &lt;command&gt; 或 RUN ["executable", "param1", "param2"]</span><br></pre></td></tr></table></figure>
+<p>RUN <command> 将在shell终端中运行命令，即 /bin/sh -c</p>
+<p>RUN [“executable”, “param1”, “param2”]则使用exec执行。</p>
+<p>指定使用其他终端可以通过第二种方式实现，例如 RUN [“/bin/bash”, “-c”, “echo hello”]。</p>
+<p>每条RUN指令将在当前镜像基础上执行指令命令，并提交为新的镜像。当命令较长时可以用 \ 来换行。</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>支持三种格式</p>
+<ul>
+<li><p>使用exec执行，推荐方式</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span> ["executable", "param1", "param2"]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在/bin/sh中执行，提供给需要交互的应用</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span> command param1 param2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提供给ENTRYPOINT的默认参数</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span> ["param1", "param2"]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>指定启动容器时执行的命令，每个Dockerfile只能有一条CMD命令。如果指定了多条命令，只有最后一条会被执行。</p>
+<p>如果用户启动容器时指定了运行的命令，则会覆盖掉CMD指定的命令。</p>
+<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">EXPOSE</span> &lt;port&gt; [&lt;port&gt;...]</span><br></pre></td></tr></table></figure>
+<p>例如：EXPOSE 22 80 8443</p>
+<p>就是告诉Docker服务器容器暴露的端口号，供互联系统使用。在启动容器时需要通过-P或者-p来指定端口映射。</p>
+<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">ENV</span> &lt;key&gt; &lt;value&gt;</span><br></pre></td></tr></table></figure>
+<p>指定一个环境变量，会被后续RUN指令使用，并在容器运行时保持。例如：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> PG_MAJOR <span class="number">9.3</span></span><br><span class="line"><span class="keyword">ENV</span> PG_VERSION <span class="number">9.3</span>.<span class="number">4</span></span><br><span class="line"><span class="keyword">RUN</span> curl -SL http://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress &amp;&amp; ...</span><br><span class="line">ENV PATH /usr/local/postgres-$PG_MAJOR/bin:$PATH</span><br></pre></td></tr></table></figure>
+<h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">ADD</span> &lt;src&gt; &lt;dest&gt;</span><br></pre></td></tr></table></figure>
+<p>该命令将复制指定的<src>到容器中的<dest>。其中<src>可以是Dockerfile所在目录的一个相对路径（文件或目录）；也可以是一个URL；还可以是一个tar文件（自动解压为目录）。</src></dest></src></p>
+<h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">COPY</span> &lt;src&gt; &lt;dest&gt;</span><br></pre></td></tr></table></figure>
+<p>复制本地主机的<src>（为Dockerfile所在目录的相对路径，文件或目录）为容器中的<dest>。目标路径不存在时，会自动创建。</dest></src></p>
+<p>当使用本地目录为源目录时，推荐使用COPY</p>
+<h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><ul>
+<li><p>使用exec执行，推荐方式</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span> ["executable", "param1", "param2"]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在shell中执行</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span> command param1 param2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>配置容器启动后执行的命令，并且不可被docker run提供的参数覆盖</p>
+<p>每个Dockerfile中只能有一个ENTRYPOINT，当制定多个ENTRYPOINT时，只有最后一个生效。</p>
+<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">VOLUME</span> ["/data"]</span><br></pre></td></tr></table></figure>
+<p>创建一个可以从本地主机或其他容器挂载的挂载点，一般用来存放数据库和需要保持的数据等。</p>
+<h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">USER</span> daemon</span><br></pre></td></tr></table></figure>
+<p>指定运行容器时的用户名或UID，后续的RUN也会使用指定的用户。</p>
+<p>当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户，例如：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span> groupadd -r postgres &amp;&amp; useradd -r -g postgres postgres</span><br></pre></td></tr></table></figure>
+<p>要临时获取管理员权限可以使用gosu，不推荐sudo</p>
+<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">WORKDIR</span> /path/to/workdir</span><br></pre></td></tr></table></figure>
+<p>为后续RUN、CMD、ENTRYPOINT指令配置工作目录。</p>
+<p>可以使用多个WORKDIR指令，后续命令如果参数是相对路径，则会基于之前命令指定的路径。例如:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span> /a</span><br><span class="line">WORKDIR b</span><br><span class="line">WORKDIR c</span><br><span class="line">RUN pwd</span><br></pre></td></tr></table></figure>
+<p>上面指令最终结果为：/a/b/c</p>
+<h3 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式为 <span class="keyword">ONBUILD</span> [INSTRUCTION]</span><br></pre></td></tr></table></figure>
+<p>配置当所创建的镜像作为其他新创建镜像的基础镜像时，所执行的操作指令。例如：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[...]</span><br><span class="line"><span class="keyword">ONBUILD</span> <span class="keyword">ADD</span> . /app/src</span><br><span class="line">ONBUILD RUN /usr/local/bin/python-build --dir /app/src</span><br><span class="line">[...]</span><br></pre></td></tr></table></figure>
+<p>Dockerfile使用上面的内容创建了镜像image-A，如果基于image-A创建新的镜像时，新的Dockerfile中使用FROM image-A指定基础镜像时，会自动执行ONBUILD指令内容，等价于在Dockerfile后面添加了两条指令，如：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> image-A</span><br><span class="line"><span class="comment"># Automatically run the following</span></span><br><span class="line"><span class="keyword">ADD</span> . /app/src</span><br><span class="line">RUN /usr/local/bin/python-build --dir /app/src</span><br></pre></td></tr></table></figure>
+<p>使用ONBUILD指令的镜像，推荐在标签中注明，例如ruby:1.9-onbuild。</p>
+
+                
+                    <!--打赏-->
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code">
+                        <span class="alipay-code"> <img class="alipay-img wdp-appear" src="/css/images/alipay.jpeg"> </span>
+                        <span class="wechat-code"> <img class="wechat-img wdp-appear" src="/css/images/Wechat.jpeg"> </span>
+                        </span>
+                        </div>
+                        <p class="reward-notice">如果文章对你有帮助，欢迎点击上方按钮打赏作者</p>
+                    </div>
+                    <!--打赏-->
+                
+            
+        </div>
+        
+            <footer class="article-footer">
+                <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+                
+    
+
+            </footer>
+        
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/09/07/Lombok使用/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Lombok常用注解
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/06/16/Docker入门/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Docker入门</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+    
+        
+    
+        <section id="comments"></section>
+    
+
+    
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/20/Java基础面试题（只有一题）/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java基础/">Java基础</a></p>
+                            <p class="item-title"><a href="/2018/12/20/Java基础面试题（只有一题）/" class="title">Java基础-面试题</a></p>
+                            <p class="item-date"><time datetime="2018-12-19T16:06:43.000Z" itemprop="datePublished">2018-12-20 00:06:43</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Shiro/">Shiro</a></p>
+                            <p class="item-title"><a href="/2018/12/15/Shiro在前后台分离架构项目中的应用/" class="title">Shiro在前后台分离架构项目中的应用</a></p>
+                            <p class="item-date"><time datetime="2018-12-15T14:51:39.000Z" itemprop="datePublished">2018-12-15 22:51:39</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Swagger常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Swagger常用注解/" class="title">Swagger常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T17:10:17.000Z" itemprop="datePublished">2018-12-01 01:10:17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/01/Jackson-annotations常用注解/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发工具框架/">开发工具框架</a></p>
+                            <p class="item-title"><a href="/2018/12/01/Jackson-annotations常用注解/" class="title">Jackson-annotations常用注解</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T16:49:22.000Z" itemprop="datePublished">2018-12-01 00:49:22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/26/Mac配置多个Git账号/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Git/">Git</a></p>
+                            <p class="item-title"><a href="/2018/11/26/Mac配置多个Git账号/" class="title">Mac多Git账号配置</a></p>
+                            <p class="item-date"><time datetime="2018-11-26T03:02:08.000Z" itemprop="datePublished">2018-11-26 11:02:08</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Storm/">Storm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Zookeeper/">Zookeeper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作流/">工作流</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具框架/">开发工具框架</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考/">思考</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jackson/">Jackson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lombok/">Lombok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Quartz/">Quartz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storm/">Storm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前后端分离/">前后端分离</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多数据源/">多数据源</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作流/">工作流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具框架/">开发工具框架</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群/">集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/项目架构/">项目架构</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Jackson/" style="font-size: 10px;">Jackson</a> <a href="/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/tags/Lombok/" style="font-size: 10px;">Lombok</a> <a href="/tags/Nginx/" style="font-size: 16.67px;">Nginx</a> <a href="/tags/Quartz/" style="font-size: 10px;">Quartz</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/Storm/" style="font-size: 10px;">Storm</a> <a href="/tags/Swagger/" style="font-size: 13.33px;">Swagger</a> <a href="/tags/Tomcat/" style="font-size: 13.33px;">Tomcat</a> <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/前后端分离/" style="font-size: 10px;">前后端分离</a> <a href="/tags/多数据源/" style="font-size: 13.33px;">多数据源</a> <a href="/tags/工作流/" style="font-size: 10px;">工作流</a> <a href="/tags/开发工具框架/" style="font-size: 16.67px;">开发工具框架</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/集群/" style="font-size: 10px;">集群</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a> <a href="/tags/项目架构/" style="font-size: 10px;">项目架构</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.xiefayang.com">i蝸居年華_谢谢谢</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://fullsmilespace.com">微笑空间站</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 ArtIsLong的博客<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+    <!--<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+        
+    
+	<!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>-->
+	<!--<link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">-->
+	<!--<script src="https://billts.site/js/gitment.js"></script>-->
+    <!--<script>
+		if (document.getElementById('comments')) {
+			var gitment = new Gitment({
+				owner: '<-%= theme.comment.gitment.owner %>',
+				repo: '<-%= theme.comment.gitment.repo %>',
+				oauth: {
+					client_id: '<-%= theme.comment.gitment.client_id %>',
+					client_secret: '<-%= theme.comment.gitment.client_secret %>',
+				},
+			})
+			gitment.render('comments')
+		}
+	</script>-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+	<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+	<script>
+        if (document.getElementById('comments')) {
+            var gitalk = new Gitalk({
+                clientID: '2f97f5d71dbb65bf01e1',
+                clientSecret: 'f715a8e1507c1fef1c5e3cfaccef8f59aa734318',
+                repo: 'ArtIsLong.github.io',
+                owner: 'ArtIsLong',
+                admin: ['ArtIsLong'],
+                id: decodeURI(window.location.pathname),      // Ensure uniqueness and length less than 50
+                distractionFreeMode: true,  // Facebook-like distraction free mode
+                perPage: 15
+            })
+
+            gitalk.render('comments')
+        }
+
+	</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+    <script>
+        ((window.gitter = {}).chat = {}).options = {
+            room: 'artislong/Lobby'
+        };
+    </script>
+    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+    
+    <script type="text/javascript"
+            color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+    
+</body>
+</html>
