@@ -6,7 +6,7 @@
         }).each(function() {
             // add image caption
             if (this.alt && !(!!$.prototype.justifiedGallery && $(this).parent('.justified-gallery').length)) {
-                $(this).after('<span class="caption">' + this.alt + '</span>');
+                // $(this).after('<span class="caption">' + this.alt + '</span>');
             }
 
             if ($(this).parent().prop("tagName") !== 'A') {
